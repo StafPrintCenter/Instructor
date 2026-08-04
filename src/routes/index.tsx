@@ -63,7 +63,7 @@ function LoginPage() {
           <Input id="email" type="email" className="bg-card" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
         <div className="space-y-2">
-          <div className="bg-card flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <Label htmlFor="password">Mot de passe</Label>
             <Link to="/mot-de-passe-oublie" className="text-xs text-muted-foreground hover:text-foreground">
               Mot de passe oublié ?
