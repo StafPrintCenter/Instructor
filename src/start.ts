@@ -15,6 +15,7 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
     }
 
     console.error(error);
+
     return new Response(renderErrorPage(), {
       status: 500,
       headers: { "content-type": "text/html; harset=utf-8", },
