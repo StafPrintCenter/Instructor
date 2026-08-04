@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { GraduationCap } from "lucide-react";
+import logo from "@/assets/logos.json";
 
 export function AuthShell({
   title,
@@ -16,12 +17,9 @@ export function AuthShell({
   return (
     <div className="bg-grain grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
       <div className="relative hidden flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
-        <Link to="/" className="flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-            <GraduationCap className="size-5" />
-          </span>
-          <span className="font-display text-lg tracking-tight">STAF PRINT CENTER</span>
-        </Link>
+        <div className="flex items-center">
+          <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
+        </div>
         <div className="max-w-md space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Espace Formateur</p>
           <h2 className="font-display text-4xl leading-tight">
