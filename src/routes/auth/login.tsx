@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useInstructorAuth } from "@/lib/instructor-auth";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/auth/login")({
   head: () => ({
