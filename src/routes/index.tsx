@@ -87,7 +87,7 @@ function LoginPage() {
               aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
             >
               {showPassword ? (
-                <EyeOff className="h-4 w-4" />
+                <EyeOff className="h-4 w-4 cursor-pointer" />
               ) : (
                 <Eye className="h-4 w-4 cursor-pointer" />
               )}
