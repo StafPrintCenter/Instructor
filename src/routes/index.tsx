@@ -89,7 +89,7 @@ function LoginPage() {
               {showPassword ? (
                 <EyeOff className="h-4 w-4" />
               ) : (
-                <Eye className="h-4 w-4" />
+                <Eye className="h-4 w-4 cursor-pointer" />
               )}
             </button>
           </div>
