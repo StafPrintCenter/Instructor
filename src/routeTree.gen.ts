@@ -20,6 +20,7 @@ import { Route as InstructorCorrectionsRouteImport } from './routes/_instructor.
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor.dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor.profil'
 import { Route as InstructorSessionsRouteImport } from './routes/_instructor.sessions'
+import { Route as AuthInviteRouteImport } from './routes/auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as InstructorApprenantsIndexRouteImport } from './routes/_instructor.apprenants.index'
 import { Route as InstructorApprenantsStudentIdRouteImport } from './routes/_instructor.apprenants.$studentId'
@@ -81,6 +82,11 @@ const InstructorSessionsRoute = InstructorSessionsRouteImport.update({
   path: '/sessions',
   getParentRoute: () => InstructorRoute,
 } as any)
+const AuthInviteRoute = AuthInviteRouteImport.update({
+  id: '/auth/invite',
+  path: '/auth/invite',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/auth/invite': typeof AuthInviteRoute
   '/auth/login': typeof AuthLoginRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants/': typeof InstructorApprenantsIndexRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/auth/invite': typeof AuthInviteRoute
   '/auth/login': typeof AuthLoginRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants': typeof InstructorApprenantsIndexRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
   '/_instructor/sessions': typeof InstructorSessionsRoute
+  '/auth/invite': typeof AuthInviteRoute
   '/auth/login': typeof AuthLoginRoute
   '/_instructor/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/_instructor/apprenants/': typeof InstructorApprenantsIndexRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profil'
     | '/sessions'
+    | '/auth/invite'
     | '/auth/login'
     | '/apprenants/$studentId'
     | '/apprenants/'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profil'
     | '/sessions'
+    | '/auth/invite'
     | '/auth/login'
     | '/apprenants/$studentId'
     | '/apprenants'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/_instructor/dashboard'
     | '/_instructor/profil'
     | '/_instructor/sessions'
+    | '/auth/invite'
     | '/auth/login'
     | '/_instructor/apprenants/$studentId'
     | '/_instructor/apprenants/'
@@ -238,6 +250,7 @@ export interface RootRouteChildren {
   InscriptionRoute: typeof InscriptionRoute
   MotDePasseOublieRoute: typeof MotDePasseOublieRoute
   ReinitialisationRoute: typeof ReinitialisationRoute
+  AuthInviteRoute: typeof AuthInviteRoute
   AuthLoginRoute: typeof AuthLoginRoute
 }
 
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sessions'
       preLoaderRoute: typeof InstructorSessionsRouteImport
       parentRoute: typeof InstructorRoute
+    }
+    '/auth/invite': {
+      id: '/auth/invite'
+      path: '/auth/invite'
+      fullPath: '/auth/invite'
+      preLoaderRoute: typeof AuthInviteRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/login': {
       id: '/auth/login'
@@ -404,6 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   InscriptionRoute: InscriptionRoute,
   MotDePasseOublieRoute: MotDePasseOublieRoute,
   ReinitialisationRoute: ReinitialisationRoute,
+  AuthInviteRoute: AuthInviteRoute,
   AuthLoginRoute: AuthLoginRoute,
 }
 export const routeTree = rootRouteImport
