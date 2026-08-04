@@ -12,13 +12,13 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/auth/login")({
   head: () => ({
     meta: [
-      { title: "Connexion Formateur — STAF PRINT CENTER" },
+      { title: `Connexion | ${SITE.name}` },
       {
         name: "description",
         content:
           "Connectez-vous à l'espace formateur de STAF PRINT CENTER pour gérer vos formations, corrections et sessions.",
       },
-      { property: "og:title", content: "Connexion Formateur — STAF PRINT CENTER" },
+      { property: "og:title", content: `Connexion | ${SITE.name}` },
       { property: "og:description", content: "Accès sécurisé à l'espace formateur du centre de formation." },
     ],
   }),
