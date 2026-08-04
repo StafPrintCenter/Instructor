@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
 import { GraduationCap } from "lucide-react";
 import logo from "@/assets/logos.json";
 
