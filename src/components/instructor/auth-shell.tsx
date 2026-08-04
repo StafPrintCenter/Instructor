@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { GraduationCap } from "lucide-react";
+import { SITE } from "@/data/site";
+
 import logo from "@/assets/logos.json";
 
 export function AuthShell({
