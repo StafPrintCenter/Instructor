@@ -14,8 +14,8 @@ export function AuthShell({
   footer?: ReactNode;
 }) {
   return (
-    <div className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
-      <div className="surface-grain relative hidden flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
+    <div className="bg-grain grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
+      <div className="relative hidden flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
         <Link to="/" className="flex items-center gap-3">
           <span className="flex size-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
             <GraduationCap className="size-5" />
