@@ -13,17 +13,17 @@ export function ErrorComponent({ error, reset }: { error: Error; reset: () => vo
   }, [error]);
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-background px-6 py-12 overflow-hidden">
-      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-destructive/5 blur-[100px] pointer-events-none" />
+    <div className="bg-grain relative flex min-h-screen items-center justify-center bg-background px-6 py-12 overflow-hidden">
+      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-destructive/8 blur-[100px] pointer-events-none" />
 
       <div className="relative z-10 max-w-xl w-full">
-        <div className="rounded-3xl border border-border bg-card p-8 md:p-10 shadow-xl">
+        <div className="rounded-3xl border border-border bg-card p-8 md:p-10 shadow-lift">
           <div className="flex items-center gap-4 mb-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
-              <AlertCircle className="h-6 w-6" />
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-destructive/10 text-destructive">
+              <AlertCircle className="h-6 w-6" strokeWidth={1.5} />
             </div>
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-foreground font-display">
+              <h1 className="text-xl md:text-2xl font-semibold text-foreground">
                 Une erreur est survenue
               </h1>
               <p className="text-sm text-muted-foreground mt-0.5">
@@ -32,7 +32,7 @@ export function ErrorComponent({ error, reset }: { error: Error; reset: () => vo
             </div>
           </div>
 
-          <div className="my-6 rounded-2xl bg-muted p-4 border border-border/50 max-h-40 overflow-y-auto font-mono text-xs text-muted-foreground leading-relaxed">
+          <div className="my-6 rounded-2xl bg-muted p-4 border border-border/60 max-h-40 overflow-y-auto font-mono text-xs text-muted-foreground leading-relaxed">
             <p className="font-semibold text-foreground mb-1">{error?.name || "Error"}</p>
             <p className="whitespace-pre-wrap">{error?.message || "Erreur inconnue."}</p>
           </div>
@@ -43,14 +43,14 @@ export function ErrorComponent({ error, reset }: { error: Error; reset: () => vo
                 router.invalidate();
                 reset();
               }}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-all duration-300 hover:bg-primary/95 hover:-translate-y-0.5 cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-all duration-300 hover:shadow-lift hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <RefreshCw className="h-4 w-4" />
               Réessayer
             </button>
             <Link
               to="/"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-input bg-card px-5 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-muted hover:-translate-y-0.5"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-input bg-card px-5 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:bg-muted hover:-translate-y-0.5 active:translate-y-0"
             >
               <Home className="h-4 w-4" />
               Tableau de bord
