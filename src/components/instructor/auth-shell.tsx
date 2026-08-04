@@ -37,7 +37,7 @@ export function AuthShell({
       <div className="flex items-center justify-center px-6 py-12 sm:px-12">
         <div className="w-full max-w-md space-y-8">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 rounded-full  px-3 py-1 text-xs font-medium text-muted-foreground lg:hidden">
+            <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium text-muted-foreground lg:hidden">
               <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
             </div>
             <h1 className="font-display text-3xl">{title}</h1>
