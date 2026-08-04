@@ -40,6 +40,10 @@ export function AuthShell({
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground lg:hidden">
               <GraduationCap className="size-3.5" /> STAF PRINT CENTER
             </span>
+
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground lg:hidden">
+              <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
+            </div>
             <h1 className="font-display text-3xl">{title}</h1>
             <p className="text-sm text-muted-foreground">{subtitle}</p>
           </div>
