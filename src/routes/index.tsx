@@ -72,6 +72,7 @@ function LoginPage() {
           <Input
             id="password"
             type="password"
+            className="bg-card"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
