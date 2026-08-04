@@ -25,7 +25,7 @@ export function AuthShell({
             Enseignez, corrigez et suivez vos apprenants au même endroit.
           </h2>
           <p className="text-sm text-primary-foreground/70">
-            Studio créatif et centre de formation à Cotonou, Bénin. L'espace formateur vous donne le contrôle
+            Studio créatif et centre de formation à Porot-Novo, Bénin. L'espace formateur vous donne le contrôle
             du contenu pédagogique, des corrections et des sessions.
           </p>
         </div>
