@@ -17,7 +17,7 @@ export function AuthShell({
     <div className="bg-grain grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
       <div className="relative hidden flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
         <div className="flex items-center">
-          <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
+          <img src={logo.dw} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
         </div>
         <div className="max-w-md space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Espace Formateur</p>
