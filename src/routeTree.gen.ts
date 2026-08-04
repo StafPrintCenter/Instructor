@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as InstructorRouteImport } from './routes/_instructor'
 import { Route as ActivationRouteImport } from './routes/activation'
 import { Route as InscriptionRouteImport } from './routes/inscription'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oublie'
 import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
 import { Route as InstructorCommunauteRouteImport } from './routes/_instructor.communaute'
@@ -21,6 +20,7 @@ import { Route as InstructorCorrectionsRouteImport } from './routes/_instructor.
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor.dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor.profil'
 import { Route as InstructorSessionsRouteImport } from './routes/_instructor.sessions'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as InstructorApprenantsIndexRouteImport } from './routes/_instructor.apprenants.index'
 import { Route as InstructorApprenantsStudentIdRouteImport } from './routes/_instructor.apprenants.$studentId'
 import { Route as InstructorFormationsIndexRouteImport } from './routes/_instructor.formations.index'
@@ -44,11 +44,6 @@ const ActivationRoute = ActivationRouteImport.update({
 const InscriptionRoute = InscriptionRouteImport.update({
   id: '/inscription',
   path: '/inscription',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MotDePasseOublieRoute = MotDePasseOublieRouteImport.update({
@@ -86,6 +81,11 @@ const InstructorSessionsRoute = InstructorSessionsRouteImport.update({
   path: '/sessions',
   getParentRoute: () => InstructorRoute,
 } as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstructorApprenantsIndexRoute =
   InstructorApprenantsIndexRouteImport.update({
     id: '/apprenants/',
@@ -121,7 +121,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/activation': typeof ActivationRoute
   '/inscription': typeof InscriptionRoute
-  '/login': typeof LoginRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/communaute': typeof InstructorCommunauteRoute
@@ -129,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/auth/login': typeof AuthLoginRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants/': typeof InstructorApprenantsIndexRoute
   '/formations/': typeof InstructorFormationsIndexRoute
@@ -139,7 +139,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/activation': typeof ActivationRoute
   '/inscription': typeof InscriptionRoute
-  '/login': typeof LoginRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/communaute': typeof InstructorCommunauteRoute
@@ -147,6 +146,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/auth/login': typeof AuthLoginRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants': typeof InstructorApprenantsIndexRoute
   '/formations': typeof InstructorFormationsIndexRoute
@@ -159,7 +159,6 @@ export interface FileRoutesById {
   '/_instructor': typeof InstructorRouteWithChildren
   '/activation': typeof ActivationRoute
   '/inscription': typeof InscriptionRoute
-  '/login': typeof LoginRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/_instructor/communaute': typeof InstructorCommunauteRoute
@@ -167,6 +166,7 @@ export interface FileRoutesById {
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
   '/_instructor/sessions': typeof InstructorSessionsRoute
+  '/auth/login': typeof AuthLoginRoute
   '/_instructor/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/_instructor/apprenants/': typeof InstructorApprenantsIndexRoute
   '/_instructor/formations/': typeof InstructorFormationsIndexRoute
@@ -179,7 +179,6 @@ export interface FileRouteTypes {
     | '/'
     | '/activation'
     | '/inscription'
-    | '/login'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/communaute'
@@ -187,6 +186,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profil'
     | '/sessions'
+    | '/auth/login'
     | '/apprenants/$studentId'
     | '/apprenants/'
     | '/formations/'
@@ -197,7 +197,6 @@ export interface FileRouteTypes {
     | '/'
     | '/activation'
     | '/inscription'
-    | '/login'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/communaute'
@@ -205,6 +204,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profil'
     | '/sessions'
+    | '/auth/login'
     | '/apprenants/$studentId'
     | '/apprenants'
     | '/formations'
@@ -216,7 +216,6 @@ export interface FileRouteTypes {
     | '/_instructor'
     | '/activation'
     | '/inscription'
-    | '/login'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/_instructor/communaute'
@@ -224,6 +223,7 @@ export interface FileRouteTypes {
     | '/_instructor/dashboard'
     | '/_instructor/profil'
     | '/_instructor/sessions'
+    | '/auth/login'
     | '/_instructor/apprenants/$studentId'
     | '/_instructor/apprenants/'
     | '/_instructor/formations/'
@@ -236,9 +236,9 @@ export interface RootRouteChildren {
   InstructorRoute: typeof InstructorRouteWithChildren
   ActivationRoute: typeof ActivationRoute
   InscriptionRoute: typeof InscriptionRoute
-  LoginRoute: typeof LoginRoute
   MotDePasseOublieRoute: typeof MotDePasseOublieRoute
   ReinitialisationRoute: typeof ReinitialisationRoute
+  AuthLoginRoute: typeof AuthLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -269,13 +269,6 @@ declare module '@tanstack/react-router' {
       path: '/inscription'
       fullPath: '/inscription'
       preLoaderRoute: typeof InscriptionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mot-de-passe-oublie': {
@@ -326,6 +319,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sessions'
       preLoaderRoute: typeof InstructorSessionsRouteImport
       parentRoute: typeof InstructorRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/apprenants/': {
       id: '/_instructor/apprenants/'
@@ -402,9 +402,9 @@ const rootRouteChildren: RootRouteChildren = {
   InstructorRoute: InstructorRouteWithChildren,
   ActivationRoute: ActivationRoute,
   InscriptionRoute: InscriptionRoute,
-  LoginRoute: LoginRoute,
   MotDePasseOublieRoute: MotDePasseOublieRoute,
   ReinitialisationRoute: ReinitialisationRoute,
+  AuthLoginRoute: AuthLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
