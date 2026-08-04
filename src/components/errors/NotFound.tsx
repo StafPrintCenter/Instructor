@@ -4,10 +4,7 @@ import { SITE } from "@/data/site";
 
 export function NotFoundComponent() {
   return (
-    <div className="surface-grain relative flex min-h-screen items-center justify-center bg-background px-6 py-12 overflow-hidden">
-      <div className="absolute top-[-15%] left-[-10%] w-[45%] h-[45%] rounded-full bg-accent/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-15%] right-[-10%] w-[45%] h-[45%] rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
-
+    <div className="bg-grain relative flex min-h-screen items-center justify-center bg-background px-6 py-12 overflow-hidden">
       <div className="relative z-10 max-w-lg w-full text-center">
         <div className="relative mx-auto w-24 h-24 mb-8 flex items-center justify-center">
           <div className="absolute inset-0 rounded-3xl bg-accent/15 rotate-6" />
