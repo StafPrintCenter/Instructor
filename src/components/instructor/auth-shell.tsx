@@ -30,7 +30,7 @@ export function AuthShell({
           </p>
         </div>
         <p className="text-xs text-primary-foreground/50">
-          © {new Date().getFullYear()} STAF PRINT CENTER — Tous droits réservés.
+          © {new Date().getFullYear()} {SITE.name} - Tous droits réservés.
         </p>
       </div>
 
