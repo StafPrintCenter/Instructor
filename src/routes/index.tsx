@@ -28,6 +28,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("rachidath@stafprintcenter.bj");
   const [password, setPassword] = useState("formateur");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
