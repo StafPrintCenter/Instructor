@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
@@ -6,7 +6,7 @@ import { AuthShell } from "@/components/instructor/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/auth/login")({
@@ -26,12 +26,18 @@ export const Route = createFileRoute("/auth/login")({
 });
 
 function LoginPage() {
-  const { login } = useInstructorAuth();
+  const { login, isAuthenticated, ready } = useInstructorAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("rachidath@stafprintcenter.bj");
-  const [password, setPassword] = useState("formateur");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Redirection automatique si le formateur est déjà connecté
+  useEffect(() => {
+    if (ready && isAuthenticated) navigate({ to: "/dashboard" });
+  }, [ready, isAuthenticated, navigate]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +69,16 @@ function LoginPage() {
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email">Adresse e-mail</Label>
-          <Input id="email" type="email" className="bg-card" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <Input
+            id="email"
+            type="email"
+            className="bg-card"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            disabled={loading}
+            required
+          />
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -79,13 +94,16 @@ function LoginPage() {
               className="bg-card pr-10"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              disabled={loading}
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+              disabled={loading}
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4 cursor-pointer" />
