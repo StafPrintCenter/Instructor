@@ -39,7 +39,7 @@ import {
   studentsQuery,
   trainingsQuery,
 } from "@/lib/queries";
-import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useAuth";
 import { daysSince, formatDate, formatDateTime, relativeTime } from "@/lib/api";
 
 export const Route = createFileRoute("/instructor/dashboard")({
