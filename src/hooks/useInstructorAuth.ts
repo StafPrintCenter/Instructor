@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { loginInstructor, fetchInstructorMe, logoutInstructor, InstructorAuthApiError } from "@/stores/useInstructorAuthStore";
-import type { APIInstructorUser } from "@/data/instructor-auth";
+import type { APIInstructorUser } from "@/data/auth";
 
 export interface InstructorAuthUser {
   id: string;
