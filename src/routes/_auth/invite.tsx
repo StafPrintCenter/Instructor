@@ -35,9 +35,9 @@ type VerifyState =
 
 function InstructorInviteAcceptPage() {
   const { instructor, expires, signature } = Route.useSearch();
+  const { verifyInvite, acceptInvite } = useInstructorAuth();
   const navigate = useNavigate();
 
-  // GET de vérification du lien AVANT d'afficher le formulaire de mot de passe.
   const [verify, setVerify] = useState<VerifyState>({ status: "checking" });
 
   const [password, setPassword] = useState("");
@@ -51,7 +51,7 @@ function InstructorInviteAcceptPage() {
     let cancelled = false;
     setVerify({ status: "checking" });
 
-    verifyInstructorInvite({ instructor, expires, signature })
+    verifyInvite({ instructor, expires, signature })
       .then((invitee) => {
         if (!cancelled) setVerify({ status: "valid", invitee });
       })
@@ -59,7 +59,8 @@ function InstructorInviteAcceptPage() {
         if (!cancelled) {
           setVerify({
             status: "invalid",
-            message: err instanceof Error ? err.message : "Ce lien d'invitation est invalide ou a expiré.",
+            message:
+              err instanceof Error ? err.message : "Ce lien d'invitation est invalide ou a expiré.",
           });
         }
       });
@@ -67,9 +68,8 @@ function InstructorInviteAcceptPage() {
     return () => {
       cancelled = true;
     };
-  }, [instructor, expires, signature]);
+  }, [instructor, expires, signature, verifyInvite]);
 
-  // POST d'activation (mot de passe), une fois le lien validé.
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -85,7 +85,7 @@ function InstructorInviteAcceptPage() {
 
     setLoading(true);
     try {
-      const result = await acceptInstructorInvite({ instructor, expires, signature, password });
+      const result = await acceptInvite({ instructor, expires, signature, password });
       toast.success(result.message || "Compte activé");
       setDone(true);
     } catch (err) {
