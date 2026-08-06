@@ -34,6 +34,56 @@ export async function logoutInstructor(): Promise<void> {
   await adminFetch(`/api/instructor/auth/logout`, { method: "POST" });
 }
 
+function buildInviteQuery(params: { instructor: string; expires: string; signature: string }) {
+  return new URLSearchParams({
+    instructor: params.instructor,
+    expires: params.expires,
+    signature: params.signature,
+  }).toString();
+}
+
+export async function verifyInstructorInvite(params: {
+  instructor: string;
+  expires: string;
+  signature: string;
+}): Promise<InstructorInviteVerifyResponse> {
+  const response = await adminFetch(
+    `/api/instructor/auth/invite-accept?${buildInviteQuery(params)}`
+  );
+  const body = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new InstructorAuthApiError(
+      body?.message || "Ce lien d'invitation est invalide ou a expiré."
+    );
+  }
+  return body.data as InstructorInviteVerifyResponse;
+}
+
+export async function acceptInstructorInvite(params: {
+  instructor: string;
+  expires: string;
+  signature: string;
+  password: string;
+}): Promise<{ message: string }> {
+  const fd = new FormData();
+  fd.append("password", params.password);
+
+  const response = await adminFetch(
+    `/api/instructor/auth/invite-accept?${buildInviteQuery(params)}`,
+    {
+      method: "POST",
+      body: fd,
+    }
+  );
+  const body = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new InstructorAuthApiError(
+      body?.message || "Ce lien d'invitation est invalide ou a expiré."
+    );
+  }
+  return body as { message: string };
+}
+
 /**
  * Hook pour récupérer le formateur actuellement connecté
  */
