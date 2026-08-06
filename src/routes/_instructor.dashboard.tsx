@@ -162,7 +162,7 @@ function DashboardPage() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {visibleTrainings.map(({ training, learners, progress }) => (
-              <Card key={training.id} className="flex flex-col border-border/70 transition-shadow hover:shadow-[var(--shadow-lift)]">
+              <Card key={training.id} className="flex flex-col border-border/70 transition-shadow hover:shadow-(--shadow-lift)">
                 <CardContent className="flex flex-1 flex-col gap-3 p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div>
