@@ -116,12 +116,6 @@ function LoginPage() {
         <Button type="submit" variant="accent" className="w-full" disabled={loading}>
           {loading ? "Connexion…" : "Se connecter"}
         </Button>
-        <p className="text-center text-xs text-muted-foreground">
-          Compte déjà validé ?{" "}
-          <Link to="/activation" className="underline underline-offset-4">
-            Activer mon compte
-          </Link>
-        </p>
       </form>
     </AuthShell>
   );
