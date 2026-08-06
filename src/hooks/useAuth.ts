@@ -136,5 +136,7 @@ export function useInstructorAuth() {
     ready: sharedReady,
     login,
     logout,
+    verifyInvite,
+    acceptInvite,
   };
 }
