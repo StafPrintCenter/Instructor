@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/data/site";
-import type { InstructorInviteVerifyResponse } from "@/data/instructor-auth";
+import type { InstructorInviteVerifyResponse } from "@/data/auth";
 
 const searchSchema = z.object({
   instructor: z.string(),
