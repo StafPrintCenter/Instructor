@@ -15,12 +15,12 @@ import { Route as InscriptionRouteImport } from './routes/inscription'
 import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oublie'
 import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
 import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
+import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as InstructorCommunauteRouteImport } from './routes/_instructor.communaute'
 import { Route as InstructorCorrectionsRouteImport } from './routes/_instructor.corrections'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor.dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor.profil'
 import { Route as InstructorSessionsRouteImport } from './routes/_instructor.sessions'
-import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as InstructorApprenantsIndexRouteImport } from './routes/_instructor.apprenants.index'
 import { Route as InstructorApprenantsStudentIdRouteImport } from './routes/_instructor.apprenants.$studentId'
 import { Route as InstructorFormationsIndexRouteImport } from './routes/_instructor.formations.index'
@@ -56,6 +56,11 @@ const AuthInviteRoute = AuthInviteRouteImport.update({
   path: '/invite',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/_auth/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstructorCommunauteRoute = InstructorCommunauteRouteImport.update({
   id: '/communaute',
   path: '/communaute',
@@ -80,11 +85,6 @@ const InstructorSessionsRoute = InstructorSessionsRouteImport.update({
   id: '/sessions',
   path: '/sessions',
   getParentRoute: () => InstructorRoute,
-} as any)
-const AuthLoginRoute = AuthLoginRouteImport.update({
-  id: '/auth/login',
-  path: '/auth/login',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const InstructorApprenantsIndexRoute =
   InstructorApprenantsIndexRouteImport.update({
@@ -123,12 +123,12 @@ export interface FileRoutesByFullPath {
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
+  '/login': typeof AuthLoginRoute
   '/communaute': typeof InstructorCommunauteRoute
   '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
-  '/auth/login': typeof AuthLoginRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants/': typeof InstructorApprenantsIndexRoute
   '/formations/': typeof InstructorFormationsIndexRoute
@@ -141,12 +141,12 @@ export interface FileRoutesByTo {
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
+  '/login': typeof AuthLoginRoute
   '/communaute': typeof InstructorCommunauteRoute
   '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
-  '/auth/login': typeof AuthLoginRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants': typeof InstructorApprenantsIndexRoute
   '/formations': typeof InstructorFormationsIndexRoute
@@ -161,12 +161,12 @@ export interface FileRoutesById {
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/_auth/invite': typeof AuthInviteRoute
+  '/_auth/login': typeof AuthLoginRoute
   '/_instructor/communaute': typeof InstructorCommunauteRoute
   '/_instructor/corrections': typeof InstructorCorrectionsRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
   '/_instructor/sessions': typeof InstructorSessionsRoute
-  '/auth/login': typeof AuthLoginRoute
   '/_instructor/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/_instructor/apprenants/': typeof InstructorApprenantsIndexRoute
   '/_instructor/formations/': typeof InstructorFormationsIndexRoute
@@ -181,12 +181,12 @@ export interface FileRouteTypes {
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/invite'
+    | '/login'
     | '/communaute'
     | '/corrections'
     | '/dashboard'
     | '/profil'
     | '/sessions'
-    | '/auth/login'
     | '/apprenants/$studentId'
     | '/apprenants/'
     | '/formations/'
@@ -199,12 +199,12 @@ export interface FileRouteTypes {
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/invite'
+    | '/login'
     | '/communaute'
     | '/corrections'
     | '/dashboard'
     | '/profil'
     | '/sessions'
-    | '/auth/login'
     | '/apprenants/$studentId'
     | '/apprenants'
     | '/formations'
@@ -218,12 +218,12 @@ export interface FileRouteTypes {
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/_auth/invite'
+    | '/_auth/login'
     | '/_instructor/communaute'
     | '/_instructor/corrections'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
     | '/_instructor/sessions'
-    | '/auth/login'
     | '/_instructor/apprenants/$studentId'
     | '/_instructor/apprenants/'
     | '/_instructor/formations/'
@@ -285,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthInviteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/login': {
+      id: '/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_instructor/communaute': {
       id: '/_instructor/communaute'
       path: '/communaute'
@@ -319,13 +326,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/sessions'
       preLoaderRoute: typeof InstructorSessionsRouteImport
       parentRoute: typeof InstructorRoute
-    }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/auth/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_instructor/apprenants/': {
       id: '/_instructor/apprenants/'
