@@ -10,8 +10,7 @@ export type InstructorTrainingAssignment = {
 };
 
 /**
- * Type aligné sur InstructorResource (Laravel) — retourné par
- * /api/instructor/auth/login (champ "instructor") et /api/instructor/auth/me (racine directe)
+ * Type aligné sur InstructorResource
  */
 export type APIInstructorUser = {
   id: string;
