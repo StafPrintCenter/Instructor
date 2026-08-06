@@ -125,11 +125,36 @@ function DashboardPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        <StatCard label="Formations assignées" value={stats.assigned_trainings} icon={<BookOpen className="size-5" />} hint="Assignées par l'administration" />
-        <StatCard label="Apprenants actifs" value={stats.active_students} icon={<Users className="size-5" />} tone="accent" />
-        <StatCard label="Soumissions à corriger" value={stats.pending_submissions} icon={<ClipboardCheck className="size-5" />} tone="warning" hint={`${stats.overdue_gradings} en retard`} />
-        <StatCard label="Taux de complétion moyen" value={`${stats.average_completion}%`} icon={<Gauge className="size-5" />} tone="success" />
-        <StatCard label="Prochaines sessions" value={stats.upcoming_sessions} icon={<CalendarDays className="size-5" />} />
+        <StatCard
+          label="Formations assignées"
+          value={stats.assigned_trainings}
+          icon={<BookOpen className="size-5" />}
+          hint="Assignées par l'administration"
+        />
+        <StatCard
+          label="Apprenants actifs"
+          value={stats.active_students}
+          icon={<Users className="size-5" />}
+          tone="accent"
+        />
+        <StatCard
+          label="Soumissions à corriger"
+          value={stats.pending_submissions}
+          icon={<ClipboardCheck className="size-5" />}
+          tone="warning"
+          hint={`${stats.overdue_gradings} en retard`}
+        />
+        <StatCard
+          label="Taux de complétion moyen"
+          value={`${stats.average_completion}%`}
+          icon={<Gauge className="size-5" />}
+          tone="success"
+        />
+        <StatCard
+          label="Prochaines sessions"
+          value={stats.upcoming_sessions}
+          icon={<CalendarDays className="size-5" />}
+        />
         <Card className="border-border/70">
           <CardContent className="space-y-3 p-5">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Complétion globale</p>
