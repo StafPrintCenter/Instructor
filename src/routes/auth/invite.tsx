@@ -4,7 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import { adminFetch } from "@/lib/api-url";
-import { AuthShell } from "@/components/instructor/auth-shell";
+import { AuthShell } from "@/components/instructor/AuthShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
