@@ -31,13 +31,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
-  activityQuery,
-  overdueQuery,
-  queueQuery,
-  sessionsQuery,
-  statsQuery,
-  studentsQuery,
-  trainingsQuery,
+  activityQuery, overdueQuery, queueQuery, sessionsQuery, statsQuery,
+  studentsQuery, trainingsQuery,
 } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useAuth";
 import { daysSince, formatDate, formatDateTime, relativeTime } from "@/lib/api";
