@@ -41,7 +41,11 @@ export const Route = createFileRoute("/instructor/dashboard")({
   head: () => ({
     meta: [
       { title: "Tableau de bord formateur — STAF PRINT CENTER" },
-      { name: "description", content: "Indicateurs pédagogiques : formations assignées, apprenants actifs, corrections en attente et sessions à venir." },
+      {
+        name: "description",
+        content:
+          "Indicateurs pédagogiques : formations assignées, apprenants actifs, corrections en attente et sessions à venir.",
+      },
       { property: "og:title", content: "Tableau de bord formateur — STAF PRINT CENTER" },
       { property: "og:description", content: "Pilotez votre activité pédagogique en un coup d'oeil." },
     ],
