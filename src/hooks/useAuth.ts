@@ -107,6 +107,29 @@ export function useInstructorAuth() {
     notify();
   }, []);
 
+  const verifyInvite = useCallback(
+    async (params: {
+      instructor: string;
+      expires: string;
+      signature: string;
+    }): Promise<InstructorInviteVerifyResponse> => {
+      return verifyInstructorInvite(params);
+    },
+    []
+  );
+
+  const acceptInvite = useCallback(
+    async (params: {
+      instructor: string;
+      expires: string;
+      signature: string;
+      password: string;
+    }): Promise<{ message: string }> => {
+      return acceptInstructorInvite(params);
+    },
+    []
+  );
+
   return {
     user: sharedUser,
     isAuthenticated: !!sharedUser,
