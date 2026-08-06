@@ -47,26 +47,19 @@ export const Route = createFileRoute("/instructor/dashboard")({
           "Indicateurs pédagogiques : formations assignées, apprenants actifs, corrections en attente et sessions à venir.",
       },
       { property: "og:title", content: "Tableau de bord formateur — STAF PRINT CENTER" },
-      { property: "og:description", content: "Pilotez votre activité pédagogique en un coup d'oeil." },
+      {
+        property: "og:description",
+        content: "Pilotez votre activité pédagogique en un coup d'oeil.",
+      },
     ],
   }),
-  loader: async ({ context }) => {
-    const id = getSessionInstructorId();
-    await Promise.all([
-      context.queryClient.ensureQueryData(statsQuery(id)),
-      context.queryClient.ensureQueryData(activityQuery(id)),
-      context.queryClient.ensureQueryData(overdueQuery(id)),
-      context.queryClient.ensureQueryData(trainingsQuery(id)),
-      context.queryClient.ensureQueryData(sessionsQuery(id)),
-      context.queryClient.ensureQueryData(studentsQuery(id)),
-      context.queryClient.ensureQueryData(queueQuery(id)),
-    ]);
-  },
   component: DashboardPage,
 });
 
 function DashboardPage() {
-  const { instructorId, instructor } = useInstructorAuth();
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
+
   const { data: stats } = useSuspenseQuery(statsQuery(instructorId));
   const { data: activity } = useSuspenseQuery(activityQuery(instructorId));
   const { data: overdue } = useSuspenseQuery(overdueQuery(instructorId));
@@ -85,7 +78,7 @@ function DashboardPage() {
           : 0;
         return { training: t, learners: rows.length, progress };
       }),
-    [trainings, students],
+    [trainings, students]
   );
 
   const visibleTrainings = showAllTrainings ? trainingCards : trainingCards.slice(0, 3);
@@ -96,7 +89,7 @@ function DashboardPage() {
         .filter((s) => +new Date(s.starts_at) >= Date.now())
         .sort((a, b) => +new Date(a.starts_at) - +new Date(b.starts_at))
         .slice(0, 5),
-    [sessions],
+    [sessions]
   );
 
   const progressData = trainingCards.map((c) => ({
@@ -119,9 +112,13 @@ function DashboardPage() {
     <div className="space-y-8">
       <PageHeader
         eyebrow="Espace formateur"
-        title={`Bonjour ${instructor?.full_name.split(" ")[0] ?? ""}`}
+        title={`Bonjour ${user?.firstName ?? ""}`}
         description="Vue d'ensemble de vos formations assignées et de vos priorités du jour."
-        actions={<Button asChild variant="accent"><Link to="/corrections">Corriger maintenant</Link></Button>}
+        actions={
+          <Button asChild variant="accent">
+            <Link to="/corrections">Corriger maintenant</Link>
+          </Button>
+        }
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -157,9 +154,13 @@ function DashboardPage() {
         />
         <Card className="border-border/70">
           <CardContent className="space-y-3 p-5">
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Complétion globale</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              Complétion globale
+            </p>
             <Progress value={stats.average_completion} />
-            <p className="text-xs text-muted-foreground">Recalculée depuis les interactions réelles des apprenants.</p>
+            <p className="text-xs text-muted-foreground">
+              Recalculée depuis les interactions réelles des apprenants.
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -168,7 +169,9 @@ function DashboardPage() {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="font-display text-xl">Mes formations assignées</h2>
-            <p className="text-sm text-muted-foreground">{trainingCards.length} formation(s) sous votre responsabilité.</p>
+            <p className="text-sm text-muted-foreground">
+              {trainingCards.length} formation(s) sous votre responsabilité.
+            </p>
           </div>
           {trainingCards.length > 3 ? (
             <Button variant="ghost" size="sm" onClick={() => setShowAllTrainings((v) => !v)}>
@@ -176,7 +179,9 @@ function DashboardPage() {
             </Button>
           ) : (
             <Button asChild variant="ghost" size="sm">
-              <Link to="/formations">Toutes les formations <ArrowRight className="size-4" /></Link>
+              <Link to="/formations">
+                Toutes les formations <ArrowRight className="size-4" />
+              </Link>
             </Button>
           )}
         </div>
@@ -186,20 +191,31 @@ function DashboardPage() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {visibleTrainings.map(({ training, learners, progress }) => (
-              <Card key={training.id} className="flex flex-col border-border/70 transition-shadow hover:shadow-(--shadow-lift)">
+              <Card
+                key={training.id}
+                className="flex flex-col border-border/70 transition-shadow hover:shadow-(--shadow-lift)"
+              >
                 <CardContent className="flex flex-1 flex-col gap-3 p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-xs uppercase tracking-wider text-muted-foreground">{training.category}</p>
+                      <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                        {training.category}
+                      </p>
                       <h3 className="font-display text-lg leading-snug">{training.title}</h3>
                     </div>
                     <Badge variant="secondary">{training.level}</Badge>
                   </div>
                   <p className="line-clamp-2 text-sm text-muted-foreground">{training.summary}</p>
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1.5"><Users className="size-3.5" /> {learners} apprenant(s)</span>
-                    <span className="flex items-center gap-1.5"><MapPin className="size-3.5" /> {training.location}</span>
-                    <span className="flex items-center gap-1.5"><CalendarDays className="size-3.5" /> {formatDate(training.starts_at)}</span>
+                    <span className="flex items-center gap-1.5">
+                      <Users className="size-3.5" /> {learners} apprenant(s)
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="size-3.5" /> {training.location}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <CalendarDays className="size-3.5" /> {formatDate(training.starts_at)}
+                    </span>
                   </div>
                   <div className="mt-auto space-y-2 pt-2">
                     <div className="flex items-center gap-3">
@@ -208,10 +224,14 @@ function DashboardPage() {
                     </div>
                     <div className="flex gap-2">
                       <Button asChild size="sm" variant="soft" className="flex-1">
-                        <Link to="/formations/$trainingId" params={{ trainingId: training.id }}>Détails</Link>
+                        <Link to="/formations/$trainingId" params={{ trainingId: training.id }}>
+                          Détails
+                        </Link>
                       </Button>
                       <Button asChild size="sm" variant="accent" className="flex-1">
-                        <Link to="/formations/$trainingId/contenu" params={{ trainingId: training.id }}>Contenu</Link>
+                        <Link to="/formations/$trainingId/contenu" params={{ trainingId: training.id }}>
+                          Contenu
+                        </Link>
                       </Button>
                     </div>
                   </div>
@@ -224,13 +244,27 @@ function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Card className="border-border/70">
-          <CardHeader><CardTitle className="font-display text-xl">Progression moyenne par cohorte</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="font-display text-xl">Progression moyenne par cohorte</CardTitle>
+          </CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={progressData} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} stroke="var(--muted-foreground)" />
-                <YAxis domain={[0, 100]} tickLine={false} axisLine={false} fontSize={12} stroke="var(--muted-foreground)" />
+                <XAxis
+                  dataKey="name"
+                  tickLine={false}
+                  axisLine={false}
+                  fontSize={12}
+                  stroke="var(--muted-foreground)"
+                />
+                <YAxis
+                  domain={[0, 100]}
+                  tickLine={false}
+                  axisLine={false}
+                  fontSize={12}
+                  stroke="var(--muted-foreground)"
+                />
                 <Tooltip
                   cursor={{ fill: "var(--secondary)" }}
                   contentStyle={{
@@ -248,14 +282,23 @@ function DashboardPage() {
         </Card>
 
         <Card className="border-border/70">
-          <CardHeader><CardTitle className="font-display text-xl">Répartition des travaux</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="font-display text-xl">Répartition des travaux</CardTitle>
+          </CardHeader>
           <CardContent className="h-72">
             {statusData.length === 0 ? (
               <p className="text-sm text-muted-foreground">Aucun travail rendu pour le moment.</p>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={statusData} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={3}>
+                  <Pie
+                    data={statusData}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={55}
+                    outerRadius={90}
+                    paddingAngle={3}
+                  >
                     {statusData.map((entry) => (
                       <Cell key={entry.name} fill={entry.color} stroke="var(--card)" />
                     ))}
@@ -275,7 +318,8 @@ function DashboardPage() {
             <div className="-mt-6 flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
               {statusData.map((d) => (
                 <span key={d.name} className="flex items-center gap-1.5">
-                  <span className="size-2.5 rounded-full" style={{ background: d.color }} /> {d.name} ({d.value})
+                  <span className="size-2.5 rounded-full" style={{ background: d.color }} /> {d.name} (
+                  {d.value})
                 </span>
               ))}
             </div>
@@ -286,17 +330,24 @@ function DashboardPage() {
       <Card className="border-border/70">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="font-display text-xl">Prochaines sessions</CardTitle>
-          <Button asChild variant="ghost" size="sm"><Link to="/sessions">Voir le planning</Link></Button>
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/sessions">Voir le planning</Link>
+          </Button>
         </CardHeader>
         <CardContent className="space-y-3">
           {upcoming.length === 0 ? (
             <p className="text-sm text-muted-foreground">Aucune session planifiée.</p>
           ) : (
             upcoming.map((s) => (
-              <div key={s.id} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border/60 bg-card p-3">
+              <div
+                key={s.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border/60 bg-card p-3"
+              >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium">{s.title}</p>
-                  <p className="text-xs text-muted-foreground">{s.training_title} · {formatDateTime(s.starts_at)} · {s.duration_minutes} min</p>
+                  <p className="text-xs text-muted-foreground">
+                    {s.training_title} · {formatDateTime(s.starts_at)} · {s.duration_minutes} min
+                  </p>
                 </div>
                 <Badge variant={s.mode === "live" ? "secondary" : "outline"} className="gap-1.5">
                   {s.mode === "live" ? <Video className="size-3.5" /> : <MapPin className="size-3.5" />}
@@ -310,7 +361,9 @@ function DashboardPage() {
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Card className="border-border/70">
-          <CardHeader><CardTitle className="font-display text-xl">Activité récente</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="font-display text-xl">Activité récente</CardTitle>
+          </CardHeader>
           <CardContent className="space-y-3">
             {activity.length === 0 ? (
               <EmptyState title="Aucune activité" />
@@ -334,17 +387,27 @@ function DashboardPage() {
         </Card>
 
         <Card className="border-border/70">
-          <CardHeader><CardTitle className="flex items-center gap-2 font-display text-xl"><AlertTriangle className="size-4 text-warning" /> Corrections en retard</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-display text-xl">
+              <AlertTriangle className="size-4 text-warning" /> Corrections en retard
+            </CardTitle>
+          </CardHeader>
           <CardContent className="space-y-3">
             {overdue.length === 0 ? (
               <p className="text-sm text-muted-foreground">Aucun retard, tout est à jour.</p>
-            ) : overdue.map((s) => (
-              <div key={s.id} className="rounded-lg border border-warning/40 bg-warning/10 p-3">
-                <p className="text-sm font-medium">{s.lesson_title}</p>
-                <p className="text-xs text-muted-foreground">Rendu il y a {daysSince(s.submitted_at)} jours</p>
-              </div>
-            ))}
-            <Button asChild variant="soft" className="w-full"><Link to="/corrections">Ouvrir la file</Link></Button>
+            ) : (
+              overdue.map((s) => (
+                <div key={s.id} className="rounded-lg border border-warning/40 bg-warning/10 p-3">
+                  <p className="text-sm font-medium">{s.lesson_title}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Rendu il y a {daysSince(s.submitted_at)} jours
+                  </p>
+                </div>
+              ))
+            )}
+            <Button asChild variant="soft" className="w-full">
+              <Link to="/corrections">Ouvrir la file</Link>
+            </Button>
           </CardContent>
         </Card>
       </div>
