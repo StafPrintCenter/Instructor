@@ -28,49 +28,6 @@ export const Route = createFileRoute("/_auth/invite")({
   component: InstructorInviteAcceptPage,
 });
 
-class InstructorInviteApiError extends Error { }
-
-function inviteQuery(params: { instructor: string; expires: string; signature: string }) {
-  return new URLSearchParams({
-    instructor: params.instructor,
-    expires: params.expires,
-    signature: params.signature,
-  }).toString();
-}
-
-async function verifyInstructorInvite(params: {
-  instructor: string;
-  expires: string;
-  signature: string;
-}): Promise<InstructorInviteVerifyResponse> {
-  const response = await adminFetch(`/api/instructor/auth/invite-accept?${inviteQuery(params)}`);
-  const body = await response.json().catch(() => null);
-  if (!response.ok) {
-    throw new InstructorInviteApiError(body?.message || "Ce lien d'invitation est invalide ou a expiré.");
-  }
-  return body.data as InstructorInviteVerifyResponse;
-}
-
-async function acceptInstructorInvite(params: {
-  instructor: string;
-  expires: string;
-  signature: string;
-  password: string;
-}): Promise<{ message: string }> {
-  const fd = new FormData();
-  fd.append("password", params.password);
-
-  const response = await adminFetch(`/api/instructor/auth/invite-accept?${inviteQuery(params)}`, {
-    method: "POST",
-    body: fd,
-  });
-  const body = await response.json().catch(() => null);
-  if (!response.ok) {
-    throw new InstructorInviteApiError(body?.message || "Ce lien d'invitation est invalide ou a expiré.");
-  }
-  return body as { message: string };
-}
-
 type VerifyState =
   | { status: "checking" }
   | { status: "valid"; invitee: InstructorInviteVerifyResponse }
