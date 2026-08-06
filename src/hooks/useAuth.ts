@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { loginInstructor, fetchInstructorMe, logoutInstructor, InstructorAuthApiError } from useAuthStore;
+import { loginInstructor, fetchInstructorMe, logoutInstructor, InstructorAuthApiError } from "@/stores/useAuthStore";
 import type { APIInstructorUser } from "@/data/auth";
 
 export interface InstructorAuthUser {
