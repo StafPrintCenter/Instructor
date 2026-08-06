@@ -111,7 +111,7 @@ function InstructorInviteAcceptPage() {
       <AuthShell title="Lien invalide" subtitle={verify.message}>
         <div className="py-6 text-center">
           <XCircle className="mx-auto h-12 w-12 text-destructive" />
-          <Button variant="outline" className="mt-6 w-full" onClick={() => navigate({ to: "/auth/login" })}>
+          <Button variant="outline" className="mt-6 w-full" onClick={() => navigate({ to: "/login" })}>
             Retour à la connexion
           </Button>
         </div>
@@ -127,7 +127,7 @@ function InstructorInviteAcceptPage() {
       >
         <div className="py-6 text-center">
           <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500" />
-          <Button className="mt-6 w-full" onClick={() => navigate({ to: "/auth/login" })}>
+          <Button className="mt-6 w-full" onClick={() => navigate({ to: "/login" })}>
             Aller à la connexion
           </Button>
         </div>
@@ -142,7 +142,7 @@ function InstructorInviteAcceptPage() {
       footer={
         <span>
           Déjà activé ?{" "}
-          <Link to="/auth/login" className="font-medium text-foreground underline underline-offset-4">
+          <Link to="/login" className="font-medium text-foreground underline underline-offset-4">
             Se connecter
           </Link>
         </span>
