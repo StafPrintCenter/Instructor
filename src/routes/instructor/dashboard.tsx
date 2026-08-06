@@ -312,15 +312,24 @@ function DashboardPage() {
         <Card className="border-border/70">
           <CardHeader><CardTitle className="font-display text-xl">Activité récente</CardTitle></CardHeader>
           <CardContent className="space-y-3">
-            {activity.length === 0 ? <EmptyState title="Aucune activité" /> : activity.map((item) => (
-              <div key={item.id} className="flex items-start justify-between gap-4 rounded-lg border border-border/60 bg-card p-3">
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-medium">{item.label}</p>
-                  <p className="text-xs text-muted-foreground">{item.meta}</p>
+            {activity.length === 0 ? (
+              <EmptyState title="Aucune activité" />
+            ) : (
+              activity.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-start justify-between gap-4 rounded-lg border border-border/60 bg-card p-3"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{item.label}</p>
+                    <p className="text-xs text-muted-foreground">{item.meta}</p>
+                  </div>
+                  <span className="shrink-0 text-xs text-muted-foreground">
+                    {relativeTime(item.created_at)}
+                  </span>
                 </div>
-                <span className="shrink-0 text-xs text-muted-foreground">{relativeTime(item.created_at)}</span>
-              </div>
-            ))}
+              ))
+            )}
           </CardContent>
         </Card>
 
