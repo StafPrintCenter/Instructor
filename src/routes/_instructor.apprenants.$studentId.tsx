@@ -259,7 +259,7 @@ function StudentDetailPage() {
                         placeholder="Retour pédagogique…"
                         value={draft.comment}
                         onChange={(e) => setDrafts((d) => ({ ...d, [s.id]: { ...draft, comment: e.target.value } }))}
-                        className="min-h-[42px] flex-1"
+                        className="min-h-10.5 flex-1"
                       />
                       <div className="flex gap-2">
                         <Button
