@@ -67,7 +67,8 @@ const navSecondary = [
 ] as const;
 
 function GlobalSearch({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
-  const { instructorId } = useInstructorAuth();
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
   const [term, setTerm] = useState("");
   const navigate = useNavigate();
   const { data: hits = [] } = useQuery({
