@@ -66,6 +66,17 @@ const navSecondary = [
   { to: "/profil", label: "Profil & réglages", icon: Settings },
 ] as const;
 
+const roleLabels: Record<string, string> = {
+  lead: "Formateur principal",
+  assistant: "Formateur assistant",
+};
+
+function getInstructorRoleLabel(trainings?: { role: string }[]): string {
+  const primaryRole = trainings?.[0]?.role;
+  if (!primaryRole) return "Formateur";
+  return roleLabels[primaryRole.toLowerCase()] ?? primaryRole;
+}
+
 function GlobalSearch({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const { user } = useInstructorAuth();
   const instructorId = user?.id ?? "";
