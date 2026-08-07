@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, } from "@/components/ui/command";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
-import { useInstructorAuth } from "@/hooks/useAuth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { initials, relativeTime, searchApi } from "@/lib/api";
 import { notificationsQuery } from "@/lib/queries";
 import { getInstructorRoleLabel } from "@/data/auth";
