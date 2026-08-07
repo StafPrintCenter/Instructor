@@ -22,6 +22,7 @@ export interface InstructorAuthUser {
   acceptedAt: string | null;
   approvedBy: string | null;
   approvedAt: string | null;
+  trainings?: InstructorTrainingAssignment[];
   createdAt: string;
 }
 
