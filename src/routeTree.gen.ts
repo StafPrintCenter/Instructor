@@ -10,12 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as InstructorRouteImport } from './routes/_instructor/index.tsx'
 import { Route as InscriptionRouteImport } from './routes/inscription'
 import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oublie'
 import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
 import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as InstructorAutreRouteImport } from './routes/_instructor/autre'
 import { Route as InstructorCommunauteRouteImport } from './routes/_instructor.communaute'
 import { Route as InstructorCorrectionsRouteImport } from './routes/_instructor.corrections'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
@@ -30,10 +30,6 @@ import { Route as InstructorFormationsTrainingIdContenuRouteImport } from './rou
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InstructorRoute = InstructorRouteImport.update({
-  id: '/_instructor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InscriptionRoute = InscriptionRouteImport.update({
@@ -61,60 +57,65 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InstructorAutreRoute = InstructorAutreRouteImport.update({
+  id: '/_instructor/autre',
+  path: '/autre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstructorCommunauteRoute = InstructorCommunauteRouteImport.update({
-  id: '/communaute',
+  id: '/_instructor/communaute',
   path: '/communaute',
-  getParentRoute: () => InstructorRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InstructorCorrectionsRoute = InstructorCorrectionsRouteImport.update({
-  id: '/corrections',
+  id: '/_instructor/corrections',
   path: '/corrections',
-  getParentRoute: () => InstructorRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
-  id: '/dashboard',
+  id: '/_instructor/dashboard',
   path: '/dashboard',
-  getParentRoute: () => InstructorRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InstructorProfilRoute = InstructorProfilRouteImport.update({
-  id: '/profil',
+  id: '/_instructor/profil',
   path: '/profil',
-  getParentRoute: () => InstructorRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InstructorSessionsRoute = InstructorSessionsRouteImport.update({
-  id: '/sessions',
+  id: '/_instructor/sessions',
   path: '/sessions',
-  getParentRoute: () => InstructorRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InstructorApprenantsIndexRoute =
   InstructorApprenantsIndexRouteImport.update({
-    id: '/apprenants/',
+    id: '/_instructor/apprenants/',
     path: '/apprenants/',
-    getParentRoute: () => InstructorRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
 const InstructorApprenantsStudentIdRoute =
   InstructorApprenantsStudentIdRouteImport.update({
-    id: '/apprenants/$studentId',
+    id: '/_instructor/apprenants/$studentId',
     path: '/apprenants/$studentId',
-    getParentRoute: () => InstructorRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
 const InstructorFormationsIndexRoute =
   InstructorFormationsIndexRouteImport.update({
-    id: '/formations/',
+    id: '/_instructor/formations/',
     path: '/formations/',
-    getParentRoute: () => InstructorRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
 const InstructorFormationsTrainingIdIndexRoute =
   InstructorFormationsTrainingIdIndexRouteImport.update({
-    id: '/formations/$trainingId/',
+    id: '/_instructor/formations/$trainingId/',
     path: '/formations/$trainingId/',
-    getParentRoute: () => InstructorRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
 const InstructorFormationsTrainingIdContenuRoute =
   InstructorFormationsTrainingIdContenuRouteImport.update({
-    id: '/formations/$trainingId/contenu',
+    id: '/_instructor/formations/$trainingId/contenu',
     path: '/formations/$trainingId/contenu',
-    getParentRoute: () => InstructorRoute,
+    getParentRoute: () => rootRouteImport,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -124,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
+  '/autre': typeof InstructorAutreRoute
   '/communaute': typeof InstructorCommunauteRoute
   '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
@@ -142,6 +144,7 @@ export interface FileRoutesByTo {
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
+  '/autre': typeof InstructorAutreRoute
   '/communaute': typeof InstructorCommunauteRoute
   '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
@@ -156,12 +159,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_instructor': typeof InstructorRouteWithChildren
   '/inscription': typeof InscriptionRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/_auth/invite': typeof AuthInviteRoute
   '/_auth/login': typeof AuthLoginRoute
+  '/_instructor/autre': typeof InstructorAutreRoute
   '/_instructor/communaute': typeof InstructorCommunauteRoute
   '/_instructor/corrections': typeof InstructorCorrectionsRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
@@ -176,69 +179,81 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-  | '/'
-  | '/inscription'
-  | '/mot-de-passe-oublie'
-  | '/reinitialisation'
-  | '/invite'
-  | '/login'
-  | '/communaute'
-  | '/corrections'
-  | '/dashboard'
-  | '/profil'
-  | '/sessions'
-  | '/apprenants/$studentId'
-  | '/apprenants/'
-  | '/formations/'
-  | '/formations/$trainingId/contenu'
-  | '/formations/$trainingId/'
+    | '/'
+    | '/inscription'
+    | '/mot-de-passe-oublie'
+    | '/reinitialisation'
+    | '/invite'
+    | '/login'
+    | '/autre'
+    | '/communaute'
+    | '/corrections'
+    | '/dashboard'
+    | '/profil'
+    | '/sessions'
+    | '/apprenants/$studentId'
+    | '/apprenants/'
+    | '/formations/'
+    | '/formations/$trainingId/contenu'
+    | '/formations/$trainingId/'
   fileRoutesByTo: FileRoutesByTo
   to:
-  | '/'
-  | '/inscription'
-  | '/mot-de-passe-oublie'
-  | '/reinitialisation'
-  | '/invite'
-  | '/login'
-  | '/communaute'
-  | '/corrections'
-  | '/dashboard'
-  | '/profil'
-  | '/sessions'
-  | '/apprenants/$studentId'
-  | '/apprenants'
-  | '/formations'
-  | '/formations/$trainingId/contenu'
-  | '/formations/$trainingId'
+    | '/'
+    | '/inscription'
+    | '/mot-de-passe-oublie'
+    | '/reinitialisation'
+    | '/invite'
+    | '/login'
+    | '/autre'
+    | '/communaute'
+    | '/corrections'
+    | '/dashboard'
+    | '/profil'
+    | '/sessions'
+    | '/apprenants/$studentId'
+    | '/apprenants'
+    | '/formations'
+    | '/formations/$trainingId/contenu'
+    | '/formations/$trainingId'
   id:
-  | '__root__'
-  | '/'
-  | '/_instructor'
-  | '/inscription'
-  | '/mot-de-passe-oublie'
-  | '/reinitialisation'
-  | '/_auth/invite'
-  | '/_auth/login'
-  | '/_instructor/communaute'
-  | '/_instructor/corrections'
-  | '/_instructor/dashboard'
-  | '/_instructor/profil'
-  | '/_instructor/sessions'
-  | '/_instructor/apprenants/$studentId'
-  | '/_instructor/apprenants/'
-  | '/_instructor/formations/'
-  | '/_instructor/formations/$trainingId/contenu'
-  | '/_instructor/formations/$trainingId/'
+    | '__root__'
+    | '/'
+    | '/inscription'
+    | '/mot-de-passe-oublie'
+    | '/reinitialisation'
+    | '/_auth/invite'
+    | '/_auth/login'
+    | '/_instructor/autre'
+    | '/_instructor/communaute'
+    | '/_instructor/corrections'
+    | '/_instructor/dashboard'
+    | '/_instructor/profil'
+    | '/_instructor/sessions'
+    | '/_instructor/apprenants/$studentId'
+    | '/_instructor/apprenants/'
+    | '/_instructor/formations/'
+    | '/_instructor/formations/$trainingId/contenu'
+    | '/_instructor/formations/$trainingId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  InstructorRoute: typeof InstructorRouteWithChildren
   InscriptionRoute: typeof InscriptionRoute
   MotDePasseOublieRoute: typeof MotDePasseOublieRoute
   ReinitialisationRoute: typeof ReinitialisationRoute
   AuthInviteRoute: typeof AuthInviteRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  InstructorAutreRoute: typeof InstructorAutreRoute
+  InstructorCommunauteRoute: typeof InstructorCommunauteRoute
+  InstructorCorrectionsRoute: typeof InstructorCorrectionsRoute
+  InstructorDashboardRoute: typeof InstructorDashboardRoute
+  InstructorProfilRoute: typeof InstructorProfilRoute
+  InstructorSessionsRoute: typeof InstructorSessionsRoute
+  InstructorApprenantsStudentIdRoute: typeof InstructorApprenantsStudentIdRoute
+  InstructorApprenantsIndexRoute: typeof InstructorApprenantsIndexRoute
+  InstructorFormationsIndexRoute: typeof InstructorFormationsIndexRoute
+  InstructorFormationsTrainingIdContenuRoute: typeof InstructorFormationsTrainingIdContenuRoute
+  InstructorFormationsTrainingIdIndexRoute: typeof InstructorFormationsTrainingIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -248,13 +263,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_instructor': {
-      id: '/_instructor'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof InstructorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inscription': {
@@ -292,93 +300,94 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_instructor/autre': {
+      id: '/_instructor/autre'
+      path: '/autre'
+      fullPath: '/autre'
+      preLoaderRoute: typeof InstructorAutreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_instructor/communaute': {
       id: '/_instructor/communaute'
       path: '/communaute'
       fullPath: '/communaute'
       preLoaderRoute: typeof InstructorCommunauteRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/corrections': {
       id: '/_instructor/corrections'
       path: '/corrections'
       fullPath: '/corrections'
       preLoaderRoute: typeof InstructorCorrectionsRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/dashboard': {
       id: '/_instructor/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof InstructorDashboardRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/profil': {
       id: '/_instructor/profil'
       path: '/profil'
       fullPath: '/profil'
       preLoaderRoute: typeof InstructorProfilRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/sessions': {
       id: '/_instructor/sessions'
       path: '/sessions'
       fullPath: '/sessions'
       preLoaderRoute: typeof InstructorSessionsRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/apprenants/': {
       id: '/_instructor/apprenants/'
       path: '/apprenants'
       fullPath: '/apprenants/'
       preLoaderRoute: typeof InstructorApprenantsIndexRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/apprenants/$studentId': {
       id: '/_instructor/apprenants/$studentId'
       path: '/apprenants/$studentId'
       fullPath: '/apprenants/$studentId'
       preLoaderRoute: typeof InstructorApprenantsStudentIdRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/formations/': {
       id: '/_instructor/formations/'
       path: '/formations'
       fullPath: '/formations/'
       preLoaderRoute: typeof InstructorFormationsIndexRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/formations/$trainingId/': {
       id: '/_instructor/formations/$trainingId/'
       path: '/formations/$trainingId'
       fullPath: '/formations/$trainingId/'
       preLoaderRoute: typeof InstructorFormationsTrainingIdIndexRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
     '/_instructor/formations/$trainingId/contenu': {
       id: '/_instructor/formations/$trainingId/contenu'
       path: '/formations/$trainingId/contenu'
       fullPath: '/formations/$trainingId/contenu'
       preLoaderRoute: typeof InstructorFormationsTrainingIdContenuRouteImport
-      parentRoute: typeof InstructorRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface InstructorRouteChildren {
-  InstructorCommunauteRoute: typeof InstructorCommunauteRoute
-  InstructorCorrectionsRoute: typeof InstructorCorrectionsRoute
-  InstructorDashboardRoute: typeof InstructorDashboardRoute
-  InstructorProfilRoute: typeof InstructorProfilRoute
-  InstructorSessionsRoute: typeof InstructorSessionsRoute
-  InstructorApprenantsStudentIdRoute: typeof InstructorApprenantsStudentIdRoute
-  InstructorApprenantsIndexRoute: typeof InstructorApprenantsIndexRoute
-  InstructorFormationsIndexRoute: typeof InstructorFormationsIndexRoute
-  InstructorFormationsTrainingIdContenuRoute: typeof InstructorFormationsTrainingIdContenuRoute
-  InstructorFormationsTrainingIdIndexRoute: typeof InstructorFormationsTrainingIdIndexRoute
-}
-
-const InstructorRouteChildren: InstructorRouteChildren = {
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  InscriptionRoute: InscriptionRoute,
+  MotDePasseOublieRoute: MotDePasseOublieRoute,
+  ReinitialisationRoute: ReinitialisationRoute,
+  AuthInviteRoute: AuthInviteRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  InstructorAutreRoute: InstructorAutreRoute,
   InstructorCommunauteRoute: InstructorCommunauteRoute,
   InstructorCorrectionsRoute: InstructorCorrectionsRoute,
   InstructorDashboardRoute: InstructorDashboardRoute,
@@ -391,20 +400,6 @@ const InstructorRouteChildren: InstructorRouteChildren = {
     InstructorFormationsTrainingIdContenuRoute,
   InstructorFormationsTrainingIdIndexRoute:
     InstructorFormationsTrainingIdIndexRoute,
-}
-
-const InstructorRouteWithChildren = InstructorRoute._addFileChildren(
-  InstructorRouteChildren,
-)
-
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  InstructorRoute: InstructorRouteWithChildren,
-  InscriptionRoute: InscriptionRoute,
-  MotDePasseOublieRoute: MotDePasseOublieRoute,
-  ReinitialisationRoute: ReinitialisationRoute,
-  AuthInviteRoute: AuthInviteRoute,
-  AuthLoginRoute: AuthLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
