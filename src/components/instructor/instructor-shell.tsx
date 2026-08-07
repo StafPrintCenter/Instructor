@@ -222,7 +222,7 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-2.5">
             <Avatar className="size-9">
               <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                {initials(instructor?.full_name ?? "SP")}
+                {initials(user?.name ?? "Formateur")}
               </AvatarFallback>
             </Avatar>
             <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
