@@ -1,39 +1,15 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-  BookOpen,
-  CalendarDays,
-  ClipboardCheck,
-  Gauge,
-  Users,
-  AlertTriangle,
-  MapPin,
-  Video,
-  ArrowRight,
-} from "lucide-react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { BookOpen, CalendarDays, ClipboardCheck, Gauge, Users, AlertTriangle, MapPin, Video, ArrowRight, } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, } from "recharts";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { StatCard } from "@/components/instructor/stat-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import {
-  activityQuery, overdueQuery, queueQuery, sessionsQuery, statsQuery,
-  studentsQuery, trainingsQuery,
-} from "@/lib/queries";
+import { activityQuery, overdueQuery, queueQuery, sessionsQuery, statsQuery, studentsQuery, trainingsQuery, } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useAuth";
 import { daysSince, formatDate, formatDateTime, relativeTime } from "@/lib/api";
 
