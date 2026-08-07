@@ -48,7 +48,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useAuth";
 import { initials, relativeTime, searchApi } from "@/lib/api";
 import { notificationsQuery } from "@/lib/queries";
 import { toast } from "sonner";
