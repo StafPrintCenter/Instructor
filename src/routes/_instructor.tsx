@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { InstructorShell } from "@/components/instructor/instructor-shell";
-import { useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_instructor")({
   component: InstructorLayout,
