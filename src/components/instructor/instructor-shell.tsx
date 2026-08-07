@@ -226,8 +226,10 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
               </AvatarFallback>
             </Avatar>
             <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-              <p className="truncate text-sm font-medium">{instructor?.full_name}</p>
-              <p className="truncate text-xs text-muted-foreground">{instructor?.title}</p>
+              <p className="truncate text-sm font-medium">{user?.name}</p>
+              <p className="truncate text-xs text-muted-foreground">
+                {user?.trainings?.[0]?.role ?? "Formateur"}
+              </p>
             </div>
             <Button
               variant="ghost"
