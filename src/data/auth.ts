@@ -55,6 +55,6 @@ export const roleLabels: Record<string, string> = {
 
 export function getInstructorRoleLabel(trainings?: { role: string }[]): string {
   const primaryRole = trainings?.[0]?.role;
-  if (!primaryRole) return "Formateur";
+  if (!primaryRole) return "Non assigné";
   return roleLabels[primaryRole.toLowerCase()] ?? primaryRole;
 }
