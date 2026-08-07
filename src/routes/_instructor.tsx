@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { Loader2 } from "lucide-react";
 import { InstructorShell } from "@/components/instructor/instructor-shell";
 import { useInstructorAuth } from "@/hooks/useAuth";
 
@@ -22,7 +23,7 @@ function InstructorLayout() {
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-background text-foreground">
         <Loader2 className="size-8 animate-spin text-accent" />
         <p className="text-sm text-muted-foreground">
-          Vérification de votre session formateur…
+          Vérification de votre session…
         </p>
       </div>
     );
