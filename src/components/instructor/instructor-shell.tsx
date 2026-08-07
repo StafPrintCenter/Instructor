@@ -74,7 +74,7 @@ function GlobalSearch({ open, onOpenChange }: { open: boolean; onOpenChange: (v:
   const { data: hits = [] } = useQuery({
     queryKey: ["search", instructorId, term],
     queryFn: () => searchApi.global(instructorId, term),
-    enabled: open,
+    enabled: open && Boolean(instructorId),
   });
 
   const groups = ["Formations", "Apprenants", "Leçons"] as const;
