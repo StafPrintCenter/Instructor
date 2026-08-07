@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Bell, BookOpen, CalendarDays, ClipboardCheck, GraduationCap, LayoutDashboard, LogOut, MessagesSquare, Search, Settings, Users, } from "lucide-react";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, SidebarInset, } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Bell, BookOpen, CalendarDays, ClipboardCheck, LayoutDashboard,
+  LogOut, MessagesSquare, Search, UserCircle, Users,
+} from "lucide-react";
+import {
+  Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
+  SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
+  SidebarProvider, SidebarTrigger, SidebarInset,
+} from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, } from "@/components/ui/command";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+import {
+  CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
+} from "@/components/ui/command";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
-import { initials, relativeTime, searchApi } from "@/lib/api";
+import { relativeTime, searchApi } from "@/lib/api";
 import { notificationsQuery } from "@/lib/queries";
-import { getInstructorRoleLabel } from "@/data/auth";
+import logo from "@/assets/logos.json";
 import { toast } from "sonner";
 
 const navMain = [
@@ -24,7 +35,6 @@ const navMain = [
 
 const navSecondary = [
   { to: "/communaute", label: "Communauté", icon: MessagesSquare },
-  { to: "/profil", label: "Profil & réglages", icon: Settings },
 ] as const;
 
 function GlobalSearch({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
@@ -127,28 +137,34 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <Sidebar collapsible="icon" className="border-r border-sidebar-border">
+      <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
         <SidebarHeader className="px-3 py-4">
           <Link to="/dashboard" className="flex items-center gap-2.5">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-              <GraduationCap className="size-5" />
+            <span className="flex size-9 shrink-0 items-center justify-center">
+              <img src={logo.mw} alt="Logo SPC" className="h-9 w-auto" />
             </span>
-            <span className="flex flex-col group-data-[collapsible=icon]:hidden">
-              <span className="font-display text-sm leading-tight">STAF PRINT CENTER</span>
-              <span className="text-[11px] text-muted-foreground">Espace Formateur</span>
+            <span className="flex flex-col group-data-[collapsible=icon]:hidden min-w-0">
+              <span className="font-display text-sm leading-tight font-bold truncate">STAF PRINT CENTER</span>
+              <span className="text-[10px] text-muted-foreground truncate">Espace Formateur</span>
             </span>
           </Link>
         </SidebarHeader>
 
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Pilotage</SidebarGroupLabel>
-
+            <SidebarGroupLabel className="text-sidebar-foreground/50 uppercase tracking-wider text-[10px]">
+              Pilotage
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {navMain.map((item) => (
                   <SidebarMenuItem key={item.to}>
-                    <SidebarMenuButton asChild isActive={pathname.startsWith(item.to)} tooltip={item.label}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname.startsWith(item.to)}
+                      tooltip={item.label}
+                      className="data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground"
+                    >
                       <Link to={item.to}>
                         <item.icon />
                         <span>{item.label}</span>
@@ -161,12 +177,19 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
           </SidebarGroup>
 
           <SidebarGroup>
-            <SidebarGroupLabel>Échanges</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-sidebar-foreground/50 uppercase tracking-wider text-[10px]">
+              Échanges
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {navSecondary.map((item) => (
                   <SidebarMenuItem key={item.to}>
-                    <SidebarMenuButton asChild isActive={pathname.startsWith(item.to)} tooltip={item.label}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname.startsWith(item.to)}
+                      tooltip={item.label}
+                      className="data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground"
+                    >
                       <Link to={item.to}>
                         <item.icon />
                         <span>{item.label}</span>
@@ -179,29 +202,35 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarFooter className="border-t border-sidebar-border p-3">
-          <div className="flex items-center gap-2.5">
-            <Avatar className="size-9">
-              <AvatarFallback className="bg-primary text-primary-foreground text-xs">
-                {initials(user?.name ?? "Formateur")}
-              </AvatarFallback>
-            </Avatar>
-            <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-              <p className="truncate text-sm font-medium">{user?.name}</p>
-              <p className="truncate text-xs text-muted-foreground">
-                {getInstructorRoleLabel(user?.trainings)}
-              </p>
-            </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleLogout}
-              aria-label="Se déconnecter"
-              className="group-data-[collapsible=icon]:hidden"
-            >
-              <LogOut className="size-4" />
-            </Button>
-          </div>
+        <SidebarFooter className="border-t border-sidebar-border p-2 space-y-1">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith("/profil")}
+                tooltip="Profil"
+                className="data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground"
+              >
+                <Link to="/profil">
+                  <UserCircle className="size-4 shrink-0" />
+                  <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
+                    <p className="truncate text-xs font-medium">{user?.name ?? "Profil"}</p>
+                    <p className="truncate text-[10px] opacity-60">{user?.email}</p>
+                  </div>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={handleLogout}
+                tooltip="Déconnexion"
+                className="text-sidebar-foreground/80 hover:bg-destructive hover:text-white"
+              >
+                <LogOut className="size-4 shrink-0" />
+                <span className="group-data-[collapsible=icon]:hidden">Déconnexion</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
 
