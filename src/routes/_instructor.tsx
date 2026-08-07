@@ -21,7 +21,7 @@ function InstructorLayout() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-background text-foreground">
         <Loader2 className="size-8 animate-spin text-accent" />
-        <p className="text-sm text-muted-foreground animate-pulse">
+        <p className="text-sm text-muted-foreground">
           Vérification de votre session formateur…
         </p>
       </div>
