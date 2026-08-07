@@ -51,6 +51,7 @@ import {
 import { useInstructorAuth } from "@/hooks/useAuth";
 import { initials, relativeTime, searchApi } from "@/lib/api";
 import { notificationsQuery } from "@/lib/queries";
+import { getInstructorRoleLabel } from "@/data/auth";
 import { toast } from "sonner";
 
 const navMain = [
