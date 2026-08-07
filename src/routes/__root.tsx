@@ -4,8 +4,6 @@ import { type ReactNode } from "react";
 import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import { SITE } from "@/data/site";
-import { InstructorAuthProvider } from "@/lib/instructor-auth";
-import { Toaster } from "@/components/ui/sonner";
 import { NotFoundComponent, ErrorComponent } from "@/components/errors";
 
 const INSTRUCTOR_TITLE = `Espace Formateur — ${SITE.name}`;
