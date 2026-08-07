@@ -47,6 +47,7 @@ function toInstructorAuthUser(instructor: APIInstructorUser): InstructorAuthUser
     acceptedAt: instructor.acceptedAt,
     approvedBy: instructor.approvedBy,
     approvedAt: instructor.approvedAt,
+    trainings: instructor.trainings,
     createdAt: instructor.createdAt,
   };
 }
