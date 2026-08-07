@@ -158,8 +158,8 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     toast.success("Vous êtes déconnecté·e.");
     navigate({ to: "/" });
   };
@@ -182,6 +182,7 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Pilotage</SidebarGroupLabel>
+
             <SidebarGroupContent>
               <SidebarMenu>
                 {navMain.map((item) => (
