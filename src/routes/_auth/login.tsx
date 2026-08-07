@@ -6,7 +6,7 @@ import { AuthShell } from "@/components/instructor/AuthShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useInstructorAuth } from "@/hooks/useAuth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_auth/login")({
