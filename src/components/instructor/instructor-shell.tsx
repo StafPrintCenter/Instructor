@@ -142,7 +142,7 @@ function NotificationsMenu() {
 }
 
 export function InstructorShell({ children }: { children: React.ReactNode }) {
-  const { instructor, logout } = useInstructorAuth();
+  const { user, logout } = useInstructorAuth();
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
