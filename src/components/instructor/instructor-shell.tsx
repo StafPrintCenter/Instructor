@@ -37,6 +37,11 @@ const navSecondary = [
   { to: "/communaute", label: "Communauté", icon: MessagesSquare },
 ] as const;
 
+const navItemClass =
+  "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground " +
+  "data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground " +
+  "data-[active=true]:hover:bg-sidebar-primary data-[active=true]:hover:text-sidebar-primary-foreground";
+
 function GlobalSearch({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const { user } = useInstructorAuth();
   const instructorId = user?.id ?? "";
@@ -145,7 +150,7 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
             </span>
             <span className="flex flex-col group-data-[collapsible=icon]:hidden min-w-0">
               <span className="font-display text-sm leading-tight font-bold truncate">STAF PRINT CENTER</span>
-              <span className="text-[10px] text-muted-foreground truncate">Espace Formateur</span>
+              <span className="text-[10px] opacity-60 truncate">Espace Formateur</span>
             </span>
           </Link>
         </SidebarHeader>
@@ -163,7 +168,7 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
                       asChild
                       isActive={pathname.startsWith(item.to)}
                       tooltip={item.label}
-                      className="data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground"
+                      className={navItemClass}
                     >
                       <Link to={item.to}>
                         <item.icon />
@@ -188,7 +193,7 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
                       asChild
                       isActive={pathname.startsWith(item.to)}
                       tooltip={item.label}
-                      className="data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground"
+                      className={navItemClass}
                     >
                       <Link to={item.to}>
                         <item.icon />
@@ -209,7 +214,7 @@ export function InstructorShell({ children }: { children: React.ReactNode }) {
                 asChild
                 isActive={pathname.startsWith("/profil")}
                 tooltip="Profil"
-                className="data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground"
+                className={navItemClass}
               >
                 <Link to="/profil">
                   <UserCircle className="size-4 shrink-0" />
