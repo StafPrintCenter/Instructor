@@ -12,8 +12,10 @@ function InstructorLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isReady && !isAuthenticated) navigate({ to: "/" });
-  }, [isReady, isAuthenticated, navigate]);
+    if (ready && !isAuthenticated) {
+      navigate({ to: "/" });
+    }
+  }, [ready, isAuthenticated, navigate]);
 
   if (!isReady || !isAuthenticated) {
     return (
