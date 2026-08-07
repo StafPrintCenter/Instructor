@@ -52,7 +52,7 @@ function toInstructorAuthUser(instructor: APIInstructorUser): InstructorAuthUser
   };
 }
 
-// État partagé en dehors du hook pour que tous les composants qui l'utilisent restent synchronisés sans avoir besoin d'un vrai Context/Provider.
+// État partagé en dehors du hook
 let sharedUser: InstructorAuthUser | null = null;
 let sharedReady = false;
 const listeners = new Set<() => void>();
