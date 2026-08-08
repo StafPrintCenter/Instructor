@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_auth/login")({
       {
         name: "description",
         content:
-          "Connectez-vous à l'espace formateur de STAF PRINT CENTER pour gérer vos formations, corrections et sessions.",
+          `Connectez-vous à l'espace formateur de STAF PRINT CENTER pour gérer vos formations, corrections et sessions.`,
       },
       { property: "og:title", content: `Connexion | ${SITE.name}` },
       { property: "og:description", content: "Accès sécurisé à l'espace formateur du centre de formation." },
