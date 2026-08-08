@@ -24,11 +24,11 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/contenu
   head: () => ({
     meta: [
       {
-        title: `Contenu de la formation — Espace Formateur ${SITE.name}`
+        title: `Contenu de la formation - Espace Formateur ${SITE.name}`
       },
       { name: "description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
       {
-        property: "og:title", content: `Contenu de la formation — Espace Formateur ${SITE.name}`
+        property: "og:title", content: `Contenu de la formation - Espace Formateur ${SITE.name}`
       },
       { property: "og:description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
     ],
@@ -97,7 +97,7 @@ function ContentPage() {
     <div className="space-y-8">
       <PageHeader
         eyebrow={overview.training.cohort}
-        title={`Contenu — ${overview.training.title}`}
+        title={`Contenu - ${overview.training.title}`}
         description="Toute création ou modification repart en brouillon et nécessite une validation administrateur avant publication."
         actions={
           <Dialog>
