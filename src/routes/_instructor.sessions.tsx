@@ -210,7 +210,7 @@ function SessionsPage() {
                     id="session-title"
                     value={form.title}
                     onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                    placeholder="Atelier sérigraphie — préparation des écrans"
+                    placeholder="Atelier sérigraphie - préparation des écrans"
                   />
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
