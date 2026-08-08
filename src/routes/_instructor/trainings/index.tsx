@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { trainingsQuery } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { formatDate } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/")({
   head: () => ({
