@@ -28,14 +28,6 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/contenu
       { property: "og:description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
     ],
   }),
-  loader: async ({ context, params }) => {
-    const id = getSessionInstructorId();
-    await Promise.all([
-      context.queryClient.ensureQueryData(modulesQuery(id, params.trainingId)),
-      context.queryClient.ensureQueryData(lessonsQuery(id, params.trainingId)),
-      context.queryClient.ensureQueryData(trainingOverviewQuery(id, params.trainingId)),
-    ]);
-  },
   component: ContentPage,
 });
 
