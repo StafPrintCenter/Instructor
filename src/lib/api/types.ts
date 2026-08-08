@@ -1,5 +1,5 @@
 /**
- * Domain types for the STAF PRINT CENTER instructor workspace.
+ * Domain types for the instructor workspace.
  * Mirrors the future Laravel REST API payloads (snake_case fields kept as-is).
  */
 
