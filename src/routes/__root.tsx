@@ -6,7 +6,7 @@ import appCss from "../styles.css?url";
 import { SITE } from "@/data/site";
 import { NotFoundComponent, ErrorComponent } from "@/components/errors";
 
-const INSTRUCTOR_TITLE = `Espace Formateur — ${SITE.name}`;
+const INSTRUCTOR_TITLE = `Espace Formateur | ${SITE.name}`;
 const INSTRUCTOR_DESC = `Plateforme formateur de ${SITE.name} : contenus, corrections, sessions et suivi des apprenants.`;
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
