@@ -293,18 +293,18 @@ function SessionsPage() {
         </TabsContent>
 
         <TabsContent value="list" className="space-y-8">
-      <section className="space-y-4">
-        <CardHeaderTitle title="À venir" count={upcoming.length} />
-        {upcoming.length === 0 ? (
-          <EmptyState
-            icon={<CalendarDays className="size-6" />}
-            title="Aucune session à venir"
-            description="Planifiez un atelier pour vos cohortes."
-          />
-        ) : (
-          <div className="space-y-4">{upcoming.map(renderSession)}</div>
-        )}
-      </section>
+          <section className="space-y-4">
+            <CardHeaderTitle title="À venir" count={upcoming.length} />
+            {upcoming.length === 0 ? (
+              <EmptyState
+                icon={<CalendarDays className="size-6" />}
+                title="Aucune session à venir"
+                description="Planifiez un atelier pour vos cohortes."
+              />
+            ) : (
+              <div className="space-y-4">{upcoming.map(renderSession)}</div>
+            )}
+          </section>
 
       {past.length > 0 ? (
         <section className="space-y-4">
