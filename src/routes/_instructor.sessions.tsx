@@ -28,7 +28,9 @@ export const Route = createFileRoute("/_instructor/sessions")({
         name: "description",
         content: "Planifiez vos sessions live ou en présentiel à Cotonou et enregistrez les présences des apprenants.",
       },
-      { property: "og:title", content: "Sessions & présences — STAF PRINT CENTER" },
+      {
+        property: "og:title", content: `Sessions & présences — STAF PRINT CENTER`
+      },
       { property: "og:description", content: "Planning des sessions et feuille de présence par cohorte." },
     ],
   }),
