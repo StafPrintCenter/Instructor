@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { AuthShell, AuthShellProvider } from "@/components/instructor/AuthShell";
+import { AuthShell, AuthShellProvider } from "@/components/site/AuthShell";
 
 export const Route = createFileRoute("/_auth")({
   component: AuthLayout,
