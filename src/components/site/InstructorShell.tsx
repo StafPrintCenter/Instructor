@@ -24,6 +24,26 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    label: "Pilotage",
+    items: [
+      { to: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
+      { to: "/formations", label: "Mes formations", icon: BookOpen },
+      { to: "/apprenants", label: "Apprenants", icon: Users },
+      { to: "/corrections", label: "Corrections", icon: ClipboardCheck },
+      { to: "/sessions", label: "Sessions", icon: CalendarDays },
+    ],
+  },
+  {
+    label: "Pilotage",
+    items: [
+      { to: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
+      { to: "/formations", label: "Mes formations", icon: BookOpen },
+      { to: "/apprenants", label: "Apprenants", icon: Users },
+      { to: "/corrections", label: "Corrections", icon: ClipboardCheck },
+      { to: "/sessions", label: "Sessions", icon: CalendarDays },
+    ],
+  },
+  {
     label: "Échanges",
     items: [
       { to: "/communaute", label: "Communauté", icon: MessagesSquare },
