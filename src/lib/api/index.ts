@@ -741,7 +741,7 @@ export const searchApi = {
         id: t.id,
         label: t.title,
         group: "Formations",
-        to: "/formations/$trainingId",
+        to: "/trainings/$trainingId",
         params: { trainingId: t.id },
       })),
       ...store.enrollments
