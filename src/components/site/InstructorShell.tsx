@@ -70,7 +70,11 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
   };
 
   const isLinkActive = (n: NavItem) =>
-    n.exact ? pathname === n.to : n.matchPrefixes ? n.matchPrefixes.some((prefix) => pathname.startsWith(prefix)) : pathname.startsWith(n.to);
+    n.exact
+      ? pathname === n.to
+      : n.matchPrefixes
+        ? n.matchPrefixes.some((prefix) => pathname.startsWith(prefix))
+        : pathname.startsWith(n.to);
 
   const profileActive = pathname.startsWith("/profil");
 
