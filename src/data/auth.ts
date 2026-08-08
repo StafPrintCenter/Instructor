@@ -11,7 +11,7 @@ export type InstructorTrainingAssignment = {
 
 
 /**
- * Type aligné sur InstructorResource
+ * Type aligné sur inscription et connexion
  */
 export interface InstructorRegisterPayload {
   firstName: string;
@@ -19,6 +19,29 @@ export interface InstructorRegisterPayload {
   email: string;
   password: string;
   bio?: string;
+}
+export interface InstructorAuthUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  name: string;
+  email: string;
+  registrationSource: string | null;
+  photo: string | null;
+  bio: string | null;
+  isActive: boolean;
+  isBlocked: boolean;
+  isPending: boolean;
+  needsApproval: boolean;
+  blockedAt: string | null;
+  blockedReason: string | null;
+  invitedBy: string | null;
+  invitedAt: string | null;
+  acceptedAt: string | null;
+  approvedBy: string | null;
+  approvedAt: string | null;
+  trainings?: InstructorTrainingAssignment[];
+  createdAt: string;
 }
 
 /**
