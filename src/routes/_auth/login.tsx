@@ -15,8 +15,7 @@ export const Route = createFileRoute("/_auth/login")({
       { title: `Connexion | ${SITE.name}` },
       {
         name: "description",
-        content:
-          `Connectez-vous à l'espace formateur de ${SITE.name} pour gérer vos formations, corrections et sessions.`,
+        content: `Connectez-vous à l'espace formateur de ${SITE.name} pour gérer vos formations, corrections et sessions.`,
       },
       { property: "og:title", content: `Connexion | ${SITE.name}` },
       { property: "og:description", content: "Accès sécurisé à l'espace formateur du centre de formation." },
