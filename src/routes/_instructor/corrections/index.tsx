@@ -21,7 +21,7 @@ import {
 import { SubmissionBadge } from "@/components/instructor/status-badges";
 import { SubmissionAttachment } from "@/components/instructor/submission-attachment";
 import { queueQuery, trainingsQuery, qk } from "@/lib/queries";
-import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { daysSince, formatDateTime, gradingApi, initials, lessonTypeLabels } from "@/lib/api";
 
 export const Route = createFileRoute("/_instructor/corrections/")({
