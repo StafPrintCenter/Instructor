@@ -78,6 +78,16 @@ function ContentPage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  if (isModulesLoading || isLessonsLoading || isOverviewLoading || !overview) {
+    return (
+      <div className="space-y-6">
+        <div className="h-16 animate-pulse rounded-lg bg-muted" />
+        <div className="h-44 animate-pulse rounded-lg bg-muted" />
+        <div className="h-44 animate-pulse rounded-lg bg-muted" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <PageHeader
