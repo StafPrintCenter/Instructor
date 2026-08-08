@@ -64,8 +64,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
             Enseignez, corrigez et suivez vos apprenants au même endroit.
           </h2>
           <p className="text-sm text-primary-foreground/70">
-            Studio créatif et centre de formation à Porto-Novo, Bénin. L'espace formateur vous donne le contrôle
-            du contenu pédagogique, des corrections et des sessions.
+            Espace formateur : vos formations assignées, vos apprenants et vos corrections, réunis au même endroit.
           </p>
         </div>
 
