@@ -27,7 +27,7 @@ export const Route = createFileRoute("/_instructor/corrections/")({
         name: "description",
         content: "Corrigez les exercices, devoirs et projets rendus par vos apprenants et renvoyez un retour détaillé.",
       },
-      { property: "og:title", content: "File de correction — STAF PRINT CENTER" },
+      { property: "og:title", content: `File de correction — STAF PRINT CENTER` },
       { property: "og:description", content: "Notation, retours et corrections groupées des travaux rendus." },
     ],
   }),
