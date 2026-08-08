@@ -19,7 +19,7 @@ import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor/profil'
-import { Route as InstructorCommunauteCommunauteRouteImport } from './routes/_instructor/communaute/communaute'
+import { Route as InstructorCommunauteIndexRouteImport } from './routes/_instructor/communaute/index'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
 import { Route as InstructorSessionsIndexRouteImport } from './routes/_instructor/sessions/index'
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
@@ -76,10 +76,10 @@ const InstructorProfilRoute = InstructorProfilRouteImport.update({
   path: '/profil',
   getParentRoute: () => InstructorRoute,
 } as any)
-const InstructorCommunauteCommunauteRoute =
-  InstructorCommunauteCommunauteRouteImport.update({
-    id: '/communaute/communaute',
-    path: '/communaute/communaute',
+const InstructorCommunauteIndexRoute =
+  InstructorCommunauteIndexRouteImport.update({
+    id: '/communaute/',
+    path: '/communaute/',
     getParentRoute: () => InstructorRoute,
   } as any)
 const InstructorCorrectionsIndexRoute =
@@ -132,8 +132,8 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
-  '/communaute/communaute': typeof InstructorCommunauteCommunauteRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
+  '/communaute/': typeof InstructorCommunauteIndexRoute
   '/corrections/': typeof InstructorCorrectionsIndexRoute
   '/sessions/': typeof InstructorSessionsIndexRoute
   '/students/': typeof InstructorStudentsIndexRoute
@@ -150,8 +150,8 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
-  '/communaute/communaute': typeof InstructorCommunauteCommunauteRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
+  '/communaute': typeof InstructorCommunauteIndexRoute
   '/corrections': typeof InstructorCorrectionsIndexRoute
   '/sessions': typeof InstructorSessionsIndexRoute
   '/students': typeof InstructorStudentsIndexRoute
@@ -171,8 +171,8 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
-  '/_instructor/communaute/communaute': typeof InstructorCommunauteCommunauteRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
+  '/_instructor/communaute/': typeof InstructorCommunauteIndexRoute
   '/_instructor/corrections/': typeof InstructorCorrectionsIndexRoute
   '/_instructor/sessions/': typeof InstructorSessionsIndexRoute
   '/_instructor/students/': typeof InstructorStudentsIndexRoute
@@ -191,8 +191,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard'
     | '/profil'
-    | '/communaute/communaute'
     | '/students/$studentId'
+    | '/communaute/'
     | '/corrections/'
     | '/sessions/'
     | '/students/'
@@ -209,8 +209,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard'
     | '/profil'
-    | '/communaute/communaute'
     | '/students/$studentId'
+    | '/communaute'
     | '/corrections'
     | '/sessions'
     | '/students'
@@ -229,8 +229,8 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
-    | '/_instructor/communaute/communaute'
     | '/_instructor/students/$studentId'
+    | '/_instructor/communaute/'
     | '/_instructor/corrections/'
     | '/_instructor/sessions/'
     | '/_instructor/students/'
@@ -320,11 +320,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorProfilRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/communaute/communaute': {
-      id: '/_instructor/communaute/communaute'
-      path: '/communaute/communaute'
-      fullPath: '/communaute/communaute'
-      preLoaderRoute: typeof InstructorCommunauteCommunauteRouteImport
+    '/_instructor/communaute/': {
+      id: '/_instructor/communaute/'
+      path: '/communaute'
+      fullPath: '/communaute/'
+      preLoaderRoute: typeof InstructorCommunauteIndexRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/corrections/': {
@@ -394,8 +394,8 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfilRoute: typeof InstructorProfilRoute
-  InstructorCommunauteCommunauteRoute: typeof InstructorCommunauteCommunauteRoute
   InstructorStudentsStudentIdRoute: typeof InstructorStudentsStudentIdRoute
+  InstructorCommunauteIndexRoute: typeof InstructorCommunauteIndexRoute
   InstructorCorrectionsIndexRoute: typeof InstructorCorrectionsIndexRoute
   InstructorSessionsIndexRoute: typeof InstructorSessionsIndexRoute
   InstructorStudentsIndexRoute: typeof InstructorStudentsIndexRoute
@@ -407,8 +407,8 @@ interface InstructorRouteChildren {
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfilRoute: InstructorProfilRoute,
-  InstructorCommunauteCommunauteRoute: InstructorCommunauteCommunauteRoute,
   InstructorStudentsStudentIdRoute: InstructorStudentsStudentIdRoute,
+  InstructorCommunauteIndexRoute: InstructorCommunauteIndexRoute,
   InstructorCorrectionsIndexRoute: InstructorCorrectionsIndexRoute,
   InstructorSessionsIndexRoute: InstructorSessionsIndexRoute,
   InstructorStudentsIndexRoute: InstructorStudentsIndexRoute,
