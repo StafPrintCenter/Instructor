@@ -22,12 +22,12 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/corrections/")({
   head: () => ({
     meta: [
-      { title: `File de correction — STAF PRINT CENTER` },
+      { title: `File de correction | ${SITE.name}` },
       {
         name: "description",
         content: "Corrigez les exercices, devoirs et projets rendus par vos apprenants et renvoyez un retour détaillé.",
       },
-      { property: "og:title", content: `File de correction — STAF PRINT CENTER` },
+      { property: "og:title", content: `File de correction | ${SITE.name}` },
       { property: "og:description", content: "Notation, retours et corrections groupées des travaux rendus." },
     ],
   }),
