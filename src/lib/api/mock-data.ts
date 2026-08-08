@@ -63,7 +63,7 @@ export const trainings: Training[] = [
     level: "Intermédiaire",
     starts_at: iso("2026-06-01"),
     ends_at: iso("2026-09-15"),
-    location: "Cotonou — Studio Akpakpa",
+    location: "Cotonou - Studio Akpakpa",
     enrolled_count: 4,
     instructor_ids: ["usr_1"],
   },
@@ -79,7 +79,7 @@ export const trainings: Training[] = [
     level: "Avancé",
     starts_at: iso("2026-07-06"),
     ends_at: iso("2026-10-20"),
-    location: "Cotonou — Atelier Ganhi",
+    location: "Cotonou - Atelier Ganhi",
     enrolled_count: 3,
     instructor_ids: ["usr_1"],
   },
@@ -186,7 +186,7 @@ export const lessons: Lesson[] = [
     id: "les_3",
     module_id: "mod_1",
     training_id: "trn_1",
-    title: "Quiz — Cadrage de projet",
+    title: "Quiz - Cadrage de projet",
     type: "quiz",
     position: 3,
     duration_minutes: 10,
@@ -230,7 +230,7 @@ export const lessons: Lesson[] = [
     id: "les_4",
     module_id: "mod_2",
     training_id: "trn_1",
-    title: "Exercice — Construire une échelle typographique",
+    title: "Exercice - Construire une échelle typographique",
     type: "exercise",
     position: 1,
     duration_minutes: 45,
@@ -251,7 +251,7 @@ export const lessons: Lesson[] = [
     id: "les_5",
     module_id: "mod_2",
     training_id: "trn_1",
-    title: "Devoir — Charte couleur documentée",
+    title: "Devoir - Charte couleur documentée",
     type: "assignment",
     position: 2,
     duration_minutes: 90,
@@ -278,7 +278,7 @@ export const lessons: Lesson[] = [
     id: "les_7",
     module_id: "mod_5",
     training_id: "trn_2",
-    title: "Projet — Dossier de production complet",
+    title: "Projet - Dossier de production complet",
     type: "project",
     position: 1,
     duration_minutes: 240,
@@ -310,31 +310,31 @@ export const enrollments: Enrollment[] = [
 export const completions: LessonCompletion[] = [
   { id: "cmp_1", student_id: "std_1", lesson_id: "les_1", lesson_title: "Lire un brief client", lesson_type: "video", completed_at: iso("2026-06-14") },
   { id: "cmp_2", student_id: "std_1", lesson_id: "les_2", lesson_title: "Anatomie d'un moodboard", lesson_type: "reading", completed_at: iso("2026-06-19") },
-  { id: "cmp_3", student_id: "std_1", lesson_id: "les_3", lesson_title: "Quiz — Cadrage de projet", lesson_type: "quiz", completed_at: iso("2026-06-24") },
+  { id: "cmp_3", student_id: "std_1", lesson_id: "les_3", lesson_title: "Quiz - Cadrage de projet", lesson_type: "quiz", completed_at: iso("2026-06-24") },
   { id: "cmp_4", student_id: "std_2", lesson_id: "les_1", lesson_title: "Lire un brief client", lesson_type: "video", completed_at: iso("2026-06-16") },
   { id: "cmp_5", student_id: "std_3", lesson_id: "les_1", lesson_title: "Lire un brief client", lesson_type: "video", completed_at: iso("2026-06-12") },
-  { id: "cmp_6", student_id: "std_3", lesson_id: "les_5", lesson_title: "Devoir — Charte couleur", lesson_type: "assignment", completed_at: iso("2026-07-11") },
+  { id: "cmp_6", student_id: "std_3", lesson_id: "les_5", lesson_title: "Devoir - Charte couleur", lesson_type: "assignment", completed_at: iso("2026-07-11") },
   { id: "cmp_7", student_id: "std_5", lesson_id: "les_6", lesson_title: "Profils ICC", lesson_type: "video", completed_at: iso("2026-07-20") },
 ];
 
 export const quizAttempts: QuizAttempt[] = [
-  { id: "att_1", student_id: "std_1", lesson_id: "les_3", lesson_title: "Quiz — Cadrage de projet", score: 55, attempt_number: 1, passed: false, taken_at: iso("2026-06-22") },
-  { id: "att_2", student_id: "std_1", lesson_id: "les_3", lesson_title: "Quiz — Cadrage de projet", score: 88, attempt_number: 2, passed: true, taken_at: iso("2026-06-24") },
-  { id: "att_3", student_id: "std_2", lesson_id: "les_3", lesson_title: "Quiz — Cadrage de projet", score: 62, attempt_number: 1, passed: false, taken_at: iso("2026-06-26") },
-  { id: "att_4", student_id: "std_3", lesson_id: "les_3", lesson_title: "Quiz — Cadrage de projet", score: 94, attempt_number: 1, passed: true, taken_at: iso("2026-06-21") },
+  { id: "att_1", student_id: "std_1", lesson_id: "les_3", lesson_title: "Quiz - Cadrage de projet", score: 55, attempt_number: 1, passed: false, taken_at: iso("2026-06-22") },
+  { id: "att_2", student_id: "std_1", lesson_id: "les_3", lesson_title: "Quiz - Cadrage de projet", score: 88, attempt_number: 2, passed: true, taken_at: iso("2026-06-24") },
+  { id: "att_3", student_id: "std_2", lesson_id: "les_3", lesson_title: "Quiz - Cadrage de projet", score: 62, attempt_number: 1, passed: false, taken_at: iso("2026-06-26") },
+  { id: "att_4", student_id: "std_3", lesson_id: "les_3", lesson_title: "Quiz - Cadrage de projet", score: 94, attempt_number: 1, passed: true, taken_at: iso("2026-06-21") },
 ];
 
 export const submissions: Submission[] = [
-  { id: "sub_1", student_id: "std_1", training_id: "trn_1", lesson_id: "les_4", lesson_title: "Exercice — Échelle typographique", type: "exercise", content: "Échelle en 6 niveaux basée sur un ratio 1.25, police Fraunces pour les titres.", attachment_name: "echelle-zemi.pdf", submitted_at: iso("2026-07-24T10:00:00"), status: "pending", grade: null, feedback: null, graded_at: null },
-  { id: "sub_2", student_id: "std_2", training_id: "trn_1", lesson_id: "les_5", lesson_title: "Devoir — Charte couleur documentée", type: "assignment", content: "Palette 4 couleurs + neutres, valeurs CMJN vérifiées sur épreuve.", attachment_name: "charte-couleur.pdf", submitted_at: iso("2026-07-21T15:30:00"), status: "pending", grade: null, feedback: null, graded_at: null },
-  { id: "sub_3", student_id: "std_4", training_id: "trn_1", lesson_id: "les_4", lesson_title: "Exercice — Échelle typographique", type: "exercise", content: "Première version, ratio non documenté.", attachment_name: null, submitted_at: iso("2026-07-12T08:15:00"), status: "pending", grade: null, feedback: null, graded_at: null },
-  { id: "sub_4", student_id: "std_5", training_id: "trn_2", lesson_id: "les_7", lesson_title: "Projet — Dossier de production", type: "project", content: "Dossier packaging complet avec gamme de montage.", attachment_name: "dossier-prod.zip", submitted_at: iso("2026-07-28T19:45:00"), status: "pending", grade: null, feedback: null, graded_at: null },
-  { id: "sub_5", student_id: "std_3", training_id: "trn_1", lesson_id: "les_5", lesson_title: "Devoir — Charte couleur documentée", type: "assignment", content: "Charte complète avec usages print et web.", attachment_name: "charte-ulrich.pdf", submitted_at: iso("2026-07-10T12:00:00"), status: "graded", grade: 92, feedback: "Excellent niveau de documentation, continue ainsi.", graded_at: iso("2026-07-12T09:00:00") },
+  { id: "sub_1", student_id: "std_1", training_id: "trn_1", lesson_id: "les_4", lesson_title: "Exercice - Échelle typographique", type: "exercise", content: "Échelle en 6 niveaux basée sur un ratio 1.25, police Fraunces pour les titres.", attachment_name: "echelle-zemi.pdf", submitted_at: iso("2026-07-24T10:00:00"), status: "pending", grade: null, feedback: null, graded_at: null },
+  { id: "sub_2", student_id: "std_2", training_id: "trn_1", lesson_id: "les_5", lesson_title: "Devoir - Charte couleur documentée", type: "assignment", content: "Palette 4 couleurs + neutres, valeurs CMJN vérifiées sur épreuve.", attachment_name: "charte-couleur.pdf", submitted_at: iso("2026-07-21T15:30:00"), status: "pending", grade: null, feedback: null, graded_at: null },
+  { id: "sub_3", student_id: "std_4", training_id: "trn_1", lesson_id: "les_4", lesson_title: "Exercice - Échelle typographique", type: "exercise", content: "Première version, ratio non documenté.", attachment_name: null, submitted_at: iso("2026-07-12T08:15:00"), status: "pending", grade: null, feedback: null, graded_at: null },
+  { id: "sub_4", student_id: "std_5", training_id: "trn_2", lesson_id: "les_7", lesson_title: "Projet - Dossier de production", type: "project", content: "Dossier packaging complet avec gamme de montage.", attachment_name: "dossier-prod.zip", submitted_at: iso("2026-07-28T19:45:00"), status: "pending", grade: null, feedback: null, graded_at: null },
+  { id: "sub_5", student_id: "std_3", training_id: "trn_1", lesson_id: "les_5", lesson_title: "Devoir - Charte couleur documentée", type: "assignment", content: "Charte complète avec usages print et web.", attachment_name: "charte-ulrich.pdf", submitted_at: iso("2026-07-10T12:00:00"), status: "graded", grade: 92, feedback: "Excellent niveau de documentation, continue ainsi.", graded_at: iso("2026-07-12T09:00:00") },
 ];
 
 export const sessions: TrainingSession[] = [
-  { id: "ses_1", training_id: "trn_1", title: "Atelier moodboard collectif", mode: "onsite", starts_at: iso("2026-08-04T09:00:00"), duration_minutes: 180, location: "Studio Akpakpa", notes: "Apporter les recherches imprimées.", attendance: [ { student_id: "std_1", present: true }, { student_id: "std_2", present: false }, { student_id: "std_3", present: true }, { student_id: "std_4", present: false } ] },
-  { id: "ses_2", training_id: "trn_1", title: "Revue de projets — live", mode: "live", starts_at: iso("2026-08-11T15:00:00"), duration_minutes: 120, location: "Visio", notes: "Chaque apprenant présente 5 min.", attendance: [] },
+  { id: "ses_1", training_id: "trn_1", title: "Atelier moodboard collectif", mode: "onsite", starts_at: iso("2026-08-04T09:00:00"), duration_minutes: 180, location: "Studio Akpakpa", notes: "Apporter les recherches imprimées.", attendance: [{ student_id: "std_1", present: true }, { student_id: "std_2", present: false }, { student_id: "std_3", present: true }, { student_id: "std_4", present: false }] },
+  { id: "ses_2", training_id: "trn_1", title: "Revue de projets - live", mode: "live", starts_at: iso("2026-08-11T15:00:00"), duration_minutes: 120, location: "Visio", notes: "Chaque apprenant présente 5 min.", attendance: [] },
   { id: "ses_3", training_id: "trn_2", title: "Visite atelier impression", mode: "onsite", starts_at: iso("2026-08-18T08:30:00"), duration_minutes: 240, location: "Atelier Ganhi", notes: "Chaussures fermées obligatoires.", attendance: [] },
 ];
 
@@ -345,8 +345,8 @@ export const posts: CommunityPost[] = [
 ];
 
 export const threads: MessageThread[] = [
-  { id: "thr_1", student_id: "std_1", training_id: "trn_1", subject: "Retour sur mon échelle typographique", updated_at: iso("2026-07-29T17:40:00"), unread: true, messages: [ { id: "msg_1", author: "student", body: "Bonjour, pouvez-vous regarder mon rendu avant la correction ?", sent_at: iso("2026-07-29T17:40:00") } ] },
-  { id: "thr_2", student_id: "std_4", training_id: "trn_1", subject: "Absence atelier du 4 août", updated_at: iso("2026-07-26T08:10:00"), unread: false, messages: [ { id: "msg_2", author: "student", body: "Je serai à Parakou ce jour-là.", sent_at: iso("2026-07-26T08:10:00") }, { id: "msg_3", author: "instructor", body: "Noté, je vous partagerai l'enregistrement.", sent_at: iso("2026-07-26T09:02:00") } ] },
+  { id: "thr_1", student_id: "std_1", training_id: "trn_1", subject: "Retour sur mon échelle typographique", updated_at: iso("2026-07-29T17:40:00"), unread: true, messages: [{ id: "msg_1", author: "student", body: "Bonjour, pouvez-vous regarder mon rendu avant la correction ?", sent_at: iso("2026-07-29T17:40:00") }] },
+  { id: "thr_2", student_id: "std_4", training_id: "trn_1", subject: "Absence atelier du 4 août", updated_at: iso("2026-07-26T08:10:00"), unread: false, messages: [{ id: "msg_2", author: "student", body: "Je serai à Parakou ce jour-là.", sent_at: iso("2026-07-26T08:10:00") }, { id: "msg_3", author: "instructor", body: "Noté, je vous partagerai l'enregistrement.", sent_at: iso("2026-07-26T09:02:00") }] },
 ];
 
 export const notifications: AppNotification[] = [
@@ -358,6 +358,6 @@ export const notifications: AppNotification[] = [
 export const reviews: ContentReview[] = [
   { id: "rev_1", entity_type: "module", entity_id: "mod_2", entity_title: "Système typographique & couleur", status: "submitted", admin_comment: null, submitted_at: iso("2026-07-22"), reviewed_at: null },
   { id: "rev_2", entity_type: "module", entity_id: "mod_5", entity_title: "Contrôle qualité et BAT", status: "rejected", admin_comment: "Ajouter une check-list de préflight avant publication.", submitted_at: iso("2026-07-19"), reviewed_at: iso("2026-07-28") },
-  { id: "rev_3", entity_type: "lesson", entity_id: "les_3", entity_title: "Quiz — Cadrage de projet", status: "submitted", admin_comment: null, submitted_at: iso("2026-07-25"), reviewed_at: null },
-  { id: "rev_4", entity_type: "lesson", entity_id: "les_7", entity_title: "Projet — Dossier de production complet", status: "rejected", admin_comment: "Le barème n'est pas explicite pour les apprenants.", submitted_at: iso("2026-07-16"), reviewed_at: iso("2026-07-26") },
+  { id: "rev_3", entity_type: "lesson", entity_id: "les_3", entity_title: "Quiz - Cadrage de projet", status: "submitted", admin_comment: null, submitted_at: iso("2026-07-25"), reviewed_at: null },
+  { id: "rev_4", entity_type: "lesson", entity_id: "les_7", entity_title: "Projet - Dossier de production complet", status: "rejected", admin_comment: "Le barème n'est pas explicite pour les apprenants.", submitted_at: iso("2026-07-16"), reviewed_at: iso("2026-07-26") },
 ];
