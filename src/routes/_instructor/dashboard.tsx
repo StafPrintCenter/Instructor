@@ -155,7 +155,7 @@ function DashboardPage() {
             </Button>
           ) : (
             <Button asChild variant="ghost" size="sm">
-              <Link to="/formations">
+              <Link to="/trainings">
                 Toutes les formations <ArrowRight className="size-4" />
               </Link>
             </Button>
