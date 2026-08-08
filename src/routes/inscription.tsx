@@ -20,7 +20,7 @@ export const Route = createFileRoute("/inscription")({
         property: "og:title", content: `Demande de compte formateur | ${SITE.name}`
       },
       {
-        property: "og:description", content: `Rejoignez l'équipe pédagogique du centre de formation STAF PRINT CENTER.`
+        property: "og:description", content: `Rejoignez l'équipe pédagogique du centre de formation ${SITE.name}.`
       },
     ],
   }),
