@@ -19,12 +19,12 @@ import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor/profil'
+import { Route as InstructorCommunauteCommunauteRouteImport } from './routes/_instructor/communaute/communaute'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
 import { Route as InstructorSessionsIndexRouteImport } from './routes/_instructor/sessions/index'
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
 import { Route as InstructorStudentsStudentIdRouteImport } from './routes/_instructor/students/$studentId'
 import { Route as InstructorTrainingsIndexRouteImport } from './routes/_instructor/trainings/index'
-import { Route as InstructorCommunauteInstructorCommunauteRouteImport } from './routes/_instructor/communaute/_instructor.communaute'
 import { Route as InstructorTrainingsTrainingIdIndexRouteImport } from './routes/_instructor/trainings/$trainingId/index'
 import { Route as InstructorTrainingsTrainingIdContenuRouteImport } from './routes/_instructor/trainings/$trainingId/contenu'
 
@@ -76,6 +76,12 @@ const InstructorProfilRoute = InstructorProfilRouteImport.update({
   path: '/profil',
   getParentRoute: () => InstructorRoute,
 } as any)
+const InstructorCommunauteCommunauteRoute =
+  InstructorCommunauteCommunauteRouteImport.update({
+    id: '/communaute/communaute',
+    path: '/communaute/communaute',
+    getParentRoute: () => InstructorRoute,
+  } as any)
 const InstructorCorrectionsIndexRoute =
   InstructorCorrectionsIndexRouteImport.update({
     id: '/corrections/',
@@ -104,12 +110,6 @@ const InstructorTrainingsIndexRoute =
     path: '/trainings/',
     getParentRoute: () => InstructorRoute,
   } as any)
-const InstructorCommunauteInstructorCommunauteRoute =
-  InstructorCommunauteInstructorCommunauteRouteImport.update({
-    id: '/communaute/_instructor/communaute',
-    path: '/communaute/communaute',
-    getParentRoute: () => InstructorRoute,
-  } as any)
 const InstructorTrainingsTrainingIdIndexRoute =
   InstructorTrainingsTrainingIdIndexRouteImport.update({
     id: '/trainings/$trainingId/',
@@ -132,12 +132,12 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/communaute/communaute': typeof InstructorCommunauteCommunauteRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/corrections/': typeof InstructorCorrectionsIndexRoute
   '/sessions/': typeof InstructorSessionsIndexRoute
   '/students/': typeof InstructorStudentsIndexRoute
   '/trainings/': typeof InstructorTrainingsIndexRoute
-  '/communaute/communaute': typeof InstructorCommunauteInstructorCommunauteRoute
   '/trainings/$trainingId/contenu': typeof InstructorTrainingsTrainingIdContenuRoute
   '/trainings/$trainingId/': typeof InstructorTrainingsTrainingIdIndexRoute
 }
@@ -150,12 +150,12 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/communaute/communaute': typeof InstructorCommunauteCommunauteRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/corrections': typeof InstructorCorrectionsIndexRoute
   '/sessions': typeof InstructorSessionsIndexRoute
   '/students': typeof InstructorStudentsIndexRoute
   '/trainings': typeof InstructorTrainingsIndexRoute
-  '/communaute/communaute': typeof InstructorCommunauteInstructorCommunauteRoute
   '/trainings/$trainingId/contenu': typeof InstructorTrainingsTrainingIdContenuRoute
   '/trainings/$trainingId': typeof InstructorTrainingsTrainingIdIndexRoute
 }
@@ -171,12 +171,12 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
+  '/_instructor/communaute/communaute': typeof InstructorCommunauteCommunauteRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/_instructor/corrections/': typeof InstructorCorrectionsIndexRoute
   '/_instructor/sessions/': typeof InstructorSessionsIndexRoute
   '/_instructor/students/': typeof InstructorStudentsIndexRoute
   '/_instructor/trainings/': typeof InstructorTrainingsIndexRoute
-  '/_instructor/communaute/_instructor/communaute': typeof InstructorCommunauteInstructorCommunauteRoute
   '/_instructor/trainings/$trainingId/contenu': typeof InstructorTrainingsTrainingIdContenuRoute
   '/_instructor/trainings/$trainingId/': typeof InstructorTrainingsTrainingIdIndexRoute
 }
@@ -191,12 +191,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard'
     | '/profil'
+    | '/communaute/communaute'
     | '/students/$studentId'
     | '/corrections/'
     | '/sessions/'
     | '/students/'
     | '/trainings/'
-    | '/communaute/communaute'
     | '/trainings/$trainingId/contenu'
     | '/trainings/$trainingId/'
   fileRoutesByTo: FileRoutesByTo
@@ -209,12 +209,12 @@ export interface FileRouteTypes {
     | '/login'
     | '/dashboard'
     | '/profil'
+    | '/communaute/communaute'
     | '/students/$studentId'
     | '/corrections'
     | '/sessions'
     | '/students'
     | '/trainings'
-    | '/communaute/communaute'
     | '/trainings/$trainingId/contenu'
     | '/trainings/$trainingId'
   id:
@@ -229,12 +229,12 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
+    | '/_instructor/communaute/communaute'
     | '/_instructor/students/$studentId'
     | '/_instructor/corrections/'
     | '/_instructor/sessions/'
     | '/_instructor/students/'
     | '/_instructor/trainings/'
-    | '/_instructor/communaute/_instructor/communaute'
     | '/_instructor/trainings/$trainingId/contenu'
     | '/_instructor/trainings/$trainingId/'
   fileRoutesById: FileRoutesById
@@ -320,6 +320,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorProfilRouteImport
       parentRoute: typeof InstructorRoute
     }
+    '/_instructor/communaute/communaute': {
+      id: '/_instructor/communaute/communaute'
+      path: '/communaute/communaute'
+      fullPath: '/communaute/communaute'
+      preLoaderRoute: typeof InstructorCommunauteCommunauteRouteImport
+      parentRoute: typeof InstructorRoute
+    }
     '/_instructor/corrections/': {
       id: '/_instructor/corrections/'
       path: '/corrections'
@@ -355,13 +362,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorTrainingsIndexRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/communaute/_instructor/communaute': {
-      id: '/_instructor/communaute/_instructor/communaute'
-      path: '/communaute/communaute'
-      fullPath: '/communaute/communaute'
-      preLoaderRoute: typeof InstructorCommunauteInstructorCommunauteRouteImport
-      parentRoute: typeof InstructorRoute
-    }
     '/_instructor/trainings/$trainingId/': {
       id: '/_instructor/trainings/$trainingId/'
       path: '/trainings/$trainingId'
@@ -394,12 +394,12 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfilRoute: typeof InstructorProfilRoute
+  InstructorCommunauteCommunauteRoute: typeof InstructorCommunauteCommunauteRoute
   InstructorStudentsStudentIdRoute: typeof InstructorStudentsStudentIdRoute
   InstructorCorrectionsIndexRoute: typeof InstructorCorrectionsIndexRoute
   InstructorSessionsIndexRoute: typeof InstructorSessionsIndexRoute
   InstructorStudentsIndexRoute: typeof InstructorStudentsIndexRoute
   InstructorTrainingsIndexRoute: typeof InstructorTrainingsIndexRoute
-  InstructorCommunauteInstructorCommunauteRoute: typeof InstructorCommunauteInstructorCommunauteRoute
   InstructorTrainingsTrainingIdContenuRoute: typeof InstructorTrainingsTrainingIdContenuRoute
   InstructorTrainingsTrainingIdIndexRoute: typeof InstructorTrainingsTrainingIdIndexRoute
 }
@@ -407,13 +407,12 @@ interface InstructorRouteChildren {
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfilRoute: InstructorProfilRoute,
+  InstructorCommunauteCommunauteRoute: InstructorCommunauteCommunauteRoute,
   InstructorStudentsStudentIdRoute: InstructorStudentsStudentIdRoute,
   InstructorCorrectionsIndexRoute: InstructorCorrectionsIndexRoute,
   InstructorSessionsIndexRoute: InstructorSessionsIndexRoute,
   InstructorStudentsIndexRoute: InstructorStudentsIndexRoute,
   InstructorTrainingsIndexRoute: InstructorTrainingsIndexRoute,
-  InstructorCommunauteInstructorCommunauteRoute:
-    InstructorCommunauteInstructorCommunauteRoute,
   InstructorTrainingsTrainingIdContenuRoute:
     InstructorTrainingsTrainingIdContenuRoute,
   InstructorTrainingsTrainingIdIndexRoute:
