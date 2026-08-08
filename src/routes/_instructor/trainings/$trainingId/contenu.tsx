@@ -17,7 +17,7 @@ import { ContentStatusBadge } from "@/components/instructor/status-badges";
 import { QuizBuilder } from "@/components/instructor/quiz-builder";
 import { contentApi, lessonTypeLabels, type Lesson, type LessonType } from "@/lib/api";
 import { lessonsQuery, modulesQuery, qk, trainingOverviewQuery } from "@/lib/queries";
-import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/contenu")({
   head: () => ({
