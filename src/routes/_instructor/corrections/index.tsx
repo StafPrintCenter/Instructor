@@ -49,8 +49,16 @@ export const Route = createFileRoute("/_instructor/corrections/")({
 function CorrectionsPage() {
   const { instructorId } = useInstructorAuth();
   const queryClient = useQueryClient();
-  const { data: queue } = useSuspenseQuery(queueQuery(instructorId));
-  const { data: trainings } = useSuspenseQuery(trainingsQuery(instructorId));
+
+  const { data: queue = [], isLoading: isQueueLoading } = useQuery({
+    ...queueQuery(instructorId),
+    enabled: !!instructorId,
+  });
+
+  const { data: trainings = [], isLoading: isTrainingsLoading } = useQuery({
+    ...trainingsQuery(instructorId),
+    enabled: !!instructorId,
+  });
 
   const [training, setTraining] = useState("all");
   const [type, setType] = useState("all");
