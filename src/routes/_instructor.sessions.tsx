@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CalendarDays, LayoutList, MapPin, Plus, Video } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SessionCalendar } from "@/components/instructor/session-calendar";
 import { rosterQuery, sessionsQuery, trainingsQuery } from "@/lib/queries";
-import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { formatDateTime, sessionsApi, type SessionRow } from "@/lib/api";
 import { SITE } from "@/data/site";
 
@@ -29,24 +29,19 @@ export const Route = createFileRoute("/_instructor/sessions")({
         content: "Planifiez vos sessions live ou en présentiel à Cotonou et enregistrez les présences des apprenants.",
       },
       {
-        property: "og:title", content: `Sessions & présences ${SITE.name}`
+        property: "og:title",
+        content: `Sessions & présences ${SITE.name}`,
       },
       { property: "og:description", content: "Planning des sessions et feuille de présence par cohorte." },
     ],
   }),
-  loader: ({ context }) => {
-    const id = getSessionInstructorId();
-    return Promise.all([
-      context.queryClient.ensureQueryData(sessionsQuery(id)),
-      context.queryClient.ensureQueryData(trainingsQuery(id)),
-    ]);
-  },
   component: SessionsPage,
 });
 
 function AttendanceSheet({ session }: { session: SessionRow }) {
   const queryClient = useQueryClient();
   const { data: roster = [] } = useQuery(rosterQuery(session.training_id));
+
   const mark = useMutation({
     mutationFn: (input: { studentId: string; present: boolean }) =>
       sessionsApi.setAttendance(session.id, input.studentId, input.present),
@@ -89,14 +84,24 @@ function AttendanceSheet({ session }: { session: SessionRow }) {
 }
 
 function SessionsPage() {
-  const { instructorId } = useInstructorAuth();
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
   const queryClient = useQueryClient();
-  const { data: sessions } = useSuspenseQuery(sessionsQuery(instructorId));
-  const { data: trainings } = useSuspenseQuery(trainingsQuery(instructorId));
+
+  const { data: sessions = [], isLoading: isSessionsLoading } = useQuery({
+    ...sessionsQuery(instructorId),
+    enabled: !!instructorId,
+  });
+
+  const { data: trainings = [], isLoading: isTrainingsLoading } = useQuery({
+    ...trainingsQuery(instructorId),
+    enabled: !!instructorId,
+  });
+
   const [open, setOpen] = useState(false);
   const [openSheet, setOpenSheet] = useState<string | null>(null);
   const [form, setForm] = useState({
-    training_id: trainings[0]?.id ?? "",
+    training_id: "",
     title: "",
     mode: "live" as "live" | "onsite",
     starts_at: "",
@@ -104,6 +109,12 @@ function SessionsPage() {
     location: "",
     notes: "",
   });
+
+  useEffect(() => {
+    if (trainings.length > 0 && !form.training_id) {
+      setForm((f) => ({ ...f, training_id: trainings[0].id }));
+    }
+  }, [trainings, form.training_id]);
 
   const create = useMutation({
     mutationFn: () =>
@@ -124,6 +135,19 @@ function SessionsPage() {
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
+  if (isSessionsLoading || isTrainingsLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-16 animate-pulse rounded-lg bg-muted" />
+        <div className="h-10 w-48 animate-pulse rounded-lg bg-muted" />
+        <div className="space-y-4">
+          <div className="h-32 animate-pulse rounded-lg bg-muted" />
+          <div className="h-32 animate-pulse rounded-lg bg-muted" />
+        </div>
+      </div>
+    );
+  }
 
   const now = Date.now();
   const upcoming = sessions.filter((s) => +new Date(s.starts_at) >= now);
@@ -286,8 +310,12 @@ function SessionsPage() {
 
       <Tabs defaultValue="list" className="space-y-6">
         <TabsList>
-          <TabsTrigger value="list" className="gap-1.5"><LayoutList className="size-4" /> Liste</TabsTrigger>
-          <TabsTrigger value="calendar" className="gap-1.5"><CalendarDays className="size-4" /> Calendrier</TabsTrigger>
+          <TabsTrigger value="list" className="gap-1.5">
+            <LayoutList className="size-4" /> Liste
+          </TabsTrigger>
+          <TabsTrigger value="calendar" className="gap-1.5">
+            <CalendarDays className="size-4" /> Calendrier
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="calendar">
