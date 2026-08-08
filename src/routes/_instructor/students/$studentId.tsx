@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, BookOpen, CheckCircle2, ClipboardCheck, FileText, Gauge, Mail, MapPin, Phone } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/instructor/page-header";
@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PaymentBadge, SubmissionBadge } from "@/components/instructor/status-badges";
 import { SubmissionAttachment } from "@/components/instructor/submission-attachment";
 import { qk, studentQuery } from "@/lib/queries";
-import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { formatDate, formatDateTime, gradingApi, initials, lessonTypeLabels } from "@/lib/api";
 
 export const Route = createFileRoute("/_instructor/students/$studentId")({
@@ -31,17 +31,20 @@ export const Route = createFileRoute("/_instructor/students/$studentId")({
       { property: "og:description", content: "Progression, quiz et travaux rendus par apprenant." },
     ],
   }),
-  loader: ({ context, params }) =>
-    context.queryClient.ensureQueryData(studentQuery(getSessionInstructorId(), params.studentId)),
   component: StudentDetailPage,
 });
 
 function StudentDetailPage() {
   const { studentId } = Route.useParams();
-  const { instructorId } = useInstructorAuth();
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
   const queryClient = useQueryClient();
-  const { data } = useSuspenseQuery(studentQuery(instructorId, studentId));
-  const { student, enrollments, completions, attempts, submissions, totalLessons } = data;
+
+  const { data, isLoading } = useQuery({
+    ...studentQuery(instructorId, studentId),
+    enabled: !!instructorId && !!studentId,
+  });
+
   const [drafts, setDrafts] = useState<Record<string, { grade: string; comment: string }>>({});
 
   const grade = useMutation({
@@ -59,6 +62,23 @@ function StudentDetailPage() {
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
+  if (isLoading || !data) {
+    return (
+      <div className="space-y-6">
+        <div className="h-10 w-40 animate-pulse rounded bg-muted" />
+        <div className="h-20 animate-pulse rounded-lg bg-muted" />
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+        </div>
+      </div>
+    );
+  }
+
+  const { student, enrollments, completions, attempts, submissions, totalLessons } = data;
 
   const averageQuiz = attempts.length
     ? Math.round(attempts.reduce((sum, a) => sum + a.score, 0) / attempts.length)
@@ -205,7 +225,14 @@ function StudentDetailPage() {
                     Tentative {a.attempt_number} · {formatDateTime(a.taken_at)}
                   </p>
                 </div>
-                <Badge variant="outline" className={a.passed ? "border-success/30 bg-success/15 text-success" : "border-destructive/30 bg-destructive/12 text-destructive"}>
+                <Badge
+                  variant="outline"
+                  className={
+                    a.passed
+                      ? "border-success/30 bg-success/15 text-success"
+                      : "border-destructive/30 bg-destructive/12 text-destructive"
+                  }
+                >
                   {a.score}/100 {a.passed ? "réussi" : "échoué"}
                 </Badge>
               </div>
