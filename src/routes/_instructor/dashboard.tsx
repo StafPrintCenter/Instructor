@@ -12,17 +12,22 @@ import { Progress } from "@/components/ui/progress";
 import { activityQuery, overdueQuery, queueQuery, sessionsQuery, statsQuery, studentsQuery, trainingsQuery, } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { daysSince, formatDate, formatDateTime, relativeTime } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/dashboard")({
   head: () => ({
     meta: [
-      { title: "Tableau de bord formateur — STAF PRINT CENTER" },
+      {
+        title: `Tableau de bord formateur — STAF PRINT CENTER`
+      },
       {
         name: "description",
         content:
           "Indicateurs pédagogiques : formations assignées, apprenants actifs, corrections en attente et sessions à venir.",
       },
-      { property: "og:title", content: "Tableau de bord formateur — STAF PRINT CENTER" },
+      {
+        property: "og:title", content: `Tableau de bord formateur — STAF PRINT CENTER`
+      },
       {
         property: "og:description",
         content: "Pilotez votre activité pédagogique en un coup d'oeil.",
