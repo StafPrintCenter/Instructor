@@ -60,7 +60,7 @@ function TrainingsPage() {
                 </div>
                 <div className="flex gap-2">
                   <Button asChild variant="accent" size="sm"><Link to="/trainings/$trainingId" params={{ trainingId: t.id }}>Ouvrir</Link></Button>
-                  <Button asChild variant="soft" size="sm"><Link to="/formations/$trainingId/contenu" params={{ trainingId: t.id }}>Contenu</Link></Button>
+                  <Button asChild variant="soft" size="sm"><Link to="/trainings/$trainingId/contenu" params={{ trainingId: t.id }}>Contenu</Link></Button>
                 </div>
               </CardContent>
             </Card>
