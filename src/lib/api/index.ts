@@ -374,12 +374,12 @@ export const contentApi = {
       quiz:
         input.type === "quiz" || input.type === "exercise"
           ? {
-              time_limit_minutes: input.type === "quiz" ? 15 : null,
-              pass_threshold: 70,
-              max_attempts: 3,
-              manual_grading: input.type === "exercise",
-              questions: [],
-            }
+            time_limit_minutes: input.type === "quiz" ? 15 : null,
+            pass_threshold: 70,
+            max_attempts: 3,
+            manual_grading: input.type === "exercise",
+            questions: [],
+          }
           : undefined,
       updated_at: nowIso(),
     };
@@ -760,7 +760,7 @@ export const searchApi = {
           id: l.id,
           label: l.title,
           group: "Leçons",
-          to: "/formations/$trainingId/contenu",
+          to: "/trainings/$trainingId/contenu",
           params: { trainingId: l.training_id },
         })),
     ];
