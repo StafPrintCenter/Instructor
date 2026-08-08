@@ -16,9 +16,7 @@ interface AuthShellContextValue {
 const AuthShellContext = createContext<AuthShellContextValue | null>(null);
 
 /**
- * À placer dans _auth.tsx (espace formateur), autour du <AuthShell>.
- * Fournit le contexte que chaque page _auth/* alimente via
- * useAuthShellContent().
+ * À placer dans _auth.tsx (espace formateur), autour du <AuthShell>. Fournit le contexte que chaque page _auth/* alimente via useAuthShellContent().
  */
 export function AuthShellProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<AuthShellContent>({ title: "", subtitle: "" });
