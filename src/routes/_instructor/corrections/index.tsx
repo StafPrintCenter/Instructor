@@ -11,18 +11,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SubmissionBadge } from "@/components/instructor/status-badges";
 import { SubmissionAttachment } from "@/components/instructor/submission-attachment";
 import { queueQuery, trainingsQuery, qk } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { daysSince, formatDateTime, gradingApi, initials, lessonTypeLabels } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/corrections/")({
   head: () => ({
