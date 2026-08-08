@@ -67,7 +67,7 @@ function TrainingDetail() {
               {enrollments.map((e) => (
                 <TableRow key={e.id}>
                   <TableCell>
-                    <Link to="/apprenants/$studentId" params={{ studentId: e.student_id }} className="font-medium hover:underline">
+                    <Link to="/students/$studentId" params={{ studentId: e.student_id }} className="font-medium hover:underline">
                       {e.student.full_name}
                     </Link>
                     <p className="text-xs text-muted-foreground">{e.student.city}</p>
