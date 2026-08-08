@@ -176,7 +176,7 @@ function CorrectionsPage() {
       {selected.length > 0 ? (
         <Card className="border-accent/40 bg-accent/10">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Correction groupée — {selected.length} sélection(s)</CardTitle>
+            <CardTitle className="text-base">Correction groupée - {selected.length} sélection(s)</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-end">
             <div className="sm:w-28">
