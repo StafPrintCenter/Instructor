@@ -23,7 +23,9 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/students/$studentId")({
   head: () => ({
     meta: [
-      { title: "Fiche apprenant — STAF PRINT CENTER" },
+      {
+        title: `Fiche apprenant — STAF PRINT CENTER`
+      },
       {
         name: "description",
         content: "Parcours détaillé de l'apprenant : progression, leçons terminées, quiz et travaux rendus.",
