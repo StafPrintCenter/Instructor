@@ -21,12 +21,12 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/communaute")({
   head: () => ({
     meta: [
-      { title: `Communauté & messagerie — STAF PRINT CENTER` },
+      { title: `Communauté & messagerie | ${SITE.name}` },
       {
         name: "description",
         content: "Publiez des annonces à vos cohortes et répondez aux messages privés de vos apprenants.",
       },
-      { property: "og:title", content: `Communauté & messagerie — STAF PRINT CENTER` },
+      { property: "og:title", content: `Communauté & messagerie | ${SITE.name}` },
       { property: "og:description", content: "Annonces épinglées et conversations avec les apprenants." },
     ],
   }),
