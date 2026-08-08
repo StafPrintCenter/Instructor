@@ -18,7 +18,6 @@ export const Route = createFileRoute("/_instructor/trainings/")({
       { property: "og:description", content: "Cohortes, dates, apprenants inscrits et avancement global." },
     ],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(trainingsQuery(getSessionInstructorId())),
   component: TrainingsPage,
 });
 
