@@ -12,7 +12,9 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/inscription")({
   head: () => ({
     meta: [
-      { title: "Demande de compte formateur — STAF PRINT CENTER" },
+      {
+        title: `Demande de compte formateur — STAF PRINT CENTER`
+      },
       { name: "description", content: "Soumettez une demande de compte formateur, validée ensuite par l'administration." },
       {
         property: "og:title", content: `Demande de compte formateur — STAF PRINT CENTER`
