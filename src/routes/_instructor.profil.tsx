@@ -2,23 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import {
-  User as UserIcon,
-  Mail,
-  Shield,
-  Calendar,
-  Save,
-  LogOut,
-  CheckCircle2,
-  XCircle,
-  Clock,
-  Pencil,
-  X,
-  Phone,
-  Briefcase,
-  Bell,
-  Sliders,
-} from "lucide-react";
+import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, XCircle, Clock, Pencil, X, Phone, Briefcase, Bell, Sliders } from "lucide-react";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { Input } from "@/components/ui/input";
@@ -59,71 +43,44 @@ export const Route = createFileRoute("/_instructor/profil")({
 });
 
 function ProfilePage() {
-  const { user, logout, refresh } = useInstructorAuth();
+  const { user, logout } = useInstructorAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [isEditing, setIsEditing] = useState(false);
   const [confirmDisconnectOpen, setConfirmDisconnectOpen] = useState(false);
 
-  // Formulaire profil
-  const [profile, setProfile] = useState({
-    full_name: user?.full_name ?? "",
-    title: user?.title ?? "",
-    phone: user?.phone ?? "",
-    bio: user?.bio ?? "",
-    specialties: user?.specialties?.join(", ") ?? "",
+  // Formulaire profil aligné sur InstructorAuthUser + champs additionnels API
+  const [firstName, setFirstName] = useState(user?.firstName ?? "");
+  const [lastName, setLastName] = useState(user?.lastName ?? "");
+  const [phone, setPhone] = useState("");
+  const [bio, setBio] = useState(user?.bio ?? "");
+  const [specialties, setSpecialties] = useState("");
+
+  // Disponibilités hebdomadaires
+  const [availability, setAvailability] = useState<Availability[]>(
+    DAYS.map((day) => ({
+      day,
+      from: "09:00",
+      to: "17:00",
+      enabled: false,
+    }))
+  );
+
+  // Préférences de notification
+  const [prefs, setPrefs] = useState<NotificationPrefs>({
+    submissions_email: true,
+    session_reminders: true,
+    community_mentions: true,
+    admin_reviews: true,
   });
 
-  // Availability
-  const [availability, setAvailability] = useState<Availability[]>(
-    DAYS.map(
-      (day) =>
-        user?.availability?.find((a) => a.day === day) ?? {
-          day,
-          from: "09:00",
-          to: "17:00",
-          enabled: false,
-        }
-    )
-  );
-
-  // Notification prefs
-  const [prefs, setPrefs] = useState<NotificationPrefs>(
-    user?.notification_prefs ?? {
-      submissions_email: true,
-      session_reminders: true,
-      community_mentions: true,
-      admin_reviews: true,
-    }
-  );
-
-  // Synchronisation si le user est réactualisé
+  // Synchronisation des états locaux lors de la réception du user
   useEffect(() => {
     if (user) {
-      setProfile({
-        full_name: user.full_name || "",
-        title: user.title || "",
-        phone: user.phone || "",
-        bio: user.bio || "",
-        specialties: user.specialties?.join(", ") || "",
-      });
-      if (user.availability) {
-        setAvailability(
-          DAYS.map(
-            (day) =>
-              user.availability.find((a) => a.day === day) ?? {
-                day,
-                from: "09:00",
-                to: "17:00",
-                enabled: false,
-              }
-          )
-        );
-      }
-      if (user.notification_prefs) {
-        setPrefs(user.notification_prefs);
-      }
+      setFirstName(user.firstName || "");
+      setLastName(user.lastName || "");
+      setBio(user.bio || "");
     }
   }, [user]);
 
@@ -138,37 +95,27 @@ function ProfilePage() {
 
   const handleCancel = () => {
     if (user) {
-      setProfile({
-        full_name: user.full_name || "",
-        title: user.title || "",
-        phone: user.phone || "",
-        bio: user.bio || "",
-        specialties: user.specialties?.join(", ") || "",
-      });
+      setFirstName(user.firstName || "");
+      setLastName(user.lastName || "");
+      setBio(user.bio || "");
     }
     setIsEditing(false);
-  };
-
-  const afterSave = async (message: string) => {
-    await queryClient.invalidateQueries({ queryKey: ["profile"] });
-    await refresh();
-    toast.success(message);
   };
 
   const saveProfileMutation = useMutation({
     mutationFn: () =>
       profileApi.update(user?.id ?? "", {
-        full_name: profile.full_name,
-        title: profile.title,
-        phone: profile.phone,
-        bio: profile.bio,
-        specialties: profile.specialties
+        full_name: `${firstName} ${lastName}`.trim(),
+        phone,
+        bio,
+        specialties: specialties
           .split(",")
           .map((s) => s.trim())
           .filter(Boolean),
       }),
-    onSuccess: () => {
-      afterSave("Profil mis à jour.");
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
+      toast.success("Profil mis à jour.");
       setIsEditing(false);
     },
     onError: (e: Error) => toast.error(e.message),
@@ -176,13 +123,19 @@ function ProfilePage() {
 
   const saveAvailabilityMutation = useMutation({
     mutationFn: () => profileApi.updateAvailability(user?.id ?? "", availability),
-    onSuccess: () => afterSave("Disponibilités enregistrées."),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
+      toast.success("Disponibilités enregistrées.");
+    },
     onError: (e: Error) => toast.error(e.message),
   });
 
   const savePrefsMutation = useMutation({
     mutationFn: () => profileApi.updateNotifications(user?.id ?? "", prefs),
-    onSuccess: () => afterSave("Préférences de notification enregistrées."),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
+      toast.success("Préférences enregistrées.");
+    },
     onError: (e: Error) => toast.error(e.message),
   });
 
@@ -192,7 +145,8 @@ function ProfilePage() {
     navigate({ to: "/login" });
   };
 
-  const userInitials = initials(user?.full_name || "Formateur");
+  const userFullName = user?.name || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || "Formateur";
+  const userInitials = initials(userFullName);
 
   return (
     <>
@@ -206,25 +160,21 @@ function ProfilePage() {
                 {userInitials}
               </div>
               <div className="min-w-0 pb-1">
-                <h2 className="truncate font-display text-2xl font-bold">
-                  {user?.full_name || "Formateur"}
-                </h2>
+                <h2 className="truncate font-display text-2xl font-bold">{userFullName}</h2>
                 <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
                   <span className="inline-flex items-center gap-1.5">
                     <Mail className="h-3.5 w-3.5 text-primary" /> {user?.email}
                   </span>
                   <span className="inline-flex items-center gap-1.5">
-                    <Briefcase className="h-3.5 w-3.5 text-primary" /> {user?.title || "Formateur"}
+                    <Briefcase className="h-3.5 w-3.5 text-primary" /> Formateur
                   </span>
                   <span className="inline-flex items-center gap-1.5">
-                    <Calendar className="h-3.5 w-3.5 text-primary" /> Inscrit le{" "}
-                    {formattedDate(user?.created_at)}
+                    <Calendar className="h-3.5 w-3.5 text-primary" /> Inscrit le {formattedDate(user?.createdAt)}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Action Déconnexion */}
             <div className="self-start sm:self-auto">
               <Button
                 variant="outline"
@@ -241,7 +191,7 @@ function ProfilePage() {
 
       {/* Grille 2 colonnes */}
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
-        {/* Colonne Principale (2/3) : Informations & Disponibilités */}
+        {/* Colonne Principale (2/3) */}
         <div className="space-y-6 lg:col-span-2">
           {/* Bloc Informations Personnelles */}
           <div className="rounded-2xl border bg-card p-6 shadow-sm">
@@ -277,19 +227,19 @@ function ProfilePage() {
               <div className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="full_name">Nom complet</Label>
+                    <Label htmlFor="firstName">Prénom</Label>
                     <Input
-                      id="full_name"
-                      value={profile.full_name}
-                      onChange={(e) => setProfile((p) => ({ ...p, full_name: e.target.value }))}
+                      id="firstName"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="title">Titre / Postulat</Label>
+                    <Label htmlFor="lastName">Nom</Label>
                     <Input
-                      id="title"
-                      value={profile.title}
-                      onChange={(e) => setProfile((p) => ({ ...p, title: e.target.value }))}
+                      id="lastName"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -300,8 +250,8 @@ function ProfilePage() {
                     <Label htmlFor="phone">Téléphone</Label>
                     <Input
                       id="phone"
-                      value={profile.phone}
-                      onChange={(e) => setProfile((p) => ({ ...p, phone: e.target.value }))}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
                     />
                   </div>
                 </div>
@@ -310,8 +260,8 @@ function ProfilePage() {
                   <Label htmlFor="specialties">Spécialités (séparées par des virgules)</Label>
                   <Input
                     id="specialties"
-                    value={profile.specialties}
-                    onChange={(e) => setProfile((p) => ({ ...p, specialties: e.target.value }))}
+                    value={specialties}
+                    onChange={(e) => setSpecialties(e.target.value)}
                   />
                 </div>
 
@@ -320,8 +270,8 @@ function ProfilePage() {
                   <Textarea
                     id="bio"
                     rows={4}
-                    value={profile.bio}
-                    onChange={(e) => setProfile((p) => ({ ...p, bio: e.target.value }))}
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                   />
                 </div>
               </div>
@@ -329,12 +279,12 @@ function ProfilePage() {
               <div className="space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <Label className="text-xs text-muted-foreground">Nom complet</Label>
-                    <div className="mt-1 text-sm font-medium">{user?.full_name || "Non renseigné"}</div>
+                    <Label className="text-xs text-muted-foreground">Prénom</Label>
+                    <div className="mt-1 text-sm font-medium">{user?.firstName || "Non renseigné"}</div>
                   </div>
                   <div>
-                    <Label className="text-xs text-muted-foreground">Titre</Label>
-                    <div className="mt-1 text-sm font-medium">{user?.title || "Non renseigné"}</div>
+                    <Label className="text-xs text-muted-foreground">Nom</Label>
+                    <div className="mt-1 text-sm font-medium">{user?.lastName || "Non renseigné"}</div>
                   </div>
                   <div>
                     <Label className="text-xs text-muted-foreground">Adresse email</Label>
@@ -347,41 +297,15 @@ function ProfilePage() {
                     <Label className="text-xs text-muted-foreground">Téléphone</Label>
                     <div className="mt-1 flex items-center gap-2 text-sm font-medium">
                       <Phone className="h-4 w-4 text-muted-foreground" />
-                      <span>{user?.phone || "Non renseigné"}</span>
+                      <span>{phone || "Non renseigné"}</span>
                     </div>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-muted-foreground">Spécialités</Label>
-                  <div className="mt-1.5 flex flex-wrap gap-1.5">
-                    {user?.specialties?.length ? (
-                      user.specialties.map((spec, i) => (
-                        <span
-                          key={i}
-                          className="rounded-md bg-muted px-2.5 py-1 text-xs font-medium text-foreground"
-                        >
-                          {spec}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="text-xs italic text-muted-foreground">
-                        Aucune spécialité spécifiée.
-                      </span>
-                    )}
                   </div>
                 </div>
 
                 <div>
                   <Label className="text-xs text-muted-foreground">Biographie / Présentation</Label>
                   <div className="mt-1.5 rounded-xl border bg-muted/20 p-4 text-sm text-foreground leading-relaxed">
-                    {user?.bio ? (
-                      user.bio
-                    ) : (
-                      <span className="italic text-muted-foreground">
-                        Aucune biographie disponible.
-                      </span>
-                    )}
+                    {user?.bio ? user.bio : <span className="italic text-muted-foreground">Aucune biographie disponible.</span>}
                   </div>
                 </div>
               </div>
@@ -394,9 +318,7 @@ function ProfilePage() {
               <div className="flex items-center gap-2">
                 <Sliders className="h-5 w-5 text-primary" />
                 <div>
-                  <h3 className="font-display text-lg font-semibold">
-                    Disponibilités hebdomadaires
-                  </h3>
+                  <h3 className="font-display text-lg font-semibold">Disponibilités hebdomadaires</h3>
                   <p className="text-xs text-muted-foreground">
                     Créneaux proposés pour les sessions live et l'accompagnement.
                   </p>
@@ -413,9 +335,7 @@ function ProfilePage() {
                   <Switch
                     checked={slot.enabled}
                     onCheckedChange={(enabled) =>
-                      setAvailability((a) =>
-                        a.map((s, i) => (i === index ? { ...s, enabled } : s))
-                      )
+                      setAvailability((a) => a.map((s, i) => (i === index ? { ...s, enabled } : s)))
                     }
                     aria-label={`Disponible le ${DAY_LABELS[slot.day]}`}
                   />
@@ -425,9 +345,7 @@ function ProfilePage() {
                     value={slot.from}
                     disabled={!slot.enabled}
                     onChange={(e) =>
-                      setAvailability((a) =>
-                        a.map((s, i) => (i === index ? { ...s, from: e.target.value } : s))
-                      )
+                      setAvailability((a) => a.map((s, i) => (i === index ? { ...s, from: e.target.value } : s)))
                     }
                     className="w-32 bg-background"
                   />
@@ -437,9 +355,7 @@ function ProfilePage() {
                     value={slot.to}
                     disabled={!slot.enabled}
                     onChange={(e) =>
-                      setAvailability((a) =>
-                        a.map((s, i) => (i === index ? { ...s, to: e.target.value } : s))
-                      )
+                      setAvailability((a) => a.map((s, i) => (i === index ? { ...s, to: e.target.value } : s)))
                     }
                     className="w-32 bg-background"
                   />
@@ -458,7 +374,7 @@ function ProfilePage() {
           </div>
         </div>
 
-        {/* Barre Latérale (1/3) : Notifications & Statut */}
+        {/* Barre Latérale (1/3) */}
         <div className="space-y-6 lg:col-span-1">
           {/* Notifications */}
           <div className="rounded-2xl border bg-card p-6 shadow-sm">
@@ -512,9 +428,9 @@ function ProfilePage() {
 
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">État du compte</span>
-                {user?.is_active !== false ? (
+                {user?.isActive ? (
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                    <CheckCircle2 className="h-3.5 w-3.5" /> Validé
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Actif
                   </span>
                 ) : (
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-destructive">
@@ -522,6 +438,15 @@ function ProfilePage() {
                   </span>
                 )}
               </div>
+
+              {user?.isPending && (
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Validation</span>
+                  <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                    <Clock className="h-3.5 w-3.5" /> En attente
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -535,16 +460,14 @@ function ProfilePage() {
             <div className="space-y-3 text-xs text-muted-foreground">
               <div className="flex justify-between">
                 <span>Date d'inscription</span>
-                <span className="font-medium text-foreground">
-                  {formattedDate(user?.created_at)}
-                </span>
+                <span className="font-medium text-foreground">{formattedDate(user?.createdAt)}</span>
               </div>
-              <div className="flex justify-between">
-                <span>Dernière mise à jour</span>
-                <span className="font-medium text-foreground">
-                  {formattedDate(user?.updated_at)}
-                </span>
-              </div>
+              {user?.acceptedAt && (
+                <div className="flex justify-between">
+                  <span>Invitation acceptée</span>
+                  <span className="font-medium text-foreground">{formattedDate(user.acceptedAt)}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
