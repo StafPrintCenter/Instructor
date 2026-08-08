@@ -14,8 +14,12 @@ export const Route = createFileRoute("/inscription")({
     meta: [
       { title: "Demande de compte formateur — STAF PRINT CENTER" },
       { name: "description", content: "Soumettez une demande de compte formateur, validée ensuite par l'administration." },
-      { property: "og:title", content: "Demande de compte formateur — STAF PRINT CENTER" },
-      { property: "og:description", content: "Rejoignez l'équipe pédagogique du centre de formation STAF PRINT CENTER." },
+      {
+        property: "og:title", content: `Demande de compte formateur — STAF PRINT CENTER`
+      },
+      {
+        property: "og:description", content: `Rejoignez l'équipe pédagogique du centre de formation STAF PRINT CENTER.`
+      },
     ],
   }),
   component: RegisterPage,
