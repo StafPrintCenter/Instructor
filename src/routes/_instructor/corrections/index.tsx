@@ -36,13 +36,6 @@ export const Route = createFileRoute("/_instructor/corrections/")({
       { property: "og:description", content: "Notation, retours et corrections groupées des travaux rendus." },
     ],
   }),
-  loader: ({ context }) => {
-    const id = getSessionInstructorId();
-    return Promise.all([
-      context.queryClient.ensureQueryData(queueQuery(id)),
-      context.queryClient.ensureQueryData(trainingsQuery(id)),
-    ]);
-  },
   component: CorrectionsPage,
 });
 
