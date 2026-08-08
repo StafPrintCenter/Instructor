@@ -22,7 +22,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: "Pilotage",
     items: [
-      { to: "/formations", label: "Mes formations", icon: BookOpen },
+      { to: "/trainings", label: "Mes formations", icon: BookOpen },
       { to: "/apprenants", label: "Apprenants", icon: Users },
       { to: "/corrections", label: "Corrections", icon: ClipboardCheck },
       { to: "/sessions", label: "Sessions", icon: CalendarDays },
