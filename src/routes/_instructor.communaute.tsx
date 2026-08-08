@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { postsQuery, threadsQuery, trainingsQuery } from "@/lib/queries";
 import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
 import { communityApi, formatDateTime, initials, relativeTime } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/communaute")({
   head: () => ({
@@ -193,9 +194,8 @@ function CommunityPage() {
                       key={t.id}
                       type="button"
                       onClick={() => setActiveThread(t.id)}
-                      className={`w-full rounded-lg px-3 py-2.5 text-left transition-colors ${
-                        thread?.id === t.id ? "bg-secondary" : "hover:bg-secondary/60"
-                      }`}
+                      className={`w-full rounded-lg px-3 py-2.5 text-left transition-colors ${thread?.id === t.id ? "bg-secondary" : "hover:bg-secondary/60"
+                        }`}
                     >
                       <div className="flex items-center justify-between gap-2">
                         <span className="truncate text-sm font-medium">{t.student.full_name}</span>
@@ -219,17 +219,15 @@ function CommunityPage() {
                       {thread.messages.map((m) => (
                         <div
                           key={m.id}
-                          className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${
-                            m.author === "instructor"
+                          className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${m.author === "instructor"
                               ? "ml-auto bg-primary text-primary-foreground"
                               : "bg-secondary"
-                          }`}
+                            }`}
                         >
                           <p>{m.body}</p>
                           <p
-                            className={`mt-1 text-[11px] ${
-                              m.author === "instructor" ? "text-primary-foreground/70" : "text-muted-foreground"
-                            }`}
+                            className={`mt-1 text-[11px] ${m.author === "instructor" ? "text-primary-foreground/70" : "text-muted-foreground"
+                              }`}
                           >
                             {formatDateTime(m.sent_at)}
                           </p>
