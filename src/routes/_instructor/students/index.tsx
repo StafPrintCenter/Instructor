@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Users } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,17 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PaymentBadge } from "@/components/instructor/status-badges";
 import { studentsQuery, trainingsQuery } from "@/lib/queries";
-import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { initials, relativeTime } from "@/lib/api";
 
 export const Route = createFileRoute("/_instructor/students/")({
@@ -34,20 +28,23 @@ export const Route = createFileRoute("/_instructor/students/")({
       { property: "og:description", content: "Progression, assiduité et paiements par apprenant." },
     ],
   }),
-  loader: ({ context }) => {
-    const id = getSessionInstructorId();
-    return Promise.all([
-      context.queryClient.ensureQueryData(studentsQuery(id)),
-      context.queryClient.ensureQueryData(trainingsQuery(id)),
-    ]);
-  },
   component: StudentsPage,
 });
 
 function StudentsPage() {
-  const { instructorId } = useInstructorAuth();
-  const { data: rows } = useSuspenseQuery(studentsQuery(instructorId));
-  const { data: trainings } = useSuspenseQuery(trainingsQuery(instructorId));
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
+
+  const { data: rows = [], isLoading: isLoadingStudents } = useQuery({
+    ...studentsQuery(instructorId),
+    enabled: !!instructorId,
+  });
+
+  const { data: trainings = [], isLoading: isLoadingTrainings } = useQuery({
+    ...trainingsQuery(instructorId),
+    enabled: !!instructorId,
+  });
+
   const [term, setTerm] = useState("");
   const [training, setTraining] = useState("all");
   const [payment, setPayment] = useState("all");
@@ -70,6 +67,8 @@ function StudentsPage() {
   const average = filtered.length
     ? Math.round(filtered.reduce((sum, r) => sum + r.progress, 0) / filtered.length)
     : 0;
+
+  const isLoading = isLoadingStudents || isLoadingTrainings;
 
   return (
     <div className="space-y-8">
@@ -121,7 +120,17 @@ function StudentsPage() {
         </CardContent>
       </Card>
 
-      {filtered.length === 0 ? (
+      {isLoading ? (
+        <Card>
+          <CardContent className="p-6">
+            <div className="space-y-3">
+              <div className="h-10 animate-pulse rounded-md bg-muted" />
+              <div className="h-10 animate-pulse rounded-md bg-muted" />
+              <div className="h-10 animate-pulse rounded-md bg-muted" />
+            </div>
+          </CardContent>
+        </Card>
+      ) : filtered.length === 0 ? (
         <EmptyState
           icon={<Users className="size-6" />}
           title="Aucun apprenant ne correspond"
@@ -158,7 +167,7 @@ function StudentsPage() {
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell text-sm text-muted-foreground">
+                    <TableCell className="hidden text-sm text-muted-foreground md:table-cell">
                       {r.training_title}
                     </TableCell>
                     <TableCell>
@@ -167,13 +176,13 @@ function StudentsPage() {
                         <span className="w-9 text-right text-xs tabular-nums">{r.progress}%</span>
                       </div>
                     </TableCell>
-                    <TableCell className="hidden lg:table-cell text-sm tabular-nums">
+                    <TableCell className="hidden text-sm tabular-nums lg:table-cell">
                       {r.attendance_rate}%
                     </TableCell>
                     <TableCell>
                       <PaymentBadge status={r.payment_status} />
                     </TableCell>
-                    <TableCell className="hidden lg:table-cell text-xs text-muted-foreground">
+                    <TableCell className="hidden text-xs text-muted-foreground lg:table-cell">
                       {relativeTime(r.last_activity_at)}
                     </TableCell>
                     <TableCell className="text-right">
