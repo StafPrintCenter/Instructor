@@ -44,9 +44,22 @@ function ContentPage() {
   const { user } = useInstructorAuth();
   const instructorId = user?.id ?? "";
   const qc = useQueryClient();
-  const { data: modules } = useSuspenseQuery(modulesQuery(instructorId, trainingId));
-  const { data: lessons } = useSuspenseQuery(lessonsQuery(instructorId, trainingId));
-  const { data: overview } = useSuspenseQuery(trainingOverviewQuery(instructorId, trainingId));
+
+  const { data: modules = [], isLoading: isModulesLoading } = useQuery({
+    ...modulesQuery(instructorId, trainingId),
+    enabled: !!instructorId,
+  });
+
+  const { data: lessons = [], isLoading: isLessonsLoading } = useQuery({
+    ...lessonsQuery(instructorId, trainingId),
+    enabled: !!instructorId,
+  });
+
+  const { data: overview, isLoading: isOverviewLoading } = useQuery({
+    ...trainingOverviewQuery(instructorId, trainingId),
+    enabled: !!instructorId,
+  });
+
   const [editing, setEditing] = useState<Lesson | null>(null);
 
   const invalidate = () => {
