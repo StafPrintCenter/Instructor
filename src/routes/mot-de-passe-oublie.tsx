@@ -12,10 +12,10 @@ export const Route = createFileRoute("/mot-de-passe-oublie")({
   head: () => ({
     meta: [
       {
-        title: `Mot de passe oublié — Espace Formateur ${SITE.name}`
+        title: `Mot de passe oublié - Espace Formateur ${SITE.name}`
       },
       { name: "description", content: "Recevez un lien de réinitialisation pour votre compte formateur." },
-      { property: "og:title", content: "Mot de passe oublié — Espace Formateur" },
+      { property: "og:title", content: "Mot de passe oublié - Espace Formateur" },
       {
         property: "og:description", content: `Réinitialisez l'accès à votre espace formateur ${SITE.name}.`
       },
