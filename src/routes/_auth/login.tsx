@@ -39,7 +39,7 @@ function LoginPage() {
     footer: (
       <span>
         Pas encore de compte ?{" "}
-        <Link to="/inscription" className="font-medium text-foreground underline underline-offset-4">
+        <Link to="/register" className="font-medium text-foreground underline underline-offset-4">
           Demander un accès formateur
         </Link>
       </span>
