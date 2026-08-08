@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useRouterState, useNavigate, Outlet } from "@tanstack/react-router";
-import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, MessagesSquare, LogOut, UserCircle } from "lucide-react";
+import {
+  LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, MessagesSquare, LogOut, UserCircle, Users2,
+  Mail,
+} from "lucide-react";
 
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
