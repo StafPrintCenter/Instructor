@@ -56,7 +56,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
     <div className="bg-grain grid min-h-screen lg:grid-cols-2">
       <div className="relative hidden flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
         <div className="flex items-center">
-          <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
+          <img src={logo.dw} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
         </div>
 
         <div>
