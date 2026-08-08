@@ -23,7 +23,9 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/sessions")({
   head: () => ({
     meta: [
-      { title: "Sessions & présences — STAF PRINT CENTER" },
+      {
+        title: `Sessions & présences — STAF PRINT CENTER`
+      },
       {
         name: "description",
         content: "Planifiez vos sessions live ou en présentiel à Cotonou et enregistrez les présences des apprenants.",
