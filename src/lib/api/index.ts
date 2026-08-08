@@ -1,7 +1,7 @@
 /**
  * Mocked, Promise-based API layer for the instructor workspace.
  * Every call mimics a Laravel REST endpoint with simulated latency.
- * Swap the bodies for `fetch()` calls later — signatures stay identical.
+ * Swap the bodies for `fetch()` calls later - signatures stay identical.
  */
 
 import * as db from "./mock-data";
@@ -219,7 +219,7 @@ export const dashboardApi = {
       ...store.attempts.map<ActivityItem>((a) => ({
         id: `act_att_${a.id}`,
         kind: "quiz",
-        label: `${studentName(a.student_id)} — tentative ${a.attempt_number} sur « ${a.lesson_title} »`,
+        label: `${studentName(a.student_id)} - tentative ${a.attempt_number} sur « ${a.lesson_title} »`,
         meta: `${a.score}/100 ${a.passed ? "· réussi" : "· échoué"}`,
         created_at: a.taken_at,
       })),
