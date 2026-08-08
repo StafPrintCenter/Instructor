@@ -47,7 +47,8 @@ export const Route = createFileRoute("/_instructor/corrections/")({
 });
 
 function CorrectionsPage() {
-  const { instructorId } = useInstructorAuth();
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
   const queryClient = useQueryClient();
 
   const { data: queue = [], isLoading: isQueueLoading } = useQuery({
