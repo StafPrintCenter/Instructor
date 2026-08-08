@@ -71,17 +71,13 @@ export function AuthShell({ children }: { children: ReactNode }) {
           © {new Date().getFullYear()} {SITE.name} - Tous droits réservés.
         </p>
       </div>
-
-      {/* Colonne droite / Formulaire */}
-      <div className="flex items-center justify-center p-8 bg-grain">
-        <div className="w-full max-w-md">
-          {/* Logo affiché en haut sur mobile & petits écrans */}
-          <div className="lg:hidden mb-8 flex justify-center">
-            <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
-          </div>
-
-          <div className="space-y-2 text-center lg:text-left">
-            <h2 className="font-display text-3xl font-bold">{title}</h2>
+      <div className="flex items-center justify-center px-6 py-12 sm:px-12">
+        <div className="w-full max-w-md space-y-8">
+          <div className="space-y-2 text-center">
+            <div className="inline-flex items-center lg:hidden">
+              <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
+            </div>
+            <h1 className="font-display text-3xl">{title}</h1>
             <p className="text-sm text-muted-foreground">{subtitle}</p>
           </div>
           {children}
