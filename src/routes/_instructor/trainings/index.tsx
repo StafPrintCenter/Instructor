@@ -59,7 +59,7 @@ function TrainingsPage() {
                 </div>
                 <p className="text-sm text-muted-foreground">{t.summary}</p>
                 <div className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
-                  <span className="flex items-center gap-1.5"><Users className="size-3.5" /> {t.enrolled_count} apprenants — {t.cohort}</span>
+                  <span className="flex items-center gap-1.5"><Users className="size-3.5" /> {t.enrolled_count} apprenants - {t.cohort}</span>
                   <span className="flex items-center gap-1.5"><MapPin className="size-3.5" /> {t.location}</span>
                   <span>Du {formatDate(t.starts_at)} au {formatDate(t.ends_at)}</span>
                 </div>
