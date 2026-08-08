@@ -9,6 +9,7 @@ import { PaymentBadge } from "@/components/instructor/status-badges";
 import { trainingOverviewQuery } from "@/lib/queries";
 import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
 import { formatDate, relativeTime } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
   head: () => ({
