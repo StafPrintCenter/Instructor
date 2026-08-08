@@ -13,9 +13,13 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/trainings/")({
   head: () => ({
     meta: [
-      { title: "Mes formations assignées — STAF PRINT CENTER" },
+      {
+        title: `Mes formations assignées — STAF PRINT CENTER`
+      },
       { name: "description", content: "Consultez les formations où vous êtes assigné·e comme formateur et suivez leur avancement." },
-      { property: "og:title", content: "Mes formations assignées — STAF PRINT CENTER" },
+      {
+        property: "og:title", content: `Mes formations assignées — STAF PRINT CENTER`
+      },
       { property: "og:description", content: "Cohortes, dates, apprenants inscrits et avancement global." },
     ],
   }),
