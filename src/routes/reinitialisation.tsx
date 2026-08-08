@@ -16,9 +16,9 @@ export const Route = createFileRoute("/reinitialisation")({
   }),
   head: () => ({
     meta: [
-      { title: `Nouveau mot de passe — Espace Formateur ${SITE.name}` },
+      { title: `Nouveau mot de passe - Espace Formateur ${SITE.name}` },
       { name: "description", content: "Définissez un nouveau mot de passe pour votre compte formateur." },
-      { property: "og:title", content: "Nouveau mot de passe — Espace Formateur" },
+      { property: "og:title", content: "Nouveau mot de passe - Espace Formateur" },
       { property: "og:description", content: "Sécurisez à nouveau votre accès formateur." },
     ],
   }),
