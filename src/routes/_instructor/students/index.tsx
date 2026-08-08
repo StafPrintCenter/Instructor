@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_instructor/students/")({
   head: () => ({
     meta: [
       {
-        title: `Suivi des apprenants — STAF PRINT CENTER`
+        title: `Suivi des apprenants | ${SITE.name}`
       },
       {
         name: "description",
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/_instructor/students/")({
           "Suivez la progression, l'assiduité et le statut de paiement des apprenants inscrits à vos cohortes.",
       },
       {
-        property: "og:title", content: `Suivi des apprenants — STAF PRINT CENTER`
+        property: "og:title", content: `Suivi des apprenants | ${SITE.name}`
       },
       { property: "og:description", content: "Progression, assiduité et paiements par apprenant." },
     ],
