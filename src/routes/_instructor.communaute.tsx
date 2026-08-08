@@ -21,14 +21,12 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/communaute")({
   head: () => ({
     meta: [
-      { title: "Communauté & messagerie — STAF PRINT CENTER" },
+      { title: `Communauté & messagerie — STAF PRINT CENTER` },
       {
         name: "description",
         content: "Publiez des annonces à vos cohortes et répondez aux messages privés de vos apprenants.",
       },
-      {
-        property: "og:title", content: `Communauté & messagerie — STAF PRINT CENTER`
-      },
+      { property: "og:title", content: `Communauté & messagerie — STAF PRINT CENTER` },
       { property: "og:description", content: "Annonces épinglées et conversations avec les apprenants." },
     ],
   }),
@@ -222,8 +220,8 @@ function CommunityPage() {
                         <div
                           key={m.id}
                           className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm ${m.author === "instructor"
-                              ? "ml-auto bg-primary text-primary-foreground"
-                              : "bg-secondary"
+                            ? "ml-auto bg-primary text-primary-foreground"
+                            : "bg-secondary"
                             }`}
                         >
                           <p>{m.body}</p>
