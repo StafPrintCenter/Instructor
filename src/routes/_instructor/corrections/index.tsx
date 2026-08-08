@@ -110,6 +110,19 @@ function CorrectionsPage() {
 
   const pending = queue.filter((s) => s.status === "pending").length;
 
+  if (isQueueLoading || isTrainingsLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-16 animate-pulse rounded-lg bg-muted" />
+        <div className="h-14 animate-pulse rounded-lg bg-muted" />
+        <div className="space-y-4">
+          <div className="h-40 animate-pulse rounded-lg bg-muted" />
+          <div className="h-40 animate-pulse rounded-lg bg-muted" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       <PageHeader
