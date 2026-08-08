@@ -239,7 +239,7 @@ function CommunityPage() {
                         placeholder="Écrire une réponse…"
                         value={reply}
                         onChange={(e) => setReply(e.target.value)}
-                        className="min-h-[42px]"
+                        className="min-h-10.5"
                       />
                       <Button
                         variant="accent"
