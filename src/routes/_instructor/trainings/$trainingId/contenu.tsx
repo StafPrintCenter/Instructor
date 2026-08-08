@@ -41,7 +41,8 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/contenu
 
 function ContentPage() {
   const { trainingId } = Route.useParams();
-  const { instructorId } = useInstructorAuth();
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
   const qc = useQueryClient();
   const { data: modules } = useSuspenseQuery(modulesQuery(instructorId, trainingId));
   const { data: lessons } = useSuspenseQuery(lessonsQuery(instructorId, trainingId));
