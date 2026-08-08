@@ -1,7 +1,7 @@
 # STAF PRINT CENTER
 
 > **"L'empreinte de votre succès"**
-> Plateforme web de STAF PRINT CENTER — studio créatif basé à Porto-Novo, Bénin (design graphique, impression numérique, développement web, formations).
+> Plateforme web de STAF PRINT CENTER - studio créatif basé à Porto-Novo, Bénin (design graphique, impression numérique, développement web, formations).
 
 🔗 Site public : [stafprint.com](https://stafprint.com)
 
@@ -31,19 +31,19 @@ Le projet est organisé en **multi-sous-domaines**, chacun servant un usage dist
 - **Backend** : Laravel 11 (PHP 8.4), API REST
 - **Hébergement** : alwaysdata (mutualisé)
 - **Frontend** : React + TanStack Router + TanStack Query
-- **Pattern d'architecture front** : types dans `src/data`, stores générés via `createResourceStore`, hooks TanStack Query, routes admin `list` / `detail` — voir la skill interne `api-frontend-sync` pour le détail du pattern à respecter systématiquement.
+- **Pattern d'architecture front** : types dans `src/data`, stores générés via `createResourceStore`, hooks TanStack Query, routes admin `list` / `detail` - voir la skill interne `api-frontend-sync` pour le détail du pattern à respecter systématiquement.
 
 ---
 
 ## 🧩 Modules fonctionnels
 
-- **Newsletter** — inscription et gestion des abonnés
-- **Avis & feedback clients** — formulaire dynamique (form builder)
+- **Newsletter** - inscription et gestion des abonnés
+- **Avis & feedback clients** - formulaire dynamique (form builder)
 - **Pré-inscriptions aux formations**
 - **Offres d'emploi & candidatures**
 - **Demandes de stage**
 - **Annonces & bannières**
-- **QR codes** — génération et gestion
+- **QR codes** - génération et gestion
 
 ---
 
@@ -82,7 +82,7 @@ npm run dev
 
 ## 🔄 Conventions de développement
 
-- Tout nouveau code frontend (routes, stores, formulaires) doit respecter le **pattern architectural établi** (TanStack Router/Query) — ne pas improviser une structure différente sans validation préalable.
+- Tout nouveau code frontend (routes, stores, formulaires) doit respecter le **pattern architectural établi** (TanStack Router/Query) - ne pas improviser une structure différente sans validation préalable.
 - Toute ressource CRUD doit exposer : types (`src/data`), store (`createResourceStore`), hooks (TanStack Query), routes admin `list` + `detail`.
 - Les commits suivent [préciser convention : Conventional Commits, etc.]
 - Les PR doivent être reliées à une issue et passer la revue avant merge sur `main`.
@@ -91,7 +91,7 @@ npm run dev
 
 ## 📄 Licence
 
-Propriétaire — © 2026 STAF PRINT CENTER. Tous droits réservés.
+Propriétaire - © 2026 STAF PRINT CENTER. Tous droits réservés.
 
 ---
 
