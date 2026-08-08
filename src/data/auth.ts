@@ -9,6 +9,18 @@ export type InstructorTrainingAssignment = {
   assignedAt: string | null;
 };
 
+
+/**
+ * Type aligné sur InstructorResource
+ */
+export interface InstructorRegisterPayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  bio?: string;
+}
+
 /**
  * Type aligné sur InstructorResource
  */
