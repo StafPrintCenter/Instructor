@@ -81,22 +81,22 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
   return (
     <SidebarProvider>
       <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
-        <SidebarHeader className="px-3 py-4">
-          <Link to="/dashboard" className="flex items-center gap-2.5">
-            <span className="flex size-9 shrink-0 items-center justify-center">
-              <img src={logo.mw} alt="Logo SPC" className="h-9 w-auto" />
+        <SidebarHeader className="px-3.5 py-4">
+          <Link to="/dashboard" className="flex items-center gap-3">
+            <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden">
+              <img src={logo.mw} alt="Logo SPC" className="h-7 w-auto object-contain" />
             </span>
             <span className="flex flex-col group-data-[collapsible=icon]:hidden min-w-0">
-              <span className="font-display font-bold text-sm truncate">{SITE.name}</span>
+              <span className="font-display font-bold text-sm tracking-tight truncate">{SITE.name}</span>
               <span className="text-[10px] opacity-60 truncate">Espace Formateur</span>
             </span>
           </Link>
         </SidebarHeader>
 
-        <SidebarContent>
+        <SidebarContent className="px-1">
           {NAV_GROUPS.map((g) => (
             <SidebarGroup key={g.label}>
-              <SidebarGroupLabel className="text-sidebar-foreground/50 uppercase tracking-wider text-[10px]">
+              <SidebarGroupLabel className="text-sidebar-foreground/50 uppercase tracking-wider text-[10px] px-2">
                 {g.label}
               </SidebarGroupLabel>
               <SidebarGroupContent>
@@ -112,7 +112,7 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
                           className={navItemClass}
                         >
                           <Link to={item.to as "/dashboard"}>
-                            <item.icon />
+                            <item.icon className="size-4 shrink-0" />
                             <span>{item.label}</span>
                           </Link>
                         </SidebarMenuButton>
@@ -160,7 +160,7 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
       </Sidebar>
 
       <SidebarInset className="flex flex-col min-w-0 h-screen overflow-hidden">
-        <header className="flex items-center gap-3 bg-card/80 backdrop-blur border-b px-4 h-14 shrink-0">
+        <header className="flex items-center gap-3 bg-card/80 backdrop-blur border-b px-5 h-14 shrink-0">
           <SidebarTrigger />
           <div className="font-display font-semibold text-sm">Formateur</div>
           <div className="ml-auto text-xs text-muted-foreground hidden sm:block">{user?.email}</div>
