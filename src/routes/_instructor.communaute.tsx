@@ -26,7 +26,9 @@ export const Route = createFileRoute("/_instructor/communaute")({
         name: "description",
         content: "Publiez des annonces à vos cohortes et répondez aux messages privés de vos apprenants.",
       },
-      { property: "og:title", content: "Communauté & messagerie — STAF PRINT CENTER" },
+      {
+        property: "og:title", content: `Communauté & messagerie — STAF PRINT CENTER`
+      },
       { property: "og:description", content: "Annonces épinglées et conversations avec les apprenants." },
     ],
   }),
