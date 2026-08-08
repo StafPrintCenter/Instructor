@@ -751,7 +751,7 @@ export const searchApi = {
           id: s.id,
           label: s.full_name,
           group: "Apprenants",
-          to: "/apprenants/$studentId",
+          to: "/students/$studentId",
           params: { studentId: s.id },
         })),
       ...store.lessons
