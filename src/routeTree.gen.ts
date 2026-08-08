@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as InstructorRouteImport } from './routes/_instructor'
-import { Route as InscriptionRouteImport } from './routes/inscription'
 import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oublie'
 import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
 import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
@@ -41,11 +40,6 @@ const AuthRoute = AuthRouteImport.update({
 } as any)
 const InstructorRoute = InstructorRouteImport.update({
   id: '/_instructor',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InscriptionRoute = InscriptionRouteImport.update({
-  id: '/inscription',
-  path: '/inscription',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MotDePasseOublieRoute = MotDePasseOublieRouteImport.update({
@@ -137,7 +131,6 @@ const InstructorTrainingsTrainingIdContenuRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/inscription': typeof InscriptionRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
@@ -157,7 +150,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/inscription': typeof InscriptionRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
@@ -180,7 +172,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_instructor': typeof InstructorRouteWithChildren
-  '/inscription': typeof InscriptionRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
   '/_auth/invite': typeof AuthInviteRoute
@@ -202,7 +193,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/inscription'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/invite'
@@ -222,7 +212,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/inscription'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/invite'
@@ -244,7 +233,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_instructor'
-    | '/inscription'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
     | '/_auth/invite'
@@ -267,7 +255,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
   InstructorRoute: typeof InstructorRouteWithChildren
-  InscriptionRoute: typeof InscriptionRoute
   MotDePasseOublieRoute: typeof MotDePasseOublieRoute
   ReinitialisationRoute: typeof ReinitialisationRoute
 }
@@ -293,13 +280,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof InstructorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/inscription': {
-      id: '/inscription'
-      path: '/inscription'
-      fullPath: '/inscription'
-      preLoaderRoute: typeof InscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mot-de-passe-oublie': {
@@ -469,7 +449,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   InstructorRoute: InstructorRouteWithChildren,
-  InscriptionRoute: InscriptionRoute,
   MotDePasseOublieRoute: MotDePasseOublieRoute,
   ReinitialisationRoute: ReinitialisationRoute,
 }
