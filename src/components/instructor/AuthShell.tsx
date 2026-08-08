@@ -67,10 +67,9 @@ export function AuthShell({ children }: { children: ReactNode }) {
             Espace formateur : vos formations assignées, vos apprenants et vos corrections, réunis au même endroit.
           </p>
         </div>
-
-        <div className="text-sm opacity-70">
-          © {new Date().getFullYear()} {SITE.name}
-        </div>
+        <p className="text-xs text-primary-foreground/50">
+          © {new Date().getFullYear()} {SITE.name} - Tous droits réservés.
+        </p>
       </div>
 
       {/* Colonne droite / Formulaire */}
