@@ -200,7 +200,7 @@ function DashboardPage() {
                     </div>
                     <div className="flex gap-2">
                       <Button asChild size="sm" variant="soft" className="flex-1">
-                        <Link to="/formations/$trainingId" params={{ trainingId: training.id }}>
+                        <Link to="/trainings/$trainingId" params={{ trainingId: training.id }}>
                           Détails
                         </Link>
                       </Button>
