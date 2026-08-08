@@ -18,10 +18,10 @@ import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
 import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as InstructorCommunauteRouteImport } from './routes/_instructor.communaute'
-import { Route as InstructorCorrectionsRouteImport } from './routes/_instructor/corrections'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor/profil'
 import { Route as InstructorSessionsRouteImport } from './routes/_instructor.sessions'
+import { Route as InstructorCorrectionsCorrectionsRouteImport } from './routes/_instructor/corrections/corrections'
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
 import { Route as InstructorStudentsStudentIdRouteImport } from './routes/_instructor/students/$studentId'
 import { Route as InstructorTrainingsIndexRouteImport } from './routes/_instructor/trainings/index'
@@ -71,11 +71,6 @@ const InstructorCommunauteRoute = InstructorCommunauteRouteImport.update({
   path: '/communaute',
   getParentRoute: () => InstructorRoute,
 } as any)
-const InstructorCorrectionsRoute = InstructorCorrectionsRouteImport.update({
-  id: '/corrections',
-  path: '/corrections',
-  getParentRoute: () => InstructorRoute,
-} as any)
 const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -91,6 +86,12 @@ const InstructorSessionsRoute = InstructorSessionsRouteImport.update({
   path: '/sessions',
   getParentRoute: () => InstructorRoute,
 } as any)
+const InstructorCorrectionsCorrectionsRoute =
+  InstructorCorrectionsCorrectionsRouteImport.update({
+    id: '/corrections/corrections',
+    path: '/corrections/corrections',
+    getParentRoute: () => InstructorRoute,
+  } as any)
 const InstructorStudentsIndexRoute = InstructorStudentsIndexRouteImport.update({
   id: '/students/',
   path: '/students/',
@@ -129,10 +130,10 @@ export interface FileRoutesByFullPath {
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
   '/communaute': typeof InstructorCommunauteRoute
-  '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/corrections/corrections': typeof InstructorCorrectionsCorrectionsRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/students/': typeof InstructorStudentsIndexRoute
   '/trainings/': typeof InstructorTrainingsIndexRoute
@@ -147,10 +148,10 @@ export interface FileRoutesByTo {
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
   '/communaute': typeof InstructorCommunauteRoute
-  '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/corrections/corrections': typeof InstructorCorrectionsCorrectionsRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/students': typeof InstructorStudentsIndexRoute
   '/trainings': typeof InstructorTrainingsIndexRoute
@@ -168,10 +169,10 @@ export interface FileRoutesById {
   '/_auth/invite': typeof AuthInviteRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_instructor/communaute': typeof InstructorCommunauteRoute
-  '/_instructor/corrections': typeof InstructorCorrectionsRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
   '/_instructor/sessions': typeof InstructorSessionsRoute
+  '/_instructor/corrections/corrections': typeof InstructorCorrectionsCorrectionsRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/_instructor/students/': typeof InstructorStudentsIndexRoute
   '/_instructor/trainings/': typeof InstructorTrainingsIndexRoute
@@ -188,10 +189,10 @@ export interface FileRouteTypes {
     | '/invite'
     | '/login'
     | '/communaute'
-    | '/corrections'
     | '/dashboard'
     | '/profil'
     | '/sessions'
+    | '/corrections/corrections'
     | '/students/$studentId'
     | '/students/'
     | '/trainings/'
@@ -206,10 +207,10 @@ export interface FileRouteTypes {
     | '/invite'
     | '/login'
     | '/communaute'
-    | '/corrections'
     | '/dashboard'
     | '/profil'
     | '/sessions'
+    | '/corrections/corrections'
     | '/students/$studentId'
     | '/students'
     | '/trainings'
@@ -226,10 +227,10 @@ export interface FileRouteTypes {
     | '/_auth/invite'
     | '/_auth/login'
     | '/_instructor/communaute'
-    | '/_instructor/corrections'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
     | '/_instructor/sessions'
+    | '/_instructor/corrections/corrections'
     | '/_instructor/students/$studentId'
     | '/_instructor/students/'
     | '/_instructor/trainings/'
@@ -311,13 +312,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorCommunauteRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/corrections': {
-      id: '/_instructor/corrections'
-      path: '/corrections'
-      fullPath: '/corrections'
-      preLoaderRoute: typeof InstructorCorrectionsRouteImport
-      parentRoute: typeof InstructorRoute
-    }
     '/_instructor/dashboard': {
       id: '/_instructor/dashboard'
       path: '/dashboard'
@@ -337,6 +331,13 @@ declare module '@tanstack/react-router' {
       path: '/sessions'
       fullPath: '/sessions'
       preLoaderRoute: typeof InstructorSessionsRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/corrections/corrections': {
+      id: '/_instructor/corrections/corrections'
+      path: '/corrections/corrections'
+      fullPath: '/corrections/corrections'
+      preLoaderRoute: typeof InstructorCorrectionsCorrectionsRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/students/': {
@@ -391,10 +392,10 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface InstructorRouteChildren {
   InstructorCommunauteRoute: typeof InstructorCommunauteRoute
-  InstructorCorrectionsRoute: typeof InstructorCorrectionsRoute
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfilRoute: typeof InstructorProfilRoute
   InstructorSessionsRoute: typeof InstructorSessionsRoute
+  InstructorCorrectionsCorrectionsRoute: typeof InstructorCorrectionsCorrectionsRoute
   InstructorStudentsStudentIdRoute: typeof InstructorStudentsStudentIdRoute
   InstructorStudentsIndexRoute: typeof InstructorStudentsIndexRoute
   InstructorTrainingsIndexRoute: typeof InstructorTrainingsIndexRoute
@@ -404,10 +405,10 @@ interface InstructorRouteChildren {
 
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorCommunauteRoute: InstructorCommunauteRoute,
-  InstructorCorrectionsRoute: InstructorCorrectionsRoute,
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfilRoute: InstructorProfilRoute,
   InstructorSessionsRoute: InstructorSessionsRoute,
+  InstructorCorrectionsCorrectionsRoute: InstructorCorrectionsCorrectionsRoute,
   InstructorStudentsStudentIdRoute: InstructorStudentsStudentIdRoute,
   InstructorStudentsIndexRoute: InstructorStudentsIndexRoute,
   InstructorTrainingsIndexRoute: InstructorTrainingsIndexRoute,
