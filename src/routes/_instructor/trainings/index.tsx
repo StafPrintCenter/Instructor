@@ -23,8 +23,13 @@ export const Route = createFileRoute("/_instructor/trainings/")({
 });
 
 function TrainingsPage() {
-  const { instructorId } = useInstructorAuth();
-  const { data: trainings } = useSuspenseQuery(trainingsQuery(instructorId));
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
+
+  const { data: trainings = [] } = useQuery({
+    ...trainingsQuery(instructorId),
+    enabled: !!instructorId,
+  });
 
   return (
     <div className="space-y-8">
