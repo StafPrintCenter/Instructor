@@ -306,12 +306,12 @@ function SessionsPage() {
             )}
           </section>
 
-      {past.length > 0 ? (
-        <section className="space-y-4">
-          <CardHeaderTitle title="Sessions passées" count={past.length} />
-          <div className="space-y-4">{past.map(renderSession)}</div>
-        </section>
-      ) : null}
+          {past.length > 0 ? (
+            <section className="space-y-4">
+              <CardHeaderTitle title="Sessions passées" count={past.length} />
+              <div className="space-y-4">{past.map(renderSession)}</div>
+            </section>
+          ) : null}
         </TabsContent>
       </Tabs>
     </div>
