@@ -13,11 +13,11 @@ export const Route = createFileRoute("/inscription")({
   head: () => ({
     meta: [
       {
-        title: `Demande de compte formateur — STAF PRINT CENTER`
+        title: `Demande de compte formateur | ${SITE.name}`
       },
       { name: "description", content: "Soumettez une demande de compte formateur, validée ensuite par l'administration." },
       {
-        property: "og:title", content: `Demande de compte formateur — STAF PRINT CENTER`
+        property: "og:title", content: `Demande de compte formateur | ${SITE.name}`
       },
       {
         property: "og:description", content: `Rejoignez l'équipe pédagogique du centre de formation STAF PRINT CENTER.`
