@@ -4,6 +4,34 @@ import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVer
 
 export class InstructorAuthApiError extends Error { }
 
+export async function registerInstructor(
+  payload: InstructorRegisterPayload
+): Promise<APIInstructorUser> {
+  const fd = new FormData();
+  fd.append("first_name", payload.firstName);
+  fd.append("last_name", payload.lastName);
+  fd.append("email", payload.email);
+  fd.append("password", payload.password);
+  if (payload.bio) {
+    fd.append("bio", payload.bio);
+  }
+
+  const response = await adminFetch(`/api/instructor/auth/register`, {
+    method: "POST",
+    body: fd,
+  });
+
+  const body = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new InstructorAuthApiError(
+      body?.message || "Impossible de créer le compte. Vérifiez vos informations."
+    );
+  }
+
+  return body.data as APIInstructorUser;
+}
+
 export async function loginInstructor(email: string, password: string): Promise<APIInstructorLoginResponse> {
   const formData = new FormData();
   formData.append("email", email);
