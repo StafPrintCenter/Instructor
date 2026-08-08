@@ -14,17 +14,22 @@ import { PaymentBadge } from "@/components/instructor/status-badges";
 import { studentsQuery, trainingsQuery } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { initials, relativeTime } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/students/")({
   head: () => ({
     meta: [
-      { title: "Suivi des apprenants — STAF PRINT CENTER" },
+      {
+        title: `Suivi des apprenants — STAF PRINT CENTER`
+      },
       {
         name: "description",
         content:
           "Suivez la progression, l'assiduité et le statut de paiement des apprenants inscrits à vos cohortes.",
       },
-      { property: "og:title", content: "Suivi des apprenants — STAF PRINT CENTER" },
+      {
+        property: "og:title", content: `Suivi des apprenants — STAF PRINT CENTER`
+      },
       { property: "og:description", content: "Progression, assiduité et paiements par apprenant." },
     ],
   }),
