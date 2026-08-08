@@ -32,6 +32,7 @@ import { SessionCalendar } from "@/components/instructor/session-calendar";
 import { rosterQuery, sessionsQuery, trainingsQuery } from "@/lib/queries";
 import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
 import { formatDateTime, sessionsApi, type SessionRow } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/sessions")({
   head: () => ({
