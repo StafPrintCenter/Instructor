@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { BookOpen, MapPin, Users } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent } from "@/components/ui/card";
