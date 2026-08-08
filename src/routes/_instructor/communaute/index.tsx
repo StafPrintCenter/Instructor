@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessagesSquare, Pin, Send } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { postsQuery, threadsQuery, trainingsQuery } from "@/lib/queries";
-import { getSessionInstructorId, useInstructorAuth } from "@/lib/instructor-auth";
+import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { communityApi, formatDateTime, initials, relativeTime } from "@/lib/api";
 import { SITE } from "@/data/site";
 
@@ -30,29 +30,46 @@ export const Route = createFileRoute("/_instructor/communaute/")({
       { property: "og:description", content: "Annonces épinglées et conversations avec les apprenants." },
     ],
   }),
-  loader: ({ context }) => {
-    const id = getSessionInstructorId();
-    return Promise.all([
-      context.queryClient.ensureQueryData(postsQuery(id)),
-      context.queryClient.ensureQueryData(threadsQuery(id)),
-      context.queryClient.ensureQueryData(trainingsQuery(id)),
-    ]);
-  },
   component: CommunityPage,
 });
 
 function CommunityPage() {
-  const { instructorId } = useInstructorAuth();
+  const { user } = useInstructorAuth();
+  const instructorId = user?.id ?? "";
   const queryClient = useQueryClient();
-  const { data: posts } = useSuspenseQuery(postsQuery(instructorId));
-  const { data: threads } = useSuspenseQuery(threadsQuery(instructorId));
-  const { data: trainings } = useSuspenseQuery(trainingsQuery(instructorId));
+
+  const { data: posts = [], isLoading: isPostsLoading } = useQuery({
+    ...postsQuery(instructorId),
+    enabled: !!instructorId,
+  });
+
+  const { data: threads = [], isLoading: isThreadsLoading } = useQuery({
+    ...threadsQuery(instructorId),
+    enabled: !!instructorId,
+  });
+
+  const { data: trainings = [], isLoading: isTrainingsLoading } = useQuery({
+    ...trainingsQuery(instructorId),
+    enabled: !!instructorId,
+  });
 
   const [body, setBody] = useState("");
   const [pinned, setPinned] = useState(false);
-  const [trainingId, setTrainingId] = useState(trainings[0]?.id ?? "");
-  const [activeThread, setActiveThread] = useState(threads[0]?.id ?? "");
+  const [trainingId, setTrainingId] = useState("");
+  const [activeThread, setActiveThread] = useState("");
   const [reply, setReply] = useState("");
+
+  useEffect(() => {
+    if (trainings.length > 0 && !trainingId) {
+      setTrainingId(trainings[0].id);
+    }
+  }, [trainings, trainingId]);
+
+  useEffect(() => {
+    if (threads.length > 0 && !activeThread) {
+      setActiveThread(threads[0].id);
+    }
+  }, [threads, activeThread]);
 
   const publish = useMutation({
     mutationFn: () => communityApi.publish({ instructorId, trainingId, body, pinned }),
@@ -80,6 +97,19 @@ function CommunityPage() {
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
+  if (isPostsLoading || isThreadsLoading || isTrainingsLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="h-16 animate-pulse rounded-lg bg-muted" />
+        <div className="h-10 w-48 animate-pulse rounded-lg bg-muted" />
+        <div className="space-y-4">
+          <div className="h-40 animate-pulse rounded-lg bg-muted" />
+          <div className="h-32 animate-pulse rounded-lg bg-muted" />
+        </div>
+      </div>
+    );
+  }
 
   const thread = threads.find((t) => t.id === activeThread) ?? threads[0];
 
