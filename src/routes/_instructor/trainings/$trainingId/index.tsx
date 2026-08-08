@@ -15,10 +15,10 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
   head: () => ({
     meta: [
       {
-        title: `Détail de la formation — Espace Formateur ${SITE.name}`
+        title: `Détail de la formation - Espace Formateur ${SITE.name}`
       },
       { name: "description", content: "Cohorte, dates, apprenants inscrits et avancement global de la formation." },
-      { property: "og:title", content: "Détail de la formation — Espace Formateur" },
+      { property: "og:title", content: "Détail de la formation - Espace Formateur" },
       { property: "og:description", content: "Suivi complet d'une formation assignée." },
     ],
   }),
