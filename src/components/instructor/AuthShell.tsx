@@ -28,9 +28,7 @@ export function AuthShellProvider({ children }: { children: ReactNode }) {
 }
 
 /**
- * À appeler en haut de chaque page _auth/* (login, invite, etc.) pour
- * définir le titre/sous-titre/footer affichés par le AuthShell englobant.
- * Se met à jour automatiquement à chaque changement d'état de la page.
+ * À appeler en haut de chaque page _auth/* (login, invite, etc.) pour définir le titre/sous-titre/footer affichés par le AuthShell englobant. Se met à jour automatiquement à chaque changement d'état de la page.
  */
 export function useAuthShellContent(content: AuthShellContent) {
   const ctx = useContext(AuthShellContext);
