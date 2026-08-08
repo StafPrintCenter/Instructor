@@ -18,6 +18,7 @@ import { SubmissionAttachment } from "@/components/instructor/submission-attachm
 import { qk, studentQuery } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { formatDate, formatDateTime, gradingApi, initials, lessonTypeLabels } from "@/lib/api";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/students/$studentId")({
   head: () => ({
