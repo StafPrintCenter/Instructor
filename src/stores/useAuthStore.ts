@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { adminFetch } from "@/lib/api-url";
-import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVerifyResponse, } from "@/data/auth";
+import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVerifyResponse, InstructorRegisterPayload } from "@/data/auth";
 
 export class InstructorAuthApiError extends Error { }
 
