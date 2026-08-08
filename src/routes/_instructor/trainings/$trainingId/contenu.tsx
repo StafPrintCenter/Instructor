@@ -22,9 +22,13 @@ import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/contenu")({
   head: () => ({
     meta: [
-      { title: "Contenu de la formation — Espace Formateur STAF PRINT CENTER" },
+      {
+        title: `Contenu de la formation — Espace Formateur STAF PRINT CENTER`
+      },
       { name: "description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
-      { property: "og:title", content: "Contenu de la formation — Espace Formateur STAF PRINT CENTER" },
+      {
+        property: "og:title", content: `Contenu de la formation — Espace Formateur STAF PRINT CENTER`
+      },
       { property: "og:description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
     ],
   }),
