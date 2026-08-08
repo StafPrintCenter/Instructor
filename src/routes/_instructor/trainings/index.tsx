@@ -38,7 +38,7 @@ function TrainingsPage() {
       ) : (
         <div className="grid gap-5 md:grid-cols-2">
           {trainings.map((t) => (
-            <Card key={t.id} className="overflow-hidden border-border/70 transition-shadow hover:shadow-[var(--shadow-lift)]">
+            <Card key={t.id} className="overflow-hidden border-border/70 transition-shadow hover:shadow-(--shadow-lift)">
               <div className="h-1.5 w-full" style={{ backgroundColor: `var(--${t.cover_color})` }} />
               <CardContent className="space-y-4 p-5">
                 <div className="flex items-start justify-between gap-3">
