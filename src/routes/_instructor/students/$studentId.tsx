@@ -28,7 +28,9 @@ export const Route = createFileRoute("/_instructor/students/$studentId")({
         name: "description",
         content: "Parcours détaillé de l'apprenant : progression, leçons terminées, quiz et travaux rendus.",
       },
-      { property: "og:title", content: "Fiche apprenant — STAF PRINT CENTER" },
+      {
+        property: "og:title", content: `Fiche apprenant — STAF PRINT CENTER`
+      },
       { property: "og:description", content: "Progression, quiz et travaux rendus par apprenant." },
     ],
   }),
