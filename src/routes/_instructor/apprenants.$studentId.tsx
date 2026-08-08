@@ -71,7 +71,7 @@ function StudentDetailPage() {
   return (
     <div className="space-y-8">
       <Button asChild variant="ghost" size="sm" className="-ml-2 w-fit">
-        <Link to="/apprenants">
+        <Link to="/students">
           <ArrowLeft className="size-4" /> Retour aux apprenants
         </Link>
       </Button>
