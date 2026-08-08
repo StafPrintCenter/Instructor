@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
-import { InstructorShell } from "@/components/instructor/instructor-shell";
+import { InstructorShell } from "@/components/site/InstructorShell";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 
 export const Route = createFileRoute("/_instructor")({
