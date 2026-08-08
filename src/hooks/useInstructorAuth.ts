@@ -92,6 +92,15 @@ export function useInstructorAuth() {
     };
   }, []);
 
+  const register = useCallback(
+    async (payload: InstructorRegisterPayload): Promise<InstructorAuthUser> => {
+      const instructor = await registerInstructor(payload);
+
+      return toInstructorAuthUser(instructor);
+    },
+    []
+  );
+
   const login = useCallback(async (email: string, password: string) => {
     await loginInstructor(email, password);
     const instructor = await fetchInstructorMe();
