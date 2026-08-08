@@ -17,6 +17,7 @@ import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oubl
 import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
 import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor/profil'
 import { Route as InstructorCommunityIndexRouteImport } from './routes/_instructor/community/index'
@@ -65,6 +66,11 @@ const AuthInviteRoute = AuthInviteRouteImport.update({
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => AuthRoute,
 } as any)
 const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/reinitialisation': typeof ReinitialisationRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/reinitialisation': typeof ReinitialisationRoute
   '/_auth/invite': typeof AuthInviteRoute
   '/_auth/login': typeof AuthLoginRoute
+  '/_auth/register': typeof AuthRegisterRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/reinitialisation'
     | '/invite'
     | '/login'
+    | '/register'
     | '/dashboard'
     | '/profil'
     | '/students/$studentId'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/reinitialisation'
     | '/invite'
     | '/login'
+    | '/register'
     | '/dashboard'
     | '/profil'
     | '/students/$studentId'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/reinitialisation'
     | '/_auth/invite'
     | '/_auth/login'
+    | '/_auth/register'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
     | '/_instructor/students/$studentId'
@@ -316,6 +328,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/register': {
+      id: '/_auth/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_instructor/dashboard': {
@@ -401,11 +420,13 @@ declare module '@tanstack/react-router' {
 interface AuthRouteChildren {
   AuthInviteRoute: typeof AuthInviteRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthInviteRoute: AuthInviteRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
