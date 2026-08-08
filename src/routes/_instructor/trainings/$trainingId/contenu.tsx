@@ -18,6 +18,7 @@ import { QuizBuilder } from "@/components/instructor/quiz-builder";
 import { contentApi, lessonTypeLabels, type Lesson, type LessonType } from "@/lib/api";
 import { lessonsQuery, modulesQuery, qk, trainingOverviewQuery } from "@/lib/queries";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/contenu")({
   head: () => ({
