@@ -38,7 +38,7 @@ function TrainingDetail() {
         description={training.summary}
         actions={
           <>
-            <Button asChild variant="accent"><Link to="/formations/$trainingId/contenu" params={{ trainingId }}>Gérer le contenu</Link></Button>
+            <Button asChild variant="accent"><Link to="/trainings/$trainingId/contenu" params={{ trainingId }}>Gérer le contenu</Link></Button>
             <Button asChild variant="soft"><Link to="/sessions">Sessions</Link></Button>
           </>
         }
