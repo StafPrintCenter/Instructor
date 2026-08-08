@@ -4,7 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
-import { AuthShell } from "@/components/instructor/AuthShell";
+import { useAuthShellContent } from "@/components/instructor/AuthShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -70,6 +70,32 @@ function InstructorInviteAcceptPage() {
     };
   }, [instructor, expires, signature, verifyInvite]);
 
+  // Contenu shell calculé AVANT tout return conditionnel, pour respecter
+  // les règles des Hooks (nombre d'appels stable entre rendus).
+  const shellContent = done
+    ? {
+      title: "Compte activé",
+      subtitle: "Vous pouvez maintenant vous connecter avec votre e-mail et votre nouveau mot de passe.",
+    }
+    : verify.status === "checking"
+      ? { title: "Vérification du lien", subtitle: "Un instant, nous vérifions votre invitation." }
+      : verify.status === "invalid"
+        ? { title: "Lien invalide", subtitle: verify.message }
+        : {
+          title: "Activer votre compte formateur",
+          subtitle: `Bonjour ${verify.invitee.firstName}, choisissez un mot de passe pour finaliser votre invitation en tant que formateur (${verify.invitee.email}).`,
+          footer: (
+            <span>
+              Déjà activé ?{" "}
+              <Link to="/login" className="font-medium text-foreground underline underline-offset-4">
+                Se connecter
+              </Link>
+            </span>
+          ),
+        };
+
+  useAuthShellContent(shellContent);
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -97,112 +123,90 @@ function InstructorInviteAcceptPage() {
 
   if (verify.status === "checking") {
     return (
-      <AuthShell title="Vérification du lien" subtitle="Un instant, nous vérifions votre invitation.">
-        <div className="py-6 text-center">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-muted-foreground" />
-          <p className="mt-4 text-sm text-muted-foreground">Vérification du lien d'invitation...</p>
-        </div>
-      </AuthShell>
+      <div className="py-6 text-center">
+        <Loader2 className="mx-auto h-8 w-8 animate-spin text-muted-foreground" />
+        <p className="mt-4 text-sm text-muted-foreground">Vérification du lien d'invitation...</p>
+      </div>
     );
   }
 
   if (verify.status === "invalid") {
     return (
-      <AuthShell title="Lien invalide" subtitle={verify.message}>
-        <div className="py-6 text-center">
-          <XCircle className="mx-auto h-12 w-12 text-destructive" />
-          <Button variant="outline" className="mt-6 w-full" onClick={() => navigate({ to: "/login" })}>
-            Retour à la connexion
-          </Button>
-        </div>
-      </AuthShell>
+      <div className="py-6 text-center">
+        <XCircle className="mx-auto h-12 w-12 text-destructive" />
+        <Button variant="outline" className="mt-6 w-full" onClick={() => navigate({ to: "/login" })}>
+          Retour à la connexion
+        </Button>
+      </div>
     );
   }
 
   if (done) {
     return (
-      <AuthShell
-        title="Compte activé"
-        subtitle="Vous pouvez maintenant vous connecter avec votre e-mail et votre nouveau mot de passe."
-      >
-        <div className="py-6 text-center">
-          <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500" />
-          <Button className="mt-6 w-full" onClick={() => navigate({ to: "/login" })}>
-            Aller à la connexion
-          </Button>
-        </div>
-      </AuthShell>
+      <div className="py-6 text-center">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500" />
+        <Button className="mt-6 w-full" onClick={() => navigate({ to: "/login" })}>
+          Aller à la connexion
+        </Button>
+      </div>
     );
   }
 
   return (
-    <AuthShell
-      title="Activer votre compte formateur"
-      subtitle={`Bonjour ${verify.invitee.firstName}, choisissez un mot de passe pour finaliser votre invitation en tant que formateur (${verify.invitee.email}).`}
-      footer={
-        <span>
-          Déjà activé ?{" "}
-          <Link to="/login" className="font-medium text-foreground underline underline-offset-4">
-            Se connecter
-          </Link>
-        </span>
-      }
-    >
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="pw">Mot de passe</Label>
-          <div className="relative">
-            <Input
-              id="pw"
-              type={showPassword ? "text" : "password"}
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              autoComplete="new-password"
-              className="bg-card pr-10"
-              disabled={loading}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-              disabled={loading}
-            >
-              {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </button>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="pw-confirm">Confirmer le mot de passe</Label>
+    <form onSubmit={onSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="pw">Mot de passe</Label>
+        <div className="relative">
           <Input
-            id="pw-confirm"
+            id="pw"
             type={showPassword ? "text" : "password"}
             required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
             autoComplete="new-password"
-            className="bg-card"
+            className="bg-card pr-10"
             disabled={loading}
           />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            disabled={loading}
+          >
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
         </div>
+      </div>
 
-        {error && <p className="text-xs text-destructive">{error}</p>}
+      <div className="space-y-2">
+        <Label htmlFor="pw-confirm">Confirmer le mot de passe</Label>
+        <Input
+          id="pw-confirm"
+          type={showPassword ? "text" : "password"}
+          required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="••••••••"
+          autoComplete="new-password"
+          className="bg-card"
+          disabled={loading}
+        />
+      </div>
 
-        <Button type="submit" variant="accent" disabled={loading} className="w-full">
-          {loading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Activation...
-            </>
-          ) : (
-            "Activer mon compte"
-          )}
-        </Button>
-      </form>
-    </AuthShell>
+      {error && <p className="text-xs text-destructive">{error}</p>}
+
+      <Button type="submit" variant="accent" disabled={loading} className="w-full">
+        {loading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Activation...
+          </>
+        ) : (
+          "Activer mon compte"
+        )}
+      </Button>
+    </form>
   );
 }
