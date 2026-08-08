@@ -58,13 +58,14 @@ export function AuthShell({ children }: { children: ReactNode }) {
         <div className="flex items-center">
           <img src={logo.dw} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
         </div>
-
-        <div>
-          <h1 className="font-display text-5xl font-bold tracking-tight text-balance">
-            Formez, corrigez, accompagnez.
-          </h1>
-          <p className="mt-4 opacity-90">
-            Espace formateur : vos formations assignées, vos apprenants et vos corrections, réunis au même endroit.
+        <div className="max-w-md space-y-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Espace Formateur</p>
+          <h2 className="font-display text-4xl leading-tight">
+            Enseignez, corrigez et suivez vos apprenants au même endroit.
+          </h2>
+          <p className="text-sm text-primary-foreground/70">
+            Studio créatif et centre de formation à Porto-Novo, Bénin. L'espace formateur vous donne le contrôle
+            du contenu pédagogique, des corrections et des sessions.
           </p>
         </div>
 
