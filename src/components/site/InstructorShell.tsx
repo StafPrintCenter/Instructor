@@ -31,7 +31,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     label: "Échanges",
     items: [
-      { to: "/communaute", label: "Communauté", icon: MessagesSquare },
+      { to: "/community", label: "Communauté", icon: MessagesSquare },
     ],
   },
 ];
