@@ -20,8 +20,8 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as InstructorCommunauteRouteImport } from './routes/_instructor.communaute'
 import { Route as InstructorCorrectionsRouteImport } from './routes/_instructor.corrections'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
-import { Route as InstructorProfilRouteImport } from './routes/_instructor.profil'
 import { Route as InstructorSessionsRouteImport } from './routes/_instructor.sessions'
+import { Route as InstructorInstructorProfilRouteImport } from './routes/_instructor/_instructor.profil'
 import { Route as InstructorApprenantsIndexRouteImport } from './routes/_instructor.apprenants.index'
 import { Route as InstructorApprenantsStudentIdRouteImport } from './routes/_instructor.apprenants.$studentId'
 import { Route as InstructorFormationsIndexRouteImport } from './routes/_instructor.formations.index'
@@ -81,16 +81,17 @@ const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => InstructorRoute,
 } as any)
-const InstructorProfilRoute = InstructorProfilRouteImport.update({
-  id: '/profil',
-  path: '/profil',
-  getParentRoute: () => InstructorRoute,
-} as any)
 const InstructorSessionsRoute = InstructorSessionsRouteImport.update({
   id: '/sessions',
   path: '/sessions',
   getParentRoute: () => InstructorRoute,
 } as any)
+const InstructorInstructorProfilRoute =
+  InstructorInstructorProfilRouteImport.update({
+    id: '/_instructor/profil',
+    path: '/profil',
+    getParentRoute: () => InstructorRoute,
+  } as any)
 const InstructorApprenantsIndexRoute =
   InstructorApprenantsIndexRouteImport.update({
     id: '/apprenants/',
@@ -132,8 +133,8 @@ export interface FileRoutesByFullPath {
   '/communaute': typeof InstructorCommunauteRoute
   '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
-  '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/profil': typeof InstructorInstructorProfilRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants/': typeof InstructorApprenantsIndexRoute
   '/formations/': typeof InstructorFormationsIndexRoute
@@ -150,8 +151,8 @@ export interface FileRoutesByTo {
   '/communaute': typeof InstructorCommunauteRoute
   '/corrections': typeof InstructorCorrectionsRoute
   '/dashboard': typeof InstructorDashboardRoute
-  '/profil': typeof InstructorProfilRoute
   '/sessions': typeof InstructorSessionsRoute
+  '/profil': typeof InstructorInstructorProfilRoute
   '/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/apprenants': typeof InstructorApprenantsIndexRoute
   '/formations': typeof InstructorFormationsIndexRoute
@@ -171,8 +172,8 @@ export interface FileRoutesById {
   '/_instructor/communaute': typeof InstructorCommunauteRoute
   '/_instructor/corrections': typeof InstructorCorrectionsRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
-  '/_instructor/profil': typeof InstructorProfilRoute
   '/_instructor/sessions': typeof InstructorSessionsRoute
+  '/_instructor/_instructor/profil': typeof InstructorInstructorProfilRoute
   '/_instructor/apprenants/$studentId': typeof InstructorApprenantsStudentIdRoute
   '/_instructor/apprenants/': typeof InstructorApprenantsIndexRoute
   '/_instructor/formations/': typeof InstructorFormationsIndexRoute
@@ -191,8 +192,8 @@ export interface FileRouteTypes {
     | '/communaute'
     | '/corrections'
     | '/dashboard'
-    | '/profil'
     | '/sessions'
+    | '/profil'
     | '/apprenants/$studentId'
     | '/apprenants/'
     | '/formations/'
@@ -209,8 +210,8 @@ export interface FileRouteTypes {
     | '/communaute'
     | '/corrections'
     | '/dashboard'
-    | '/profil'
     | '/sessions'
+    | '/profil'
     | '/apprenants/$studentId'
     | '/apprenants'
     | '/formations'
@@ -229,8 +230,8 @@ export interface FileRouteTypes {
     | '/_instructor/communaute'
     | '/_instructor/corrections'
     | '/_instructor/dashboard'
-    | '/_instructor/profil'
     | '/_instructor/sessions'
+    | '/_instructor/_instructor/profil'
     | '/_instructor/apprenants/$studentId'
     | '/_instructor/apprenants/'
     | '/_instructor/formations/'
@@ -326,18 +327,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorDashboardRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/profil': {
-      id: '/_instructor/profil'
-      path: '/profil'
-      fullPath: '/profil'
-      preLoaderRoute: typeof InstructorProfilRouteImport
-      parentRoute: typeof InstructorRoute
-    }
     '/_instructor/sessions': {
       id: '/_instructor/sessions'
       path: '/sessions'
       fullPath: '/sessions'
       preLoaderRoute: typeof InstructorSessionsRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/_instructor/profil': {
+      id: '/_instructor/_instructor/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof InstructorInstructorProfilRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/apprenants/': {
@@ -394,8 +395,8 @@ interface InstructorRouteChildren {
   InstructorCommunauteRoute: typeof InstructorCommunauteRoute
   InstructorCorrectionsRoute: typeof InstructorCorrectionsRoute
   InstructorDashboardRoute: typeof InstructorDashboardRoute
-  InstructorProfilRoute: typeof InstructorProfilRoute
   InstructorSessionsRoute: typeof InstructorSessionsRoute
+  InstructorInstructorProfilRoute: typeof InstructorInstructorProfilRoute
   InstructorApprenantsStudentIdRoute: typeof InstructorApprenantsStudentIdRoute
   InstructorApprenantsIndexRoute: typeof InstructorApprenantsIndexRoute
   InstructorFormationsIndexRoute: typeof InstructorFormationsIndexRoute
@@ -407,8 +408,8 @@ const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorCommunauteRoute: InstructorCommunauteRoute,
   InstructorCorrectionsRoute: InstructorCorrectionsRoute,
   InstructorDashboardRoute: InstructorDashboardRoute,
-  InstructorProfilRoute: InstructorProfilRoute,
   InstructorSessionsRoute: InstructorSessionsRoute,
+  InstructorInstructorProfilRoute: InstructorInstructorProfilRoute,
   InstructorApprenantsStudentIdRoute: InstructorApprenantsStudentIdRoute,
   InstructorApprenantsIndexRoute: InstructorApprenantsIndexRoute,
   InstructorFormationsIndexRoute: InstructorFormationsIndexRoute,
