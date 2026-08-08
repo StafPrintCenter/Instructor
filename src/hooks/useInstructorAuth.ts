@@ -145,6 +145,7 @@ export function useInstructorAuth() {
     user: sharedUser,
     isAuthenticated: !!sharedUser,
     ready: sharedReady,
+    register,
     login,
     logout,
     verifyInvite,
