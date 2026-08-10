@@ -57,7 +57,7 @@ function TrainingsPage() {
                     <Users className="size-3.5" /> {t.trainingCurrentStudents ?? 0} apprenants
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <MapPin className="size-3.5" /> {t.trainingLocation ?? "-"}
+                    <MapPin className="size-3.5" /> {t.trainingLocation ?? "À définir"}
                   </span>
                   {t.trainingStartDate && t.trainingEndDate && (
                     <span className="sm:col-span-2">
