@@ -56,7 +56,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
   }
 
   async function createItem(payload: TPayload): Promise<T> {
-    const response = await adminFetch(`/api/admin/${basePath}/create`, {
+    const response = await adminFetch(`/api/instructor/${basePath}/create`, {
       method: "POST",
       body: buildFormData(payload as Record<string, unknown>),
     });
@@ -66,7 +66,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
   }
 
   async function updateItem(id: string, payload: TPayload): Promise<T> {
-    const response = await adminFetch(`/api/admin/${basePath}/${id}`, {
+    const response = await adminFetch(`/api/instructor/${basePath}/${id}`, {
       method: "PUT",
       body: buildFormData(payload as Record<string, unknown>),
     });
