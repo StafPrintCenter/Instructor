@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_instructor/trainings/")({
 });
 
 function TrainingsPage() {
-  const { trainings, isLoading } = useInstructorTrainingsList();
+  const { items: trainings, isLoading } = useInstructorTrainingsList();
 
   return (
     <div className="space-y-8">
