@@ -76,7 +76,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
   }
 
   async function removeItem(id: string): Promise<void> {
-    const response = await adminFetch(`/api/admin/${basePath}/${id}`, { method: "DELETE" });
+    const response = await adminFetch(`/api/instructor/${basePath}/${id}`, { method: "DELETE" });
     if (!response.ok && response.status !== 204) throw new Error(`Erreur lors de la suppression de "${resourceKey}"`);
   }
 
