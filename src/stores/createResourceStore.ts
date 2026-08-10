@@ -42,7 +42,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
       if (value !== undefined && value !== "") qp.append(key, String(value));
     }
 
-    const response = await adminFetch(`/api/admin/${basePath}/list?${qp.toString()}`);
+    const response = await adminFetch(`/api/instructor/${basePath}/list?${qp.toString()}`);
     if (!response.ok) throw new Error(`Erreur lors de la récupération de "${resourceKey}"`);
     return response.json();
   }
