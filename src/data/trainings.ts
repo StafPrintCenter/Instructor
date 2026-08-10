@@ -3,6 +3,7 @@ export type TrainingLevel = "Débutant" | "Intermédiaire" | "Avancé";
 export type TrainingStatus = "draft" | "published" | "archived";
 
 export interface APIInstructorTrainingAssignment {
+  id: string; // ⚠️ à confirmer côté back — supposé égal à trainingId
   assignmentId: string;
   trainingId: string;
   trainingTitle: string;
