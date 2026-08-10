@@ -33,8 +33,6 @@ export const instructorRoleConfig: Record<
 
 export function getInstructorRoleConfig(role: string) {
   return (
-    instructorRoleConfig[role.toLowerCase()] ?? {
-      label: role, variant: "outline",
-    }
+    instructorRoleConfig[role.toLowerCase()] ?? { label: role, variant: "outline", }
   );
 }
