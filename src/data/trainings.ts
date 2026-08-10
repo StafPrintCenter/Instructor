@@ -27,14 +27,8 @@ export const instructorRoleConfig: Record<
   InstructorTrainingRole | string,
   { label: string; variant: "default" | "secondary" | "outline" | "destructive" }
 > = {
-  lead: {
-    label: "Formateur principal",
-    variant: "default",
-  },
-  assistant: {
-    label: "Formateur assistant",
-    variant: "secondary",
-  },
+  lead: { label: "Formateur principal", variant: "default", },
+  assistant: { label: "Formateur assistant", variant: "secondary", },
 };
 
 export function getInstructorRoleConfig(role: string) {
