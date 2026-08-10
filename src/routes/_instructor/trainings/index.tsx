@@ -1,4 +1,3 @@
-// src/routes/_instructor/trainings/index.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, MapPin, Users } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
