@@ -1,4 +1,3 @@
-// src/stores/useTrainingsStore.ts
 import { createResourceStore } from "./createResourceStore";
 import type { APIInstructorTrainingAssignment } from "@/data/trainings";
 
