@@ -4,7 +4,7 @@ import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useInstructorTrainingsList } from "@/stores/useInstructorTrainingsStore";
+import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
 
