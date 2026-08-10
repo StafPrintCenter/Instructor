@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
+import { getInstructorRoleConfig } from "@/data/trainings";
 
 export const Route = createFileRoute("/_instructor/trainings/")({
   head: () => ({
