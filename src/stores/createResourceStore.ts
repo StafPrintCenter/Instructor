@@ -48,7 +48,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
   }
 
   async function fetchById(id: string): Promise<T | null> {
-    const response = await adminFetch(`/api/admin/${basePath}/${id}`);
+    const response = await adminFetch(`/api/instructor/${basePath}/${id}`);
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(`Erreur lors de la récupération de l'élément "${resourceKey}"`);
     const json: DetailResponse<T> = await response.json();
