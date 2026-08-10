@@ -39,7 +39,7 @@ function TrainingsPage() {
             <Card key={t.assignmentId} className="overflow-hidden border-border/70 transition-shadow hover:shadow-(--shadow-lift)">
               <div
                 className="h-1.5 w-full"
-                style={{ backgroundColor: t.trainingCoverColor ? `var(--${t.trainingCoverColor})` : "var(--primary)" }}
+                style={{ backgroundColor: t.trainingCoverColor ? `var(--${t.trainingCoverColor})` : "var(--muted)" }}
               />
               <CardContent className="space-y-4 p-5">
                 <div className="flex items-start justify-between gap-3">
