@@ -63,8 +63,8 @@ export interface APIInstructorTrainingOverview {
 /**
  * Mappage des rôles du formateur vers leurs labels et variantes de Badge
  */
-export const instructorRoleConfig: Record
-InstructorTrainingRole | string,
+export const instructorRoleConfig: Record<
+  InstructorTrainingRole | string,
   { label: string; variant: "default" | "secondary" | "outline" | "destructive" }
   > = {
   lead: { label: "Formateur principal", variant: "default" },
