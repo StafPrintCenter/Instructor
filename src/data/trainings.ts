@@ -43,7 +43,8 @@ export interface APIInstructorTrainingDetail {
 }
 
 /**
- * Shape d'un apprenant inscrit */
+ * Apprenant inscrit à la formation.
+ */
 export interface APIInstructorTrainingStudent {
   id: string;
   [key: string]: unknown;
