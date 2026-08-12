@@ -21,7 +21,7 @@ export interface APIInstructorTrainingAssignment {
   assignedAt: string;
 }
 
-/** Shape renvoyée par /api/v1/instructor/trainings/{id} (data uniquement) — noms différents du ListItem, ne pas confondre */
+/** Shape renvoyée par /api/v1/instructor/trainings/{id} (clé "data" uniquement) — noms différents du ListItem, ne pas confondre */
 export interface APIInstructorTrainingDetail {
   id: string;
   title: string;
