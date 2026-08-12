@@ -75,7 +75,7 @@ export async function verifyInstructorInvite(params: {
   expires: string;
   signature: string;
 }): Promise<InstructorInviteVerifyResponse> {
-  const response = await adminFetch(
+  const response = await instructorFetch(
     `/api/instructor/auth/invite-accept?${buildInviteQuery(params)}`
   );
   const body = await response.json().catch(() => null);
