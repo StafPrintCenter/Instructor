@@ -15,7 +15,7 @@ export const fetchInstructorTrainings = store.fetchList;
 export const useInstructorTrainingsList = store.useList;
 
 async function fetchInstructorTrainingOverview(id: string): Promise<APIInstructorTrainingOverview | null> {
-  const response = await adminFetch(`/api/instructor/${basePath}/${id}`);
+  const response = await instructorFetch(`/api/instructor/${basePath}/${id}`);
   if (response.status === 404) return null;
   if (!response.ok) throw new Error(`Erreur lors de la récupération de la formation`);
   return response.json();
