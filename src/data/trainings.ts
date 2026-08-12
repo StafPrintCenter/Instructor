@@ -50,6 +50,7 @@ export interface APIInstructorTrainingStudent {
 }
 
 /** Réponse complète de /api/v1/instructor/trainings/{id} */
+/** Réponse complète de /api/v1/instructor/trainings/{id} */
 export interface APIInstructorTrainingOverview {
   training: APIInstructorTrainingDetail;
   students: {
