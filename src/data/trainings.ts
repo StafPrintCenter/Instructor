@@ -1,5 +1,3 @@
-// src/data/trainings.ts
-
 export type InstructorTrainingRole = "lead" | "assistant";
 export type TrainingLevel = "Débutant" | "Intermédiaire" | "Avancé";
 export type TrainingStatus = "draft" | "published" | "archived";
