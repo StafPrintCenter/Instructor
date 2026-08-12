@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { adminFetch } from "@/lib/api-url";
+import { instructorFetch } from "@/lib/api-url";
 
 export type AdminListParams = Record<string, string | number | undefined>;
 
@@ -42,13 +42,13 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
       if (value !== undefined && value !== "") qp.append(key, String(value));
     }
 
-    const response = await adminFetch(`/api/instructor/${basePath}/list?${qp.toString()}`);
+    const response = await instructorFetch(`/api/instructor/${basePath}/list?${qp.toString()}`);
     if (!response.ok) throw new Error(`Erreur lors de la récupération de "${resourceKey}"`);
     return response.json();
   }
 
   async function fetchById(id: string): Promise<T | null> {
-    const response = await adminFetch(`/api/instructor/${basePath}/${id}`);
+    const response = await instructorFetch(`/api/instructor/${basePath}/${id}`);
     if (response.status === 404) return null;
     if (!response.ok) throw new Error(`Erreur lors de la récupération de l'élément "${resourceKey}"`);
     const json: DetailResponse<T> = await response.json();
@@ -56,7 +56,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
   }
 
   async function createItem(payload: TPayload): Promise<T> {
-    const response = await adminFetch(`/api/instructor/${basePath}/create`, {
+    const response = await instructorFetch(`/api/instructor/${basePath}/create`, {
       method: "POST",
       body: buildFormData(payload as Record<string, unknown>),
     });
@@ -66,7 +66,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
   }
 
   async function updateItem(id: string, payload: TPayload): Promise<T> {
-    const response = await adminFetch(`/api/instructor/${basePath}/${id}`, {
+    const response = await instructorFetch(`/api/instructor/${basePath}/${id}`, {
       method: "PUT",
       body: buildFormData(payload as Record<string, unknown>),
     });
@@ -76,7 +76,7 @@ export function createResourceStore<T extends { id: string }, TPayload = Record<
   }
 
   async function removeItem(id: string): Promise<void> {
-    const response = await adminFetch(`/api/instructor/${basePath}/${id}`, { method: "DELETE" });
+    const response = await instructorFetch(`/api/instructor/${basePath}/${id}`, { method: "DELETE" });
     if (!response.ok && response.status !== 204) throw new Error(`Erreur lors de la suppression de "${resourceKey}"`);
   }
 
