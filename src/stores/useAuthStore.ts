@@ -96,7 +96,7 @@ export async function acceptInstructorInvite(params: {
   const fd = new FormData();
   fd.append("password", params.password);
 
-  const response = await adminFetch(
+  const response = await instructorFetch(
     `/api/instructor/auth/invite-accept?${buildInviteQuery(params)}`,
     {
       method: "POST",
