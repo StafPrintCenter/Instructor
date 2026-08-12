@@ -1,22 +1,19 @@
+// src/routes/_instructor/trainings/$trainingId/index.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { PageHeader } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PaymentBadge } from "@/components/instructor/status-badges";
-import { trainingOverviewQuery } from "@/lib/queries";
-import { useInstructorAuth } from "@/hooks/useInstructorAuth";
-import { formatDate, relativeTime } from "@/lib/api";
+import { CheckCircle2, Clock, MapPin, Users, BookOpen } from "lucide-react";
+import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
+import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
   head: () => ({
     meta: [
-      {
-        title: `Détail de la formation - Espace Formateur ${SITE.name}`,
-      },
+      { title: `Détail de la formation - Espace Formateur ${SITE.name}` },
       { name: "description", content: "Cohorte, dates, apprenants inscrits et avancement global de la formation." },
       { property: "og:title", content: "Détail de la formation - Espace Formateur" },
       { property: "og:description", content: "Suivi complet d'une formation assignée." },
@@ -27,15 +24,9 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
 
 function TrainingDetail() {
   const { trainingId } = Route.useParams();
-  const { user } = useInstructorAuth();
-  const instructorId = user?.id ?? "";
+  const { overview, isLoading } = useInstructorTrainingOverview(trainingId);
 
-  const { data, isLoading } = useQuery({
-    ...trainingOverviewQuery(instructorId, trainingId),
-    enabled: !!instructorId,
-  });
-
-  if (isLoading || !data) {
+  if (isLoading || !overview) {
     return (
       <div className="space-y-6">
         <div className="h-16 animate-pulse rounded-lg bg-muted" />
@@ -49,14 +40,14 @@ function TrainingDetail() {
     );
   }
 
-  const { training, enrollments, averageProgress } = data;
+  const { data: training, students, averageProgress, progressTrackingAvailable } = overview;
 
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow={training.cohort}
+        eyebrow={training.theme}
         title={training.title}
-        description={training.summary}
+        description={training.short}
         actions={
           <>
             <Button asChild variant="accent">
@@ -71,73 +62,101 @@ function TrainingDetail() {
         }
       />
 
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge variant="secondary">{training.level}</Badge>
+        <Badge variant="outline">{training.status}</Badge>
+        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Clock className="size-3.5" /> {training.duration}
+        </span>
+        <span className="font-display text-sm font-semibold text-primary">
+          {training.price.toLocaleString("fr-FR")} FCFA
+        </span>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-3">
         <Card className="border-border/70">
           <CardContent className="p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Période</p>
             <p className="mt-1 text-sm font-medium">
-              {formatDate(training.starts_at)} → {formatDate(training.ends_at)}
+              {training.startDate ? formatDate(training.startDate) : "À définir"} →{" "}
+              {training.endDate ? formatDate(training.endDate) : "À définir"}
             </p>
           </CardContent>
         </Card>
         <Card className="border-border/70">
           <CardContent className="p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Lieu</p>
-            <p className="mt-1 text-sm font-medium">{training.location}</p>
+            <p className="mt-1 flex items-center gap-1.5 text-sm font-medium">
+              <MapPin className="size-3.5" /> {training.location ?? "À définir"}
+            </p>
           </CardContent>
         </Card>
         <Card className="border-border/70">
           <CardContent className="space-y-2 p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Avancement global</p>
-            <p className="font-display text-2xl">{averageProgress}%</p>
-            <Progress value={averageProgress} />
+            {progressTrackingAvailable && averageProgress !== null ? (
+              <>
+                <p className="font-display text-2xl">{averageProgress}%</p>
+                <Progress value={averageProgress} />
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground">Non disponible pour l'instant</p>
+            )}
           </CardContent>
         </Card>
       </div>
 
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card className="border-border/70">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-display text-lg">
+              <BookOpen className="size-4" /> Objectifs pédagogiques
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-sm">
+              {training.objectives.map((o) => (
+                <li key={o} className="flex gap-2">
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" /> {o}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        {training.prerequisites.length > 0 && (
+          <Card className="border-border/70">
+            <CardHeader>
+              <CardTitle className="font-display text-lg">Prérequis</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                {training.prerequisites.map((p) => (
+                  <li key={p} className="flex gap-2">
+                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70" /> {p}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
       <Card className="border-border/70">
         <CardHeader>
-          <CardTitle className="font-display text-xl">Apprenants inscrits</CardTitle>
+          <CardTitle className="flex items-center gap-2 font-display text-xl">
+            <Users className="size-4" /> Apprenants inscrits
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Apprenant</TableHead>
-                <TableHead>Progression</TableHead>
-                <TableHead>Assiduité</TableHead>
-                <TableHead>Paiement</TableHead>
-                <TableHead>Dernière activité</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {enrollments.map((e) => (
-                <TableRow key={e.id}>
-                  <TableCell>
-                    <Link
-                      to="/students/$studentId"
-                      params={{ studentId: e.student_id }}
-                      className="font-medium hover:underline"
-                    >
-                      {e.student.full_name}
-                    </Link>
-                    <p className="text-xs text-muted-foreground">{e.student.city}</p>
-                  </TableCell>
-                  <TableCell className="w-40">
-                    <Progress value={e.progress} />
-                    <span className="text-xs text-muted-foreground">{e.progress}%</span>
-                  </TableCell>
-                  <TableCell>{e.attendance_rate}%</TableCell>
-                  <TableCell>
-                    <PaymentBadge status={e.payment_status} />
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {relativeTime(e.last_activity_at)}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <p className="text-sm text-muted-foreground">
+            {students.total > 0
+              ? `${students.total} apprenant${students.total > 1 ? "s" : ""} inscrit${students.total > 1 ? "s" : ""}.`
+              : "Aucun apprenant inscrit pour le moment."}
+          </p>
+          {/* Tableau détaillé (progression, assiduité, paiement) à ajouter dès qu'un exemple
+              de réponse avec des apprenants réels sera fourni — la forme exacte de chaque
+              élément de `students.data` n'est pas encore connue. */}
         </CardContent>
       </Card>
     </div>
