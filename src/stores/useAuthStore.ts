@@ -59,7 +59,7 @@ export async function fetchInstructorMe(): Promise<APIInstructorUser | null> {
 }
 
 export async function logoutInstructor(): Promise<void> {
-  await adminFetch(`/api/instructor/auth/logout`, { method: "POST" });
+  await instructorFetch(`/api/instructor/auth/logout`, { method: "POST" });
 }
 
 function buildInviteQuery(params: { instructor: string; expires: string; signature: string }) {
