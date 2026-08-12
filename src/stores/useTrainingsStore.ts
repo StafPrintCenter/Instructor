@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { adminFetch } from "@/lib/api-url";
+import { instructorFetch } from "@/lib/api-url";
 import { createResourceStore } from "./createResourceStore";
 import type { APIInstructorTrainingAssignment, APIInstructorTrainingOverview } from "@/data/trainings";
 
