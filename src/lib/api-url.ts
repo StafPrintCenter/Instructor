@@ -14,7 +14,7 @@ function resolveApiUrl(path: string): string {
   return `${apiOrigin}${versionedPath}`;
 }
 
-export async function adminFetch(path: string, init: RequestInit = {}): Promise<Response> {
+export async function instructorFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const headers = new Headers(init.headers);
   headers.set("Accept", "application/json");
 
