@@ -21,7 +21,7 @@ export interface APIInstructorTrainingAssignment {
   assignedAt: string;
 }
 
-/** Renvoyée par /api/v1/instructor/trainings/{id} */
+/** Renvoyée par /api/v1/instructor/trainings/{id}, clé "data" */
 export interface APIInstructorTrainingDetail {
   id: string;
   title: string;
