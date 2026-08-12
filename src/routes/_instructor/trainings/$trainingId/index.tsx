@@ -7,11 +7,7 @@ import { CheckCircle2, Clock, MapPin, Users, BookOpen } from "lucide-react";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
-import {
-  getTrainingLevelBadgeClass,
-  getTrainingStatusBadgeClass,
-  getTrainingStatusLabel,
-} from "@/data/trainings";
+import { getTrainingLevelBadgeClass, getTrainingStatusBadgeClass, getTrainingStatusLabel } from "@/data/trainings";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
@@ -51,19 +47,19 @@ function TrainingDetail() {
     <div className="space-y-8">
       {/* Hero Header immersif avec fond dégradé */}
       <div
-        className="relative -mx-4 -mt-4 rounded-2xl border border-border/60 p-6 sm:p-8 overflow-hidden transition-colors"
+        className="relative -mx-4 -mt-4 overflow-hidden rounded-2xl border border-border/60 p-6 transition-colors sm:p-8"
         style={{
           background: `linear-gradient(135deg, ${mainColor}15 0%, ${mainColor}03 100%)`,
         }}
       >
         <div
-          className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full blur-3xl opacity-20"
+          className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full opacity-20 blur-3xl"
           style={{ backgroundColor: mainColor }}
         />
 
         <div className="relative space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold tracking-wider uppercase text-muted-foreground">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {training.theme}
             </span>
             <div className="flex items-center gap-2">
@@ -81,26 +77,40 @@ function TrainingDetail() {
           {/* Titre avec le pilier vertical à sa gauche */}
           <div className="flex items-stretch gap-3.5">
             <div
-              className="w-1.5 rounded-full shrink-0 my-1"
+              className="my-1 w-1.5 shrink-0 rounded-full"
               style={{ backgroundColor: mainColor }}
             />
-            <h1 className="font-display text-2xl sm:text-3xl font-bold leading-tight">
+            <h1 className="font-display text-2xl font-bold leading-tight sm:text-3xl">
               {training.title}
             </h1>
           </div>
 
-          <p className="max-w-3xl text-sm sm:text-base text-muted-foreground">
+          <p className="max-w-3xl text-sm text-muted-foreground sm:text-base">
             {training.short}
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center gap-2.5 text-xs sm:text-sm">
-            <Badge variant="secondary">{training.level}</Badge>
-            <Badge variant="outline">{training.status}</Badge>
+          <div className="flex flex-wrap items-center gap-2.5 pt-2 text-xs sm:text-sm">
+            {/* Badge Niveau */}
+            <Badge
+              variant="outline"
+              className={cn("border font-medium", getTrainingLevelBadgeClass(training.level))}
+            >
+              {training.level}
+            </Badge>
+
+            {/* Badge Statut */}
+            <Badge
+              variant="outline"
+              className={cn("border font-medium", getTrainingStatusBadgeClass(training.status))}
+            >
+              {getTrainingStatusLabel(training.status)}
+            </Badge>
+
             <span className="inline-flex items-center gap-1.5 text-muted-foreground">
               <Clock className="size-3.5" /> {training.duration}
             </span>
             <span
-              className="font-display font-semibold px-3 py-1 rounded-full text-white shadow-sm"
+              className="rounded-full px-3 py-1 font-display font-semibold text-white shadow-sm"
               style={{ backgroundColor: mainColor }}
             >
               {training.price.toLocaleString("fr-FR")} FCFA
