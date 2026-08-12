@@ -13,4 +13,24 @@ const store = createResourceStore<APIInstructorTrainingAssignment>({
 
 export const fetchInstructorTrainings = store.fetchList;
 export const useInstructorTrainingsList = store.useList;
-export const useInstructorTrainingDetail = store.useDetail;
+
+async function fetchInstructorTrainingOverview(id: string): Promise<APIInstructorTrainingOverview | null> {
+  const response = await adminFetch(`/api/instructor/${basePath}/${id}`);
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error(`Erreur lors de la récupération de la formation`);
+  return response.json();
+}
+
+export function useInstructorTrainingOverview(id: string | undefined) {
+  const query = useQuery({
+    queryKey: [resourceKey, "overview", id],
+    queryFn: () => fetchInstructorTrainingOverview(id as string),
+    enabled: !!id,
+  });
+  return {
+    overview: query.data ?? null,
+    isLoading: query.isLoading,
+    isError: query.isError,
+    refetch: query.refetch,
+  };
+}
