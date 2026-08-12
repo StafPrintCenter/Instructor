@@ -68,6 +68,54 @@ export interface APIInstructorTrainingOverview {
 }
 
 /**
+ * Configuration des badges pour les niveaux de formation
+ */
+export const TRAINING_LEVEL_BADGES: Record<TrainingLevel, { label: string; className: string }> = {
+  Débutant: {
+    label: "Débutant",
+    className: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
+  },
+  Intermédiaire: {
+    label: "Intermédiaire",
+    className: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20",
+  },
+  Avancé: {
+    label: "Avancé",
+    className: "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/20",
+  },
+};
+
+export function getTrainingLevelBadgeClass(level: TrainingLevel): string {
+  return TRAINING_LEVEL_BADGES[level]?.className ?? "bg-muted text-muted-foreground border-border";
+}
+
+/**
+ * Configuration des badges pour les statuts de formation
+ */
+export const TRAINING_STATUS_BADGES: Record<TrainingStatus, { label: string; className: string }> = {
+  draft: {
+    label: "Brouillon",
+    className: "bg-slate-500/10 text-slate-700 dark:text-slate-400 border-slate-500/20",
+  },
+  published: {
+    label: "Publiée",
+    className: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
+  },
+  archived: {
+    label: "Archivée",
+    className: "bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border-zinc-500/20",
+  },
+};
+
+export function getTrainingStatusBadgeClass(status: TrainingStatus): string {
+  return TRAINING_STATUS_BADGES[status]?.className ?? "bg-muted text-muted-foreground border-border";
+}
+
+export function getTrainingStatusLabel(status: TrainingStatus): string {
+  return TRAINING_STATUS_BADGES[status]?.label ?? status;
+}
+
+/**
  * Mappage des rôles du formateur vers leurs labels et variantes de Badge
  */
 export const instructorRoleConfig: Record<
