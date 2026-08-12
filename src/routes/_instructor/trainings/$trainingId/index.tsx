@@ -1,4 +1,3 @@
-// src/routes/_instructor/trainings/$trainingId/index.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
