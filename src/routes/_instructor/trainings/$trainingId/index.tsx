@@ -7,6 +7,12 @@ import { CheckCircle2, Clock, MapPin, Users, BookOpen } from "lucide-react";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
+import {
+  getTrainingLevelBadgeClass,
+  getTrainingStatusBadgeClass,
+  getTrainingStatusLabel,
+} from "@/data/trainings";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
   head: () => ({
