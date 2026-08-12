@@ -16,7 +16,7 @@ export async function registerInstructor(
     fd.append("bio", payload.bio);
   }
 
-  const response = await adminFetch(`/api/instructor/auth/register`, {
+  const response = await instructorFetch(`/api/instructor/auth/register`, {
     method: "POST",
     body: fd,
   });
@@ -37,7 +37,7 @@ export async function loginInstructor(email: string, password: string): Promise<
   formData.append("email", email);
   formData.append("password", password);
 
-  const response = await adminFetch(`/api/instructor/auth/login`, { method: "POST", body: formData });
+  const response = await instructorFetch(`/api/instructor/auth/login`, { method: "POST", body: formData });
   if (!response.ok) {
     throw new InstructorAuthApiError("Email ou mot de passe incorrect.");
   }
