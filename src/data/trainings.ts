@@ -43,9 +43,7 @@ export interface APIInstructorTrainingDetail {
 }
 
 /**
- * Shape d'un apprenant inscrit — PLACEHOLDER, à confirmer.
- * students.data est vide dans l'exemple fourni, donc la forme exacte n'est pas connue.
- */
+ * Shape d'un apprenant inscrit */
 export interface APIInstructorTrainingStudent {
   id: string;
   [key: string]: unknown;
