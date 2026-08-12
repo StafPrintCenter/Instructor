@@ -51,7 +51,7 @@ export interface APIInstructorTrainingStudent {
 
 /** Réponse complète de /api/v1/instructor/trainings/{id} */
 export interface APIInstructorTrainingOverview {
-  training: APIInstructorTrainingDetail;
+  data: APIInstructorTrainingDetail;
   students: {
     data: APIInstructorTrainingStudent[];
     total: number;
