@@ -7,8 +7,8 @@ const resourceKey = "trainings";
 const basePath = "trainings";
 
 const store = createResourceStore<APIInstructorTrainingAssignment>({
-  resourceKey: "trainings",
-  basePath: "trainings",
+  resourceKey,
+  basePath,
 });
 
 export const fetchInstructorTrainings = store.fetchList;
