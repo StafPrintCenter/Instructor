@@ -46,8 +46,14 @@ export interface APIInstructorTrainingDetail {
  * Apprenant inscrit à la formation.
  */
 export interface APIInstructorTrainingStudent {
-  id: string;
-  [key: string]: unknown;
+  studentId: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  progress: number | null;
+  attendance: number | null;
+  paymentStatus: string | null;
+  lastActivityAt: string | null;
 }
 
 /** Réponse complète de /api/v1/instructor/trainings/{id} */
