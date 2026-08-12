@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PageHeader } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -40,36 +39,68 @@ function TrainingDetail() {
   }
 
   const { data: training, students, averageProgress, progressTrackingAvailable } = overview;
+  const mainColor = training.coverColor || "var(--primary)";
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        eyebrow={training.theme}
-        title={training.title}
-        description={training.short}
-        actions={
-          <>
-            <Button asChild variant="accent">
-              <Link to="/trainings/$trainingId/contenu" params={{ trainingId }}>
-                Gérer le contenu
-              </Link>
-            </Button>
-            <Button asChild variant="soft">
-              <Link to="/sessions">Sessions</Link>
-            </Button>
-          </>
-        }
-      />
+      {/* Hero Header immersif avec fond dégradé */}
+      <div
+        className="relative -mx-4 -mt-4 rounded-2xl border border-border/60 p-6 sm:p-8 overflow-hidden transition-colors"
+        style={{
+          background: `linear-gradient(135deg, ${mainColor}15 0%, ${mainColor}03 100%)`,
+        }}
+      >
+        <div
+          className="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full blur-3xl opacity-20"
+          style={{ backgroundColor: mainColor }}
+        />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <Badge variant="secondary">{training.level}</Badge>
-        <Badge variant="outline">{training.status}</Badge>
-        <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Clock className="size-3.5" /> {training.duration}
-        </span>
-        <span className="font-display text-sm font-semibold text-primary">
-          {training.price.toLocaleString("fr-FR")} FCFA
-        </span>
+        <div className="relative space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold tracking-wider uppercase text-muted-foreground">
+              {training.theme}
+            </span>
+            <div className="flex items-center gap-2">
+              <Button asChild variant="accent">
+                <Link to="/trainings/$trainingId/contenu" params={{ trainingId }}>
+                  Gérer le contenu
+                </Link>
+              </Button>
+              <Button asChild variant="soft">
+                <Link to="/sessions">Sessions</Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Titre avec le pilier vertical à sa gauche */}
+          <div className="flex items-stretch gap-3.5">
+            <div
+              className="w-1.5 rounded-full shrink-0 my-1"
+              style={{ backgroundColor: mainColor }}
+            />
+            <h1 className="font-display text-2xl sm:text-3xl font-bold leading-tight">
+              {training.title}
+            </h1>
+          </div>
+
+          <p className="max-w-3xl text-sm sm:text-base text-muted-foreground">
+            {training.short}
+          </p>
+
+          <div className="pt-2 flex flex-wrap items-center gap-2.5 text-xs sm:text-sm">
+            <Badge variant="secondary">{training.level}</Badge>
+            <Badge variant="outline">{training.status}</Badge>
+            <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+              <Clock className="size-3.5" /> {training.duration}
+            </span>
+            <span
+              className="font-display font-semibold px-3 py-1 rounded-full text-white shadow-sm"
+              style={{ backgroundColor: mainColor }}
+            >
+              {training.price.toLocaleString("fr-FR")} FCFA
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
@@ -109,14 +140,14 @@ function TrainingDetail() {
         <Card className="border-border/70">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-display text-lg">
-              <BookOpen className="size-4" /> Objectifs pédagogiques
+              <BookOpen className="size-4" style={{ color: mainColor }} /> Objectifs pédagogiques
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-sm">
               {training.objectives.map((o) => (
                 <li key={o} className="flex gap-2">
-                  <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" /> {o}
+                  <CheckCircle2 className="mt-0.5 size-4 shrink-0" style={{ color: mainColor }} /> {o}
                 </li>
               ))}
             </ul>
@@ -132,7 +163,7 @@ function TrainingDetail() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {training.prerequisites.map((p) => (
                   <li key={p} className="flex gap-2">
-                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70" /> {p}
+                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ backgroundColor: mainColor }} /> {p}
                   </li>
                 ))}
               </ul>
@@ -144,7 +175,7 @@ function TrainingDetail() {
       <Card className="border-border/70">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 font-display text-xl">
-            <Users className="size-4" /> Apprenants inscrits
+            <Users className="size-4" style={{ color: mainColor }} /> Apprenants inscrits
           </CardTitle>
         </CardHeader>
         <CardContent>
