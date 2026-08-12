@@ -12,7 +12,5 @@ const store = createResourceStore<APIInstructorTrainingAssignment>({
 });
 
 export const fetchInstructorTrainings = store.fetchList;
-export const fetchInstructorTrainingById = store.fetchById;
-
 export const useInstructorTrainingsList = store.useList;
 export const useInstructorTrainingDetail = store.useDetail;
