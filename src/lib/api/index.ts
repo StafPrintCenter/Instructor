@@ -760,7 +760,7 @@ export const searchApi = {
           id: l.id,
           label: l.title,
           group: "Leçons",
-          to: "/trainings/$trainingId/contenu",
+          to: "/trainings/$trainingId/manage",
           params: { trainingId: l.training_id },
         })),
     ];
