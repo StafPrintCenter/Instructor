@@ -30,14 +30,14 @@ function buildFormData(payload: Record<string, unknown>): FormData {
 }
 
 async function fetchLessons(moduleId: string): Promise<APIInstructorLesson[]> {
-  const response = await instructorFetch(`/api/instructor/modules/${moduleId}/lessons/list`);
+  const response = await instructorFetch(`/api/instructor/trainings/modules/${moduleId}/lessons/list`);
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération des leçons");
   const json: ListResponse<APIInstructorLesson> = await response.json();
   return json.data;
 }
 
 async function createLesson(moduleId: string, payload: InstructorLessonPayload): Promise<APIInstructorLesson> {
-  const response = await instructorFetch(`/api/instructor/modules/${moduleId}/lessons/create`, {
+  const response = await instructorFetch(`/api/instructor/trainings/modules/${moduleId}/lessons/create`, {
     method: "POST",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
@@ -47,7 +47,7 @@ async function createLesson(moduleId: string, payload: InstructorLessonPayload):
 }
 
 async function updateLesson(id: string, payload: InstructorLessonPayload): Promise<APIInstructorLesson> {
-  const response = await instructorFetch(`/api/instructor/lessons/${id}`, {
+  const response = await instructorFetch(`/api/instructor/trainings/lessons/${id}`, {
     method: "PUT",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
@@ -57,12 +57,12 @@ async function updateLesson(id: string, payload: InstructorLessonPayload): Promi
 }
 
 async function deleteLesson(id: string): Promise<void> {
-  const response = await instructorFetch(`/api/instructor/lessons/${id}`, { method: "DELETE" });
+  const response = await instructorFetch(`/api/instructor/trainings/lessons/${id}`, { method: "DELETE" });
   if (!response.ok && response.status !== 204) throw await parseApiError(response, "Erreur lors de la suppression de la leçon");
 }
 
 async function submitLessonForReview(id: string): Promise<APIInstructorLesson> {
-  const response = await instructorFetch(`/api/instructor/lessons/${id}/submit-for-review`, { method: "PUT" });
+  const response = await instructorFetch(`/api/instructor/trainings/lessons/${id}/submit-for-review`, { method: "PUT" });
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la soumission de la leçon");
   const json: DetailResponse<APIInstructorLesson> = await response.json();
   return json.data;
