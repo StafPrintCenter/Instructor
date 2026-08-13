@@ -189,9 +189,18 @@ function ContentPage() {
                   <Button
                     size="icon"
                     variant="ghost"
-                    aria-label="Supprimer"
-                    onClick={() => run(deleteModule.mutateAsync(m.id), "Module supprimé.")}
+                    aria-label="Modifier"
+                    onClick={() => {
+                      setModuleEditForm({ title: m.title, description: m.description ?? "", sort_order: Number(m.sortOrder) });
+                      setEditingModule(m);
+                    }}
                   >
+                    <Pencil className="size-4" />
+                  </Button>
+                  <Button size="icon" variant="ghost" aria-label="Soumettre" onClick={() => setModuleToSubmit(m)}>
+                    <Send className="size-4" />
+                  </Button>
+                  <Button size="icon" variant="ghost" aria-label="Supprimer" onClick={() => setModuleToDelete(m)}>
                     <Trash2 className="size-4 text-destructive" />
                   </Button>
                 </div>
