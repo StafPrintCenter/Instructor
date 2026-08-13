@@ -47,7 +47,7 @@ export interface InstructorLessonPayload {
   kind: LessonKind;
   content?: string;
   video_url?: string;
-  chapters?: unknown[]; // sérialisé en JSON string côté FormData
+  chapters?: APIInstructorLessonChapter[];
   brief?: string;
   is_mandatory?: boolean;
 }
