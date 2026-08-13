@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
+import { parseApiError } from "@/lib/api-error";
 import type { APIInstructorModule, InstructorModulePayload } from "@/data/content";
 
 const resourceKey = "instructor-modules";
@@ -28,7 +29,7 @@ function buildFormData(payload: Record<string, unknown>): FormData {
 
 async function fetchModules(trainingId: string): Promise<APIInstructorModule[]> {
   const response = await instructorFetch(`/api/instructor/trainings/${trainingId}/modules/list`);
-  if (!response.ok) throw new Error("Erreur lors de la récupération des modules");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération des modules");
   const json: ListResponse<APIInstructorModule> = await response.json();
   return json.data;
 }
@@ -38,7 +39,7 @@ async function createModule(trainingId: string, payload: InstructorModulePayload
     method: "POST",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
-  if (!response.ok) throw new Error("Erreur lors de la création du module");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la création du module");
   const json: DetailResponse<APIInstructorModule> = await response.json();
   return json.data;
 }
@@ -48,19 +49,19 @@ async function updateModule(id: string, payload: InstructorModulePayload): Promi
     method: "PUT",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
-  if (!response.ok) throw new Error("Erreur lors de la modification du module");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la modification du module");
   const json: DetailResponse<APIInstructorModule> = await response.json();
   return json.data;
 }
 
 async function deleteModule(id: string): Promise<void> {
   const response = await instructorFetch(`/api/instructor/modules/${id}`, { method: "DELETE" });
-  if (!response.ok && response.status !== 204) throw new Error("Erreur lors de la suppression du module");
+  if (!response.ok && response.status !== 204) throw await parseApiError(response, "Erreur lors de la suppression du module");
 }
 
 async function submitModuleForReview(id: string): Promise<APIInstructorModule> {
   const response = await instructorFetch(`/api/instructor/modules/${id}/submit-for-review`, { method: "PUT" });
-  if (!response.ok) throw new Error("Erreur lors de la soumission du module");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la soumission du module");
   const json: DetailResponse<APIInstructorModule> = await response.json();
   return json.data;
 }
