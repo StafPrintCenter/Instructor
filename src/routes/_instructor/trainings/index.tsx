@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, MapPin, Users } from "lucide-react";
+import { BookOpen, MapPin, Users, Calendar, CalendarPlus } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
