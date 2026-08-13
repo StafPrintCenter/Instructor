@@ -7,7 +7,7 @@ export interface APIInstructorModule {
   trainingId: string;
   title: string;
   description: string | null;
-  sortOrder: number | string; // ⚠️ l'API renvoie tantôt un number (list), tantôt une string (create/update) — à confirmer
+  sortOrder: number;
   isEnabled: boolean;
   status: ContentStatus;
   lessonsCount: number;
