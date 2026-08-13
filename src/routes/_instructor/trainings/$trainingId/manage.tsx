@@ -115,8 +115,16 @@ function ContentPage() {
         title={training.title}
         description="Gestion des modules et leçons de cette formation."
         actions={
-          <Dialog>
-            <DialogTrigger asChild><Button variant="accent"><Plus className="size-4" /> Nouveau module</Button></DialogTrigger>
+          <Dialog
+            open={isCreateModuleOpen}
+            onOpenChange={(open) => {
+              setIsCreateModuleOpen(open);
+              if (open) setModuleForm({ title: "", description: "", sort_order: modules.length });
+            }}
+          >
+            <DialogTrigger asChild>
+              <Button variant="accent"><Plus className="size-4" /> Nouveau module</Button>
+            </DialogTrigger>
             <DialogContent>
               <DialogHeader><DialogTitle className="font-display">Créer un module</DialogTitle></DialogHeader>
               <div className="space-y-4">
