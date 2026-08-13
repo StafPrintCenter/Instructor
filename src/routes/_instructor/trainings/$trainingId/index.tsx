@@ -3,11 +3,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, Clock, MapPin, Users, BookOpen } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock,
+  MapPin,
+  Users,
+  BookOpen,
+  Calendar,
+  Hourglass,
+  UserCheck,
+} from "lucide-react";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
-import { getTrainingLevelBadgeClass, getTrainingStatusBadgeClass, getTrainingStatusLabel } from "@/data/trainings";
+import {
+  getTrainingLevelBadgeClass,
+  getTrainingStatusBadgeClass,
+  getTrainingStatusLabel,
+} from "@/data/trainings";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
@@ -30,7 +43,8 @@ function TrainingDetail() {
     return (
       <div className="space-y-6">
         <div className="h-16 animate-pulse rounded-lg bg-muted" />
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="h-24 animate-pulse rounded-lg bg-muted" />
           <div className="h-24 animate-pulse rounded-lg bg-muted" />
           <div className="h-24 animate-pulse rounded-lg bg-muted" />
           <div className="h-24 animate-pulse rounded-lg bg-muted" />
@@ -74,7 +88,7 @@ function TrainingDetail() {
             </div>
           </div>
 
-          {/* Titre avec le pilier vertical à sa gauche */}
+          {/* Titre avec le pilier vertical */}
           <div className="flex items-stretch gap-3.5">
             <div
               className="my-1 w-1.5 shrink-0 rounded-full"
@@ -119,34 +133,61 @@ function TrainingDetail() {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      {/* Cartes des métriques et informations clés */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Période & Lieu */}
         <Card className="border-border/70">
-          <CardContent className="p-5">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Période</p>
-            <p className="mt-1 text-sm font-medium">
+          <CardContent className="space-y-1.5 p-5">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Période & Lieu</p>
+            <p className="flex items-center gap-1.5 text-sm font-medium">
+              <Calendar className="size-3.5 shrink-0 text-muted-foreground" />
               {training.startDate ? formatDate(training.startDate) : "À définir"} →{" "}
               {training.endDate ? formatDate(training.endDate) : "À définir"}
             </p>
-          </CardContent>
-        </Card>
-        <Card className="border-border/70">
-          <CardContent className="p-5">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Lieu</p>
-            <p className="mt-1 flex items-center gap-1.5 text-sm font-medium">
-              <MapPin className="size-3.5" /> {training.location ?? "À définir"}
+            <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MapPin className="size-3.5 shrink-0" /> {training.location ?? "À définir"}
             </p>
           </CardContent>
         </Card>
+
+        {/* Volume Horaire */}
+        <Card className="border-border/70">
+          <CardContent className="p-5">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Volume Horaire</p>
+            <p className="mt-1 font-display text-2xl font-semibold">
+              {training.durationHours}h
+            </p>
+            <p className="text-xs text-muted-foreground">{training.duration}</p>
+          </CardContent>
+        </Card>
+
+        {/* Places & Inscriptions */}
+        <Card className="border-border/70">
+          <CardContent className="p-5">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Inscriptions</p>
+            <div className="mt-1 flex items-baseline gap-1.5">
+              <span className="font-display text-2xl font-semibold">
+                {training.currentStudents ?? 0}
+              </span>
+              <span className="text-sm text-muted-foreground">
+                / {training.maxSeats ?? "∞"} places
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground">Apprenants enregistrés</p>
+          </CardContent>
+        </Card>
+
+        {/* Avancement global */}
         <Card className="border-border/70">
           <CardContent className="space-y-2 p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Avancement global</p>
             {progressTrackingAvailable && averageProgress !== null ? (
               <>
-                <p className="font-display text-2xl">{averageProgress}%</p>
+                <p className="font-display text-2xl font-semibold">{averageProgress}%</p>
                 <Progress value={averageProgress} />
               </>
             ) : (
-              <p className="text-sm text-muted-foreground">Non disponible pour l'instant</p>
+              <p className="pt-1 text-sm text-muted-foreground">Non disponible pour l'instant</p>
             )}
           </CardContent>
         </Card>
@@ -191,7 +232,7 @@ function TrainingDetail() {
       <Card className="border-border/70">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 font-display text-xl">
-            <Users className="size-4" style={{ color: mainColor }} /> Apprenants inscrits
+            <Users className="size-4" style={{ color: mainColor }} /> Apprenants inscrits ({students.total})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -200,9 +241,6 @@ function TrainingDetail() {
               ? `${students.total} apprenant${students.total > 1 ? "s" : ""} inscrit${students.total > 1 ? "s" : ""}.`
               : "Aucun apprenant inscrit pour le moment."}
           </p>
-          {/* Tableau détaillé (progression, assiduité, paiement) à ajouter dès qu'un exemple
-              de réponse avec des apprenants réels sera fourni — la forme exacte de chaque
-              élément de `students.data` n'est pas encore connue. */}
         </CardContent>
       </Card>
     </div>
