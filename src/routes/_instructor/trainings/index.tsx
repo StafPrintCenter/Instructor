@@ -48,7 +48,7 @@ function TrainingsPage() {
                 <CardContent className="space-y-4 p-5">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="mb-2 flex items-center gap-2">
+                      <div className="mb-2 flex flex-wrap items-center gap-1.5">
                         <Badge variant="outline">{t.trainingTheme}</Badge>
                         <Badge variant={roleConfig.variant}>{roleConfig.label}</Badge>
                       </div>
