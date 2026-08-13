@@ -135,7 +135,7 @@ function ContentPage() {
               <DialogFooter>
                 <Button
                   variant="accent"
-                  disabled={!moduleForm.title}
+                  disabled={!moduleForm.title || createModule.isPending}
                   onClick={() =>
                     createModule.mutate(
                       { title: moduleForm.title, description: moduleForm.description, sort_order: modules.length },
