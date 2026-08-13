@@ -33,7 +33,16 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage"
   component: ContentPage,
 });
 
-const empty = { title: "", sort_order: 0, duration_minutes: 15, kind: "video" as LessonKind, video_url: "", content: "", brief: "" };
+const emptyLesson = {
+  title: "",
+  duration_minutes: 15,
+  kind: "video" as LessonKind,
+  video_url: "",
+  content: "",
+  brief: "",
+  is_mandatory: true,
+  chapters: [] as string[],
+};
 
 function ContentPage() {
   const { trainingId } = Route.useParams();
