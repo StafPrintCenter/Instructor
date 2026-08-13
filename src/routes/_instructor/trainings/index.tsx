@@ -74,7 +74,7 @@ function TrainingsPage() {
                       <Link to="/trainings/$trainingId" params={{ trainingId: t.trainingId }}>Ouvrir</Link>
                     </Button>
                     <Button asChild variant="soft" size="sm">
-                      <Link to="/trainings/$trainingId/contenu" params={{ trainingId: t.trainingId }}>Contenu</Link>
+                      <Link to="/trainings/$trainingId/manage" params={{ trainingId: t.trainingId }}>Contenu</Link>
                     </Button>
                   </div>
                 </CardContent>
