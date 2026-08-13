@@ -64,7 +64,12 @@ function TrainingsPage() {
                       </div>
                       <h2 className="font-display text-xl leading-snug">{t.trainingTitle}</h2>
                     </div>
-                    <Badge variant="secondary">{t.trainingLevel}</Badge>
+                    <Badge
+                      variant="outline"
+                      className={cn("border font-medium shrink-0", getTrainingLevelBadgeClass(t.trainingLevel))}
+                    >
+                      {t.trainingLevel}
+                    </Badge>
                   </div>
                   <p className="text-sm text-muted-foreground">{t.trainingShort}</p>
                   <div className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
