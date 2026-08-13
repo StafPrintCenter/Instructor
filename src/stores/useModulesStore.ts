@@ -45,7 +45,7 @@ async function createModule(trainingId: string, payload: InstructorModulePayload
 }
 
 async function updateModule(id: string, payload: InstructorModulePayload): Promise<APIInstructorModule> {
-  const response = await instructorFetch(`/api/instructor/modules/${id}`, {
+  const response = await instructorFetch(`/api/instructor/trainings/modules/${id}`, {
     method: "PUT",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
