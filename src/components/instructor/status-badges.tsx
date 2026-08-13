@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import {
   paymentLabels,
-  statusLabels,
   submissionStatusLabels,
   type ContentStatus,
   type PaymentStatus,
