@@ -29,7 +29,7 @@ export interface APIInstructorLesson {
   kind: LessonKind;
   content: string | null;
   videoUrl: string | null;
-  chapters: APIInstructorLessonChapter[] | null;
+  chapters: string[] | null;
   brief: string | null;
   isMandatory: boolean;
   status: ContentStatus;
