@@ -67,3 +67,21 @@ export const contentStatusLabels: Record<ContentStatus, string> = {
   published: "Publié",
   rejected: "Rejeté",
 };
+
+/** Extrait un id vidéo YouTube depuis watch?v=... ou youtu.be/... pour affichage en iframe. */
+export function getYoutubeEmbedUrl(url: string): string | null {
+  try {
+    const u = new URL(url);
+    if (u.hostname.includes("youtube.com")) {
+      const id = u.searchParams.get("v");
+      return id ? `https://www.youtube.com/embed/${id}` : null;
+    }
+    if (u.hostname === "youtu.be") {
+      const id = u.pathname.replace("/", "");
+      return id ? `https://www.youtube.com/embed/${id}` : null;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
