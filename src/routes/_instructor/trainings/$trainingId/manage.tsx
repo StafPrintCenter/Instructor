@@ -112,7 +112,7 @@ function ContentPage() {
     <div className="space-y-8">
       <PageHeader
         eyebrow={training.theme}
-        title={`${training.title}`}
+        title={training.title}
         description="Gestion des modules et leçons de cette formation."
         actions={
           <Dialog>
