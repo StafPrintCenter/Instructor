@@ -160,7 +160,7 @@ function ContentPage() {
 
       {modules.length === 0 ? <EmptyState title="Aucun module" description="Commencez par créer un module." /> : null}
 
-      <div className="space-y-5">
+      <div className="space-y-4">
         {modules.map((m, index) => {
           const moduleLessons = lessonsByModule[m.id] ?? [];
           const isExpanded = expandedModules.has(m.id);
