@@ -397,8 +397,6 @@ function ContentPage() {
   );
 }
 
-/* ---------- Ligne leçon compacte (design allégé) ---------- */
-
 function LessonRow({
   lesson: l,
   isOpen,
