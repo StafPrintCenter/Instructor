@@ -1,6 +1,6 @@
-// src/stores/useLessonsStore.ts
 import { useQueries, useMutation, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
+import { parseApiError } from "@/lib/api-error";
 import type { APIInstructorLesson, InstructorLessonPayload } from "@/data/content";
 
 const resourceKey = "instructor-lessons";
@@ -31,7 +31,7 @@ function buildFormData(payload: Record<string, unknown>): FormData {
 
 async function fetchLessons(moduleId: string): Promise<APIInstructorLesson[]> {
   const response = await instructorFetch(`/api/instructor/modules/${moduleId}/lessons/list`);
-  if (!response.ok) throw new Error("Erreur lors de la récupération des leçons");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération des leçons");
   const json: ListResponse<APIInstructorLesson> = await response.json();
   return json.data;
 }
@@ -41,7 +41,7 @@ async function createLesson(moduleId: string, payload: InstructorLessonPayload):
     method: "POST",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
-  if (!response.ok) throw new Error("Erreur lors de la création de la leçon");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la création de la leçon");
   const json: DetailResponse<APIInstructorLesson> = await response.json();
   return json.data;
 }
@@ -51,24 +51,23 @@ async function updateLesson(id: string, payload: InstructorLessonPayload): Promi
     method: "PUT",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
-  if (!response.ok) throw new Error("Erreur lors de la modification de la leçon");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la modification de la leçon");
   const json: DetailResponse<APIInstructorLesson> = await response.json();
   return json.data;
 }
 
 async function deleteLesson(id: string): Promise<void> {
   const response = await instructorFetch(`/api/instructor/lessons/${id}`, { method: "DELETE" });
-  if (!response.ok && response.status !== 204) throw new Error("Erreur lors de la suppression de la leçon");
+  if (!response.ok && response.status !== 204) throw await parseApiError(response, "Erreur lors de la suppression de la leçon");
 }
 
 async function submitLessonForReview(id: string): Promise<APIInstructorLesson> {
   const response = await instructorFetch(`/api/instructor/lessons/${id}/submit-for-review`, { method: "PUT" });
-  if (!response.ok) throw new Error("Erreur lors de la soumission de la leçon");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la soumission de la leçon");
   const json: DetailResponse<APIInstructorLesson> = await response.json();
   return json.data;
 }
 
-/** Récupère les leçons de plusieurs modules en parallèle (l'API n'expose pas de liste globale par formation). */
 export function useLessonsByModules(moduleIds: string[]) {
   const results = useQueries({
     queries: moduleIds.map((moduleId) => ({
