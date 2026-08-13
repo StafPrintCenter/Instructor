@@ -28,7 +28,7 @@ export interface APIInstructorLesson {
   id: string;
   moduleId: string;
   title: string;
-  sortOrder: number | string; // même remarque que pour le module
+  sortOrder: number;
   durationMinutes: number | string | null;
   kind: LessonKind;
   content: string | null;
