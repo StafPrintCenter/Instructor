@@ -71,21 +71,30 @@ function TrainingsPage() {
                       {t.trainingLevel}
                     </Badge>
                   </div>
+
                   <p className="text-sm text-muted-foreground">{t.trainingShort}</p>
+
                   <div className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
                     <span className="flex items-center gap-1.5">
-                      <Users className="size-3.5" /> {t.trainingCurrentStudents ?? 0} apprenants
+                      <Users className="size-3.5 shrink-0" /> {t.trainingCurrentStudents ?? 0} apprenants
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <MapPin className="size-3.5" /> {t.trainingLocation ?? "À définir"}
+                      <MapPin className="size-3.5 shrink-0" /> {t.trainingLocation ?? "À définir"}
                     </span>
                     {t.trainingStartDate && t.trainingEndDate && (
-                      <span className="sm:col-span-2">
-                        Du {formatDate(t.trainingStartDate)} au {formatDate(t.trainingEndDate)}
+                      <span className="flex items-center gap-1.5 sm:col-span-2">
+                        <Calendar className="size-3.5 shrink-0" /> Du {formatDate(t.trainingStartDate)} au {formatDate(t.trainingEndDate)}
+                      </span>
+                    )}
+                    {/* Date d'assignation au formateur */}
+                    {t.assignedAt && (
+                      <span className="flex items-center gap-1.5 text-muted-foreground/80 sm:col-span-2">
+                        <CalendarPlus className="size-3.5 shrink-0" /> Assigné le {formatDate(t.assignedAt)}
                       </span>
                     )}
                   </div>
-                  <div className="flex gap-2">
+
+                  <div className="flex gap-2 pt-1">
                     <Button asChild variant="accent" size="sm">
                       <Link to="/trainings/$trainingId" params={{ trainingId: t.trainingId }}>Ouvrir</Link>
                     </Button>
