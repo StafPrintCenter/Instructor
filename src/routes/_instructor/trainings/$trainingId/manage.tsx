@@ -138,7 +138,7 @@ function ContentPage() {
                   disabled={!moduleForm.title || createModule.isPending}
                   onClick={() =>
                     createModule.mutate(
-                      { title: moduleForm.title, description: moduleForm.description, sort_order: modules.length },
+                      { title: moduleForm.title, description: moduleForm.description, sort_order: moduleForm.sort_order },
                       {
                         onSuccess: () => {
                           setIsCreateModuleOpen(false);
