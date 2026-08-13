@@ -10,8 +10,8 @@ import { contentStatusLabels, type ContentStatus } from "@/data/content";
 
 const contentTone: Record<ContentStatus, string> = {
   draft: "bg-muted text-muted-foreground border-transparent",
-  submitted: "bg-info/15 text-info border-info/30",
-  approved: "bg-success/15 text-success border-success/30",
+  pending_review: "bg-info/15 text-info border-info/30",
+  published: "bg-success/15 text-success border-success/30",
   rejected: "bg-destructive/12 text-destructive border-destructive/30",
 };
 
