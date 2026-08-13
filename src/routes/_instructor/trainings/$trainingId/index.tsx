@@ -64,7 +64,7 @@ function TrainingDetail() {
             </span>
             <div className="flex items-center gap-2">
               <Button asChild variant="accent">
-                <Link to="/trainings/$trainingId/contenu" params={{ trainingId }}>
+                <Link to="/trainings/$trainingId/manage" params={{ trainingId }}>
                   Gérer le contenu
                 </Link>
               </Button>
