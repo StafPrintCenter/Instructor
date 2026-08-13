@@ -49,8 +49,14 @@ function TrainingsPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="mb-2 flex flex-wrap items-center gap-1.5">
-                        <Badge variant="outline">{t.trainingTheme}</Badge>
-                        <Badge variant={roleConfig.variant}>{roleConfig.label}</Badge>
+                        <Badge variant="outline">
+                          {t.trainingTheme}
+
+                        </Badge>
+                        <Badge variant={roleConfig.variant}>
+                          {roleConfig.label}
+
+                        </Badge>
                         <Badge
                           variant="outline"
                           className={cn("border font-medium", getTrainingStatusBadgeClass(t.trainingStatus))}
