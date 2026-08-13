@@ -85,7 +85,7 @@ function TrainingsPage() {
                       </span>
                     </div>
 
-                    {/* Ligne 2 : Assignation & Période (séparées par un gap uniforme à gauche) */}
+                    {/* Ligne 2 : Assignation & Période */}
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-1.5 border-t border-border/40 pt-2">
                       {t.assignedAt && (
                         <span className="flex items-center gap-1.5 text-muted-foreground/80">
