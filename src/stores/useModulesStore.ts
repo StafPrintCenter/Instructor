@@ -55,12 +55,12 @@ async function updateModule(id: string, payload: InstructorModulePayload): Promi
 }
 
 async function deleteModule(id: string): Promise<void> {
-  const response = await instructorFetch(`/api/instructor/modules/${id}`, { method: "DELETE" });
+  const response = await instructorFetch(`/api/instructor/trainings/modules/${id}`, { method: "DELETE" });
   if (!response.ok && response.status !== 204) throw await parseApiError(response, "Erreur lors de la suppression du module");
 }
 
 async function submitModuleForReview(id: string): Promise<APIInstructorModule> {
-  const response = await instructorFetch(`/api/instructor/modules/${id}/submit-for-review`, { method: "PUT" });
+  const response = await instructorFetch(`/api/instructor/trainings/modules/${id}/submit-for-review`, { method: "PUT" });
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la soumission du module");
   const json: DetailResponse<APIInstructorModule> = await response.json();
   return json.data;
