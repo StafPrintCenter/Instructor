@@ -232,7 +232,7 @@ function ContentPage() {
                     open={lessonDialogModuleId === m.id}
                     onOpenChange={(open) => {
                       setLessonDialogModuleId(open ? m.id : null);
-                      if (open) setLessonForm({ ...emptyLesson, /* sort_order géré au submit */ });
+                      if (open) setLessonForm({ ...emptyLesson });
                     }}
                   >
                     <DialogTrigger asChild>
@@ -258,8 +258,8 @@ function ContentPage() {
                                 is_mandatory: lessonForm.is_mandatory,
                                 video_url: lessonForm.kind === "video" ? lessonForm.video_url : undefined,
                                 content: lessonForm.kind === "reading" ? lessonForm.content : undefined,
-                                brief: ["exercise", "assignment", "project", "quiz"].includes(lessonForm.kind) ? lessonForm.brief : undefined,
-                                chapters: lessonForm.chapters.length > 0 ? lessonForm.chapters : undefined,
+                                brief: BRIEF_KINDS.includes(lessonForm.kind) ? lessonForm.brief : undefined,
+                                chapters: CHAPTERS_ALLOWED_KINDS.includes(lessonForm.kind) && lessonForm.chapters.length > 0 ? lessonForm.chapters : undefined,
                               },
                             },
                             {
@@ -444,7 +444,7 @@ function LessonRow({
       </div>
 
       {isOpen && hasDetails ? (
-        <div className="space-y-2 border-t border-border/50 px-3 py-2.5 text-sm">
+        <div className="space-y-3 border-t border-border/50 px-3 py-2.5 text-sm">
           {embedUrl ? (
             <div className="aspect-video w-full overflow-hidden rounded-md border border-border/60">
               <iframe src={embedUrl} title={l.title} className="h-full w-full" allowFullScreen />
@@ -453,13 +453,27 @@ function LessonRow({
             <a href={l.videoUrl} target="_blank" rel="noreferrer" className="text-primary underline">Voir la vidéo (lien externe)</a>
           ) : null}
 
-          {l.content ? <p className="whitespace-pre-wrap text-muted-foreground">{l.content}</p> : null}
-          {l.brief ? <p className="whitespace-pre-wrap text-muted-foreground"><span className="font-medium text-foreground">Brief : </span>{l.brief}</p> : null}
+          {l.content ? (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Contenu</p>
+              <p className="mt-1 whitespace-pre-wrap text-foreground/90">{l.content}</p>
+            </div>
+          ) : null}
+
+          {l.brief ? (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Résumé</p>
+              <p className="mt-1 whitespace-pre-wrap text-foreground/90">{l.brief}</p>
+            </div>
+          ) : null}
 
           {l.chapters && l.chapters.length > 0 ? (
-            <ul className="list-disc space-y-0.5 pl-4 text-muted-foreground">
-              {l.chapters.map((c, i) => <li key={i}>{c}</li>)}
-            </ul>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Chapitres</p>
+              <ul className="mt-1 list-disc space-y-0.5 pl-4 text-foreground/90">
+                {l.chapters.map((c, i) => <li key={i}>{c}</li>)}
+              </ul>
+            </div>
           ) : null}
         </div>
       ) : null}
@@ -537,11 +551,13 @@ function LessonForm({
         {form.kind === "reading" ? (
           <div className="space-y-2"><Label htmlFor="lc">Contenu</Label><Textarea id="lc" rows={4} value={form.content} onChange={(e) => onChange({ ...form, content: e.target.value })} /></div>
         ) : null}
-        {["exercise", "assignment", "project", "quiz"].includes(form.kind) ? (
-          <div className="space-y-2"><Label htmlFor="lb">Brief</Label><Textarea id="lb" rows={4} value={form.brief} onChange={(e) => onChange({ ...form, brief: e.target.value })} /></div>
+        {BRIEF_KINDS.includes(form.kind) ? (
+          <div className="space-y-2"><Label htmlFor="lb">Résumé</Label><Textarea id="lb" rows={4} value={form.brief} onChange={(e) => onChange({ ...form, brief: e.target.value })} /></div>
         ) : null}
 
-        <ChaptersEditor chapters={form.chapters} onChange={(chapters) => onChange({ ...form, chapters })} />
+        {CHAPTERS_ALLOWED_KINDS.includes(form.kind) ? (
+          <ChaptersEditor chapters={form.chapters} onChange={(chapters) => onChange({ ...form, chapters })} />
+        ) : null}
       </div>
       <DialogFooter>
         <Button variant="accent" disabled={!form.title || isPending} onClick={onSubmit}>
@@ -588,8 +604,8 @@ function LessonEditor({
           is_mandatory: draft.is_mandatory,
           video_url: lesson.kind === "video" ? draft.video_url : undefined,
           content: lesson.kind === "reading" ? draft.content : undefined,
-          brief: ["exercise", "assignment", "project", "quiz"].includes(lesson.kind) ? draft.brief : undefined,
-          chapters: draft.chapters.length > 0 ? draft.chapters : undefined,
+          brief: BRIEF_KINDS.includes(lesson.kind) ? draft.brief : undefined,
+          chapters: CHAPTERS_ALLOWED_KINDS.includes(lesson.kind) && draft.chapters.length > 0 ? draft.chapters : undefined,
         },
       },
       {
@@ -615,11 +631,13 @@ function LessonEditor({
       {lesson.kind === "reading" ? (
         <div className="space-y-2"><Label htmlFor="ec">Contenu</Label><Textarea id="ec" rows={6} value={draft.content} onChange={(e) => setDraft({ ...draft, content: e.target.value })} /></div>
       ) : null}
-      {["exercise", "assignment", "project", "quiz"].includes(lesson.kind) ? (
-        <div className="space-y-2"><Label htmlFor="eb">Brief</Label><Textarea id="eb" rows={5} value={draft.brief} onChange={(e) => setDraft({ ...draft, brief: e.target.value })} /></div>
+      {BRIEF_KINDS.includes(lesson.kind) ? (
+        <div className="space-y-2"><Label htmlFor="eb">Résumé</Label><Textarea id="eb" rows={5} value={draft.brief} onChange={(e) => setDraft({ ...draft, brief: e.target.value })} /></div>
       ) : null}
 
-      <ChaptersEditor chapters={draft.chapters} onChange={(chapters) => setDraft({ ...draft, chapters })} />
+      {CHAPTERS_ALLOWED_KINDS.includes(lesson.kind) ? (
+        <ChaptersEditor chapters={draft.chapters} onChange={(chapters) => setDraft({ ...draft, chapters })} />
+      ) : null}
 
       <div className="flex justify-end gap-2">
         <Button variant="accent" onClick={save} disabled={updateLesson.isPending}>
