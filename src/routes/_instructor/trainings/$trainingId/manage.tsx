@@ -130,6 +130,7 @@ function ContentPage() {
               <div className="space-y-4">
                 <div className="space-y-2"><Label htmlFor="mt">Titre</Label><Input id="mt" value={moduleForm.title} onChange={(e) => setModuleForm((f) => ({ ...f, title: e.target.value }))} /></div>
                 <div className="space-y-2"><Label htmlFor="md">Description</Label><Textarea id="md" value={moduleForm.description} onChange={(e) => setModuleForm((f) => ({ ...f, description: e.target.value }))} /></div>
+                <div className="space-y-2"><Label htmlFor="mo">Ordre</Label><Input id="mo" type="number" min={0} value={moduleForm.sort_order} onChange={(e) => setModuleForm((f) => ({ ...f, sort_order: Number(e.target.value) }))} /></div>
               </div>
               <DialogFooter>
                 <Button
