@@ -20,11 +20,6 @@ export interface InstructorModulePayload {
   sort_order?: number;
 }
 
-/**
- * Forme d'un chapitre vidéo — NON CONFIRMÉE par le backend (l'API accepte un JSON array
- * générique sans schéma documenté). label/timecode repris par cohérence avec l'ancien
- * mock, à valider dès qu'un exemple réel avec chapters non-null sera disponible.
- */
 export interface APIInstructorLessonChapter {
   [key: string]: unknown; // forme interne non confirmée
 }
