@@ -18,6 +18,7 @@ import { lessonKindLabels, getYoutubeEmbedUrl, type LessonKind, type APIInstruct
 import { useModulesList, useCreateModule, useUpdateModule, useDeleteModule, useSubmitModuleForReview } from "@/stores/useModulesStore";
 import { useLessonsByModules, useCreateLesson, useUpdateLesson, useDeleteLesson, useSubmitLessonForReview } from "@/stores/useLessonsStore";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
+import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage")({
