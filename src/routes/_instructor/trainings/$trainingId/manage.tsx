@@ -467,8 +467,6 @@ function LessonRow({
   );
 }
 
-/* ---------- Éditeur de chapitres : simple liste de strings ---------- */
-
 function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: (chapters: string[]) => void }) {
   return (
     <div className="space-y-2">
