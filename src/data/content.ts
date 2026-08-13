@@ -20,10 +20,6 @@ export interface InstructorModulePayload {
   sort_order?: number;
 }
 
-export interface APIInstructorLessonChapter {
-  [key: string]: unknown; // forme interne non confirmée
-}
-
 export interface APIInstructorLesson {
   id: string;
   moduleId: string;
