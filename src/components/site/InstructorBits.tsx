@@ -26,6 +26,37 @@ export function ConfirmDelete({ open, onOpenChange, onConfirm, title = "Supprime
   );
 }
 
+export function ConfirmAction({
+  open,
+  onOpenChange,
+  onConfirm,
+  title = "Confirmer ?",
+  description = "Cette action ne pourra pas être annulée facilement.",
+  confirmLabel = "Confirmer",
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  onConfirm: () => void;
+  title?: string;
+  description?: string;
+  confirmLabel?: string;
+}) {
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Annuler</AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm}>{confirmLabel}</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
 export function ConfirmDisconnect({ open, onOpenChange, onConfirm, title = "Se déconnecter ?" }: { open: boolean; onOpenChange: (v: boolean) => void; onConfirm: () => void; title?: string }) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
