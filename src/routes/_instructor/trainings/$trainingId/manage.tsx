@@ -53,6 +53,7 @@ function ContentPage() {
   const { lessonsByModule, isLoading: isLessonsLoading } = useLessonsByModules(moduleIds);
 
   const createModule = useCreateModule(trainingId);
+  const updateModule = useUpdateModule(trainingId);
   const deleteModule = useDeleteModule(trainingId);
   const submitModule = useSubmitModuleForReview(trainingId);
 
