@@ -149,6 +149,7 @@ function ContentPage() {
                     )
                   }
                 >
+                  {createModule.isPending ? <Loader2 className="size-4 animate-spin" /> : null}
                   Créer
                 </Button>
               </DialogFooter>
