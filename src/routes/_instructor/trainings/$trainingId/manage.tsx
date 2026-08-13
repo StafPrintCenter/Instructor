@@ -163,6 +163,8 @@ function ContentPage() {
       <div className="space-y-5">
         {modules.map((m, index) => {
           const moduleLessons = lessonsByModule[m.id] ?? [];
+          const isExpanded = expandedModules.has(m.id);
+
           return (
             <Card key={m.id} className="border-border/70">
               <CardHeader className="flex flex-row items-start justify-between gap-3 py-4">
