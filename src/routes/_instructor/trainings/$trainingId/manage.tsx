@@ -62,12 +62,39 @@ function ContentPage() {
   const deleteLesson = useDeleteLesson();
   const submitLesson = useSubmitLessonForReview();
 
-  const [moduleForm, setModuleForm] = useState({ title: "", description: "" });
-  const [lessonForm, setLessonForm] = useState<{ moduleId: string } & typeof empty>({ moduleId: "", ...empty });
-  const [editing, setEditing] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
+  const [isCreateModuleOpen, setIsCreateModuleOpen] = useState(false);
+  const [moduleForm, setModuleForm] = useState({ title: "", description: "", sort_order: modules.length });
 
-  const run = (promise: Promise<unknown>, message: string) =>
-    promise.then(() => toast.success(message)).catch((e: Error) => toast.error(e.message));
+  const [editingModule, setEditingModule] = useState<APIInstructorModule | null>(null);
+  const [moduleEditForm, setModuleEditForm] = useState({ title: "", description: "", sort_order: 0 });
+
+  const [lessonDialogModuleId, setLessonDialogModuleId] = useState<string | null>(null);
+  const [lessonForm, setLessonForm] = useState(emptyLesson);
+
+  const [editingLesson, setEditingLesson] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
+  const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
+  const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set());
+
+  const [moduleToDelete, setModuleToDelete] = useState<APIInstructorModule | null>(null);
+  const [moduleToSubmit, setModuleToSubmit] = useState<APIInstructorModule | null>(null);
+  const [lessonToDelete, setLessonToDelete] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
+  const [lessonToSubmit, setLessonToSubmit] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
+
+  const toggleModule = (id: string) => {
+    setExpandedModules((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleLesson = (id: string) => {
+    setExpandedLessons((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
 
   if (isOverviewLoading || isModulesLoading || !overview) {
     return (
