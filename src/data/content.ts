@@ -1,6 +1,8 @@
 export type ContentStatus = "draft" | "pending_review" | "published" | "rejected";
 export type LessonKind = "video" | "reading" | "quiz" | "exercise" | "assignment" | "project";
 
+export type ContentStatus = "draft" | "pending_review" | "published" | "rejected";
+
 export interface APIInstructorModule {
   id: string;
   trainingId: string;
