@@ -55,7 +55,6 @@ function TrainingsPage() {
                         </Badge>
                         <Badge variant={roleConfig.variant}>
                           {roleConfig.label}
-
                         </Badge>
                         <Badge
                           variant="outline"
