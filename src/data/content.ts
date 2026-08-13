@@ -43,7 +43,7 @@ export interface InstructorLessonPayload {
   kind: LessonKind;
   content?: string;
   video_url?: string;
-  chapters?: APIInstructorLessonChapter[];
+  chapters?: string[];
   brief?: string;
   is_mandatory?: boolean;
 }
