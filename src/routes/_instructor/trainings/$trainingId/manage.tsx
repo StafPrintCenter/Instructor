@@ -33,6 +33,10 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage"
   component: ContentPage,
 });
 
+/** Kinds pour lesquels le chapitrage est proposé — quiz/exercise/assignment/project n'en ont pas besoin. */
+const CHAPTERS_ALLOWED_KINDS: LessonKind[] = ["video", "reading"];
+const BRIEF_KINDS: LessonKind[] = ["exercise", "assignment", "project", "quiz"];
+
 const emptyLesson = {
   title: "",
   duration_minutes: 15,
@@ -205,117 +209,353 @@ function ContentPage() {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-2">
-                {isLessonsLoading ? (
-                  <div className="h-10 animate-pulse rounded-lg bg-muted" />
-                ) : (
-                  moduleLessons.map((l) => (
-                    <div key={l.id} className="flex flex-col gap-2 rounded-lg border border-border/60 bg-card p-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Badge variant="secondary">{lessonKindLabels[l.kind]}</Badge>
-                          <span className="truncate text-sm font-medium">{l.title}</span>
-                          <ContentStatusBadge status={l.status} />
-                        </div>
-                        <p className="text-xs text-muted-foreground">{l.durationMinutes ?? 0} min</p>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <Button size="sm" variant="ghost" onClick={() => setEditing({ moduleId: m.id, lesson: l })}>Éditer</Button>
-                        <Button
-                          size="sm"
-                          variant="soft"
-                          onClick={() => run(submitLesson.mutateAsync({ id: l.id, moduleId: m.id }), "Leçon soumise à validation.")}
-                        >
-                          Soumettre
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          aria-label="Supprimer la leçon"
-                          onClick={() => run(deleteLesson.mutateAsync({ id: l.id, moduleId: m.id }), "Leçon supprimée.")}
-                        >
-                          <Trash2 className="size-4 text-destructive" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))
-                )}
 
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm" onClick={() => setLessonForm({ moduleId: m.id, ...empty, sort_order: moduleLessons.length })}>
-                      <Plus className="size-4" /> Ajouter une leçon
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader><DialogTitle className="font-display">Nouvelle leçon</DialogTitle></DialogHeader>
-                    <div className="space-y-4">
-                      <div className="space-y-2"><Label htmlFor="lt">Titre</Label><Input id="lt" value={lessonForm.title} onChange={(e) => setLessonForm((f) => ({ ...f, title: e.target.value }))} /></div>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="space-y-2">
-                          <Label>Type</Label>
-                          <Select value={lessonForm.kind} onValueChange={(v) => setLessonForm((f) => ({ ...f, kind: v as LessonKind }))}>
-                            <SelectTrigger><SelectValue /></SelectTrigger>
-                            <SelectContent>
-                              {(Object.keys(lessonKindLabels) as LessonKind[]).map((k) => (<SelectItem key={k} value={k}>{lessonKindLabels[k]}</SelectItem>))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="space-y-2"><Label htmlFor="ld">Durée (min)</Label><Input id="ld" type="number" value={lessonForm.duration_minutes} onChange={(e) => setLessonForm((f) => ({ ...f, duration_minutes: Number(e.target.value) }))} /></div>
-                      </div>
-                      {lessonForm.kind === "video" ? (<div className="space-y-2"><Label htmlFor="lv">URL de la vidéo</Label><Input id="lv" value={lessonForm.video_url} onChange={(e) => setLessonForm((f) => ({ ...f, video_url: e.target.value }))} /></div>) : null}
-                      {lessonForm.kind === "reading" ? (<div className="space-y-2"><Label htmlFor="lc">Contenu</Label><Textarea id="lc" rows={4} value={lessonForm.content} onChange={(e) => setLessonForm((f) => ({ ...f, content: e.target.value }))} /></div>) : null}
-                      {["exercise", "assignment", "project", "quiz"].includes(lessonForm.kind) ? (<div className="space-y-2"><Label htmlFor="lb">Brief</Label><Textarea id="lb" rows={4} value={lessonForm.brief} onChange={(e) => setLessonForm((f) => ({ ...f, brief: e.target.value }))} /></div>) : null}
-                    </div>
-                    <DialogFooter>
-                      <Button
-                        variant="accent"
-                        disabled={!lessonForm.title}
-                        onClick={() =>
+              {isExpanded ? (
+                <CardContent className="space-y-1.5 pt-0">
+                  {isLessonsLoading ? (
+                    <div className="h-10 animate-pulse rounded-lg bg-muted" />
+                  ) : (
+                    moduleLessons.map((l) => (
+                      <LessonRow
+                        key={l.id}
+                        lesson={l}
+                        isOpen={expandedLessons.has(l.id)}
+                        onToggle={() => toggleLesson(l.id)}
+                        onEdit={() => setEditingLesson({ moduleId: m.id, lesson: l })}
+                        onSubmit={() => setLessonToSubmit({ moduleId: m.id, lesson: l })}
+                        onDelete={() => setLessonToDelete({ moduleId: m.id, lesson: l })}
+                      />
+                    ))
+                  )}
+
+                  <Dialog
+                    open={lessonDialogModuleId === m.id}
+                    onOpenChange={(open) => {
+                      setLessonDialogModuleId(open ? m.id : null);
+                      if (open) setLessonForm({ ...emptyLesson, /* sort_order géré au submit */ });
+                    }}
+                  >
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="mt-1">
+                        <Plus className="size-4" /> Ajouter une leçon
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-h-[85vh] overflow-y-auto">
+                      <DialogHeader><DialogTitle className="font-display">Nouvelle leçon</DialogTitle></DialogHeader>
+                      <LessonForm
+                        form={lessonForm}
+                        onChange={setLessonForm}
+                        isPending={createLesson.isPending}
+                        onSubmit={() =>
                           createLesson.mutate(
                             {
-                              moduleId: lessonForm.moduleId,
+                              moduleId: m.id,
                               payload: {
                                 title: lessonForm.title,
-                                sort_order: lessonForm.sort_order,
+                                sort_order: moduleLessons.length,
                                 duration_minutes: lessonForm.duration_minutes,
                                 kind: lessonForm.kind,
+                                is_mandatory: lessonForm.is_mandatory,
                                 video_url: lessonForm.kind === "video" ? lessonForm.video_url : undefined,
                                 content: lessonForm.kind === "reading" ? lessonForm.content : undefined,
                                 brief: ["exercise", "assignment", "project", "quiz"].includes(lessonForm.kind) ? lessonForm.brief : undefined,
+                                chapters: lessonForm.chapters.length > 0 ? lessonForm.chapters : undefined,
                               },
                             },
-                            { onSuccess: () => toast.success("Leçon créée en brouillon."), onError: (e) => toast.error(e.message) }
+                            {
+                              onSuccess: () => {
+                                toast.success("Leçon créée en brouillon.");
+                                setLessonDialogModuleId(null);
+                              },
+                              onError: (e) => toast.error(e.message),
+                            }
                           )
                         }
-                      >
-                        Créer en brouillon
-                      </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </CardContent>
+                        submitLabel="Créer en brouillon"
+                      />
+                    </DialogContent>
+                  </Dialog>
+                </CardContent>
+              ) : null}
             </Card>
           );
         })}
       </div>
 
-      <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
-        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
-          <DialogHeader><DialogTitle className="font-display">{editing?.lesson.title}</DialogTitle></DialogHeader>
-          {editing ? (
+      {/* Édition module */}
+      <Dialog open={!!editingModule} onOpenChange={(open) => !open && setEditingModule(null)}>
+        <DialogContent>
+          <DialogHeader><DialogTitle className="font-display">Modifier le module</DialogTitle></DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2"><Label htmlFor="emt">Titre</Label><Input id="emt" value={moduleEditForm.title} onChange={(e) => setModuleEditForm((f) => ({ ...f, title: e.target.value }))} /></div>
+            <div className="space-y-2"><Label htmlFor="emd">Description</Label><Textarea id="emd" value={moduleEditForm.description} onChange={(e) => setModuleEditForm((f) => ({ ...f, description: e.target.value }))} /></div>
+            <div className="space-y-2"><Label htmlFor="emo">Ordre</Label><Input id="emo" type="number" min={0} value={moduleEditForm.sort_order} onChange={(e) => setModuleEditForm((f) => ({ ...f, sort_order: Number(e.target.value) }))} /></div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="accent"
+              disabled={!moduleEditForm.title || updateModule.isPending}
+              onClick={() => {
+                if (!editingModule) return;
+                updateModule.mutate(
+                  { id: editingModule.id, payload: moduleEditForm },
+                  {
+                    onSuccess: () => { toast.success("Module modifié."); setEditingModule(null); },
+                    onError: (e) => toast.error(e.message),
+                  }
+                );
+              }}
+            >
+              {updateModule.isPending ? <Loader2 className="size-4 animate-spin" /> : null}
+              Enregistrer
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Édition leçon */}
+      <Dialog open={!!editingLesson} onOpenChange={(open) => !open && setEditingLesson(null)}>
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+          <DialogHeader><DialogTitle className="font-display">{editingLesson?.lesson.title}</DialogTitle></DialogHeader>
+          {editingLesson ? (
             <LessonEditor
-              moduleId={editing.moduleId}
-              lesson={editing.lesson}
-              onSaved={() => setEditing(null)}
+              moduleId={editingLesson.moduleId}
+              lesson={editingLesson.lesson}
+              onSaved={() => setEditingLesson(null)}
               updateLesson={updateLesson}
             />
           ) : null}
         </DialogContent>
       </Dialog>
+
+      {/* Confirmations module */}
+      <ConfirmDelete
+        open={!!moduleToDelete}
+        onOpenChange={(open) => !open && setModuleToDelete(null)}
+        title={`Supprimer "${moduleToDelete?.title}" ?`}
+        onConfirm={() => {
+          if (!moduleToDelete) return;
+          deleteModule.mutate(moduleToDelete.id, {
+            onSuccess: () => toast.success("Module supprimé."),
+            onError: (e) => toast.error(e.message),
+          });
+          setModuleToDelete(null);
+        }}
+      />
+      <ConfirmAction
+        open={!!moduleToSubmit}
+        onOpenChange={(open) => !open && setModuleToSubmit(null)}
+        title={`Soumettre "${moduleToSubmit?.title}" à validation ?`}
+        description="Le module passera en attente de validation par l'administrateur."
+        confirmLabel="Soumettre"
+        onConfirm={() => {
+          if (!moduleToSubmit) return;
+          submitModule.mutate(moduleToSubmit.id, {
+            onSuccess: () => toast.success("Module soumis à validation."),
+            onError: (e) => toast.error(e.message),
+          });
+          setModuleToSubmit(null);
+        }}
+      />
+
+      {/* Confirmations leçon */}
+      <ConfirmDelete
+        open={!!lessonToDelete}
+        onOpenChange={(open) => !open && setLessonToDelete(null)}
+        title={`Supprimer "${lessonToDelete?.lesson.title}" ?`}
+        onConfirm={() => {
+          if (!lessonToDelete) return;
+          deleteLesson.mutate(
+            { id: lessonToDelete.lesson.id, moduleId: lessonToDelete.moduleId },
+            {
+              onSuccess: () => toast.success("Leçon supprimée."),
+              onError: (e) => toast.error(e.message),
+            }
+          );
+          setLessonToDelete(null);
+        }}
+      />
+      <ConfirmAction
+        open={!!lessonToSubmit}
+        onOpenChange={(open) => !open && setLessonToSubmit(null)}
+        title={`Soumettre "${lessonToSubmit?.lesson.title}" à validation ?`}
+        description="La leçon passera en attente de validation par l'administrateur."
+        confirmLabel="Soumettre"
+        onConfirm={() => {
+          if (!lessonToSubmit) return;
+          submitLesson.mutate(
+            { id: lessonToSubmit.lesson.id, moduleId: lessonToSubmit.moduleId },
+            {
+              onSuccess: () => toast.success("Leçon soumise à validation."),
+              onError: (e) => toast.error(e.message),
+            }
+          );
+          setLessonToSubmit(null);
+        }}
+      />
     </div>
   );
 }
+
+/* ---------- Ligne leçon compacte (design allégé) ---------- */
+
+function LessonRow({
+  lesson: l,
+  isOpen,
+  onToggle,
+  onEdit,
+  onSubmit,
+  onDelete,
+}: {
+  lesson: APIInstructorLesson;
+  isOpen: boolean;
+  onToggle: () => void;
+  onEdit: () => void;
+  onSubmit: () => void;
+  onDelete: () => void;
+}) {
+  const embedUrl = l.videoUrl ? getYoutubeEmbedUrl(l.videoUrl) : null;
+  const hasDetails = l.content || l.brief || l.videoUrl || (l.chapters && l.chapters.length > 0);
+
+  return (
+    <div className="rounded-lg border border-border/50">
+      <div className="flex items-center gap-2 px-3 py-2">
+        <button
+          type="button"
+          onClick={onToggle}
+          disabled={!hasDetails}
+          className="flex flex-1 items-center gap-2 text-left disabled:cursor-default"
+        >
+          {hasDetails ? (
+            isOpen ? <ChevronDown className="size-3.5 shrink-0 text-muted-foreground" /> : <ChevronRight className="size-3.5 shrink-0 text-muted-foreground" />
+          ) : (
+            <span className="size-3.5 shrink-0" />
+          )}
+          <span className="truncate text-sm font-medium">{l.title}</span>
+          <Badge variant="secondary" className="shrink-0 text-[10px]">{lessonKindLabels[l.kind]}</Badge>
+          <ContentStatusBadge status={l.status} className="shrink-0" />
+          <span className="ml-auto shrink-0 text-xs text-muted-foreground">{l.durationMinutes ?? "—"} min</span>
+        </button>
+        <div className="flex shrink-0 items-center gap-0.5">
+          <Button size="icon" variant="ghost" className="size-7" aria-label="Éditer" onClick={onEdit}><Pencil className="size-3.5" /></Button>
+          <Button size="icon" variant="ghost" className="size-7" aria-label="Soumettre" onClick={onSubmit}><Send className="size-3.5" /></Button>
+          <Button size="icon" variant="ghost" className="size-7" aria-label="Supprimer" onClick={onDelete}><Trash2 className="size-3.5 text-destructive" /></Button>
+        </div>
+      </div>
+
+      {isOpen && hasDetails ? (
+        <div className="space-y-2 border-t border-border/50 px-3 py-2.5 text-sm">
+          {embedUrl ? (
+            <div className="aspect-video w-full overflow-hidden rounded-md border border-border/60">
+              <iframe src={embedUrl} title={l.title} className="h-full w-full" allowFullScreen />
+            </div>
+          ) : l.videoUrl ? (
+            <a href={l.videoUrl} target="_blank" rel="noreferrer" className="text-primary underline">Voir la vidéo (lien externe)</a>
+          ) : null}
+
+          {l.content ? <p className="whitespace-pre-wrap text-muted-foreground">{l.content}</p> : null}
+          {l.brief ? <p className="whitespace-pre-wrap text-muted-foreground"><span className="font-medium text-foreground">Brief : </span>{l.brief}</p> : null}
+
+          {l.chapters && l.chapters.length > 0 ? (
+            <ul className="list-disc space-y-0.5 pl-4 text-muted-foreground">
+              {l.chapters.map((c, i) => <li key={i}>{c}</li>)}
+            </ul>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/* ---------- Éditeur de chapitres : simple liste de strings ---------- */
+
+function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: (chapters: string[]) => void }) {
+  return (
+    <div className="space-y-2">
+      <Label>Chapitres (optionnel)</Label>
+      {chapters.map((c, i) => (
+        <div key={i} className="flex gap-2">
+          <Input
+            value={c}
+            placeholder={`Chapitre ${i + 1}`}
+            onChange={(e) => {
+              const next = [...chapters];
+              next[i] = e.target.value;
+              onChange(next);
+            }}
+          />
+          <Button size="icon" variant="ghost" aria-label="Retirer" onClick={() => onChange(chapters.filter((_, idx) => idx !== i))}>
+            <X className="size-4 text-destructive" />
+          </Button>
+        </div>
+      ))}
+      <Button variant="ghost" size="sm" onClick={() => onChange([...chapters, ""])}>
+        <Plus className="size-4" /> Ajouter un chapitre
+      </Button>
+    </div>
+  );
+}
+
+/* ---------- Formulaire leçon (création) ---------- */
+
+function LessonForm({
+  form,
+  onChange,
+  onSubmit,
+  isPending,
+  submitLabel,
+}: {
+  form: typeof emptyLesson;
+  onChange: (form: typeof emptyLesson) => void;
+  onSubmit: () => void;
+  isPending: boolean;
+  submitLabel: string;
+}) {
+  return (
+    <>
+      <div className="space-y-4">
+        <div className="space-y-2"><Label htmlFor="lt">Titre</Label><Input id="lt" value={form.title} onChange={(e) => onChange({ ...form, title: e.target.value })} /></div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label>Type</Label>
+            <Select value={form.kind} onValueChange={(v) => onChange({ ...form, kind: v as LessonKind })}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {(Object.keys(lessonKindLabels) as LessonKind[]).map((k) => (<SelectItem key={k} value={k}>{lessonKindLabels[k]}</SelectItem>))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2"><Label htmlFor="ld">Durée (min)</Label><Input id="ld" type="number" value={form.duration_minutes} onChange={(e) => onChange({ ...form, duration_minutes: Number(e.target.value) })} /></div>
+        </div>
+
+        <div className="flex items-center justify-between rounded-lg border p-3">
+          <Label className="cursor-pointer">Leçon obligatoire</Label>
+          <Switch checked={form.is_mandatory} onCheckedChange={(v) => onChange({ ...form, is_mandatory: v })} />
+        </div>
+
+        {form.kind === "video" ? (
+          <div className="space-y-2"><Label htmlFor="lv">URL de la vidéo</Label><Input id="lv" value={form.video_url} onChange={(e) => onChange({ ...form, video_url: e.target.value })} /></div>
+        ) : null}
+        {form.kind === "reading" ? (
+          <div className="space-y-2"><Label htmlFor="lc">Contenu</Label><Textarea id="lc" rows={4} value={form.content} onChange={(e) => onChange({ ...form, content: e.target.value })} /></div>
+        ) : null}
+        {["exercise", "assignment", "project", "quiz"].includes(form.kind) ? (
+          <div className="space-y-2"><Label htmlFor="lb">Brief</Label><Textarea id="lb" rows={4} value={form.brief} onChange={(e) => onChange({ ...form, brief: e.target.value })} /></div>
+        ) : null}
+
+        <ChaptersEditor chapters={form.chapters} onChange={(chapters) => onChange({ ...form, chapters })} />
+      </div>
+      <DialogFooter>
+        <Button variant="accent" disabled={!form.title || isPending} onClick={onSubmit}>
+          {isPending ? <Loader2 className="size-4 animate-spin" /> : null}
+          {submitLabel}
+        </Button>
+      </DialogFooter>
+    </>
+  );
+}
+
+/* ---------- Éditeur de leçon (édition) ---------- */
 
 function LessonEditor({
   moduleId,
@@ -334,6 +574,8 @@ function LessonEditor({
     video_url: lesson.videoUrl ?? "",
     content: lesson.content ?? "",
     brief: lesson.brief ?? "",
+    is_mandatory: lesson.isMandatory,
+    chapters: lesson.chapters ?? [],
   });
 
   const save = () => {
@@ -345,9 +587,11 @@ function LessonEditor({
           title: draft.title,
           kind: lesson.kind,
           duration_minutes: draft.duration_minutes,
+          is_mandatory: draft.is_mandatory,
           video_url: lesson.kind === "video" ? draft.video_url : undefined,
           content: lesson.kind === "reading" ? draft.content : undefined,
           brief: ["exercise", "assignment", "project", "quiz"].includes(lesson.kind) ? draft.brief : undefined,
+          chapters: draft.chapters.length > 0 ? draft.chapters : undefined,
         },
       },
       {
@@ -361,6 +605,12 @@ function LessonEditor({
     <div className="space-y-5">
       <div className="space-y-2"><Label htmlFor="et">Titre</Label><Input id="et" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></div>
       <div className="space-y-2"><Label htmlFor="ed">Durée (min)</Label><Input id="ed" type="number" value={draft.duration_minutes} onChange={(e) => setDraft({ ...draft, duration_minutes: Number(e.target.value) })} /></div>
+
+      <div className="flex items-center justify-between rounded-lg border p-3">
+        <Label className="cursor-pointer">Leçon obligatoire</Label>
+        <Switch checked={draft.is_mandatory} onCheckedChange={(v) => setDraft({ ...draft, is_mandatory: v })} />
+      </div>
+
       {lesson.kind === "video" ? (
         <div className="space-y-2"><Label htmlFor="ev">URL vidéo</Label><Input id="ev" value={draft.video_url} onChange={(e) => setDraft({ ...draft, video_url: e.target.value })} /></div>
       ) : null}
@@ -370,9 +620,15 @@ function LessonEditor({
       {["exercise", "assignment", "project", "quiz"].includes(lesson.kind) ? (
         <div className="space-y-2"><Label htmlFor="eb">Brief</Label><Textarea id="eb" rows={5} value={draft.brief} onChange={(e) => setDraft({ ...draft, brief: e.target.value })} /></div>
       ) : null}
-      {/* Le chapitrage vidéo et la structure d'un quiz ne sont pas encore confirmés par un curl —
-          à réintroduire dès que la forme exacte de `chapters` et d'un éventuel objet quiz sera connue. */}
-      <div className="flex justify-end gap-2"><Button variant="accent" onClick={save}>Enregistrer</Button></div>
+
+      <ChaptersEditor chapters={draft.chapters} onChange={(chapters) => setDraft({ ...draft, chapters })} />
+
+      <div className="flex justify-end gap-2">
+        <Button variant="accent" onClick={save} disabled={updateLesson.isPending}>
+          {updateLesson.isPending ? <Loader2 className="size-4 animate-spin" /> : null}
+          Enregistrer
+        </Button>
+      </div>
     </div>
   );
 }
