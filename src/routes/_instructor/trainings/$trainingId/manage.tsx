@@ -1,7 +1,7 @@
+// src/routes/_instructor/trainings/$trainingId/manage.tsx
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowDown, ArrowUp, Plus, Send, Trash2 } from "lucide-react";
+import { Plus, Send, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,81 +9,55 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ContentStatusBadge } from "@/components/instructor/status-badges";
-import { QuizBuilder } from "@/components/instructor/quiz-builder";
-import { contentApi, lessonTypeLabels, type Lesson, type LessonType } from "@/lib/api";
-import { lessonsQuery, modulesQuery, qk, trainingOverviewQuery } from "@/lib/queries";
-import { useInstructorAuth } from "@/hooks/useInstructorAuth";
+import { lessonKindLabels, type LessonKind, type APIInstructorLesson } from "@/data/content";
+import { useModulesList, useCreateModule, useDeleteModule, useSubmitModuleForReview } from "@/stores/useModulesStore";
+import { useLessonsByModules, useCreateLesson, useUpdateLesson, useDeleteLesson, useSubmitLessonForReview } from "@/stores/useLessonsStore";
+import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage")({
   head: () => ({
     meta: [
-      {
-        title: `Contenu de la formation - Espace Formateur ${SITE.name}`
-      },
+      { title: `Contenu de la formation - Espace Formateur ${SITE.name}` },
       { name: "description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
-      {
-        property: "og:title", content: `Contenu de la formation - Espace Formateur ${SITE.name}`
-      },
+      { property: "og:title", content: `Contenu de la formation - Espace Formateur ${SITE.name}` },
       { property: "og:description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
     ],
   }),
   component: ContentPage,
 });
 
+const empty = { title: "", sort_order: 0, duration_minutes: 15, kind: "video" as LessonKind, video_url: "", content: "", brief: "" };
+
 function ContentPage() {
   const { trainingId } = Route.useParams();
-  const { user } = useInstructorAuth();
-  const instructorId = user?.id ?? "";
-  const qc = useQueryClient();
 
-  const { data: modules = [], isLoading: isModulesLoading } = useQuery({
-    ...modulesQuery(instructorId, trainingId),
-    enabled: !!instructorId,
-  });
+  const { overview, isLoading: isOverviewLoading } = useInstructorTrainingOverview(trainingId);
+  const { modules, isLoading: isModulesLoading } = useModulesList(trainingId);
+  const moduleIds = modules.map((m) => m.id);
+  const { lessonsByModule, isLoading: isLessonsLoading } = useLessonsByModules(moduleIds);
 
-  const { data: lessons = [], isLoading: isLessonsLoading } = useQuery({
-    ...lessonsQuery(instructorId, trainingId),
-    enabled: !!instructorId,
-  });
+  const createModule = useCreateModule(trainingId);
+  const deleteModule = useDeleteModule(trainingId);
+  const submitModule = useSubmitModuleForReview(trainingId);
 
-  const { data: overview, isLoading: isOverviewLoading } = useQuery({
-    ...trainingOverviewQuery(instructorId, trainingId),
-    enabled: !!instructorId,
-  });
-
-  const [editing, setEditing] = useState<Lesson | null>(null);
-
-  const invalidate = () => {
-    qc.invalidateQueries({ queryKey: qk.modules(instructorId, trainingId) });
-    qc.invalidateQueries({ queryKey: qk.lessons(instructorId, trainingId) });
-    qc.invalidateQueries({ queryKey: qk.reviews(instructorId) });
-  };
-
-  const run = <T,>(promise: Promise<T>, message: string) =>
-    promise.then(() => { invalidate(); toast.success(message); }).catch((e: Error) => toast.error(e.message));
+  const createLesson = useCreateLesson();
+  const updateLesson = useUpdateLesson();
+  const deleteLesson = useDeleteLesson();
+  const submitLesson = useSubmitLessonForReview();
 
   const [moduleForm, setModuleForm] = useState({ title: "", description: "" });
-  const [lessonForm, setLessonForm] = useState({ module_id: "", title: "", type: "video" as LessonType, duration_minutes: 15, video_url: "", content: "", brief: "" });
+  const [lessonForm, setLessonForm] = useState<{ moduleId: string } & typeof empty>({ moduleId: "", ...empty });
+  const [editing, setEditing] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
 
-  const createModule = useMutation({
-    mutationFn: () => contentApi.createModule(trainingId, moduleForm.title, moduleForm.description),
-    onSuccess: () => { invalidate(); setModuleForm({ title: "", description: "" }); toast.success("Module créé en brouillon."); },
-    onError: (e: Error) => toast.error(e.message),
-  });
+  const run = (promise: Promise<unknown>, message: string) =>
+    promise.then(() => toast.success(message)).catch((e: Error) => toast.error(e.message));
 
-  const createLesson = useMutation({
-    mutationFn: () => contentApi.createLesson({ ...lessonForm, training_id: trainingId }),
-    onSuccess: () => { invalidate(); toast.success("Leçon créée en brouillon."); },
-    onError: (e: Error) => toast.error(e.message),
-  });
-
-  if (isModulesLoading || isLessonsLoading || isOverviewLoading || !overview) {
+  if (isOverviewLoading || isModulesLoading || !overview) {
     return (
       <div className="space-y-6">
         <div className="h-16 animate-pulse rounded-lg bg-muted" />
@@ -93,12 +67,14 @@ function ContentPage() {
     );
   }
 
+  const training = overview.data;
+
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow={overview.training.cohort}
-        title={`Contenu - ${overview.training.title}`}
-        description="Toute création ou modification repart en brouillon et nécessite une validation administrateur avant publication."
+        eyebrow={training.theme}
+        title={`${training.title}`}
+        description="Gestion des modules et leçons de cette formation."
         actions={
           <Dialog>
             <DialogTrigger asChild><Button variant="accent"><Plus className="size-4" /> Nouveau module</Button></DialogTrigger>
@@ -108,7 +84,23 @@ function ContentPage() {
                 <div className="space-y-2"><Label htmlFor="mt">Titre</Label><Input id="mt" value={moduleForm.title} onChange={(e) => setModuleForm((f) => ({ ...f, title: e.target.value }))} /></div>
                 <div className="space-y-2"><Label htmlFor="md">Description</Label><Textarea id="md" value={moduleForm.description} onChange={(e) => setModuleForm((f) => ({ ...f, description: e.target.value }))} /></div>
               </div>
-              <DialogFooter><Button variant="accent" onClick={() => createModule.mutate()} disabled={!moduleForm.title}>Créer</Button></DialogFooter>
+              <DialogFooter>
+                <Button
+                  variant="accent"
+                  disabled={!moduleForm.title}
+                  onClick={() =>
+                    createModule.mutate(
+                      { title: moduleForm.title, description: moduleForm.description, sort_order: modules.length },
+                      {
+                        onSuccess: () => { setModuleForm({ title: "", description: "" }); toast.success("Module créé en brouillon."); },
+                        onError: (e) => toast.error(e.message),
+                      }
+                    )
+                  }
+                >
+                  Créer
+                </Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
         }
@@ -118,7 +110,7 @@ function ContentPage() {
 
       <div className="space-y-5">
         {modules.map((m, index) => {
-          const moduleLessons = lessons.filter((l) => l.module_id === m.id).sort((a, b) => a.position - b.position);
+          const moduleLessons = lessonsByModule[m.id] ?? [];
           return (
             <Card key={m.id} className="border-border/70">
               <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -126,42 +118,69 @@ function ContentPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <CardTitle className="font-display text-xl">{index + 1}. {m.title}</CardTitle>
                     <ContentStatusBadge status={m.status} />
-                    {!m.is_active ? <Badge variant="outline">Désactivé</Badge> : null}
+                    {!m.isEnabled ? <Badge variant="outline">Désactivé</Badge> : null}
                   </div>
                   <p className="text-sm text-muted-foreground">{m.description}</p>
                 </div>
                 <div className="flex flex-wrap items-center gap-1.5">
-                  <Button size="icon" variant="ghost" aria-label="Monter" onClick={() => run(contentApi.moveModule(m.id, -1), "Ordre mis à jour.")}><ArrowUp className="size-4" /></Button>
-                  <Button size="icon" variant="ghost" aria-label="Descendre" onClick={() => run(contentApi.moveModule(m.id, 1), "Ordre mis à jour.")}><ArrowDown className="size-4" /></Button>
-                  <div className="flex items-center gap-2 px-2"><Switch checked={m.is_active} onCheckedChange={(v) => run(contentApi.updateModule(m.id, { is_active: v }), "Module mis à jour.")} aria-label="Activer le module" /></div>
-                  <Button size="sm" variant="soft" onClick={() => run(contentApi.submitForReview("module", m.id), "Module soumis à validation.")}><Send className="size-4" /> Soumettre</Button>
-                  <Button size="icon" variant="ghost" aria-label="Supprimer" onClick={() => run(contentApi.deleteModule(m.id), "Module supprimé.")}><Trash2 className="size-4 text-destructive" /></Button>
+                  <Button
+                    size="sm"
+                    variant="soft"
+                    onClick={() => run(submitModule.mutateAsync(m.id), "Module soumis à validation.")}
+                  >
+                    <Send className="size-4" /> Soumettre
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    aria-label="Supprimer"
+                    onClick={() => run(deleteModule.mutateAsync(m.id), "Module supprimé.")}
+                  >
+                    <Trash2 className="size-4 text-destructive" />
+                  </Button>
                 </div>
               </CardHeader>
               <CardContent className="space-y-2">
-                {moduleLessons.map((l) => (
-                  <div key={l.id} className="flex flex-col gap-2 rounded-lg border border-border/60 bg-card p-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="secondary">{lessonTypeLabels[l.type]}</Badge>
-                        <span className="truncate text-sm font-medium">{l.title}</span>
-                        <ContentStatusBadge status={l.status} />
+                {isLessonsLoading ? (
+                  <div className="h-10 animate-pulse rounded-lg bg-muted" />
+                ) : (
+                  moduleLessons.map((l) => (
+                    <div key={l.id} className="flex flex-col gap-2 rounded-lg border border-border/60 bg-card p-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge variant="secondary">{lessonKindLabels[l.kind]}</Badge>
+                          <span className="truncate text-sm font-medium">{l.title}</span>
+                          <ContentStatusBadge status={l.status} />
+                        </div>
+                        <p className="text-xs text-muted-foreground">{l.durationMinutes ?? 0} min</p>
                       </div>
-                      <p className="text-xs text-muted-foreground">{l.duration_minutes} min</p>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <Button size="sm" variant="ghost" onClick={() => setEditing({ moduleId: m.id, lesson: l })}>Éditer</Button>
+                        <Button
+                          size="sm"
+                          variant="soft"
+                          onClick={() => run(submitLesson.mutateAsync({ id: l.id, moduleId: m.id }), "Leçon soumise à validation.")}
+                        >
+                          Soumettre
+                        </Button>
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          aria-label="Supprimer la leçon"
+                          onClick={() => run(deleteLesson.mutateAsync({ id: l.id, moduleId: m.id }), "Leçon supprimée.")}
+                        >
+                          <Trash2 className="size-4 text-destructive" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <Button size="icon" variant="ghost" aria-label="Monter la leçon" onClick={() => run(contentApi.moveLesson(l.id, -1), "Ordre mis à jour.")}><ArrowUp className="size-4" /></Button>
-                      <Button size="icon" variant="ghost" aria-label="Descendre la leçon" onClick={() => run(contentApi.moveLesson(l.id, 1), "Ordre mis à jour.")}><ArrowDown className="size-4" /></Button>
-                      <Button size="sm" variant="ghost" onClick={() => setEditing(l)}>Éditer</Button>
-                      <Button size="sm" variant="soft" onClick={() => run(contentApi.submitForReview("lesson", l.id), "Leçon soumise à validation.")}>Soumettre</Button>
-                      <Button size="icon" variant="ghost" aria-label="Supprimer la leçon" onClick={() => run(contentApi.deleteLesson(l.id), "Leçon supprimée.")}><Trash2 className="size-4 text-destructive" /></Button>
-                    </div>
-                  </div>
-                ))}
+                  ))
+                )}
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="ghost" size="sm" onClick={() => setLessonForm((f) => ({ ...f, module_id: m.id }))}><Plus className="size-4" /> Ajouter une leçon</Button>
+                    <Button variant="ghost" size="sm" onClick={() => setLessonForm({ moduleId: m.id, ...empty, sort_order: moduleLessons.length })}>
+                      <Plus className="size-4" /> Ajouter une leçon
+                    </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader><DialogTitle className="font-display">Nouvelle leçon</DialogTitle></DialogHeader>
@@ -170,20 +189,44 @@ function ContentPage() {
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                           <Label>Type</Label>
-                          <Select value={lessonForm.type} onValueChange={(v) => setLessonForm((f) => ({ ...f, type: v as LessonType }))}>
+                          <Select value={lessonForm.kind} onValueChange={(v) => setLessonForm((f) => ({ ...f, kind: v as LessonKind }))}>
                             <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>
-                              {(Object.keys(lessonTypeLabels) as LessonType[]).map((t) => (<SelectItem key={t} value={t}>{lessonTypeLabels[t]}</SelectItem>))}
+                              {(Object.keys(lessonKindLabels) as LessonKind[]).map((k) => (<SelectItem key={k} value={k}>{lessonKindLabels[k]}</SelectItem>))}
                             </SelectContent>
                           </Select>
                         </div>
                         <div className="space-y-2"><Label htmlFor="ld">Durée (min)</Label><Input id="ld" type="number" value={lessonForm.duration_minutes} onChange={(e) => setLessonForm((f) => ({ ...f, duration_minutes: Number(e.target.value) }))} /></div>
                       </div>
-                      {lessonForm.type === "video" ? (<div className="space-y-2"><Label htmlFor="lv">URL de la vidéo</Label><Input id="lv" value={lessonForm.video_url} onChange={(e) => setLessonForm((f) => ({ ...f, video_url: e.target.value }))} /></div>) : null}
-                      {lessonForm.type === "reading" ? (<div className="space-y-2"><Label htmlFor="lc">Contenu</Label><Textarea id="lc" rows={4} value={lessonForm.content} onChange={(e) => setLessonForm((f) => ({ ...f, content: e.target.value }))} /></div>) : null}
-                      {["exercise", "assignment", "project"].includes(lessonForm.type) ? (<div className="space-y-2"><Label htmlFor="lb">Brief</Label><Textarea id="lb" rows={4} value={lessonForm.brief} onChange={(e) => setLessonForm((f) => ({ ...f, brief: e.target.value }))} /></div>) : null}
+                      {lessonForm.kind === "video" ? (<div className="space-y-2"><Label htmlFor="lv">URL de la vidéo</Label><Input id="lv" value={lessonForm.video_url} onChange={(e) => setLessonForm((f) => ({ ...f, video_url: e.target.value }))} /></div>) : null}
+                      {lessonForm.kind === "reading" ? (<div className="space-y-2"><Label htmlFor="lc">Contenu</Label><Textarea id="lc" rows={4} value={lessonForm.content} onChange={(e) => setLessonForm((f) => ({ ...f, content: e.target.value }))} /></div>) : null}
+                      {["exercise", "assignment", "project", "quiz"].includes(lessonForm.kind) ? (<div className="space-y-2"><Label htmlFor="lb">Brief</Label><Textarea id="lb" rows={4} value={lessonForm.brief} onChange={(e) => setLessonForm((f) => ({ ...f, brief: e.target.value }))} /></div>) : null}
                     </div>
-                    <DialogFooter><Button variant="accent" onClick={() => createLesson.mutate()} disabled={!lessonForm.title}>Créer en brouillon</Button></DialogFooter>
+                    <DialogFooter>
+                      <Button
+                        variant="accent"
+                        disabled={!lessonForm.title}
+                        onClick={() =>
+                          createLesson.mutate(
+                            {
+                              moduleId: lessonForm.moduleId,
+                              payload: {
+                                title: lessonForm.title,
+                                sort_order: lessonForm.sort_order,
+                                duration_minutes: lessonForm.duration_minutes,
+                                kind: lessonForm.kind,
+                                video_url: lessonForm.kind === "video" ? lessonForm.video_url : undefined,
+                                content: lessonForm.kind === "reading" ? lessonForm.content : undefined,
+                                brief: ["exercise", "assignment", "project", "quiz"].includes(lessonForm.kind) ? lessonForm.brief : undefined,
+                              },
+                            },
+                            { onSuccess: () => toast.success("Leçon créée en brouillon."), onError: (e) => toast.error(e.message) }
+                          )
+                        }
+                      >
+                        Créer en brouillon
+                      </Button>
+                    </DialogFooter>
                   </DialogContent>
                 </Dialog>
               </CardContent>
@@ -194,11 +237,13 @@ function ContentPage() {
 
       <Dialog open={!!editing} onOpenChange={(open) => !open && setEditing(null)}>
         <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
-          <DialogHeader><DialogTitle className="font-display">{editing?.title}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle className="font-display">{editing?.lesson.title}</DialogTitle></DialogHeader>
           {editing ? (
             <LessonEditor
-              lesson={editing}
-              onSaved={() => { invalidate(); setEditing(null); }}
+              moduleId={editing.moduleId}
+              lesson={editing.lesson}
+              onSaved={() => setEditing(null)}
+              updateLesson={updateLesson}
             />
           ) : null}
         </DialogContent>
@@ -207,44 +252,61 @@ function ContentPage() {
   );
 }
 
-function LessonEditor({ lesson, onSaved }: { lesson: Lesson; onSaved: () => void }) {
-  const [draft, setDraft] = useState(lesson);
-  const save = async () => {
-    try {
-      await contentApi.updateLesson(lesson.id, draft);
-      toast.success("Leçon enregistrée en brouillon.");
-      onSaved();
-    } catch (e) { toast.error((e as Error).message); }
+function LessonEditor({
+  moduleId,
+  lesson,
+  onSaved,
+  updateLesson,
+}: {
+  moduleId: string;
+  lesson: APIInstructorLesson;
+  onSaved: () => void;
+  updateLesson: ReturnType<typeof useUpdateLesson>;
+}) {
+  const [draft, setDraft] = useState({
+    title: lesson.title,
+    duration_minutes: Number(lesson.durationMinutes ?? 0),
+    video_url: lesson.videoUrl ?? "",
+    content: lesson.content ?? "",
+    brief: lesson.brief ?? "",
+  });
+
+  const save = () => {
+    updateLesson.mutate(
+      {
+        id: lesson.id,
+        moduleId,
+        payload: {
+          title: draft.title,
+          kind: lesson.kind,
+          duration_minutes: draft.duration_minutes,
+          video_url: lesson.kind === "video" ? draft.video_url : undefined,
+          content: lesson.kind === "reading" ? draft.content : undefined,
+          brief: ["exercise", "assignment", "project", "quiz"].includes(lesson.kind) ? draft.brief : undefined,
+        },
+      },
+      {
+        onSuccess: () => { toast.success("Leçon enregistrée en brouillon."); onSaved(); },
+        onError: (e) => toast.error(e.message),
+      }
+    );
   };
 
   return (
     <div className="space-y-5">
       <div className="space-y-2"><Label htmlFor="et">Titre</Label><Input id="et" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></div>
       <div className="space-y-2"><Label htmlFor="ed">Durée (min)</Label><Input id="ed" type="number" value={draft.duration_minutes} onChange={(e) => setDraft({ ...draft, duration_minutes: Number(e.target.value) })} /></div>
-      {draft.type === "video" ? (
-        <>
-          <div className="space-y-2"><Label htmlFor="ev">URL vidéo</Label><Input id="ev" value={draft.video_url ?? ""} onChange={(e) => setDraft({ ...draft, video_url: e.target.value })} /></div>
-          <div className="space-y-2">
-            <Label>Chapitrage</Label>
-            {(draft.chapters ?? []).map((c, i) => (
-              <div key={c.id} className="flex gap-2">
-                <Input value={c.timecode} className="w-28" onChange={(e) => { const chapters = [...(draft.chapters ?? [])]; chapters[i] = { ...c, timecode: e.target.value }; setDraft({ ...draft, chapters }); }} />
-                <Input value={c.label} onChange={(e) => { const chapters = [...(draft.chapters ?? [])]; chapters[i] = { ...c, label: e.target.value }; setDraft({ ...draft, chapters }); }} />
-              </div>
-            ))}
-            <Button variant="ghost" size="sm" onClick={() => setDraft({ ...draft, chapters: [...(draft.chapters ?? []), { id: `chp_${Date.now()}`, label: "Nouveau chapitre", timecode: "00:00" }] })}><Plus className="size-4" /> Ajouter un chapitre</Button>
-          </div>
-        </>
+      {lesson.kind === "video" ? (
+        <div className="space-y-2"><Label htmlFor="ev">URL vidéo</Label><Input id="ev" value={draft.video_url} onChange={(e) => setDraft({ ...draft, video_url: e.target.value })} /></div>
       ) : null}
-      {draft.type === "reading" ? (<div className="space-y-2"><Label htmlFor="ec">Contenu</Label><Textarea id="ec" rows={6} value={draft.content ?? ""} onChange={(e) => setDraft({ ...draft, content: e.target.value })} /></div>) : null}
-      {["exercise", "assignment", "project"].includes(draft.type) ? (<div className="space-y-2"><Label htmlFor="eb">Brief</Label><Textarea id="eb" rows={5} value={draft.brief ?? ""} onChange={(e) => setDraft({ ...draft, brief: e.target.value })} /></div>) : null}
-      {draft.type === "quiz" || draft.type === "exercise" ? (
-        <QuizBuilder
-          value={draft.quiz ?? { time_limit_minutes: draft.type === "quiz" ? 15 : null, pass_threshold: 70, max_attempts: 3, manual_grading: draft.type === "exercise", questions: [] }}
-          isExercise={draft.type === "exercise"}
-          onChange={(quiz) => setDraft({ ...draft, quiz })}
-        />
+      {lesson.kind === "reading" ? (
+        <div className="space-y-2"><Label htmlFor="ec">Contenu</Label><Textarea id="ec" rows={6} value={draft.content} onChange={(e) => setDraft({ ...draft, content: e.target.value })} /></div>
       ) : null}
+      {["exercise", "assignment", "project", "quiz"].includes(lesson.kind) ? (
+        <div className="space-y-2"><Label htmlFor="eb">Brief</Label><Textarea id="eb" rows={5} value={draft.brief} onChange={(e) => setDraft({ ...draft, brief: e.target.value })} /></div>
+      ) : null}
+      {/* Le chapitrage vidéo et la structure d'un quiz ne sont pas encore confirmés par un curl —
+          à réintroduire dès que la forme exacte de `chapters` et d'un éventuel objet quiz sera connue. */}
       <div className="flex justify-end gap-2"><Button variant="accent" onClick={save}>Enregistrer</Button></div>
     </div>
   );
