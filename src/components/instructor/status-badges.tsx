@@ -31,7 +31,7 @@ const submissionTone: Record<SubmissionStatus, string> = {
 export function ContentStatusBadge({ status, className }: { status: ContentStatus; className?: string }) {
   return (
     <Badge variant="outline" className={cn("font-medium", contentTone[status], className)}>
-      {statusLabels[status]}
+      {contentStatusLabels[status]}
     </Badge>
   );
 }
