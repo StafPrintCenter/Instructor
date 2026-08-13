@@ -13,8 +13,12 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ContentStatusBadge } from "@/components/instructor/status-badges";
-import { lessonKindLabels, type LessonKind, type APIInstructorLesson } from "@/data/content";
-import { useModulesList, useCreateModule, useDeleteModule, useSubmitModuleForReview } from "@/stores/useModulesStore";
+import { ConfirmDelete, ConfirmAction } from "@/components/site/InstructorBits";
+import {
+  lessonKindLabels, getYoutubeEmbedUrl, type LessonKind,
+  type APIInstructorLesson, type APIInstructorModule
+} from "@/data/content";
+import { useModulesList, useCreateModule, useUpdateModule, useDeleteModule, useSubmitModuleForReview } from "@/stores/useModulesStore";
 import { useLessonsByModules, useCreateLesson, useUpdateLesson, useDeleteLesson, useSubmitLessonForReview } from "@/stores/useLessonsStore";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
