@@ -165,12 +165,22 @@ function ContentPage() {
           const moduleLessons = lessonsByModule[m.id] ?? [];
           return (
             <Card key={m.id} className="border-border/70">
-              <CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="space-y-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <CardTitle className="font-display text-xl">{index + 1}. {m.title}</CardTitle>
-                    <ContentStatusBadge status={m.status} />
-                    {!m.isEnabled ? <Badge variant="outline">Désactivé</Badge> : null}
+              <CardHeader className="flex flex-row items-start justify-between gap-3 py-4">
+                <button
+                  type="button"
+                  onClick={() => toggleModule(m.id)}
+                  className="flex flex-1 items-start gap-2 text-left"
+                  aria-expanded={isExpanded}
+                >
+                  {isExpanded ? <ChevronDown className="mt-1 size-4 shrink-0 text-muted-foreground" /> : <ChevronRight className="mt-1 size-4 shrink-0 text-muted-foreground" />}
+                  <div className="space-y-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <CardTitle className="font-display text-lg">{index + 1}. {m.title}</CardTitle>
+                      <ContentStatusBadge status={m.status} />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {m.lessonsCount} leçon{m.lessonsCount > 1 ? "s" : ""} · ordre {m.sortOrder} · créé le {formatDate(m.createdAt)}
+                    </p>
                   </div>
                   <p className="text-sm text-muted-foreground">{m.description}</p>
                 </div>
