@@ -210,7 +210,7 @@ function DashboardPage() {
                         </Link>
                       </Button>
                       <Button asChild size="sm" variant="accent" className="flex-1">
-                        <Link to="/trainings/$trainingId/contenu" params={{ trainingId: training.id }}>
+                        <Link to="/trainings/$trainingId/manage" params={{ trainingId: training.id }}>
                           Contenu
                         </Link>
                       </Button>
