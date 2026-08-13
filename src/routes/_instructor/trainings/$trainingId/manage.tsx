@@ -184,16 +184,8 @@ function ContentPage() {
                       {m.lessonsCount} leçon{m.lessonsCount > 1 ? "s" : ""} · ordre {m.sortOrder} · créé le {formatDate(m.createdAt)}
                     </p>
                   </div>
-                  <p className="text-sm text-muted-foreground">{m.description}</p>
-                </div>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <Button
-                    size="sm"
-                    variant="soft"
-                    onClick={() => run(submitModule.mutateAsync(m.id), "Module soumis à validation.")}
-                  >
-                    <Send className="size-4" /> Soumettre
-                  </Button>
+                </button>
+                <div className="flex items-center gap-1">
                   <Button
                     size="icon"
                     variant="ghost"
