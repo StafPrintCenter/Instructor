@@ -74,29 +74,7 @@ function TrainingsPage() {
 
                   <p className="text-sm text-muted-foreground">{t.trainingShort}</p>
 
-                  <div className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-2">
-                    {/* Ligne 1 : Apprenants & Lieu */}
-                    <span className="flex items-center gap-1.5 min-w-0 truncate">
-                      <Users className="size-3.5 shrink-0" /> {t.trainingCurrentStudents ?? 0} apprenants
-                    </span>
 
-                    <span className="flex items-center gap-1.5 min-w-0 truncate">
-                      <MapPin className="size-3.5 shrink-0" /> {t.trainingLocation ?? "À définir"}
-                    </span>
-
-                    {/* Ligne 2 : Date d'assignation & Période */}
-                    {t.assignedAt && (
-                      <span className="flex items-center gap-1.5 min-w-0 truncate text-muted-foreground/80">
-                        <CalendarPlus className="size-3.5 shrink-0" /> Assigné le {formatDate(t.assignedAt)}
-                      </span>
-                    )}
-
-                    {t.trainingStartDate && t.trainingEndDate && (
-                      <span className="flex items-center gap-1.5 min-w-0 truncate">
-                        <Calendar className="size-3.5 shrink-0" /> Du {formatDate(t.trainingStartDate)} au {formatDate(t.trainingEndDate)}
-                      </span>
-                    )}
-                  </div>
 
 
                   <div className="space-y-2 text-xs text-muted-foreground">
