@@ -140,7 +140,10 @@ function ContentPage() {
                     createModule.mutate(
                       { title: moduleForm.title, description: moduleForm.description, sort_order: modules.length },
                       {
-                        onSuccess: () => { setModuleForm({ title: "", description: "" }); toast.success("Module créé en brouillon."); },
+                        onSuccess: () => {
+                          setIsCreateModuleOpen(false);
+                          toast.success("Module créé en brouillon.");
+                        },
                         onError: (e) => toast.error(e.message),
                       }
                     )
