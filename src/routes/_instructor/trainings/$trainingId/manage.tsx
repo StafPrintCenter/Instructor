@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronDown, ChevronRight, Loader2, Pencil, Plus, Send, Trash2, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Loader2, Pencil, Plus, Send, Trash2, X, Video, BookOpen, HelpCircle, Dumbbell, FileCheck, FolderKanban, Clock, ExternalLink, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,6 +36,16 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage"
 /** Kinds pour lesquels le chapitrage est proposé — quiz/exercise/assignment/project n'en ont pas besoin. */
 const CHAPTERS_ALLOWED_KINDS: LessonKind[] = ["video", "reading"];
 const BRIEF_KINDS: LessonKind[] = ["exercise", "assignment", "project", "quiz"];
+
+/** Icônes associées au type de leçon */
+const LESSON_KIND_ICONS: Record<LessonKind, React.ElementType> = {
+  video: Video,
+  reading: BookOpen,
+  quiz: HelpCircle,
+  exercise: Dumbbell,
+  assignment: FileCheck,
+  project: FolderKanban,
+};
 
 const emptyLesson = {
   title: "",
@@ -170,15 +180,19 @@ function ContentPage() {
           const isExpanded = expandedModules.has(m.id);
 
           return (
-            <Card key={m.id} className="border-border/70">
+            <Card key={m.id} className="border-border/70 shadow-sm transition-all hover:border-border">
               <CardHeader className="flex flex-row items-start justify-between gap-3 py-4">
                 <button
                   type="button"
                   onClick={() => toggleModule(m.id)}
-                  className="flex flex-1 items-start gap-2 text-left"
+                  className="flex flex-1 items-start gap-2.5 text-left"
                   aria-expanded={isExpanded}
                 >
-                  {isExpanded ? <ChevronDown className="mt-1 size-4 shrink-0 text-muted-foreground" /> : <ChevronRight className="mt-1 size-4 shrink-0 text-muted-foreground" />}
+                  {isExpanded ? (
+                    <ChevronDown className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform" />
+                  ) : (
+                    <ChevronRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform" />
+                  )}
                   <div className="space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <CardTitle className="font-display text-lg">{index + 1}. {m.title}</CardTitle>
@@ -211,21 +225,30 @@ function ContentPage() {
               </CardHeader>
 
               {isExpanded ? (
-                <CardContent className="space-y-1.5 pt-0">
+                <CardContent className="space-y-2.5 pt-0">
                   {isLessonsLoading ? (
-                    <div className="h-10 animate-pulse rounded-lg bg-muted" />
+                    <div className="space-y-2">
+                      <div className="h-12 animate-pulse rounded-xl bg-muted/60" />
+                      <div className="h-12 animate-pulse rounded-xl bg-muted/60" />
+                    </div>
+                  ) : moduleLessons.length > 0 ? (
+                    <div className="space-y-2">
+                      {moduleLessons.map((l) => (
+                        <LessonRow
+                          key={l.id}
+                          lesson={l}
+                          isOpen={expandedLessons.has(l.id)}
+                          onToggle={() => toggleLesson(l.id)}
+                          onEdit={() => setEditingLesson({ moduleId: m.id, lesson: l })}
+                          onSubmit={() => setLessonToSubmit({ moduleId: m.id, lesson: l })}
+                          onDelete={() => setLessonToDelete({ moduleId: m.id, lesson: l })}
+                        />
+                      ))}
+                    </div>
                   ) : (
-                    moduleLessons.map((l) => (
-                      <LessonRow
-                        key={l.id}
-                        lesson={l}
-                        isOpen={expandedLessons.has(l.id)}
-                        onToggle={() => toggleLesson(l.id)}
-                        onEdit={() => setEditingLesson({ moduleId: m.id, lesson: l })}
-                        onSubmit={() => setLessonToSubmit({ moduleId: m.id, lesson: l })}
-                        onDelete={() => setLessonToDelete({ moduleId: m.id, lesson: l })}
-                      />
-                    ))
+                    <div className="rounded-xl border border-dashed border-border/80 p-6 text-center text-xs text-muted-foreground">
+                      Aucune leçon dans ce module. Cliquez ci-dessous pour en ajouter une.
+                    </div>
                   )}
 
                   <Dialog
@@ -236,11 +259,11 @@ function ContentPage() {
                     }}
                   >
                     <DialogTrigger asChild>
-                      <Button variant="ghost" size="sm" className="mt-1">
-                        <Plus className="size-4" /> Ajouter une leçon
+                      <Button variant="outline" size="sm" className="mt-2 w-full border-dashed hover:border-solid hover:bg-accent/5">
+                        <Plus className="mr-1.5 size-4" /> Ajouter une leçon
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-h-[85vh] overflow-y-auto">
+                    <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
                       <DialogHeader><DialogTitle className="font-display">Nouvelle leçon</DialogTitle></DialogHeader>
                       <LessonForm
                         form={lessonForm}
@@ -413,63 +436,146 @@ function LessonRow({
   onDelete: () => void;
 }) {
   const embedUrl = l.videoUrl ? getYoutubeEmbedUrl(l.videoUrl) : null;
-  const hasDetails = l.content || l.brief || l.videoUrl || (l.chapters && l.chapters.length > 0);
+  const hasDetails = Boolean(l.content || l.brief || l.videoUrl || (l.chapters && l.chapters.length > 0));
+  const KindIcon = LESSON_KIND_ICONS[l.kind] || BookOpen;
 
   return (
-    <div className="rounded-lg border border-border/50">
-      <div className="flex items-center gap-2 px-3 py-2">
+    <div
+      className={`group rounded-xl border transition-all duration-200 ${isOpen
+        ? "border-primary/30 bg-muted/20 shadow-sm"
+        : "border-border/60 bg-card hover:border-border hover:bg-muted/10"
+        }`}
+    >
+      <div className="flex items-center justify-between gap-3 px-3.5 py-3">
         <button
           type="button"
           onClick={onToggle}
           disabled={!hasDetails}
-          className="flex flex-1 items-center gap-2 text-left disabled:cursor-default"
+          className="flex flex-1 items-center gap-3 text-left disabled:cursor-default"
         >
-          {hasDetails ? (
-            isOpen ? <ChevronDown className="size-3.5 shrink-0 text-muted-foreground" /> : <ChevronRight className="size-3.5 shrink-0 text-muted-foreground" />
-          ) : (
-            <span className="size-3.5 shrink-0" />
-          )}
-          <span className="truncate text-sm font-medium">{l.title}</span>
-          <Badge variant="secondary" className="shrink-0 text-[10px]">{lessonKindLabels[l.kind]}</Badge>
+          {/* Indicateur de développement */}
+          <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-muted/60 text-muted-foreground transition-colors group-hover:bg-muted">
+            {hasDetails ? (
+              isOpen ? (
+                <ChevronDown className="size-4 text-foreground" />
+              ) : (
+                <ChevronRight className="size-4 text-muted-foreground group-hover:text-foreground" />
+              )
+            ) : (
+              <span className="size-1.5 rounded-full bg-muted-foreground/40" />
+            )}
+          </div>
+
+          {/* Icône du type de leçon */}
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <KindIcon className="size-4" />
+          </div>
+
+          {/* Titre & Badges */}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <span className="truncate text-sm font-semibold tracking-tight text-foreground">{l.title}</span>
+              {l.isMandatory ? (
+                <Badge variant="outline" className="h-4 shrink-0 rounded-sm border-amber-500/30 bg-amber-500/10 text-[9px] font-medium text-amber-600 dark:text-amber-400 px-1">
+                  Obligatoire
+                </Badge>
+              ) : null}
+            </div>
+            <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+              <span>{lessonKindLabels[l.kind]}</span>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <Clock className="size-3" /> {l.durationMinutes ?? "—"} min
+              </span>
+            </div>
+          </div>
+
           <ContentStatusBadge status={l.status} className="shrink-0" />
-          <span className="ml-auto shrink-0 text-xs text-muted-foreground">{l.durationMinutes ?? "—"} min</span>
         </button>
-        <div className="flex shrink-0 items-center gap-0.5">
-          <Button size="icon" variant="ghost" className="size-7" aria-label="Éditer" onClick={onEdit}><Pencil className="size-3.5" /></Button>
-          <Button size="icon" variant="ghost" className="size-7" aria-label="Soumettre" onClick={onSubmit}><Send className="size-3.5" /></Button>
-          <Button size="icon" variant="ghost" className="size-7" aria-label="Supprimer" onClick={onDelete}><Trash2 className="size-3.5 text-destructive" /></Button>
+
+        {/* Actions sur la leçon */}
+        <div className="flex shrink-0 items-center gap-1 pl-2 border-l border-border/40">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="size-8 text-muted-foreground hover:text-foreground"
+            aria-label="Éditer"
+            onClick={onEdit}
+          >
+            <Pencil className="size-3.5" />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="size-8 text-muted-foreground hover:text-foreground"
+            aria-label="Soumettre"
+            onClick={onSubmit}
+          >
+            <Send className="size-3.5" />
+          </Button>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="size-8 text-muted-foreground hover:text-destructive"
+            aria-label="Supprimer"
+            onClick={onDelete}
+          >
+            <Trash2 className="size-3.5" />
+          </Button>
         </div>
       </div>
 
+      {/* Détails déroulants de la leçon */}
       {isOpen && hasDetails ? (
-        <div className="space-y-3 border-t border-border/50 px-3 py-2.5 text-sm">
+        <div className="space-y-4 border-t border-border/40 bg-background/50 p-4 rounded-b-xl text-sm">
           {embedUrl ? (
-            <div className="aspect-video w-full overflow-hidden rounded-md border border-border/60">
+            <div className="overflow-hidden rounded-lg border border-border/60 shadow-sm aspect-video w-full max-w-2xl mx-auto">
               <iframe src={embedUrl} title={l.title} className="h-full w-full" allowFullScreen />
             </div>
           ) : l.videoUrl ? (
-            <a href={l.videoUrl} target="_blank" rel="noreferrer" className="text-primary underline">Voir la vidéo (lien externe)</a>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="font-medium text-muted-foreground">Lien vidéo :</span>
+              <a
+                href={l.videoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 text-primary hover:underline font-medium"
+              >
+                Ouvrir la vidéo dans un nouvel onglet <ExternalLink className="size-3" />
+              </a>
+            </div>
           ) : null}
 
           {l.content ? (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Contenu</p>
-              <p className="mt-1 whitespace-pre-wrap text-foreground/90">{l.content}</p>
+            <div className="rounded-lg border border-border/40 bg-card p-3.5 space-y-1.5">
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                <BookOpen className="size-3.5" /> Contenu
+              </p>
+              <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">{l.content}</p>
             </div>
           ) : null}
 
           {l.brief ? (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Résumé</p>
-              <p className="mt-1 whitespace-pre-wrap text-foreground/90">{l.brief}</p>
+            <div className="rounded-lg border border-border/40 bg-card p-3.5 space-y-1.5">
+              <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                <Sparkles className="size-3.5" /> Résumé
+              </p>
+              <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">{l.brief}</p>
             </div>
           ) : null}
 
           {l.chapters && l.chapters.length > 0 ? (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Chapitres</p>
-              <ul className="mt-1 list-disc space-y-0.5 pl-4 text-foreground/90">
-                {l.chapters.map((c, i) => <li key={i}>{c}</li>)}
+            <div className="rounded-lg border border-border/40 bg-card p-3.5 space-y-2">
+              <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Chapitres</p>
+              <ul className="grid gap-1.5 sm:grid-cols-2">
+                {l.chapters.map((c, i) => (
+                  <li key={i} className="flex items-center gap-2 rounded-md bg-muted/40 px-2.5 py-1.5 text-xs text-foreground/90">
+                    <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/20 text-[10px] font-bold text-primary">
+                      {i + 1}
+                    </span>
+                    <span className="truncate">{c}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           ) : null}
