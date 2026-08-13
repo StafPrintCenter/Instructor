@@ -73,6 +73,7 @@ function TrainingsPage() {
                   </div>
 
                   <p className="text-sm text-muted-foreground">{t.trainingShort}</p>
+
                   <div className="space-y-2 text-xs text-muted-foreground">
                     {/* Ligne 1 : Apprenants & Localisation */}
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-1.5">
