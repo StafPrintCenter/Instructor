@@ -120,9 +120,6 @@ function TrainingDetail() {
               {getTrainingStatusLabel(training.status)}
             </Badge>
 
-            <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-              <Clock className="size-3.5" /> {training.duration}
-            </span>
             <span
               className="rounded-full px-3 py-1 font-display font-semibold text-white shadow-sm"
               style={{ backgroundColor: mainColor }}
