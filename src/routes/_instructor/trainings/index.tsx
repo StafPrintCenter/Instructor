@@ -51,6 +51,12 @@ function TrainingsPage() {
                       <div className="mb-2 flex flex-wrap items-center gap-1.5">
                         <Badge variant="outline">{t.trainingTheme}</Badge>
                         <Badge variant={roleConfig.variant}>{roleConfig.label}</Badge>
+                        <Badge
+                          variant="outline"
+                          className={cn("border font-medium", getTrainingStatusBadgeClass(t.trainingStatus))}
+                        >
+                          {getTrainingStatusLabel(t.trainingStatus)}
+                        </Badge>
                       </div>
                       <h2 className="font-display text-xl leading-snug">{t.trainingTitle}</h2>
                     </div>
