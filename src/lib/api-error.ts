@@ -1,5 +1,3 @@
-// src/lib/api-error.ts
-
 /**
  * Extrait le message d'erreur réel renvoyé par le backend (403: { message },
  * 422: { errors: { champ: [messages] } }) plutôt que d'afficher un message générique.
