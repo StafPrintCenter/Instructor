@@ -1,4 +1,3 @@
-// src/routes/_instructor/trainings/$trainingId/manage.tsx
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Send, Trash2 } from "lucide-react";
