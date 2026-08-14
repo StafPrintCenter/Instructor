@@ -588,7 +588,14 @@ function LessonRow({
 function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: (chapters: string[]) => void }) {
   return (
     <div className="space-y-2">
-      <Label>Chapitres (optionnel)</Label>
+      <div className="flex items-center justify-between">
+        <Label>Chapitres (optionnel)</Label>
+        <Button type="button" variant="success"
+          size="sm" onClick={() => onChange([...chapters, ""])}>
+          <Plus className="size-4 mr-1" /> Ajouter un chapitre
+        </Button>
+      </div>
+
       {chapters.map((c, i) => (
         <div key={i} className="flex gap-2">
           <Input
@@ -600,14 +607,11 @@ function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: 
               onChange(next);
             }}
           />
-          <Button size="icon" variant="ghost" aria-label="Retirer" onClick={() => onChange(chapters.filter((_, idx) => idx !== i))}>
+          <Button type="button" size="icon" variant="ghost" aria-label="Retirer" onClick={() => onChange(chapters.filter((_, idx) => idx !== i))}>
             <Trash2 className="size-4 text-destructive" />
           </Button>
         </div>
       ))}
-      <Button variant="outline" size="sm" onClick={() => onChange([...chapters, ""])}>
-        <Plus className="size-4" /> Ajouter un chapitre
-      </Button>
     </div>
   );
 }
