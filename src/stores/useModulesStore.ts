@@ -30,8 +30,8 @@ function buildFormData(payload: Record<string, unknown>): FormData {
 async function fetchModules(trainingId: string): Promise<APIInstructorModule[]> {
   const response = await instructorFetch(`/api/instructor/trainings/${trainingId}/modules/list`);
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération des modules");
-  const json: ListResponse<APIInstructorModule> = await response.json();
-  return json.data;
+  const json: ListResponse<APIInstructorModuleListEntry> = await response.json();
+  return json.data.map((entry) => entry.module);
 }
 
 async function createModule(trainingId: string, payload: InstructorModulePayload): Promise<APIInstructorModule> {
