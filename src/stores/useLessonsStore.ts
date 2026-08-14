@@ -30,14 +30,14 @@ function buildFormData(payload: Record<string, unknown>): FormData {
 }
 
 async function fetchLessons(moduleId: string): Promise<APIInstructorLesson[]> {
-  const response = await instructorFetch(`/api/instructor/trainings/modules/${moduleId}/lessons/list`);
+  const response = await instructorFetch(`/api/instructor/trainings/${moduleId}/lessons/list`);
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération des leçons");
   const json: ListResponse<APIInstructorLesson> = await response.json();
   return json.data;
 }
 
 async function createLesson(moduleId: string, payload: InstructorLessonPayload): Promise<APIInstructorLesson> {
-  const response = await instructorFetch(`/api/instructor/trainings/modules/${moduleId}/lessons/create`, {
+  const response = await instructorFetch(`/api/instructor/trainings/${moduleId}/lessons/create`, {
     method: "POST",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
