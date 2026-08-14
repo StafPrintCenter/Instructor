@@ -590,7 +590,7 @@ function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: 
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <Label>Chapitres (optionnel)</Label>
-        <Button type="button" variant="success"
+        <Button type="button" variant="outline"
           size="sm" onClick={() => onChange([...chapters, ""])}>
           <Plus className="size-4 mr-1" /> Ajouter un chapitre
         </Button>
