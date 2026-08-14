@@ -55,7 +55,8 @@ export async function fetchInstructorMe(): Promise<APIInstructorUser | null> {
   if (!response.ok) {
     throw new InstructorAuthApiError("Erreur lors de la vérification de la session.");
   }
-  return response.json();
+  const body = await response.json();
+  return body?.data ?? body?.instructor ?? body;
 }
 
 export async function logoutInstructor(): Promise<void> {
