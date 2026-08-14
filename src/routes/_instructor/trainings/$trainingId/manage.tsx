@@ -605,7 +605,7 @@ function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: 
           </Button>
         </div>
       ))}
-      <Button variant="ghost" size="sm" onClick={() => onChange([...chapters, ""])}>
+      <Button variant="outline" size="sm" onClick={() => onChange([...chapters, ""])}>
         <Plus className="size-4" /> Ajouter un chapitre
       </Button>
     </div>
