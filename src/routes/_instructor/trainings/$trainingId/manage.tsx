@@ -601,7 +601,7 @@ function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: 
             }}
           />
           <Button size="icon" variant="ghost" aria-label="Retirer" onClick={() => onChange(chapters.filter((_, idx) => idx !== i))}>
-            <X className="size-4 text-destructive" />
+            <Trash2 className="size-4 text-destructive" />
           </Button>
         </div>
       ))}
