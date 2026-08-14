@@ -13,6 +13,21 @@ export interface APIInstructorModule {
   createdAt: string;
 }
 
+/** Contexte formation renvoyé en accompagnement dans les listes modules/leçons — non consommé pour l'instant, la page utilise déjà useInstructorTrainingOverview. */
+export interface APIInstructorModuleListTrainingContext {
+  id: string;
+  title: string;
+  level: string;
+  status: ContentStatus;
+  coverColor: string | null;
+}
+
+/** Forme d'un item de GET /instructor/trainings/{trainingId}/modules/list */
+export interface APIInstructorModuleListEntry {
+  training: APIInstructorModuleListTrainingContext;
+  module: APIInstructorModule;
+}
+
 export interface InstructorModulePayload {
   title: string;
   description?: string;
