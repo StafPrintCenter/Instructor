@@ -26,7 +26,12 @@ export interface InstructorAuthUser {
   createdAt: string;
 }
 
-function toInstructorAuthUser(instructor: APIInstructorUser): InstructorAuthUser {
+function toInstructorAuthUser(rawInstructor: any): InstructorAuthUser {
+  const instructor = rawInstructor?.data ?? rawInstructor?.instructor ?? rawInstructor ?? {};
+  const firstName = instructor.firstName ?? instructor.first_name ?? "";
+  const lastName = instructor.lastName ?? instructor.last_name ?? "";
+  const fullName = instructor.name ?? instructor.fullname ?? (`${firstName} ${lastName}`.trim() || "Formateur");
+
   return {
     id: instructor.id,
     firstName: instructor.firstName,
