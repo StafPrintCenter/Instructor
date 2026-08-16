@@ -21,7 +21,6 @@ export interface APIInstructorModuleListTrainingContext {
   coverColor: string | null;
 }
 
-/** Forme d'un item de GET /instructor/trainings/{trainingId}/modules/list */
 export interface APIInstructorModuleListEntry {
   training: APIInstructorModuleListTrainingContext;
   module: APIInstructorModule;
