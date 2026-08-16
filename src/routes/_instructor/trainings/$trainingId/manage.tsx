@@ -1,6 +1,25 @@
+// src/routes/_instructor/trainings/$trainingId/manage.tsx
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronDown, ChevronRight, Loader2, Pencil, Plus, Send, Trash2, X, Video, BookOpen, HelpCircle, Dumbbell, FileCheck, FolderKanban, Clock, ExternalLink, Sparkles } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Loader2,
+  Pencil,
+  Plus,
+  Send,
+  Trash2,
+  X,
+  Video,
+  BookOpen,
+  HelpCircle,
+  Dumbbell,
+  FileCheck,
+  FolderKanban,
+  Clock,
+  ExternalLink,
+  Sparkles,
+} from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +33,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ContentStatusBadge } from "@/components/instructor/status-badges";
 import { ConfirmDelete, ConfirmAction } from "@/components/site/InstructorBits";
+import { QuizManager } from "@/components/site/QuizManager";
 import { lessonKindLabels, getYoutubeEmbedUrl, type LessonKind, type APIInstructorLesson, type APIInstructorModule } from "@/data/content";
 import { useModulesList, useCreateModule, useUpdateModule, useDeleteModule, useSubmitModuleForReview } from "@/stores/useModulesStore";
 import { useLessonsByModules, useCreateLesson, useUpdateLesson, useDeleteLesson, useSubmitLessonForReview } from "@/stores/useLessonsStore";
@@ -36,6 +56,8 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage"
 /** Kinds pour lesquels le chapitrage est proposé — quiz/exercise/assignment/project n'en ont pas besoin. */
 const CHAPTERS_ALLOWED_KINDS: LessonKind[] = ["video", "reading"];
 const BRIEF_KINDS: LessonKind[] = ["exercise", "assignment", "project", "quiz"];
+/** Kinds pour lesquels une évaluation (quiz/exercice avec questions) peut être configurée. */
+const QUIZ_ALLOWED_KINDS: LessonKind[] = ["quiz", "exercise"];
 
 /** Icônes associées au type de leçon */
 const LESSON_KIND_ICONS: Record<LessonKind, React.ElementType> = {
@@ -93,6 +115,8 @@ function ContentPage() {
   const [moduleToSubmit, setModuleToSubmit] = useState<APIInstructorModule | null>(null);
   const [lessonToDelete, setLessonToDelete] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
   const [lessonToSubmit, setLessonToSubmit] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
+
+  const [quizManagerFor, setQuizManagerFor] = useState<{ moduleId: string; lesson: APIInstructorLesson } | null>(null);
 
   const toggleModule = (id: string) => {
     setExpandedModules((prev) => {
@@ -242,6 +266,11 @@ function ContentPage() {
                           onEdit={() => setEditingLesson({ moduleId: m.id, lesson: l })}
                           onSubmit={() => setLessonToSubmit({ moduleId: m.id, lesson: l })}
                           onDelete={() => setLessonToDelete({ moduleId: m.id, lesson: l })}
+                          onManageQuiz={
+                            QUIZ_ALLOWED_KINDS.includes(l.kind)
+                              ? () => setQuizManagerFor({ moduleId: m.id, lesson: l })
+                              : undefined
+                          }
                         />
                       ))}
                     </div>
@@ -351,6 +380,23 @@ function ContentPage() {
         </DialogContent>
       </Dialog>
 
+      {/* Gestion de l'évaluation (quiz / exercice) */}
+      <Dialog open={!!quizManagerFor} onOpenChange={(open) => !open && setQuizManagerFor(null)}>
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="font-display">Évaluation — {quizManagerFor?.lesson.title}</DialogTitle>
+          </DialogHeader>
+          {quizManagerFor ? (
+            <QuizManager
+              lessonId={quizManagerFor.lesson.id}
+              moduleId={quizManagerFor.moduleId}
+              quizId={quizManagerFor.lesson.quizId}
+              onQuizCreated={() => setQuizManagerFor(null)}
+            />
+          ) : null}
+        </DialogContent>
+      </Dialog>
+
       {/* Confirmations module */}
       <ConfirmDelete
         open={!!moduleToDelete}
@@ -427,6 +473,7 @@ function LessonRow({
   onEdit,
   onSubmit,
   onDelete,
+  onManageQuiz,
 }: {
   lesson: APIInstructorLesson;
   isOpen: boolean;
@@ -434,6 +481,7 @@ function LessonRow({
   onEdit: () => void;
   onSubmit: () => void;
   onDelete: () => void;
+  onManageQuiz?: () => void;
 }) {
   const embedUrl = l.videoUrl ? getYoutubeEmbedUrl(l.videoUrl) : null;
   const hasDetails = Boolean(l.content || l.brief || l.videoUrl || (l.chapters && l.chapters.length > 0));
@@ -495,6 +543,17 @@ function LessonRow({
 
         {/* Actions sur la leçon */}
         <div className="flex shrink-0 items-center gap-1 pl-2 border-l border-border/40">
+          {onManageQuiz ? (
+            <Button
+              size="icon"
+              variant="ghost"
+              className="size-8"
+              aria-label="Gérer l'évaluation"
+              onClick={onManageQuiz}
+            >
+              <HelpCircle className={`size-3.5 ${l.quizId ? "text-primary" : "text-muted-foreground"}`} />
+            </Button>
+          ) : null}
           <Button
             size="icon"
             variant="ghost"
@@ -590,8 +649,7 @@ function ChaptersEditor({ chapters, onChange }: { chapters: string[]; onChange: 
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <Label>Chapitres (optionnel)</Label>
-        <Button type="button" variant="outline"
-          size="sm" onClick={() => onChange([...chapters, ""])}>
+        <Button type="button" variant="outline" size="sm" onClick={() => onChange([...chapters, ""])}>
           <Plus className="size-4 mr-1" /> Ajouter un chapitre
         </Button>
       </div>
@@ -665,6 +723,13 @@ function LessonForm({
 
         {CHAPTERS_ALLOWED_KINDS.includes(form.kind) ? (
           <ChaptersEditor chapters={form.chapters} onChange={(chapters) => onChange({ ...form, chapters })} />
+        ) : null}
+
+        {QUIZ_ALLOWED_KINDS.includes(form.kind) ? (
+          <p className="rounded-lg border border-dashed p-3 text-xs text-muted-foreground">
+            Les questions de l'évaluation se configurent après la création de la leçon, via l'icône{" "}
+            <HelpCircle className="inline size-3.5 align-text-bottom" /> sur la leçon.
+          </p>
         ) : null}
       </div>
       <DialogFooter>
