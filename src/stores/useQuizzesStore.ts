@@ -67,7 +67,7 @@ async function submitQuizForReview(id: string): Promise<APIQuiz> {
 }
 
 async function createQuestion(quizId: string, payload: QuizQuestionPayload): Promise<APIQuizQuestion> {
-  const response = await instructorFetch(`/api/instructor/quizzes/${quizId}/questions/create`, {
+  const response = await instructorFetch(`/api/instructor/trainings/questions/${quizId}/create`, {
     method: "POST",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
@@ -77,7 +77,7 @@ async function createQuestion(quizId: string, payload: QuizQuestionPayload): Pro
 }
 
 async function updateQuestion(id: string, payload: QuizQuestionPayload): Promise<APIQuizQuestion> {
-  const response = await instructorFetch(`/api/instructor/questions/${id}`, {
+  const response = await instructorFetch(`/api/instructor/trainings/questions/${id}`, {
     method: "PUT",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
@@ -87,7 +87,7 @@ async function updateQuestion(id: string, payload: QuizQuestionPayload): Promise
 }
 
 async function deleteQuestion(id: string): Promise<void> {
-  const response = await instructorFetch(`/api/instructor/questions/${id}`, { method: "DELETE" });
+  const response = await instructorFetch(`/api/instructor/trainings/questions/${id}`, { method: "DELETE" });
   if (!response.ok && response.status !== 204) throw await parseApiError(response, "Erreur lors de la suppression de la question");
 }
 
