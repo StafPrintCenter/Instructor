@@ -44,6 +44,7 @@ export interface APIInstructorLesson {
   videoUrl: string | null;
   chapters: string[] | null;
   brief: string | null;
+  quizId: string | null;
   isMandatory: boolean;
   status: ContentStatus;
   createdAt: string;
