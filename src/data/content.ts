@@ -49,7 +49,6 @@ export interface APIInstructorLesson {
   createdAt: string;
 }
 
-/** Forme d'un item de GET */
 export interface APIInstructorLessonListEntry {
   training: APIInstructorModuleListTrainingContext;
   module: Pick<APIInstructorModule, "id" | "trainingId" | "title" | "sortOrder" | "isEnabled" | "status">;
