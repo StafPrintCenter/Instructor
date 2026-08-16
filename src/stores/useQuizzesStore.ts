@@ -26,15 +26,8 @@ function buildFormData(payload: Record<string, unknown>): FormData {
   return fd;
 }
 
-/**
- * ⚠️ Endpoint non confirmé par un curl : aucun GET isolé n'a été montré pour un quiz.
- * On suppose GET /instructor/quizzes/{id} par cohérence avec PUT/DELETE déjà confirmés
- * sur cette même route, renvoyant la même forme que create/update/submit-for-review
- * (quiz + questions). À valider avec Steve — sinon l'UI ne pourra s'appuyer que sur les
- * réponses de mutation, sans recharge possible au premier affichage.
- */
 async function fetchQuiz(id: string): Promise<APIQuiz | null> {
-  const response = await instructorFetch(`/api/instructor/quizzes/${id}`);
+  const response = await instructorFetch(`/api/instructor/trainings/quizzes/${id}`);
   if (response.status === 404) return null;
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération du quiz");
   const json: DetailResponse<APIQuiz> = await response.json();
@@ -42,7 +35,7 @@ async function fetchQuiz(id: string): Promise<APIQuiz | null> {
 }
 
 async function createQuiz(lessonId: string, payload: QuizPayload): Promise<APIQuiz> {
-  const response = await instructorFetch(`/api/instructor/lessons/${lessonId}/quiz/create`, {
+  const response = await instructorFetch(`/api/instructor/trainings/quizzes/${lessonId}/create`, {
     method: "POST",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
@@ -52,7 +45,7 @@ async function createQuiz(lessonId: string, payload: QuizPayload): Promise<APIQu
 }
 
 async function updateQuiz(id: string, payload: QuizPayload): Promise<APIQuiz> {
-  const response = await instructorFetch(`/api/instructor/quizzes/${id}`, {
+  const response = await instructorFetch(`/api/instructor/trainings/quizzes/${id}`, {
     method: "PUT",
     body: buildFormData(payload as unknown as Record<string, unknown>),
   });
@@ -62,12 +55,12 @@ async function updateQuiz(id: string, payload: QuizPayload): Promise<APIQuiz> {
 }
 
 async function deleteQuiz(id: string): Promise<void> {
-  const response = await instructorFetch(`/api/instructor/quizzes/${id}`, { method: "DELETE" });
+  const response = await instructorFetch(`/api/instructor/trainings/quizzes/${id}`, { method: "DELETE" });
   if (!response.ok && response.status !== 204) throw await parseApiError(response, "Erreur lors de la suppression du quiz");
 }
 
 async function submitQuizForReview(id: string): Promise<APIQuiz> {
-  const response = await instructorFetch(`/api/instructor/quizzes/${id}/submit-for-review`, { method: "PUT" });
+  const response = await instructorFetch(`/api/instructor/trainings/quizzes/${id}/submit-for-review`, { method: "PUT" });
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la soumission du quiz");
   const json: DetailResponse<APIQuiz> = await response.json();
   return json.data;
