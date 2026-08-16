@@ -122,3 +122,8 @@ export function useSubmitLessonForReview() {
     onSuccess: ({ moduleId }) => invalidateModule(qc, moduleId),
   });
 }
+
+export function useInvalidateLessons() {
+  const qc = useQueryClient();
+  return (moduleId: string) => qc.invalidateQueries({ queryKey: [resourceKey, "list", moduleId] });
+}
