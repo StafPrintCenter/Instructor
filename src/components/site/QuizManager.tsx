@@ -17,7 +17,6 @@ import {
   questionTypeLabels,
   type QuizMode,
   type QuizQuestionType,
-  type APIQuiz,
   type APIQuizQuestion,
   type QuizChoiceInput,
 } from "@/data/content";
@@ -53,7 +52,15 @@ export function QuizManager({ lessonId, moduleId, quizId, onQuizCreated }: QuizM
   const invalidateLessons = useInvalidateLessons();
 
   if (!quizId) {
-    return <QuizCreateForm lessonId={lessonId} onCreated={(id) => { invalidateLessons(moduleId); onQuizCreated?.(id); }} />;
+    return (
+      <QuizCreateForm
+        lessonId={lessonId}
+        onCreated={(id) => {
+          invalidateLessons(moduleId);
+          onQuizCreated?.(id);
+        }}
+      />
+    );
   }
 
   return <QuizEditor quizId={quizId} moduleId={moduleId} />;
@@ -86,7 +93,9 @@ function QuizCreateForm({ lessonId, onCreated }: { lessonId: string; onCreated: 
           </Select>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="qts">Limite de temps (sec) {form.mode === "quiz" ? <span className="text-destructive">*</span> : "(optionnel)"}</Label>
+          <Label htmlFor="qts">
+            Limite de temps (sec) {form.mode === "quiz" ? <span className="text-destructive">*</span> : "(optionnel)"}
+          </Label>
           <Input
             id="qts"
             type="number"
@@ -100,11 +109,24 @@ function QuizCreateForm({ lessonId, onCreated }: { lessonId: string; onCreated: 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="qps">Score de passage (%)</Label>
-          <Input id="qps" type="number" min={0} max={100} value={form.pass_score} onChange={(e) => setForm((f) => ({ ...f, pass_score: Number(e.target.value) }))} />
+          <Input
+            id="qps"
+            type="number"
+            min={0}
+            max={100}
+            value={form.pass_score}
+            onChange={(e) => setForm((f) => ({ ...f, pass_score: Number(e.target.value) }))}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="qma">Tentatives maximum</Label>
-          <Input id="qma" type="number" min={1} value={form.max_attempts} onChange={(e) => setForm((f) => ({ ...f, max_attempts: Number(e.target.value) }))} />
+          <Input
+            id="qma"
+            type="number"
+            min={1}
+            value={form.max_attempts}
+            onChange={(e) => setForm((f) => ({ ...f, max_attempts: Number(e.target.value) }))}
+          />
         </div>
       </div>
 
@@ -137,7 +159,10 @@ function QuizCreateForm({ lessonId, onCreated }: { lessonId: string; onCreated: 
                 },
               },
               {
-                onSuccess: (quiz) => { toast.success("Évaluation créée en brouillon."); onCreated(quiz.id); },
+                onSuccess: (quiz) => {
+                  toast.success("Évaluation créée en brouillon.");
+                  onCreated(quiz.id);
+                },
                 onError: (e) => toast.error(e.message),
               }
             )
@@ -158,6 +183,7 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
   const updateQuiz = useUpdateQuiz();
   const deleteQuiz = useDeleteQuiz();
   const submitQuiz = useSubmitQuizForReview();
+  const deleteQuestionMutation = useDeleteQuestion();
   const invalidateLessons = useInvalidateLessons();
 
   const [settings, setSettings] = useState(emptyQuizForm);
@@ -196,7 +222,9 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
       <div className="flex flex-wrap items-center gap-2">
         <ContentStatusBadge status={quiz.status} />
         <Badge variant="secondary">{quizModeLabels[quiz.mode]}</Badge>
-        <span className="text-xs text-muted-foreground">{quiz.totalPoints} points au total · {quiz.questionsCount} question{quiz.questionsCount > 1 ? "s" : ""}</span>
+        <span className="text-xs text-muted-foreground">
+          {quiz.totalPoints} points au total · {quiz.questionsCount} question{quiz.questionsCount > 1 ? "s" : ""}
+        </span>
       </div>
 
       {/* Réglages du quiz */}
@@ -215,18 +243,39 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="ets">Limite de temps (sec) {settings.mode === "quiz" ? <span className="text-destructive">*</span> : "(optionnel)"}</Label>
-            <Input id="ets" type="number" min={0} value={settings.time_limit_sec} onChange={(e) => setSettings((f) => ({ ...f, time_limit_sec: Number(e.target.value) }))} />
+            <Label htmlFor="ets">
+              Limite de temps (sec) {settings.mode === "quiz" ? <span className="text-destructive">*</span> : "(optionnel)"}
+            </Label>
+            <Input
+              id="ets"
+              type="number"
+              min={0}
+              value={settings.time_limit_sec}
+              onChange={(e) => setSettings((f) => ({ ...f, time_limit_sec: Number(e.target.value) }))}
+            />
           </div>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="eps">Score de passage (%)</Label>
-            <Input id="eps" type="number" min={0} max={100} value={settings.pass_score} onChange={(e) => setSettings((f) => ({ ...f, pass_score: Number(e.target.value) }))} />
+            <Input
+              id="eps"
+              type="number"
+              min={0}
+              max={100}
+              value={settings.pass_score}
+              onChange={(e) => setSettings((f) => ({ ...f, pass_score: Number(e.target.value) }))}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="ema">Tentatives maximum</Label>
-            <Input id="ema" type="number" min={1} value={settings.max_attempts} onChange={(e) => setSettings((f) => ({ ...f, max_attempts: Number(e.target.value) }))} />
+            <Input
+              id="ema"
+              type="number"
+              min={1}
+              value={settings.max_attempts}
+              onChange={(e) => setSettings((f) => ({ ...f, max_attempts: Number(e.target.value) }))}
+            />
           </div>
         </div>
         <div className="flex items-center justify-between rounded-lg border p-3">
@@ -284,7 +333,11 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
               </Button>
             </DialogTrigger>
             <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
-              <DialogHeader><DialogTitle className="font-display">{editingQuestion ? "Modifier la question" : "Nouvelle question"}</DialogTitle></DialogHeader>
+              <DialogHeader>
+                <DialogTitle className="font-display">
+                  {editingQuestion ? "Modifier la question" : "Nouvelle question"}
+                </DialogTitle>
+              </DialogHeader>
               <QuestionForm
                 quizId={quiz.id}
                 question={editingQuestion}
@@ -329,7 +382,10 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
                       variant="ghost"
                       className="size-7"
                       aria-label="Éditer"
-                      onClick={() => { setEditingQuestion(q); setIsQuestionDialogOpen(true); }}
+                      onClick={() => {
+                        setEditingQuestion(q);
+                        setIsQuestionDialogOpen(true);
+                      }}
                     >
                       <Pencil className="size-3.5" />
                     </Button>
@@ -360,14 +416,21 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
         </Button>
       </div>
 
+      {/* Confirmation suppression d'une question depuis la liste */}
       <ConfirmDelete
         open={!!questionToDelete}
         onOpenChange={(open) => !open && setQuestionToDelete(null)}
         title={`Supprimer la question "${questionToDelete?.prompt}" ?`}
         onConfirm={() => {
           if (!questionToDelete) return;
-          const useDeleteQuestionMutation = useDeleteQuestion;
-          void useDeleteQuestionMutation; // no-op, hook déjà instancié ci-dessous
+          deleteQuestionMutation.mutate(
+            { id: questionToDelete.id, quizId: quiz.id },
+            {
+              onSuccess: () => toast.success("Question supprimée."),
+              onError: (e) => toast.error(e.message),
+            }
+          );
+          setQuestionToDelete(null);
         }}
       />
 
@@ -377,7 +440,10 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
         title="Supprimer cette évaluation (questions incluses) ?"
         onConfirm={() => {
           deleteQuiz.mutate(quiz.id, {
-            onSuccess: () => { toast.success("Évaluation supprimée."); invalidateLessons(moduleId); },
+            onSuccess: () => {
+              toast.success("Évaluation supprimée.");
+              invalidateLessons(moduleId);
+            },
             onError: (e) => toast.error(e.message),
           });
           setQuizToDelete(false);
@@ -433,10 +499,19 @@ function QuestionForm({
 
   const isPending = createQuestion.isPending || updateQuestion.isPending;
   const hasCorrectChoice = choices.some((c) => c.is_correct);
-  const canSubmit = prompt.trim() && choices.length >= 2 && choices.every((c) => c.label.trim()) && hasCorrectChoice;
+  const canSubmit = prompt.trim() !== "" && choices.length >= 2 && choices.every((c) => c.label.trim() !== "") && hasCorrectChoice;
 
   const setChoice = (i: number, patch: Partial<QuizChoiceInput>) => {
     setChoices((prev) => prev.map((c, idx) => (idx === i ? { ...c, ...patch } : c)));
+  };
+
+  const toggleCorrect = (i: number) => {
+    if (type === "single") {
+      // une seule réponse correcte possible : on force l'exclusivité
+      setChoices((prev) => prev.map((c, idx) => ({ ...c, is_correct: idx === i })));
+    } else {
+      setChoice(i, { is_correct: !choices[i].is_correct });
+    }
   };
 
   const handleSubmit = () => {
@@ -452,12 +527,24 @@ function QuestionForm({
     if (question) {
       updateQuestion.mutate(
         { id: question.id, quizId, payload },
-        { onSuccess: () => { toast.success("Question modifiée."); onSaved(); }, onError: (e) => toast.error(e.message) }
+        {
+          onSuccess: () => {
+            toast.success("Question modifiée.");
+            onSaved();
+          },
+          onError: (e) => toast.error(e.message),
+        }
       );
     } else {
       createQuestion.mutate(
         { quizId, payload },
-        { onSuccess: () => { toast.success("Question ajoutée."); onSaved(); }, onError: (e) => toast.error(e.message) }
+        {
+          onSuccess: () => {
+            toast.success("Question ajoutée.");
+            onSaved();
+          },
+          onError: (e) => toast.error(e.message),
+        }
       );
     }
   };
@@ -472,7 +559,20 @@ function QuestionForm({
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label>Type</Label>
-          <Select value={type} onValueChange={(v) => setType(v as QuizQuestionType)}>
+          <Select
+            value={type}
+            onValueChange={(v) => {
+              const nextType = v as QuizQuestionType;
+              setType(nextType);
+              if (nextType === "single") {
+                // on ne garde que la première réponse cochée si plusieurs l'étaient
+                setChoices((prev) => {
+                  const firstCorrectIndex = prev.findIndex((c) => c.is_correct);
+                  return prev.map((c, idx) => ({ ...c, is_correct: idx === firstCorrectIndex }));
+                });
+              }
+            }}
+          >
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {(Object.keys(questionTypeLabels) as QuizQuestionType[]).map((t) => (
@@ -490,7 +590,12 @@ function QuestionForm({
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label>Choix de réponse</Label>
-          <Button type="button" variant="outline" size="sm" onClick={() => setChoices((prev) => [...prev, { label: "", is_correct: false }])}>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setChoices((prev) => [...prev, { label: "", is_correct: false }])}
+          >
             <Plus className="size-4" /> Ajouter un choix
           </Button>
         </div>
@@ -498,30 +603,31 @@ function QuestionForm({
           <div key={i} className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => setChoice(i, { is_correct: type === "single" ? true : !c.is_correct })}
+              onClick={() => toggleCorrect(i)}
               className="shrink-0"
               aria-label={c.is_correct ? "Marquer comme incorrect" : "Marquer comme correct"}
             >
               <CheckCircle2 className={`size-5 ${c.is_correct ? "text-emerald-500" : "text-muted-foreground/30"}`} />
             </button>
-            {type === "single" ? (
-              // en mode single, cocher un choix décoche les autres
-              null
-            ) : null}
             <Input
               value={c.label}
               placeholder={`Choix ${i + 1}`}
               onChange={(e) => setChoice(i, { label: e.target.value })}
             />
             {choices.length > 2 ? (
-              <Button size="icon" variant="ghost" aria-label="Retirer" onClick={() => setChoices((prev) => prev.filter((_, idx) => idx !== i))}>
+              <Button
+                size="icon"
+                variant="ghost"
+                aria-label="Retirer"
+                onClick={() => setChoices((prev) => prev.filter((_, idx) => idx !== i))}
+              >
                 <Trash2 className="size-4 text-destructive" />
               </Button>
             ) : null}
           </div>
         ))}
-        {type === "single" && choices.filter((c) => c.is_correct).length > 1 ? (
-          <p className="text-xs text-destructive">En mode "choix unique", une seule réponse doit être correcte.</p>
+        {!hasCorrectChoice ? (
+          <p className="text-xs text-destructive">Sélectionnez au moins une réponse correcte.</p>
         ) : null}
       </div>
 
@@ -535,7 +641,9 @@ function QuestionForm({
           <Button variant="ghost" className="text-destructive hover:text-destructive" onClick={() => setQuestionToDelete(true)}>
             <Trash2 className="size-4" /> Supprimer
           </Button>
-        ) : <span />}
+        ) : (
+          <span />
+        )}
         <Button variant="accent" disabled={!canSubmit || isPending} onClick={handleSubmit}>
           {isPending ? <Loader2 className="size-4 animate-spin" /> : null}
           {question ? "Enregistrer" : "Ajouter"}
@@ -551,7 +659,10 @@ function QuestionForm({
           deleteQuestion.mutate(
             { id: question.id, quizId },
             {
-              onSuccess: () => { toast.success("Question supprimée."); onSaved(); },
+              onSuccess: () => {
+                toast.success("Question supprimée.");
+                onSaved();
+              },
               onError: (e) => toast.error(e.message),
             }
           );
