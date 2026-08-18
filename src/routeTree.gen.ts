@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as InstructorRouteImport } from './routes/_instructor'
 import { Route as MotDePasseOublieRouteImport } from './routes/mot-de-passe-oublie'
 import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
@@ -50,6 +51,11 @@ const MotDePasseOublieRoute = MotDePasseOublieRouteImport.update({
 const ReinitialisationRoute = ReinitialisationRouteImport.update({
   id: '/reinitialisation',
   path: '/reinitialisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthInviteRoute = AuthInviteRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/_instructor': typeof InstructorRouteWithChildren
   '/mot-de-passe-oublie': typeof MotDePasseOublieRoute
   '/reinitialisation': typeof ReinitialisationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_auth/invite': typeof AuthInviteRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
+    | '/sitemap.xml'
     | '/invite'
     | '/login'
     | '/register'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
+    | '/sitemap.xml'
     | '/invite'
     | '/login'
     | '/register'
@@ -235,6 +246,7 @@ export interface FileRouteTypes {
     | '/_instructor'
     | '/mot-de-passe-oublie'
     | '/reinitialisation'
+    | '/sitemap.xml'
     | '/_auth/invite'
     | '/_auth/login'
     | '/_auth/register'
@@ -257,6 +269,7 @@ export interface RootRouteChildren {
   InstructorRoute: typeof InstructorRouteWithChildren
   MotDePasseOublieRoute: typeof MotDePasseOublieRoute
   ReinitialisationRoute: typeof ReinitialisationRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -294,6 +307,13 @@ declare module '@tanstack/react-router' {
       path: '/reinitialisation'
       fullPath: '/reinitialisation'
       preLoaderRoute: typeof ReinitialisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/invite': {
@@ -451,6 +471,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstructorRoute: InstructorRouteWithChildren,
   MotDePasseOublieRoute: MotDePasseOublieRoute,
   ReinitialisationRoute: ReinitialisationRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
