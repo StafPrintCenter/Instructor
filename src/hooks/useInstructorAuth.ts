@@ -161,5 +161,6 @@ export function useInstructorAuth() {
     logout,
     verifyInvite,
     acceptInvite,
+    refresh,
   };
 }
