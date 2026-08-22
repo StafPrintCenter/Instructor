@@ -1,4 +1,4 @@
-/** Catégorie publique complète — GET /public/categories/list */
+/** Catégorie publique complète */
 export interface APIPublicCategory {
   id: string;
   slug: string;
@@ -12,7 +12,7 @@ export interface APIPublicCategory {
   updatedAt: string;
 }
 
-/** Sous-ensemble léger renvoyé imbriqué dans le profil formateur (GET /me, PUT /instructor/categories) */
+/** Sous-ensemble dans le profil formateur */
 export interface APIInstructorCategory {
   id: string;
   name: string;
