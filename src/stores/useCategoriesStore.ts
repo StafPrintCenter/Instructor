@@ -30,7 +30,7 @@ export function usePublicCategories() {
 async function updateInstructorCategories(categoryIds: string[]): Promise<APIInstructorUser> {
   const fd = new FormData();
   fd.append("category_ids", categoryIds.join(","));
-  const response = await instructorFetch(`/api/instructor/categories`, { method: "PUT", body: fd });
+  const response = await instructorFetch(`/api/instructor/me/categories`, { method: "PUT", body: fd });
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la mise à jour des catégories");
   const json: DetailResponse<APIInstructorUser> = await response.json();
   return json.data;
