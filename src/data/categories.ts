@@ -1,5 +1,3 @@
-// src/data/categories.ts
-
 /** Catégorie publique complète — GET /public/categories/list */
 export interface APIPublicCategory {
   id: string;
