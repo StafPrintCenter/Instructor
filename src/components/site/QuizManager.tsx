@@ -1,7 +1,6 @@
-// src/components/site/QuizManager.tsx
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Plus, Pencil, Trash2, Send, CheckCircle2 } from "lucide-react";
+import { Loader2, Plus, Pencil, Trash2, Send, CheckCircle2, AlertTriangle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,8 +35,6 @@ interface QuizManagerProps {
   lessonId: string;
   moduleId: string;
   quizId: string | null;
-  /** Appelé après la toute première création du quiz, pour que le parent rafraîchisse quizId sur la leçon. */
-  onQuizCreated?: (quizId: string) => void;
 }
 
 const emptyQuizForm = {
@@ -48,22 +45,34 @@ const emptyQuizForm = {
   auto_submit_on_timeout: true,
 };
 
-export function QuizManager({ lessonId, moduleId, quizId, onQuizCreated }: QuizManagerProps) {
+/**
+ * Point d'entrée : gère la bascule création → édition en interne, sans jamais
+ * dépendre d'une fermeture/réouverture du dialog parent. Une fois un quiz créé
+ * dans cette session (ou déjà existant via la prop quizId), on reste sur
+ * QuizEditor pour permettre d'ajouter des questions immédiatement.
+ */
+export function QuizManager({ lessonId, moduleId, quizId }: QuizManagerProps) {
+  const [activeQuizId, setActiveQuizId] = useState<string | null>(quizId);
   const invalidateLessons = useInvalidateLessons();
 
-  if (!quizId) {
+  // Resynchronise si le dialog est réutilisé pour une autre leçon.
+  useEffect(() => {
+    setActiveQuizId(quizId);
+  }, [quizId]);
+
+  if (!activeQuizId) {
     return (
       <QuizCreateForm
         lessonId={lessonId}
         onCreated={(id) => {
           invalidateLessons(moduleId);
-          onQuizCreated?.(id);
+          setActiveQuizId(id);
         }}
       />
     );
   }
 
-  return <QuizEditor quizId={quizId} moduleId={moduleId} />;
+  return <QuizEditor quizId={activeQuizId} moduleId={moduleId} />;
 }
 
 /* ---------- Création initiale du quiz ---------- */
@@ -160,7 +169,7 @@ function QuizCreateForm({ lessonId, onCreated }: { lessonId: string; onCreated: 
               },
               {
                 onSuccess: (quiz) => {
-                  toast.success("Évaluation créée en brouillon.");
+                  toast.success("Évaluation créée en brouillon. Vous pouvez maintenant ajouter des questions.");
                   onCreated(quiz.id);
                 },
                 onError: (e) => toast.error(e.message),
@@ -179,7 +188,7 @@ function QuizCreateForm({ lessonId, onCreated }: { lessonId: string; onCreated: 
 /* ---------- Édition du quiz existant + questions ---------- */
 
 function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) {
-  const { quiz, isLoading } = useQuiz(quizId);
+  const { quiz, isLoading, isError, refetch } = useQuiz(quizId);
   const updateQuiz = useUpdateQuiz();
   const deleteQuiz = useDeleteQuiz();
   const submitQuiz = useSubmitQuizForReview();
@@ -205,11 +214,23 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
     }
   }, [quiz]);
 
-  if (isLoading || !quiz) {
+  if (isLoading) {
     return (
       <div className="space-y-3">
         <div className="h-10 animate-pulse rounded-lg bg-muted" />
         <div className="h-24 animate-pulse rounded-lg bg-muted" />
+      </div>
+    );
+  }
+
+  if (isError || !quiz) {
+    return (
+      <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
+        <AlertTriangle className="size-6 text-destructive" />
+        <p className="text-sm text-muted-foreground">Impossible de charger cette évaluation pour le moment.</p>
+        <Button variant="outline" size="sm" onClick={() => refetch()}>
+          <RefreshCw className="size-4" /> Réessayer
+        </Button>
       </div>
     );
   }
@@ -227,7 +248,7 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
         </span>
       </div>
 
-      {/* Réglages du quiz */}
+      {/* Réglages du quiz — pré-remplis avec les valeurs actuelles : à consulter, modifier si souhaité */}
       <div className="space-y-4 rounded-lg border p-4">
         <p className="text-sm font-semibold">Réglages</p>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -316,7 +337,7 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
         </div>
       </div>
 
-      {/* Liste des questions */}
+      {/* Liste des questions — consultables immédiatement, modifiables/supprimables au besoin */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold">Questions</p>
@@ -350,7 +371,7 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
 
         {questions.length === 0 ? (
           <div className="rounded-lg border border-dashed p-6 text-center text-xs text-muted-foreground">
-            Aucune question pour l'instant.
+            Aucune question pour l'instant. Utilisez le bouton ci-dessus pour en ajouter une.
           </div>
         ) : (
           <div className="space-y-2">
@@ -507,7 +528,6 @@ function QuestionForm({
 
   const toggleCorrect = (i: number) => {
     if (type === "single") {
-      // une seule réponse correcte possible : on force l'exclusivité
       setChoices((prev) => prev.map((c, idx) => ({ ...c, is_correct: idx === i })));
     } else {
       setChoice(i, { is_correct: !choices[i].is_correct });
@@ -565,7 +585,6 @@ function QuestionForm({
               const nextType = v as QuizQuestionType;
               setType(nextType);
               if (nextType === "single") {
-                // on ne garde que la première réponse cochée si plusieurs l'étaient
                 setChoices((prev) => {
                   const firstCorrectIndex = prev.findIndex((c) => c.is_correct);
                   return prev.map((c, idx) => ({ ...c, is_correct: idx === firstCorrectIndex }));
