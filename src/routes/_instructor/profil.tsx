@@ -2,14 +2,16 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, XCircle, Clock, Pencil, X, Phone, Briefcase, Bell, Sliders } from "lucide-react";
+import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, XCircle, Clock, Pencil, X, Phone, Briefcase, Bell, Sliders, Tags, Loader2 } from "lucide-react";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
+import { usePublicCategories, useUpdateInstructorCategories } from "@/stores/useCategoriesStore";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { initials, profileApi, type Availability, type NotificationPrefs } from "@/lib/api";
 import { SITE } from "@/data/site";
 
@@ -43,21 +45,19 @@ export const Route = createFileRoute("/_instructor/profil")({
 });
 
 function ProfilePage() {
-  const { user, logout } = useInstructorAuth();
+  const { user, logout, refresh } = useInstructorAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const [isEditing, setIsEditing] = useState(false);
   const [confirmDisconnectOpen, setConfirmDisconnectOpen] = useState(false);
 
-  // Formulaire profil aligné sur InstructorAuthUser + champs additionnels API
   const [firstName, setFirstName] = useState(user?.firstName ?? "");
   const [lastName, setLastName] = useState(user?.lastName ?? "");
   const [phone, setPhone] = useState("");
   const [bio, setBio] = useState(user?.bio ?? "");
   const [specialties, setSpecialties] = useState("");
 
-  // Disponibilités hebdomadaires
   const [availability, setAvailability] = useState<Availability[]>(
     DAYS.map((day) => ({
       day,
@@ -67,7 +67,6 @@ function ProfilePage() {
     }))
   );
 
-  // Préférences de notification
   const [prefs, setPrefs] = useState<NotificationPrefs>({
     submissions_email: true,
     session_reminders: true,
@@ -75,12 +74,18 @@ function ProfilePage() {
     admin_reviews: true,
   });
 
-  // Synchronisation des états locaux lors de la réception du user
+  // Catégories préférées
+  const { categories: allCategories, isLoading: isCategoriesLoading } = usePublicCategories();
+  const updateCategories = useUpdateInstructorCategories();
+  const [isEditingCategories, setIsEditingCategories] = useState(false);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>([]);
+
   useEffect(() => {
     if (user) {
       setFirstName(user.firstName || "");
       setLastName(user.lastName || "");
       setBio(user.bio || "");
+      setSelectedCategoryIds(user.categories?.map((c) => c.id) ?? []);
     }
   }, [user]);
 
@@ -100,6 +105,15 @@ function ProfilePage() {
       setBio(user.bio || "");
     }
     setIsEditing(false);
+  };
+
+  const handleCancelCategories = () => {
+    setSelectedCategoryIds(user?.categories?.map((c) => c.id) ?? []);
+    setIsEditingCategories(false);
+  };
+
+  const toggleCategory = (id: string) => {
+    setSelectedCategoryIds((prev) => (prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]));
   };
 
   const saveProfileMutation = useMutation({
@@ -138,6 +152,17 @@ function ProfilePage() {
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
+  const handleSaveCategories = () => {
+    updateCategories.mutate(selectedCategoryIds, {
+      onSuccess: async () => {
+        await refresh();
+        toast.success("Catégories préférées mises à jour.");
+        setIsEditingCategories(false);
+      },
+      onError: (e) => toast.error(e.message),
+    });
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -309,6 +334,73 @@ function ProfilePage() {
                   </div>
                 </div>
               </div>
+            )}
+          </div>
+
+          {/* Bloc Catégories préférées */}
+          <div className="rounded-2xl border bg-card p-6 shadow-sm">
+            <div className="flex items-center justify-between border-b pb-4 mb-5">
+              <div className="flex items-center gap-2">
+                <Tags className="h-5 w-5 text-primary" />
+                <div>
+                  <h3 className="font-display text-lg font-semibold">Catégories préférées</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Thèmes sur lesquels vous souhaitez être proposé comme formateur.
+                  </p>
+                </div>
+              </div>
+
+              {isEditingCategories ? (
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" onClick={handleCancelCategories}>
+                    <X className="h-4 w-4 mr-1" /> Annuler
+                  </Button>
+                  <Button
+                    size="sm"
+                    disabled={updateCategories.isPending}
+                    onClick={handleSaveCategories}
+                  >
+                    {updateCategories.isPending ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Save className="h-4 w-4 mr-1" />}
+                    Enregistrer
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="outline" size="sm" onClick={() => setIsEditingCategories(true)}>
+                  <Pencil className="h-4 w-4 mr-1" /> Modifier
+                </Button>
+              )}
+            </div>
+
+            {isCategoriesLoading ? (
+              <div className="h-20 animate-pulse rounded-xl bg-muted" />
+            ) : isEditingCategories ? (
+              <div className="grid gap-2 sm:grid-cols-2">
+                {allCategories.map((cat) => {
+                  const checked = selectedCategoryIds.includes(cat.id);
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => toggleCategory(cat.id)}
+                      className={`flex items-center justify-between rounded-xl border px-3 py-2.5 text-left text-sm transition ${checked
+                        ? "border-primary/40 bg-primary/5"
+                        : "border-border/70 hover:bg-muted/40"
+                        }`}
+                    >
+                      <span className="font-medium">{cat.name}</span>
+                      <Switch checked={checked} onCheckedChange={() => toggleCategory(cat.id)} />
+                    </button>
+                  );
+                })}
+              </div>
+            ) : user?.categories && user.categories.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {user.categories.map((cat) => (
+                  <Badge key={cat.id} variant="secondary">{cat.name}</Badge>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm italic text-muted-foreground">Aucune catégorie préférée définie.</p>
             )}
           </div>
 
