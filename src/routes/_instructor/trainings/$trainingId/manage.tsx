@@ -9,7 +9,6 @@ import {
   Plus,
   Send,
   Trash2,
-  X,
   Video,
   BookOpen,
   HelpCircle,
@@ -380,18 +379,19 @@ function ContentPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Gestion de l'évaluation (quiz / exercice) */}
+      {/* Gestion de l'évaluation (quiz / exercice) — création ET édition passent par ce même dialog */}
       <Dialog open={!!quizManagerFor} onOpenChange={(open) => !open && setQuizManagerFor(null)}>
         <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="font-display">Évaluation — {quizManagerFor?.lesson.title}</DialogTitle>
+            <DialogTitle className="font-display">
+              {quizManagerFor?.lesson.quizId ? "Gérer l'évaluation" : "Créer une évaluation"} — {quizManagerFor?.lesson.title}
+            </DialogTitle>
           </DialogHeader>
           {quizManagerFor ? (
             <QuizManager
               lessonId={quizManagerFor.lesson.id}
               moduleId={quizManagerFor.moduleId}
               quizId={quizManagerFor.lesson.quizId}
-              onQuizCreated={() => setQuizManagerFor(null)}
             />
           ) : null}
         </DialogContent>
@@ -494,7 +494,7 @@ function LessonRow({
         : "border-border/60 bg-card hover:border-border hover:bg-muted/10"
         }`}
     >
-      <div className="flex items-center justify-between gap-3 px-3.5 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-3.5 py-3">
         <button
           type="button"
           onClick={onToggle}
@@ -541,19 +541,21 @@ function LessonRow({
           <ContentStatusBadge status={l.status} className="shrink-0" />
         </button>
 
+        {/* Bouton évaluation — toujours visible pour quiz/exercice, texte + icône, qu'un quiz existe déjà ou non */}
+        {onManageQuiz ? (
+          <Button
+            size="sm"
+            variant={l.quizId ? "soft" : "outline"}
+            className="shrink-0"
+            onClick={onManageQuiz}
+          >
+            <HelpCircle className="size-3.5" />
+            {l.quizId ? "Gérer l'évaluation" : "Créer un quiz"}
+          </Button>
+        ) : null}
+
         {/* Actions sur la leçon */}
         <div className="flex shrink-0 items-center gap-1 pl-2 border-l border-border/40">
-          {onManageQuiz ? (
-            <Button
-              size="icon"
-              variant="ghost"
-              className="size-8"
-              aria-label="Gérer l'évaluation"
-              onClick={onManageQuiz}
-            >
-              <HelpCircle className={`size-3.5 ${l.quizId ? "text-primary" : "text-muted-foreground"}`} />
-            </Button>
-          ) : null}
           <Button
             size="icon"
             variant="ghost"
@@ -727,8 +729,8 @@ function LessonForm({
 
         {QUIZ_ALLOWED_KINDS.includes(form.kind) ? (
           <p className="rounded-lg border border-dashed p-3 text-xs text-muted-foreground">
-            Les questions de l'évaluation se configurent après la création de la leçon, via l'icône{" "}
-            <HelpCircle className="inline size-3.5 align-text-bottom" /> sur la leçon.
+            Une fois la leçon créée, un bouton <span className="font-medium text-foreground">"Créer un quiz"</span> apparaîtra
+            dessus pour configurer l'évaluation et ses questions.
           </p>
         ) : null}
       </div>
