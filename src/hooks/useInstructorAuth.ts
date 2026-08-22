@@ -46,6 +46,7 @@ function toInstructorAuthUser(rawInstructor: any): InstructorAuthUser {
     isBlocked: instructor.isBlocked ?? instructor.is_blocked ?? false,
     isPending: instructor.isPending ?? instructor.is_pending ?? false,
     needsApproval: instructor.needsApproval ?? instructor.needs_approval ?? false,
+    categories: instructor.categories,
     blockedAt: instructor.blockedAt ?? instructor.blocked_at ?? null,
     blockedReason: instructor.blockedReason ?? instructor.blocked_reason ?? null,
     invitedBy: instructor.invitedBy ?? instructor.invited_by ?? null,
