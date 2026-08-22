@@ -119,6 +119,10 @@ export function useInstructorAuth() {
     notify();
   }, []);
 
+  const refresh = useCallback(async () => {
+    await bootstrap();
+  }, []);
+
   const logout = useCallback(async () => {
     await logoutInstructor();
     sharedUser = null;
