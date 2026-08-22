@@ -1,5 +1,6 @@
 import type { APIInstructorCategory } from "@/data/categories";
 export type InstructorRegistrationSource = "self_registered" | "invited" | string;
+export type { APIInstructorCategory };
 
 export type InstructorTrainingAssignment = {
   assignmentId: string;
