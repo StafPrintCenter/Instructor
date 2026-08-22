@@ -35,6 +35,7 @@ export interface InstructorAuthUser {
   isBlocked: boolean;
   isPending: boolean;
   needsApproval: boolean;
+  categories: APIInstructorCategory[];
   blockedAt: string | null;
   blockedReason: string | null;
   invitedBy: string | null;
