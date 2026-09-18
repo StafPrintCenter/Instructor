@@ -26,7 +26,11 @@ const formatDate = (dateStr?: string | null): string => {
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      GET: async () => {
+      GET: async ({ request }) => {
+        // 1. Récupération dynamique de l'origine depuis la requête du serveur
+        const origin = new URL(request.url).origin;
+
+        // 2. Pages statiques de base
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
         ];
