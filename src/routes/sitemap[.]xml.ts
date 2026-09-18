@@ -11,6 +11,18 @@ interface SitemapEntry {
   priority?: string;
 }
 
+
+// Fonction utilitaire pour formater une date ISO au format YYYY-MM-DD
+const formatDate = (dateStr?: string | null): string => {
+  if (!dateStr) return TODAY;
+  try {
+    const parsed = new Date(dateStr);
+    return isNaN(parsed.getTime()) ? TODAY : parsed.toISOString().split("T")[0];
+  } catch {
+    return TODAY;
+  }
+};
+
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
