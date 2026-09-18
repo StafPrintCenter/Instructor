@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { } from "@tanstack/react-start";
 
-const RAW_URL = import.meta.env.VITE_INSTRUCTOR_URL;
-const BASE_URL = RAW_URL.replace(/\/$/, "");
+// Date du jour pour les entités dépourvues de date ISO
+const TODAY = new Date().toISOString().split("T")[0];
 
 interface SitemapEntry {
   path: string;
