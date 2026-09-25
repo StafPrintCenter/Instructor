@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Home, ArrowLeft } from "lucide-react";
+import { BookX, Home, ArrowLeft } from "lucide-react";
 import { SITE } from "@/data/site";
 
 export function NotFoundComponent() {
@@ -10,7 +10,7 @@ export function NotFoundComponent() {
           <div className="absolute inset-0 rounded-3xl bg-accent/15 rotate-6" />
           <div className="absolute inset-0 rounded-3xl bg-secondary -rotate-6" />
           <div className="relative rounded-3xl bg-card border border-border w-20 h-20 flex items-center justify-center shadow-soft">
-            <GraduationCap className="h-10 w-10 text-accent-foreground" strokeWidth={1.5} />
+            <BookX className="h-10 w-10 text-accent" strokeWidth={1.5} />
           </div>
         </div>
 
