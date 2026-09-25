@@ -27,7 +27,7 @@ export function ErrorComponent({ error, reset }: { error: Error; reset: () => vo
                 Une erreur est survenue
               </h1>
               <p className="text-sm text-muted-foreground mt-0.5">
-                L'espace formateur {SITE.name} a rencontré un problème technique.
+                {SITE.tool} {SITE.name} a rencontré un problème technique.
               </p>
             </div>
           </div>
