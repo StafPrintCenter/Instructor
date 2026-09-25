@@ -23,7 +23,7 @@ export function NotFoundComponent() {
         </h2>
 
         <p className="mt-3 text-muted-foreground max-w-md mx-auto text-sm sm:text-base leading-relaxed">
-          Cette ressource formateur n'existe pas ou n'est plus disponible sur l'espace {SITE.name}.
+          Cette ressource formateur n'existe pas ou n'est plus disponible sur {SITE.tool}.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
