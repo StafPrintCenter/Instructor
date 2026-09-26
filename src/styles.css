@@ -102,7 +102,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.78 0.14 72);
 
-  --gradient-hero: linear-gradient(135deg, oklch(0.27 0.028 258) 0%, oklch(0.17 0.01 200) 100%);
+  --gradient-hero: linear-gradient(135deg, oklch(0.78 0.14 72) 0%, oklch(0.8 0.14 78) 100%);
 }
 
 .dark {
