@@ -54,34 +54,45 @@ export function AuthShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="bg-grain grid min-h-screen lg:grid-cols-2">
-      <div className="relative hidden flex-col justify-between bg-primary p-12 text-primary-foreground lg:flex">
+      {/* Colonne gabg-grain griduche (Desktop) */}
+      <div className="hidden lg:flex bg-gradient-hero p-12 text-primary-foreground flex-col justify-between">
         <div className="flex items-center">
-          <img src={logo.dw} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
+          <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
         </div>
-        <div className="max-w-md space-y-5">
+        <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">{SITE.tool}</p>
-          <h2 className="font-display text-4xl leading-tight">
+          <h1 className="mt-3 font-display text-5xl font-bold tracking-tight text-balance">
             Enseignez, corrigez et suivez vos apprenants au même endroit.
-          </h2>
-          <p className="text-sm text-primary-foreground/70">
-            Espace formateur : vos formations assignées, vos apprenants et vos corrections, réunis au même endroit.
+          </h1>
+          <p className="mt-4 opacity-90">
+            Vos formations assignées, vos apprenants et vos corrections, réunis au même endroit.
           </p>
         </div>
         <p className="text-xs text-primary-foreground/50">
           © {new Date().getFullYear()} {SITE.name} - Tous droits réservés.
         </p>
       </div>
-      <div className="flex items-center justify-center px-6 py-12 sm:px-12">
-        <div className="w-full max-w-md space-y-8">
-          <div className="space-y-2 text-center">
-            <div className="inline-flex items-center lg:hidden">
-              <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
-            </div>
-            <h1 className="font-display text-3xl">{title}</h1>
+
+      {/* Colonne droite / Formulaire */}
+      <div className="flex items-center justify-center p-8 bg-grain">
+        <div className="w-full max-w-md">
+          {/* Logo affiché en haut sur mobile & petits écrans */}
+          <div className="lg:hidden mb-8 flex justify-center">
+            <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
+          </div>
+
+          <div className="space-y-2 text-center lg:text-left">
+            <h2 className="font-display text-3xl font-bold">{title}</h2>
             <p className="text-sm text-muted-foreground">{subtitle}</p>
           </div>
-          {children}
-          {footer ? <div className="text-sm text-muted-foreground">{footer}</div> : null}
+
+          <div className="mt-8">{children}</div>
+
+          {footer ? (
+            <div className="mt-6 text-center text-sm text-muted-foreground">
+              {footer}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
