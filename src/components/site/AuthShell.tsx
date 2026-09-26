@@ -109,10 +109,10 @@ export function AuthShell({ children }: { children: ReactNode }) {
               <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
             </div>
 
-          <div className="space-y-2 text-center lg:text-left">
-            <h2 className="font-display text-3xl font-bold">{title}</h2>
-            <p className="text-sm text-muted-foreground">{subtitle}</p>
-          </div>
+            <div className="space-y-2 text-center lg:text-left">
+              <h2 className="font-display text-3xl font-bold">{title}</h2>
+              <p className="text-sm text-muted-foreground">{subtitle}</p>
+            </div>
 
             <div className="mt-8">{children}</div>
 
