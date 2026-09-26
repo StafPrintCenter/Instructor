@@ -68,6 +68,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
         <div className="flex items-center">
           <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
         </div>
+
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">{SITE.tool}</p>
           <h1 className="mt-3 font-display text-5xl font-bold tracking-tight text-balance">
