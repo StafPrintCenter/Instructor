@@ -59,7 +59,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           <img src={logo.dw} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
         </div>
         <div className="max-w-md space-y-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">Espace Formateur</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">{SITE.tool}</p>
           <h2 className="font-display text-4xl leading-tight">
             Enseignez, corrigez et suivez vos apprenants au même endroit.
           </h2>
