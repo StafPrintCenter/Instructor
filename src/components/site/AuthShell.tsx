@@ -80,7 +80,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-all duration-200 border border-primary-foreground/15 hover:border-primary-foreground/30 shadow-sm"
             >
               <BookOpen className="size-3.5" />
-              <span>Guide & Documentation Étudiant</span>
+              <span>Guide & Documentation Enseigant</span>
               <ExternalLink className="size-3 opacity-60" />
             </a>
           </div>
