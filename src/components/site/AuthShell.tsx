@@ -127,7 +127,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
             className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             <BookOpen className="size-3.5" />
-            <span>Consulter le guide étudiant</span>
+            <span>Consulter le guide enseignant</span>
             <ExternalLink className="size-3 opacity-60" />
           </a>
           <SocialLinks />
