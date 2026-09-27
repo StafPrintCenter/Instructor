@@ -46,8 +46,6 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/intro`;
-
 const navItemClass =
   "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground " +
   "data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground " +
