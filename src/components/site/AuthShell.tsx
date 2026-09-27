@@ -63,7 +63,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           <img src={logo.dc} alt="Logo SPC" className="h-10 md:h-12 w-auto" />
         </div>
 
-        <div>
+        <div className="space-y-4">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-accent">{SITE.tool}</p>
           <h1 className="mt-3 font-display text-5xl font-bold tracking-tight text-balance">
             Enseignez, corrigez et suivez vos apprenants au même endroit.
