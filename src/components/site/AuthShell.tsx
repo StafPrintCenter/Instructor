@@ -71,6 +71,19 @@ export function AuthShell({ children }: { children: ReactNode }) {
           <p className="mt-4 opacity-90">
             Vos formations assignées, vos apprenants et vos corrections, réunis au même endroit.
           </p>
+
+          <div className="pt-2">
+            <a
+              href={docsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-primary-foreground/10 hover:bg-primary-foreground/20 text-primary-foreground transition-all duration-200 border border-primary-foreground/15 hover:border-primary-foreground/30 shadow-sm"
+            >
+              <BookOpen className="size-3.5" />
+              <span>Guide & Documentation Étudiant</span>
+              <ExternalLink className="size-3 opacity-60" />
+            </a>
+          </div>
         </div>
 
         <div className="flex items-center justify-between pt-6 border-t border-primary-foreground/10">
