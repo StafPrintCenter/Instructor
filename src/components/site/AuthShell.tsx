@@ -120,6 +120,16 @@ export function AuthShell({ children }: { children: ReactNode }) {
 
         {/* Réseaux sociaux affichés en bas sur écran mobile */}
         <div className="lg:hidden pt-8 mt-auto border-t border-border flex flex-col items-center gap-3">
+          <a
+            href={docsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <BookOpen className="size-3.5" />
+            <span>Consulter le guide étudiant</span>
+            <ExternalLink className="size-3 opacity-60" />
+          </a>
           <SocialLinks />
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} {SITE.name}
