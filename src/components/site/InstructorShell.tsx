@@ -9,6 +9,8 @@ import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, SidebarInset, useSidebar } from "@/components/ui/sidebar";
 import { SocialLinks } from "@/components/site/SocialLinks";
 
+const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/intro`;
+
 type NavItem = {
   to: string;
   label: string;
@@ -228,7 +230,19 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
         <header className="flex items-center gap-3 bg-card/80 backdrop-blur border-b px-5 h-14 shrink-0">
           <SidebarTrigger />
           <div className="font-display font-semibold text-sm">Formateur</div>
-          <div className="ml-auto text-xs text-muted-foreground hidden sm:block">{user?.email}</div>
+
+          <div className="ml-auto flex items-center gap-4">
+            <a
+              href={docsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors px-2.5 py-1 rounded-md hover:bg-accent"
+            >
+              <BookOpen className="size-3.5" />
+              <span className="hidden sm:inline">Documentation</span>
+            </a>
+            <div className="text-xs text-muted-foreground hidden sm:block">{user?.email}</div>
+          </div>
         </header>
 
         <main className="flex-1 p-6 md:p-10 overflow-y-auto overflow-x-hidden bg-muted/30">
