@@ -131,7 +131,7 @@ function InstructorSidebarContent({
             className="flex items-center gap-2 text-xs text-sidebar-foreground/70 hover:text-sidebar-foreground py-1 px-2 rounded-md hover:bg-sidebar-accent transition-colors"
           >
             <BookOpen className="size-3.5 shrink-0" />
-            <span>Documentation</span>
+            <span>Doc</span>
           </a>
 
           <div>
