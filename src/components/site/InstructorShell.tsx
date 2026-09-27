@@ -134,12 +134,11 @@ function InstructorSidebarContent({
             <span>Doc</span>
           </a>
 
-          <div>
-            <SocialLinks
-              className="flex-wrap gap-1"
-              linkClassName="text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
-            />
-          </div>
+          <SocialLinks
+            className="flex-wrap gap-0.5"
+            linkClassName="text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent p-1"
+            iconClassName="size-3.5"
+          />
         </div>
 
         <SidebarMenu>
