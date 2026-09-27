@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_instructor")({
 });
 
 function InstructorLayout() {
-  const { user, isAuthenticated, ready } = useInstructorAuth();
+  const { ready, isAuthenticated } = useInstructorAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
