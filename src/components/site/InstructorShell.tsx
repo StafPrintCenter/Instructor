@@ -7,6 +7,7 @@ import logo from "@/assets/logos.json";
 import { SITE, SITE_LINK } from "@/data/site";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, SidebarInset, useSidebar } from "@/components/ui/sidebar";
+import { SocialLinks } from "@/components/site/SocialLinks";
 
 type NavItem = {
   to: string;
