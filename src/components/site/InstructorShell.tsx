@@ -142,7 +142,7 @@ function InstructorSidebarContent({
         </div>
 
         <SidebarMenu>
-          {/* Item de doc supplémentaire actif uniquement quand la sidebar est repliée */}
+          {/* Item de doc supplémentaire actif uniquement quand la sidebar est repliée en mode icône */}
           <SidebarMenuItem className="hidden group-data-[collapsible=icon]:block">
             <SidebarMenuButton
               asChild
