@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { SITE } from "@/data/site";
+import { SITE, SITE_LINK } from "@/data/site";
 import logo from "@/assets/logos.json";
 import { SocialLinks } from "@/components/site/SocialLinks";
 
