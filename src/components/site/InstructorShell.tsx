@@ -134,9 +134,6 @@ function InstructorSidebarContent({
           </a>
 
           <div>
-            <p className="text-[10px] uppercase tracking-wider text-sidebar-foreground/50 mb-1 font-semibold">
-              Suivez-nous
-            </p>
             <SocialLinks
               className="flex-wrap gap-1"
               linkClassName="text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
