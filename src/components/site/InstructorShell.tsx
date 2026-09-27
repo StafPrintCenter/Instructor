@@ -4,7 +4,7 @@ import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut,
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
 import logo from "@/assets/logos.json";
-import { SITE } from "@/data/site";
+import { SITE, SITE_LINK } from "@/data/site";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, SidebarInset, useSidebar } from "@/components/ui/sidebar";
 
