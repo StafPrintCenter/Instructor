@@ -123,7 +123,7 @@ function InstructorSidebarContent({
 
       <SidebarFooter className="border-t border-sidebar-border p-2 space-y-1">
         {/* Réseaux sociaux & Documentation */}
-        <div className="px-2 pt-1 group-data-[collapsible=icon]:hidden space-y-2">
+        <div className="px-2 pt-1 group-data-[collapsible=icon]:hidden flex items-center justify-between gap-2">
           <a
             href={docsUrl}
             target="_blank"
