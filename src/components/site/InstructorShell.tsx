@@ -142,6 +142,20 @@ function InstructorSidebarContent({
         </div>
 
         <SidebarMenu>
+          {/* Item de doc supplémentaire actif uniquement quand la sidebar est repliée */}
+          <SidebarMenuItem className="hidden group-data-[collapsible=icon]:block">
+            <SidebarMenuButton
+              asChild
+              tooltip="Documentation"
+              className={navItemClass}
+            >
+              <a href={docsUrl} target="_blank" rel="noopener noreferrer">
+                <BookOpen className="size-4 shrink-0" />
+                <span>Documentation</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
