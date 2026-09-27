@@ -74,7 +74,6 @@ function InstructorSidebarContent({
         : pathname.startsWith(n.to);
 
   const profileActive = pathname.startsWith("/profil");
-  const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/intro`;
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
