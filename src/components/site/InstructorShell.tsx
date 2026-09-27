@@ -121,6 +121,29 @@ function InstructorSidebarContent({
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border p-2 space-y-1">
+        {/* Réseaux sociaux & Documentation */}
+        <div className="px-2 pt-1 group-data-[collapsible=icon]:hidden space-y-2">
+          <a
+            href={docsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs text-sidebar-foreground/70 hover:text-sidebar-foreground py-1 px-2 rounded-md hover:bg-sidebar-accent transition-colors"
+          >
+            <BookOpen className="size-3.5 shrink-0" />
+            <span>Documentation</span>
+          </a>
+
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-sidebar-foreground/50 mb-1 font-semibold">
+              Suivez-nous
+            </p>
+            <SocialLinks
+              className="flex-wrap gap-1"
+              linkClassName="text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+            />
+          </div>
+        </div>
+
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
