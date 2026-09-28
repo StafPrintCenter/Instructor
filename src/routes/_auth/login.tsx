@@ -40,7 +40,7 @@ function LoginPage() {
       <span>
         Pas encore de compte ?{" "}
         <Link to="/register" className="font-medium text-foreground underline underline-offset-4">
-          Demander un accès formateur
+          Demander un accès
         </Link>
       </span>
     ),
@@ -83,7 +83,7 @@ function LoginPage() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label htmlFor="password">Mot de passe</Label>
-          <Link to="/mot-de-passe-oublie" className="text-xs text-muted-foreground hover:text-foreground">
+          <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
             Mot de passe oublié ?
           </Link>
         </div>
