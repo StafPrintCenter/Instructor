@@ -75,6 +75,7 @@ function LoginPage() {
           className="bg-card"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          placeholder="instructeur@votreadresse.com"
           autoComplete="email"
           disabled={loading}
           required
