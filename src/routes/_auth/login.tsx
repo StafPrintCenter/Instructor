@@ -94,6 +94,7 @@ function LoginPage() {
             className="bg-card pr-10"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
             autoComplete="current-password"
             disabled={loading}
             required
