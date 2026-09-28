@@ -12,8 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as InstructorRouteImport } from './routes/_instructor'
-import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
-import { Route as ReinitialisationRouteImport } from './routes/reinitialisation'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -41,16 +39,6 @@ const AuthRoute = AuthRouteImport.update({
 } as any)
 const InstructorRoute = InstructorRouteImport.update({
   id: '/_instructor',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReinitialisationRoute = ReinitialisationRouteImport.update({
-  id: '/reinitialisation',
-  path: '/reinitialisation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -137,8 +125,6 @@ const InstructorTrainingsTrainingIdManageRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/reinitialisation': typeof ReinitialisationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
@@ -157,8 +143,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/reinitialisation': typeof ReinitialisationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/invite': typeof AuthInviteRoute
   '/login': typeof AuthLoginRoute
@@ -180,8 +164,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_instructor': typeof InstructorRouteWithChildren
-  '/forgot-password': typeof ForgotPasswordRoute
-  '/reinitialisation': typeof ReinitialisationRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_auth/invite': typeof AuthInviteRoute
   '/_auth/login': typeof AuthLoginRoute
@@ -202,8 +184,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/forgot-password'
-    | '/reinitialisation'
     | '/sitemap.xml'
     | '/invite'
     | '/login'
@@ -222,8 +202,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/forgot-password'
-    | '/reinitialisation'
     | '/sitemap.xml'
     | '/invite'
     | '/login'
@@ -244,8 +222,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_instructor'
-    | '/forgot-password'
-    | '/reinitialisation'
     | '/sitemap.xml'
     | '/_auth/invite'
     | '/_auth/login'
@@ -267,8 +243,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
   InstructorRoute: typeof InstructorRouteWithChildren
-  ForgotPasswordRoute: typeof ForgotPasswordRoute
-  ReinitialisationRoute: typeof ReinitialisationRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
@@ -293,20 +267,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof InstructorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forgot-password': {
-      id: '/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof ForgotPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reinitialisation': {
-      id: '/reinitialisation'
-      path: '/reinitialisation'
-      fullPath: '/reinitialisation'
-      preLoaderRoute: typeof ReinitialisationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -469,8 +429,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   InstructorRoute: InstructorRouteWithChildren,
-  ForgotPasswordRoute: ForgotPasswordRoute,
-  ReinitialisationRoute: ReinitialisationRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
