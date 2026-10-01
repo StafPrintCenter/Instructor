@@ -78,7 +78,8 @@ function LoginPage() {
     try {
       await login(email, password);
       toast.success("Bienvenue dans votre espace formateur.");
-      navigate({ to: "/dashboard" });
+      if (destination) router.history.push(destination);
+      else navigate({ to: "/dashboard" });
     } catch (error) {
       toast.error((error as Error).message);
     } finally {
