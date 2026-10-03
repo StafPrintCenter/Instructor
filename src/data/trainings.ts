@@ -1,6 +1,7 @@
 export type InstructorTrainingRole = "lead" | "assistant";
 export type TrainingLevel = "Débutant" | "Intermédiaire" | "Avancé";
 export type TrainingStatus = "draft" | "published" | "archived";
+export type PaymentStatus = "unpaid" | "partial" | "paid";
 
 /** Shape renvoyée par /api/v1/instructor/trainings/list */
 export interface APIInstructorTrainingAssignment {
@@ -52,7 +53,7 @@ export interface APIInstructorTrainingStudent {
   email: string | null;
   progress: number | null;
   attendance: number | null;
-  paymentStatus: string | null;
+  paymentStatus: PaymentStatus | string | null;
   lastActivityAt: string | null;
 }
 
@@ -113,6 +114,34 @@ export function getTrainingStatusBadgeClass(status: TrainingStatus): string {
 
 export function getTrainingStatusLabel(status: TrainingStatus): string {
   return TRAINING_STATUS_BADGES[status]?.label ?? status;
+}
+
+/**
+ * Configuration des badges pour les statuts de paiement des apprenants
+ */
+export const PAYMENT_STATUS_BADGES: Record<PaymentStatus, { label: string; className: string }> = {
+  unpaid: {
+    label: "Non payé",
+    className: "bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/20",
+  },
+  partial: {
+    label: "Acompte",
+    className: "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20",
+  },
+  paid: {
+    label: "Payé",
+    className: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
+  },
+};
+
+export function getPaymentStatusBadgeClass(status: PaymentStatus | string | null | undefined): string {
+  if (!status) return "bg-muted text-muted-foreground border-border";
+  return PAYMENT_STATUS_BADGES[status as PaymentStatus]?.className ?? "bg-muted text-muted-foreground border-border";
+}
+
+export function getPaymentStatusLabel(status: PaymentStatus | string | null | undefined): string {
+  if (!status) return "Non défini";
+  return PAYMENT_STATUS_BADGES[status as PaymentStatus]?.label ?? status;
 }
 
 /**
