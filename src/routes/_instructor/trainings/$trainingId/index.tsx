@@ -3,33 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import {
-  CheckCircle2,
-  Clock,
-  MapPin,
-  Users,
-  BookOpen,
-  Calendar,
-  Mail,
-  UserCheck,
-} from "lucide-react";
+import { CheckCircle2, MapPin, Users, BookOpen, Calendar, Mail } from "lucide-react";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
-import {
-  getTrainingLevelBadgeClass,
-  getTrainingStatusBadgeClass,
-  getTrainingStatusLabel,
-} from "@/data/trainings";
+import { getTrainingLevelBadgeClass, getTrainingStatusBadgeClass, getTrainingStatusLabel } from "@/data/trainings";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
