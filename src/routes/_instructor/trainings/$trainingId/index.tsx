@@ -4,13 +4,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
   CheckCircle2,
   Clock,
   MapPin,
   Users,
   BookOpen,
   Calendar,
-  Hourglass,
+  Mail,
   UserCheck,
 } from "lucide-react";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
@@ -34,6 +43,19 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
   }),
   component: TrainingDetail,
 });
+
+// Helper pour formater l'affichage des statuts de paiement
+function getPaymentStatusBadge(status: string) {
+  switch (status) {
+    case "paid":
+      return <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Payé</Badge>;
+    case "partial":
+      return <Badge className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20">Acompte</Badge>;
+    case "pending":
+    default:
+      return <Badge variant="outline" className="text-muted-foreground">En attente</Badge>;
+  }
+}
 
 function TrainingDetail() {
   const { trainingId } = Route.useParams();
@@ -226,18 +248,85 @@ function TrainingDetail() {
         )}
       </div>
 
+      {/* Section Détaillée des Apprenants */}
       <Card className="border-border/70">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 font-display text-xl">
-            <Users className="size-4" style={{ color: mainColor }} /> Apprenants inscrits ({students.total})
+            <Users className="size-5" style={{ color: mainColor }} /> Apprenants inscrits ({students.total})
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            {students.total > 0
-              ? `${students.total} apprenant${students.total > 1 ? "s" : ""} inscrit${students.total > 1 ? "s" : ""}.`
-              : "Aucun apprenant inscrit pour le moment."}
-          </p>
+          {students.data.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <Users className="size-12 text-muted-foreground/40" />
+              <p className="mt-3 text-sm font-medium text-muted-foreground">
+                Aucun apprenant n'est encore inscrit à cette formation.
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Apprenant</TableHead>
+                    <TableHead>Paiement</TableHead>
+                    <TableHead>Progression</TableHead>
+                    <TableHead>Assiduité</TableHead>
+                    <TableHead className="text-right">Dernière activité</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {students.data.map((student) => {
+                    const initials = `${student.firstName?.[0] ?? ""}${student.lastName?.[0] ?? ""}`.toUpperCase();
+
+                    return (
+                      <TableRow key={student.studentId}>
+                        <TableCell>
+                          <div className="flex items-center gap-3">
+                            <Avatar className="size-9 border border-border">
+                              <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+                                {initials || "AP"}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="space-y-0.5">
+                              <p className="text-sm font-medium leading-none">
+                                {student.firstName} {student.lastName}
+                              </p>
+                              <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <Mail className="size-3" />
+                                {student.email}
+                              </p>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {getPaymentStatusBadge(student.paymentStatus)}
+                        </TableCell>
+                        <TableCell className="min-w-[140px]">
+                          <div className="space-y-1.5">
+                            <div className="flex items-center justify-between text-xs">
+                              <span className="font-medium">{student.progress}%</span>
+                            </div>
+                            <Progress value={student.progress} className="h-1.5" />
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {student.attendance !== null ? (
+                            <span className="text-xs font-medium">{student.attendance}%</span>
+                          ) : (
+                            <span className="text-xs text-muted-foreground">—</span>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-right text-xs text-muted-foreground">
+                          {student.lastActivityAt ? formatDate(student.lastActivityAt) : "Jamais connecté"}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
