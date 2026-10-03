@@ -1,24 +1,6 @@
-// src/routes/_instructor/trainings/$trainingId/manage.tsx
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import {
-  ChevronDown,
-  ChevronRight,
-  Loader2,
-  Pencil,
-  Plus,
-  Send,
-  Trash2,
-  Video,
-  BookOpen,
-  HelpCircle,
-  Dumbbell,
-  FileCheck,
-  FolderKanban,
-  Clock,
-  ExternalLink,
-  Sparkles,
-} from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronDown, ChevronRight, Loader2, Pencil, Plus, Send, Trash2, Video, BookOpen, HelpCircle, Dumbbell, FileCheck, FolderKanban, Clock, ExternalLink, Sparkles, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -159,9 +141,16 @@ function ContentPage() {
               if (open) setModuleForm({ title: "", description: "", sort_order: modules.length });
             }}
           >
-            <DialogTrigger asChild>
-              <Button variant="accent"><Plus className="size-4" /> Nouveau module</Button>
-            </DialogTrigger>
+            <div className="flex items-center gap-2">
+              <Button asChild variant="soft">
+                <Link to="/trainings/$trainingId" params={{ trainingId }}>
+                  <ArrowLeft className="size-4" /> Résumé
+                </Link>
+              </Button>
+              <DialogTrigger asChild>
+                <Button variant="accent"><Plus className="size-4" /> Nouveau module</Button>
+              </DialogTrigger>
+            </div>
             <DialogContent>
               <DialogHeader><DialogTitle className="font-display">Créer un module</DialogTitle></DialogHeader>
               <div className="space-y-4">
