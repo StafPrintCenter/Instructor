@@ -302,7 +302,7 @@ function TrainingDetail() {
                         <TableCell>
                           {getPaymentStatusBadge(student.paymentStatus)}
                         </TableCell>
-                        <TableCell className="min-w-[140px]">
+                        <TableCell className="min-w-35">
                           <div className="space-y-1.5">
                             <div className="flex items-center justify-between text-xs">
                               <span className="font-medium">{student.progress}%</span>
