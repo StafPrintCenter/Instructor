@@ -9,7 +9,10 @@ import { CheckCircle2, MapPin, Users, BookOpen, Calendar, Mail } from "lucide-re
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
-import { getTrainingLevelBadgeClass, getTrainingStatusBadgeClass, getTrainingStatusLabel } from "@/data/trainings";
+import {
+  getTrainingLevelBadgeClass, getTrainingStatusBadgeClass, getTrainingStatusLabel, getPaymentStatusBadgeClass,
+  getPaymentStatusLabel, PaymentStatus
+} from "@/data/trainings";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
@@ -25,16 +28,12 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
 });
 
 // Helper pour formater l'affichage des statuts de paiement
-function getPaymentStatusBadge(status: string) {
-  switch (status) {
-    case "paid":
-      return <Badge className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">Payé</Badge>;
-    case "partial":
-      return <Badge className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20">Acompte</Badge>;
-    case "pending":
-    default:
-      return <Badge variant="outline" className="text-muted-foreground">En attente</Badge>;
-  }
+function getPaymentStatusBadge(status: PaymentStatus | string | null | undefined) {
+  return (
+    <Badge variant="outline" className={cn("border font-medium", getPaymentStatusBadgeClass(status))}>
+      {getPaymentStatusLabel(status)}
+    </Badge>
+  );
 }
 
 function TrainingDetail() {
