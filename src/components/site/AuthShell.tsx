@@ -53,7 +53,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
     throw new Error("AuthShell doit être utilisé sous AuthShellProvider (_auth.tsx).");
   }
   const { title, subtitle, footer } = ctx.content;
-  const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/intro`;
+  const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/index`;
 
   return (
     <div className="bg-grain grid min-h-screen lg:grid-cols-2">
