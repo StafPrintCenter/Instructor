@@ -24,6 +24,7 @@ import { Route as InstructorMessagesIndexRouteImport } from './routes/_instructo
 import { Route as InstructorSessionsIndexRouteImport } from './routes/_instructor/sessions/index'
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
 import { Route as InstructorStudentsStudentIdRouteImport } from './routes/_instructor/students/$studentId'
+import { Route as InstructorSubmissionsIndexRouteImport } from './routes/_instructor/submissions/index'
 import { Route as InstructorTrainingsIndexRouteImport } from './routes/_instructor/trainings/index'
 import { Route as InstructorTrainingsTrainingIdIndexRouteImport } from './routes/_instructor/trainings/$trainingId/index'
 import { Route as InstructorTrainingsTrainingIdManageRouteImport } from './routes/_instructor/trainings/$trainingId/manage'
@@ -104,6 +105,12 @@ const InstructorStudentsStudentIdRoute =
     path: '/students/$studentId',
     getParentRoute: () => InstructorRoute,
   } as any)
+const InstructorSubmissionsIndexRoute =
+  InstructorSubmissionsIndexRouteImport.update({
+    id: '/submissions/',
+    path: '/submissions/',
+    getParentRoute: () => InstructorRoute,
+  } as any)
 const InstructorTrainingsIndexRoute =
   InstructorTrainingsIndexRouteImport.update({
     id: '/trainings/',
@@ -137,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/messages/': typeof InstructorMessagesIndexRoute
   '/sessions/': typeof InstructorSessionsIndexRoute
   '/students/': typeof InstructorStudentsIndexRoute
+  '/submissions/': typeof InstructorSubmissionsIndexRoute
   '/trainings/': typeof InstructorTrainingsIndexRoute
   '/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/trainings/$trainingId/': typeof InstructorTrainingsTrainingIdIndexRoute
@@ -155,6 +163,7 @@ export interface FileRoutesByTo {
   '/messages': typeof InstructorMessagesIndexRoute
   '/sessions': typeof InstructorSessionsIndexRoute
   '/students': typeof InstructorStudentsIndexRoute
+  '/submissions': typeof InstructorSubmissionsIndexRoute
   '/trainings': typeof InstructorTrainingsIndexRoute
   '/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/trainings/$trainingId': typeof InstructorTrainingsTrainingIdIndexRoute
@@ -176,6 +185,7 @@ export interface FileRoutesById {
   '/_instructor/messages/': typeof InstructorMessagesIndexRoute
   '/_instructor/sessions/': typeof InstructorSessionsIndexRoute
   '/_instructor/students/': typeof InstructorStudentsIndexRoute
+  '/_instructor/submissions/': typeof InstructorSubmissionsIndexRoute
   '/_instructor/trainings/': typeof InstructorTrainingsIndexRoute
   '/_instructor/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/_instructor/trainings/$trainingId/': typeof InstructorTrainingsTrainingIdIndexRoute
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/messages/'
     | '/sessions/'
     | '/students/'
+    | '/submissions/'
     | '/trainings/'
     | '/trainings/$trainingId/manage'
     | '/trainings/$trainingId/'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '/messages'
     | '/sessions'
     | '/students'
+    | '/submissions'
     | '/trainings'
     | '/trainings/$trainingId/manage'
     | '/trainings/$trainingId'
@@ -234,6 +246,7 @@ export interface FileRouteTypes {
     | '/_instructor/messages/'
     | '/_instructor/sessions/'
     | '/_instructor/students/'
+    | '/_instructor/submissions/'
     | '/_instructor/trainings/'
     | '/_instructor/trainings/$trainingId/manage'
     | '/_instructor/trainings/$trainingId/'
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorStudentsStudentIdRouteImport
       parentRoute: typeof InstructorRoute
     }
+    '/_instructor/submissions/': {
+      id: '/_instructor/submissions/'
+      path: '/submissions'
+      fullPath: '/submissions/'
+      preLoaderRoute: typeof InstructorSubmissionsIndexRouteImport
+      parentRoute: typeof InstructorRoute
+    }
     '/_instructor/trainings/': {
       id: '/_instructor/trainings/'
       path: '/trainings'
@@ -400,6 +420,7 @@ interface InstructorRouteChildren {
   InstructorMessagesIndexRoute: typeof InstructorMessagesIndexRoute
   InstructorSessionsIndexRoute: typeof InstructorSessionsIndexRoute
   InstructorStudentsIndexRoute: typeof InstructorStudentsIndexRoute
+  InstructorSubmissionsIndexRoute: typeof InstructorSubmissionsIndexRoute
   InstructorTrainingsIndexRoute: typeof InstructorTrainingsIndexRoute
   InstructorTrainingsTrainingIdManageRoute: typeof InstructorTrainingsTrainingIdManageRoute
   InstructorTrainingsTrainingIdIndexRoute: typeof InstructorTrainingsTrainingIdIndexRoute
@@ -414,6 +435,7 @@ const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorMessagesIndexRoute: InstructorMessagesIndexRoute,
   InstructorSessionsIndexRoute: InstructorSessionsIndexRoute,
   InstructorStudentsIndexRoute: InstructorStudentsIndexRoute,
+  InstructorSubmissionsIndexRoute: InstructorSubmissionsIndexRoute,
   InstructorTrainingsIndexRoute: InstructorTrainingsIndexRoute,
   InstructorTrainingsTrainingIdManageRoute:
     InstructorTrainingsTrainingIdManageRoute,
