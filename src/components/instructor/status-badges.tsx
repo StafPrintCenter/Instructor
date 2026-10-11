@@ -7,6 +7,7 @@ import {
   type SubmissionStatus,
 } from "@/lib/api";
 import { contentStatusLabels, type ContentStatus } from "@/data/content";
+import { instructorSubmissionStatusLabels, type SubmissionStatus as InstructorSubmissionStatus } from "@/data/submissions";
 
 const contentTone: Record<ContentStatus, string> = {
   draft: "bg-muted text-muted-foreground border-transparent",
