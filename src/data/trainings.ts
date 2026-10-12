@@ -48,7 +48,7 @@ export interface APIInstructorTrainingDetail {
  */
 export interface APIInstructorTrainingStudent {
   enrollmentId: string;
-  studentId: string | null;
+  studentId: string;
   firstName: string | null;
   lastName: string | null;
   email: string | null;
