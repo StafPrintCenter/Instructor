@@ -15,7 +15,7 @@ async function sendQuizAttemptFeedback(
   fd.append("comment", payload.comment);
   fd.append("validated", payload.validated ? "1" : "0");
 
-  const response = await instructorFetch(`/api/instructor/quiz-attempts/${attemptId}/feedback`, {
+  const response = await instructorFetch(`/api/instructor/trainings/students/quiz-attempts/${attemptId}/feedback`, {
     method: "POST",
     body: fd,
   });
