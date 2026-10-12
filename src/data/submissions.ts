@@ -1,6 +1,6 @@
 export type SubmissionStatus = "submitted" | "under_review" | "validated" | "rejected";
 
-/** Décisions documentées (OA) pour PUT /instructor/submissions/{id}/grade */
+/** Décisions documentées (OA) pour PUT .../submissions/{id}/grade */
 export type SubmissionDecision = Exclude<SubmissionStatus, "submitted">;
 
 export const SUBMISSION_STATUSES: SubmissionStatus[] = ["submitted", "under_review", "validated", "rejected"];
@@ -19,7 +19,14 @@ export const submissionDecisionLabels: Record<SubmissionDecision, string> = {
   rejected: "Rejeter le travail",
 };
 
-/** GET /instructor/submissions/list */
+export interface APIInstructorSubmissionFeedback {
+  id: string;
+  note: number | string | null; // number en liste, string ("60") dans la réponse de grade
+  comment: string | null;
+  validated: boolean;
+}
+
+/** GET /instructor/trainings/submissions/list */
 export interface APIInstructorSubmission {
   id: string;
   lessonId: string;
@@ -30,13 +37,7 @@ export interface APIInstructorSubmission {
   fileUrl: string | null;
   status: SubmissionStatus;
   submittedAt: string;
-}
-
-export interface APIInstructorSubmissionFeedback {
-  id: string;
-  note: number | string | null; // renvoyé en string ("60") par l'API
-  comment: string | null;
-  validated: boolean;
+  feedback: APIInstructorSubmissionFeedback | null;
 }
 
 /** Réponse de PUT .../grade — n'inclut ni body ni fileUrl */
