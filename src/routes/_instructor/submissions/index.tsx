@@ -1,20 +1,20 @@
 // src/routes/_instructor/submissions/index.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { AlertTriangle, ClipboardCheck, Inbox, Paperclip, RefreshCw } from "lucide-react";
+import { AlertTriangle, Inbox, RefreshCw } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { InstructorSubmissionBadge } from "@/components/instructor/status-badges";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
+import { PaginationBar } from "@/components/site/PaginationBar";
+import { SubmissionCard } from "@/components/site/SubmissionCard";
 import { SubmissionGradeDialog } from "@/components/site/SubmissionGradeDialog";
-import { resolveStorageUrl } from "@/lib/file-url";
 import {
   SUBMISSION_STATUSES,
   instructorSubmissionStatusLabels,
   type APIInstructorSubmission,
   type SubmissionStatus,
 } from "@/data/submissions";
+import type { InstructorPaginationMeta } from "@/data/pagination";
 import { useInstructorSubmissionsList } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";
 
@@ -29,19 +29,30 @@ export const Route = createFileRoute("/_instructor/submissions/")({
   component: SubmissionsPage,
 });
 
-const formatDateTime = (value: string) =>
-  new Date(value).toLocaleString("fr-FR", { dateStyle: "medium", timeStyle: "short" });
-
 function SubmissionsPage() {
   const [status, setStatus] = useState<SubmissionStatus | "all">("all");
-  const { items, isLoading, isError, refetch } = useInstructorSubmissionsList({
+  const [page, setPage] = useState(1);
+
+  const { items, meta, isLoading, isError, refetch } = useInstructorSubmissionsList({
     status: status === "all" ? undefined : status,
+    page,
   });
+  const pagination = meta as InstructorPaginationMeta | null;
 
   const [toGrade, setToGrade] = useState<APIInstructorSubmission | null>(null);
   const [preview, setPreview] = useState<{ url: string; title: string } | null>(null);
 
+  // Si la dernière page se vide (ex. après une notation avec filtre actif), on recule d'une page
+  useEffect(() => {
+    if (pagination && pagination.lastPage >= 1 && page > pagination.lastPage) setPage(pagination.lastPage);
+  }, [pagination, page]);
+
   const filters: (SubmissionStatus | "all")[] = ["all", ...SUBMISSION_STATUSES];
+
+  const changeStatus = (next: SubmissionStatus | "all") => {
+    setStatus(next);
+    setPage(1);
+  };
 
   return (
     <div className="space-y-8">
@@ -53,12 +64,7 @@ function SubmissionsPage() {
 
       <div className="flex flex-wrap gap-2">
         {filters.map((f) => (
-          <Button
-            key={f}
-            size="sm"
-            variant={status === f ? "accent" : "outline"}
-            onClick={() => setStatus(f)}
-          >
+          <Button key={f} size="sm" variant={status === f ? "accent" : "outline"} onClick={() => changeStatus(f)}>
             {f === "all" ? "Tous" : instructorSubmissionStatusLabels[f]}
           </Button>
         ))}
@@ -90,60 +96,28 @@ function SubmissionsPage() {
         />
       ) : (
         <div className="space-y-4">
-          {items.map((s) => {
-            const fileUrl = resolveStorageUrl(s.fileUrl);
-            return (
-              <Card key={s.id} className="border-border/70">
-                <CardContent className="space-y-3 p-5">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <h2 className="font-display text-lg leading-snug">{s.lessonTitle}</h2>
-                      <p className="text-sm text-muted-foreground">
-                        {s.studentName} · {formatDateTime(s.submittedAt)}
-                      </p>
-                    </div>
-                    <InstructorSubmissionBadge status={s.status} />
-                  </div>
-
-                  {s.body ? (
-                    <p className="whitespace-pre-wrap rounded-lg border bg-muted/20 p-3 text-sm">{s.body}</p>
-                  ) : (
-                    <p className="text-xs italic text-muted-foreground">Aucun texte joint.</p>
-                  )}
-
-                  <div className="flex flex-wrap items-center gap-2">
-                    {fileUrl ? (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setPreview({ url: fileUrl, title: `${s.studentName} — ${s.lessonTitle}` })}
-                      >
-                        <Paperclip className="size-4" /> Voir le fichier
-                      </Button>
-                    ) : null}
-                    <Button
-                      variant={s.status === "submitted" ? "accent" : "soft"}
-                      size="sm"
-                      onClick={() => setToGrade(s)}
-                    >
-                      <ClipboardCheck className="size-4" />
-                      {s.status === "submitted" ? "Noter" : "Modifier la décision"}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+          {items.map((s) => (
+            <SubmissionCard
+              key={s.id}
+              submission={s}
+              onGrade={setToGrade}
+              onPreview={(url, title) => setPreview({ url, title })}
+            />
+          ))}
+          {pagination ? (
+            <PaginationBar
+              page={pagination.currentPage}
+              lastPage={pagination.lastPage}
+              total={pagination.total}
+              onPageChange={setPage}
+            />
+          ) : null}
         </div>
       )}
 
       <SubmissionGradeDialog submission={toGrade} onClose={() => setToGrade(null)} />
 
-      <FilePreviewModal
-        url={preview?.url ?? null}
-        title={preview?.title ?? ""}
-        onClose={() => setPreview(null)}
-      />
+      <FilePreviewModal url={preview?.url ?? null} title={preview?.title ?? ""} onClose={() => setPreview(null)} />
     </div>
   );
 }
