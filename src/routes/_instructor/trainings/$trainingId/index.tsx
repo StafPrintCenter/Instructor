@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -5,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { CheckCircle2, MapPin, Users, BookOpen, Calendar, Mail } from "lucide-react";
+import { CheckCircle2, MapPin, Users, BookOpen, Calendar, Mail, ClipboardList, CalendarCheck, Eye } from "lucide-react";
+import { AttendanceMarkDialog } from "@/components/site/AttendanceMarkDialog";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
@@ -39,6 +41,7 @@ function getPaymentStatusBadge(status: PaymentStatus | string | null | undefined
 function TrainingDetail() {
   const { trainingId } = Route.useParams();
   const { overview, isLoading } = useInstructorTrainingOverview(trainingId);
+  const [attendanceFor, setAttendanceFor] = useState<{ enrollmentId: string; name: string } | null>(null);
 
   if (isLoading || !overview) {
     return (
@@ -73,14 +76,19 @@ function TrainingDetail() {
         />
 
         <div className="relative space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               {training.theme}
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Button asChild variant="accent">
                 <Link to="/trainings/$trainingId/manage" params={{ trainingId }}>
                   Gérer le contenu
+                </Link>
+              </Button>
+              <Button asChild variant="soft">
+                <Link to="/trainings/$trainingId/submissions" params={{ trainingId }}>
+                  <ClipboardList className="size-4" /> Soumissions
                 </Link>
               </Button>
               <Button asChild variant="soft">
@@ -105,7 +113,6 @@ function TrainingDetail() {
           </p>
 
           <div className="flex flex-wrap items-center gap-2.5 pt-2 text-xs sm:text-sm">
-            {/* Badge Niveau */}
             <Badge
               variant="outline"
               className={cn("border font-medium", getTrainingLevelBadgeClass(training.level))}
@@ -113,7 +120,6 @@ function TrainingDetail() {
               {training.level}
             </Badge>
 
-            {/* Badge Statut */}
             <Badge
               variant="outline"
               className={cn("border font-medium", getTrainingStatusBadgeClass(training.status))}
@@ -133,7 +139,6 @@ function TrainingDetail() {
 
       {/* Cartes des métriques et informations clés */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Période & Lieu */}
         <Card className="border-border/70">
           <CardContent className="space-y-1.5 p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Période & Lieu</p>
@@ -148,7 +153,6 @@ function TrainingDetail() {
           </CardContent>
         </Card>
 
-        {/* Volume Horaire */}
         <Card className="border-border/70">
           <CardContent className="p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Volume Horaire</p>
@@ -159,7 +163,6 @@ function TrainingDetail() {
           </CardContent>
         </Card>
 
-        {/* Places & Inscriptions */}
         <Card className="border-border/70">
           <CardContent className="p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Inscriptions</p>
@@ -175,7 +178,6 @@ function TrainingDetail() {
           </CardContent>
         </Card>
 
-        {/* Avancement global */}
         <Card className="border-border/70">
           <CardContent className="space-y-2 p-5">
             <p className="text-xs uppercase tracking-wider text-muted-foreground">Avancement global</p>
@@ -251,12 +253,14 @@ function TrainingDetail() {
                     <TableHead>Paiement</TableHead>
                     <TableHead>Progression</TableHead>
                     <TableHead>Assiduité</TableHead>
-                    <TableHead className="text-right">Dernière activité</TableHead>
+                    <TableHead>Dernière activité</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {students.data.map((student) => {
                     const initials = `${student.firstName?.[0] ?? ""}${student.lastName?.[0] ?? ""}`.toUpperCase();
+                    const fullName = `${student.firstName} ${student.lastName}`.trim();
 
                     return (
                       <TableRow key={student.studentId}>
@@ -268,9 +272,7 @@ function TrainingDetail() {
                               </AvatarFallback>
                             </Avatar>
                             <div className="space-y-0.5">
-                              <p className="text-sm font-medium leading-none">
-                                {student.firstName} {student.lastName}
-                              </p>
+                              <p className="text-sm font-medium leading-none">{fullName}</p>
                               <p className="flex items-center gap-1 text-xs text-muted-foreground">
                                 <Mail className="size-3" />
                                 {student.email}
@@ -296,8 +298,27 @@ function TrainingDetail() {
                             <span className="text-xs text-muted-foreground">—</span>
                           )}
                         </TableCell>
-                        <TableCell className="text-right text-xs text-muted-foreground">
+                        <TableCell className="text-xs text-muted-foreground">
                           {student.lastActivityAt ? formatDate(student.lastActivityAt) : "Jamais connecté"}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center justify-end gap-1.5">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => setAttendanceFor({ enrollmentId: student.enrollmentId, name: fullName })}
+                            >
+                              <CalendarCheck className="size-4" /> Assiduité
+                            </Button>
+                            <Button asChild size="sm" variant="soft">
+                              <Link
+                                to="/trainings/$trainingId/students/$studentId"
+                                params={{ trainingId, studentId: student.studentId }}
+                              >
+                                <Eye className="size-4" /> Suivi & soumissions
+                              </Link>
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     );
@@ -308,6 +329,12 @@ function TrainingDetail() {
           )}
         </CardContent>
       </Card>
+
+      <AttendanceMarkDialog
+        enrollmentId={attendanceFor?.enrollmentId ?? null}
+        studentName={attendanceFor?.name}
+        onClose={() => setAttendanceFor(null)}
+      />
     </div>
   );
 }
