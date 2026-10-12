@@ -1,5 +1,3 @@
-// src/data/submissions.ts
-
 export type SubmissionStatus = "submitted" | "under_review" | "validated" | "rejected";
 
 /** Décisions documentées (OA) pour PUT /instructor/submissions/{id}/grade */
