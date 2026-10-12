@@ -29,6 +29,14 @@ const submissionTone: Record<SubmissionStatus, string> = {
   returned: "bg-info/15 text-info border-info/30",
 };
 
+const instructorSubmissionTone: Record<InstructorSubmissionStatus, string> = {
+  submitted: "bg-accent/20 text-accent-foreground border-accent/40",
+  under_review: "bg-info/15 text-info border-info/30",
+  validated: "bg-success/15 text-success border-success/30",
+  rejected: "bg-destructive/12 text-destructive border-destructive/30",
+};
+
+
 export function ContentStatusBadge({ status, className }: { status: ContentStatus; className?: string }) {
   return (
     <Badge variant="outline" className={cn("font-medium", contentTone[status], className)}>
@@ -49,6 +57,14 @@ export function SubmissionBadge({ status }: { status: SubmissionStatus }) {
   return (
     <Badge variant="outline" className={cn("font-medium", submissionTone[status])}>
       {submissionStatusLabels[status]}
+    </Badge>
+  );
+}
+
+export function InstructorSubmissionBadge({ status, className }: { status: InstructorSubmissionStatus; className?: string }) {
+  return (
+    <Badge variant="outline" className={cn("font-medium", instructorSubmissionTone[status], className)}>
+      {instructorSubmissionStatusLabels[status]}
     </Badge>
   );
 }
