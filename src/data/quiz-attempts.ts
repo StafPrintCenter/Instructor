@@ -1,5 +1,3 @@
-// src/data/quiz-attempts.ts
-
 /** POST /instructor/quiz-attempts/{attemptId}/feedback */
 export interface APIInstructorQuizAttemptFeedback {
   id: string;
