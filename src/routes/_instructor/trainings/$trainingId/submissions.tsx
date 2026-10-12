@@ -1,4 +1,3 @@
-// src/routes/_instructor/trainings/$trainingId/submissions.tsx
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, Inbox, RefreshCw } from "lucide-react";
@@ -126,7 +125,7 @@ function TrainingSubmissionsPage() {
               <SelectItem value="all">Tous les apprenants</SelectItem>
               {students.map((s) => (
                 <SelectItem key={s.studentId} value={s.studentId}>
-                  {`${s.firstName} ${s.lastName}`.trim()}
+                  {`${s.firstName ?? ""} ${s.lastName ?? ""}`.trim() || s.email || "Apprenant"}
                 </SelectItem>
               ))}
             </SelectContent>
