@@ -1,4 +1,3 @@
-// src/components/site/SubmissionCard.tsx
 import type { ReactNode } from "react";
 import { ClipboardCheck, Paperclip } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
