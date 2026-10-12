@@ -47,6 +47,7 @@ export interface APIInstructorTrainingDetail {
  * Apprenant inscrit à la formation.
  */
 export interface APIInstructorTrainingStudent {
+  enrollmentId: string;
   studentId: string | null;
   firstName: string | null;
   lastName: string | null;
