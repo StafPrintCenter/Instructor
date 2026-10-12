@@ -1,4 +1,3 @@
-// src/routes/_instructor/trainings/$trainingId/students.$studentId.tsx
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, CalendarCheck, ClipboardList, Inbox, MessageSquare, RefreshCw } from "lucide-react";
