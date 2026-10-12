@@ -1,4 +1,3 @@
-// src/stores/useTrainingStudentsStore.ts
 import { useQueries, useQuery } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
 import { parseApiError } from "@/lib/api-error";
