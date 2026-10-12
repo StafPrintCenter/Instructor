@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
 import { parseApiError } from "@/lib/api-error";
 import type { APIInstructorQuizAttemptFeedback, InstructorQuizAttemptFeedbackPayload } from "@/data/quiz-attempts";
@@ -24,10 +24,11 @@ async function sendQuizAttemptFeedback(
   return json.data;
 }
 
-// Pas d'invalidation : aucune liste de tentatives n'est encore consommée côté front.
 export function useSendInstructorQuizAttemptFeedback() {
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: ({ attemptId, payload }: { attemptId: string; payload: InstructorQuizAttemptFeedbackPayload }) =>
       sendQuizAttemptFeedback(attemptId, payload),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["trainings"] }),
   });
 }
