@@ -9,9 +9,9 @@ import type {
 } from "@/data/submissions";
 
 const resourceKey = "submissions";
-const basePath = "submissions";
+const basePath = "trainings/students/submissions";
 
-// Liste filtrable : fetchList({ status: "submitted" }) → /api/instructor/submissions/list?status=submitted
+// fetchList({ status, page }) → /api/instructor/trainings/submissions/list?status=...&page=...
 const store = createResourceStore<APIInstructorSubmission>({ resourceKey, basePath });
 
 export const fetchInstructorSubmissions = store.fetchList;
@@ -44,8 +44,12 @@ export function useGradeInstructorSubmission() {
   return useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: InstructorSubmissionGradePayload }) =>
       gradeSubmission(id, payload),
-    // La réponse ne contient ni body ni fileUrl et la liste dépend du filtre actif :
-    // on refetch plutôt que de fusionner dans le cache.
-    onSuccess: () => qc.invalidateQueries({ queryKey: [resourceKey] }),
+    // La réponse ne contient ni body ni fileUrl : on refetch.
+    // "trainings" couvre le suivi apprenant et la progression (une validation peut compléter une leçon).
+    onSuccess: () =>
+      Promise.all([
+        qc.invalidateQueries({ queryKey: [resourceKey] }),
+        qc.invalidateQueries({ queryKey: ["trainings"] }),
+      ]),
   });
 }
