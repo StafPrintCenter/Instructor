@@ -28,11 +28,12 @@ export function SubmissionGradeDialog({ submission, onClose }: SubmissionGradeDi
   const [note, setNote] = useState("");
   const [comment, setComment] = useState("");
 
+  // Pré-remplissage avec la décision et le retour déjà enregistrés
   useEffect(() => {
     if (submission) {
-      setDecision("under_review");
-      setNote("");
-      setComment("");
+      setDecision(submission.status === "submitted" ? "under_review" : (submission.status as SubmissionDecision));
+      setNote(submission.feedback?.note != null ? String(submission.feedback.note) : "");
+      setComment(submission.feedback?.comment ?? "");
     }
   }, [submission?.id]);
 
