@@ -15,7 +15,7 @@ async function markAttendance(
   fd.append("date", payload.date);
   fd.append("status", payload.status);
 
-  const response = await instructorFetch(`/api/instructor/enrollments/${enrollmentId}/attendance/mark`, {
+  const response = await instructorFetch(`/api/instructor/trainings/students/enrollments/${enrollmentId}/mark-attendance`, {
     method: "POST",
     body: fd,
   });
