@@ -260,7 +260,7 @@ function TrainingDetail() {
                 <TableBody>
                   {students.data.map((student) => {
                     const initials = `${student.firstName?.[0] ?? ""}${student.lastName?.[0] ?? ""}`.toUpperCase();
-                    const fullName = `${student.firstName} ${student.lastName}`.trim();
+                    const fullName = `${student.firstName ?? ""} ${student.lastName ?? ""}`.trim() || "Apprenant";
 
                     return (
                       <TableRow key={student.studentId}>
