@@ -44,113 +44,106 @@ function SubmissionsPage() {
   const filters: (SubmissionStatus | "all")[] = ["all", ...SUBMISSION_STATUSES];
 
   return (
-    <div className= "space-y-8" >
-    <PageHeader
+    <div className="space-y-8">
+      <PageHeader
         eyebrow="Suivi"
-  title = "Travaux rendus"
-  description = "Consultez les travaux déposés par vos apprenants, puis notez-les ou validez-les."
-    />
+        title="Travaux rendus"
+        description="Consultez les travaux déposés par vos apprenants, puis notez-les ou validez-les."
+      />
 
-    <div className="flex flex-wrap gap-2" >
-    {
-      filters.map((f) => (
-        <Button
-            key= { f }
-            size = "sm"
-            variant = { status === f ? "accent" : "outline"}
-  onClick = {() => setStatus(f)
-}
+      <div className="flex flex-wrap gap-2">
+        {filters.map((f) => (
+          <Button
+            key={f}
+            size="sm"
+            variant={status === f ? "accent" : "outline"}
+            onClick={() => setStatus(f)}
           >
-  { f === "all" ? "Tous" : instructorSubmissionStatusLabels[f]}
-</Button>
+            {f === "all" ? "Tous" : instructorSubmissionStatusLabels[f]}
+          </Button>
         ))}
-</div>
+      </div>
 
-{
-  isLoading ? (
-    <div className= "space-y-4" >
-    <div className="h-28 animate-pulse rounded-lg bg-muted" />
-      <div className="h-28 animate-pulse rounded-lg bg-muted" />
-        <div className="h-28 animate-pulse rounded-lg bg-muted" />
-          </div>
+      {isLoading ? (
+        <div className="space-y-4">
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+        </div>
       ) : isError ? (
-    <div className= "flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center" >
-    <AlertTriangle className="size-6 text-destructive" />
-      <p className="text-sm text-muted-foreground" > Impossible de charger les travaux rendus.</p>
-        < Button variant = "outline" size = "sm" onClick = {() => refetch()
-}>
-  <RefreshCw className="size-4" /> Réessayer
-    </Button>
-    </div>
+        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
+          <AlertTriangle className="size-6 text-destructive" />
+          <p className="text-sm text-muted-foreground">Impossible de charger les travaux rendus.</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
+            <RefreshCw className="size-4" /> Réessayer
+          </Button>
+        </div>
       ) : items.length === 0 ? (
-  <EmptyState
-          icon= {< Inbox className = "size-6" />}
-title = "Aucun travail"
-description = {
-  status === "all"
-  ? "Aucun travail n'a encore été déposé dans vos formations."
-  : "Aucun travail ne correspond à ce statut."
+        <EmptyState
+          icon={<Inbox className="size-6" />}
+          title="Aucun travail"
+          description={
+            status === "all"
+              ? "Aucun travail n'a encore été déposé dans vos formations."
+              : "Aucun travail ne correspond à ce statut."
           }
         />
       ) : (
-  <div className= "space-y-4" >
-  {
-    items.map((s) => {
-      const fileUrl = resolveStorageUrl(s.fileUrl);
-      return (
-        <Card key= { s.id } className = "border-border/70" >
-          <CardContent className="space-y-3 p-5" >
-            <div className="flex flex-wrap items-start justify-between gap-3" >
-              <div className="min-w-0" >
-                <h2 className="font-display text-lg leading-snug" > { s.lessonTitle } </h2>
-                  < p className = "text-sm text-muted-foreground" >
-                    { s.studentName } · { formatDateTime(s.submittedAt) }
-      </p>
-        </div>
-        < InstructorSubmissionBadge status = { s.status } />
-          </div>
+        <div className="space-y-4">
+          {items.map((s) => {
+            const fileUrl = resolveStorageUrl(s.fileUrl);
+            return (
+              <Card key={s.id} className="border-border/70">
+                <CardContent className="space-y-3 p-5">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <h2 className="font-display text-lg leading-snug">{s.lessonTitle}</h2>
+                      <p className="text-sm text-muted-foreground">
+                        {s.studentName} · {formatDateTime(s.submittedAt)}
+                      </p>
+                    </div>
+                    <InstructorSubmissionBadge status={s.status} />
+                  </div>
 
-      {
-        s.body ? (
-          <p className= "whitespace-pre-wrap rounded-lg border bg-muted/20 p-3 text-sm" > { s.body } </p>
+                  {s.body ? (
+                    <p className="whitespace-pre-wrap rounded-lg border bg-muted/20 p-3 text-sm">{s.body}</p>
                   ) : (
-            <p className="text-xs italic text-muted-foreground" > Aucun texte joint.</p>
-          )}
+                    <p className="text-xs italic text-muted-foreground">Aucun texte joint.</p>
+                  )}
 
-<div className="flex flex-wrap items-center gap-2" >
-  {
-    fileUrl?(
+                  <div className="flex flex-wrap items-center gap-2">
+                    {fileUrl ? (
                       <Button
-                        variant = "outline"
-                        size = "sm"
-                        onClick = {() => setPreview({ url: fileUrl, title: `${s.studentName} — ${s.lessonTitle}` })}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPreview({ url: fileUrl, title: `${s.studentName} — ${s.lessonTitle}` })}
                       >
-  <Paperclip className="size-4" /> Voir le fichier
-    </Button>
+                        <Paperclip className="size-4" /> Voir le fichier
+                      </Button>
                     ) : null}
-<Button
-                      variant={ s.status === "submitted" ? "accent" : "soft" }
-size = "sm"
-onClick = {() => setToGrade(s)}
+                    <Button
+                      variant={s.status === "submitted" ? "accent" : "soft"}
+                      size="sm"
+                      onClick={() => setToGrade(s)}
                     >
-  <ClipboardCheck className="size-4" />
-    { s.status === "submitted" ? "Noter" : "Modifier la décision" }
-    </Button>
-    </div>
-    </CardContent>
-    </Card>
+                      <ClipboardCheck className="size-4" />
+                      {s.status === "submitted" ? "Noter" : "Modifier la décision"}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             );
           })}
-</div>
+        </div>
       )}
 
-<SubmissionGradeDialog submission={ toGrade } onClose = {() => setToGrade(null)} />
+      <SubmissionGradeDialog submission={toGrade} onClose={() => setToGrade(null)} />
 
-  < FilePreviewModal
-url = { preview?.url ?? null}
-title = { preview?.title ?? ""}
-onClose = {() => setPreview(null)}
+      <FilePreviewModal
+        url={preview?.url ?? null}
+        title={preview?.title ?? ""}
+        onClose={() => setPreview(null)}
       />
-  </div>
+    </div>
   );
 }
