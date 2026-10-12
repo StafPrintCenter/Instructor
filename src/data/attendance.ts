@@ -1,5 +1,3 @@
-// src/data/attendance.ts
-
 export type AttendanceStatus = "present" | "late" | "absent" | "excused";
 
 export const ATTENDANCE_STATUSES: AttendanceStatus[] = ["present", "late", "absent", "excused"];
