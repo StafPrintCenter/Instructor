@@ -239,6 +239,7 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
               <span className="hidden sm:inline">Documentation</span>
             </a>
             <div className="text-xs text-muted-foreground hidden sm:block">{user?.email}</div>
+            
           </div>
         </header>
 
