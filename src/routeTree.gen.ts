@@ -21,6 +21,9 @@ import { Route as InstructorProfilRouteImport } from './routes/_instructor/profi
 import { Route as InstructorCommunityIndexRouteImport } from './routes/_instructor/community/index'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
 import { Route as InstructorMessagesIndexRouteImport } from './routes/_instructor/messages/index'
+import { Route as InstructorNotificationsIndexRouteImport } from './routes/_instructor/notifications/index'
+import { Route as InstructorNotificationsIdRouteImport } from './routes/_instructor/notifications/$id'
+import { Route as InstructorNotificationsPreferencesRouteImport } from './routes/_instructor/notifications/preferences'
 import { Route as InstructorSessionsIndexRouteImport } from './routes/_instructor/sessions/index'
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
 import { Route as InstructorStudentsStudentIdRouteImport } from './routes/_instructor/students/$studentId'
@@ -91,6 +94,24 @@ const InstructorMessagesIndexRoute = InstructorMessagesIndexRouteImport.update({
   path: '/messages/',
   getParentRoute: () => InstructorRoute,
 } as any)
+const InstructorNotificationsIndexRoute =
+  InstructorNotificationsIndexRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => InstructorRoute,
+  } as any)
+const InstructorNotificationsIdRoute =
+  InstructorNotificationsIdRouteImport.update({
+    id: '/notifications/$id',
+    path: '/notifications/$id',
+    getParentRoute: () => InstructorRoute,
+  } as any)
+const InstructorNotificationsPreferencesRoute =
+  InstructorNotificationsPreferencesRouteImport.update({
+    id: '/notifications/preferences',
+    path: '/notifications/preferences',
+    getParentRoute: () => InstructorRoute,
+  } as any)
 const InstructorSessionsIndexRoute = InstructorSessionsIndexRouteImport.update({
   id: '/sessions/',
   path: '/sessions/',
@@ -152,10 +173,13 @@ export interface FileRoutesByFullPath {
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/notifications/$id': typeof InstructorNotificationsIdRoute
+  '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/community/': typeof InstructorCommunityIndexRoute
   '/corrections/': typeof InstructorCorrectionsIndexRoute
   '/messages/': typeof InstructorMessagesIndexRoute
+  '/notifications/': typeof InstructorNotificationsIndexRoute
   '/sessions/': typeof InstructorSessionsIndexRoute
   '/students/': typeof InstructorStudentsIndexRoute
   '/submissions/': typeof InstructorSubmissionsIndexRoute
@@ -173,10 +197,13 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/notifications/$id': typeof InstructorNotificationsIdRoute
+  '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/community': typeof InstructorCommunityIndexRoute
   '/corrections': typeof InstructorCorrectionsIndexRoute
   '/messages': typeof InstructorMessagesIndexRoute
+  '/notifications': typeof InstructorNotificationsIndexRoute
   '/sessions': typeof InstructorSessionsIndexRoute
   '/students': typeof InstructorStudentsIndexRoute
   '/submissions': typeof InstructorSubmissionsIndexRoute
@@ -197,10 +224,13 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
+  '/_instructor/notifications/$id': typeof InstructorNotificationsIdRoute
+  '/_instructor/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/_instructor/community/': typeof InstructorCommunityIndexRoute
   '/_instructor/corrections/': typeof InstructorCorrectionsIndexRoute
   '/_instructor/messages/': typeof InstructorMessagesIndexRoute
+  '/_instructor/notifications/': typeof InstructorNotificationsIndexRoute
   '/_instructor/sessions/': typeof InstructorSessionsIndexRoute
   '/_instructor/students/': typeof InstructorStudentsIndexRoute
   '/_instructor/submissions/': typeof InstructorSubmissionsIndexRoute
@@ -220,10 +250,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/profil'
+    | '/notifications/$id'
+    | '/notifications/preferences'
     | '/students/$studentId'
     | '/community/'
     | '/corrections/'
     | '/messages/'
+    | '/notifications/'
     | '/sessions/'
     | '/students/'
     | '/submissions/'
@@ -241,10 +274,13 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/profil'
+    | '/notifications/$id'
+    | '/notifications/preferences'
     | '/students/$studentId'
     | '/community'
     | '/corrections'
     | '/messages'
+    | '/notifications'
     | '/sessions'
     | '/students'
     | '/submissions'
@@ -264,10 +300,13 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
+    | '/_instructor/notifications/$id'
+    | '/_instructor/notifications/preferences'
     | '/_instructor/students/$studentId'
     | '/_instructor/community/'
     | '/_instructor/corrections/'
     | '/_instructor/messages/'
+    | '/_instructor/notifications/'
     | '/_instructor/sessions/'
     | '/_instructor/students/'
     | '/_instructor/submissions/'
@@ -371,6 +410,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorMessagesIndexRouteImport
       parentRoute: typeof InstructorRoute
     }
+    '/_instructor/notifications/': {
+      id: '/_instructor/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications/'
+      preLoaderRoute: typeof InstructorNotificationsIndexRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/notifications/$id': {
+      id: '/_instructor/notifications/$id'
+      path: '/notifications/$id'
+      fullPath: '/notifications/$id'
+      preLoaderRoute: typeof InstructorNotificationsIdRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/notifications/preferences': {
+      id: '/_instructor/notifications/preferences'
+      path: '/notifications/preferences'
+      fullPath: '/notifications/preferences'
+      preLoaderRoute: typeof InstructorNotificationsPreferencesRouteImport
+      parentRoute: typeof InstructorRoute
+    }
     '/_instructor/sessions/': {
       id: '/_instructor/sessions/'
       path: '/sessions'
@@ -454,10 +514,13 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfilRoute: typeof InstructorProfilRoute
+  InstructorNotificationsIdRoute: typeof InstructorNotificationsIdRoute
+  InstructorNotificationsPreferencesRoute: typeof InstructorNotificationsPreferencesRoute
   InstructorStudentsStudentIdRoute: typeof InstructorStudentsStudentIdRoute
   InstructorCommunityIndexRoute: typeof InstructorCommunityIndexRoute
   InstructorCorrectionsIndexRoute: typeof InstructorCorrectionsIndexRoute
   InstructorMessagesIndexRoute: typeof InstructorMessagesIndexRoute
+  InstructorNotificationsIndexRoute: typeof InstructorNotificationsIndexRoute
   InstructorSessionsIndexRoute: typeof InstructorSessionsIndexRoute
   InstructorStudentsIndexRoute: typeof InstructorStudentsIndexRoute
   InstructorSubmissionsIndexRoute: typeof InstructorSubmissionsIndexRoute
@@ -471,10 +534,14 @@ interface InstructorRouteChildren {
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfilRoute: InstructorProfilRoute,
+  InstructorNotificationsIdRoute: InstructorNotificationsIdRoute,
+  InstructorNotificationsPreferencesRoute:
+    InstructorNotificationsPreferencesRoute,
   InstructorStudentsStudentIdRoute: InstructorStudentsStudentIdRoute,
   InstructorCommunityIndexRoute: InstructorCommunityIndexRoute,
   InstructorCorrectionsIndexRoute: InstructorCorrectionsIndexRoute,
   InstructorMessagesIndexRoute: InstructorMessagesIndexRoute,
+  InstructorNotificationsIndexRoute: InstructorNotificationsIndexRoute,
   InstructorSessionsIndexRoute: InstructorSessionsIndexRoute,
   InstructorStudentsIndexRoute: InstructorStudentsIndexRoute,
   InstructorSubmissionsIndexRoute: InstructorSubmissionsIndexRoute,
