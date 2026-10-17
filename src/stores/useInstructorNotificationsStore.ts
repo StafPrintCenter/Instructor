@@ -99,7 +99,7 @@ export function useNotificationPreferences() {
   const q = useQuery({
     queryKey: ["notification-preferences"],
     queryFn: async () => {
-      const response = await adminFetch(`/api/notifications/preferences`);
+      const response = await instructorFetch(`/api/notifications/preferences`);
       await ensureOk(response, "Erreur lors du chargement des préférences.");
       return ((await response.json()) as { data: APINotificationPreference[] }).data;
     },
