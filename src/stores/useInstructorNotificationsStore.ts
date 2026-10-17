@@ -22,7 +22,7 @@ async function fetchList(params: NotificationsListParams) {
   const qp = new URLSearchParams();
   if (params.page) qp.append("page", String(params.page));
   if (params.perPage) qp.append("perPage", String(params.perPage));
-  const response = await adminFetch(`/api/notifications/manage/list?${qp.toString()}`);
+  const response = await instructorFetch(`/api/notifications/manage/list?${qp.toString()}`);
   await ensureOk(response, "Erreur lors du chargement des notifications.");
   return (await response.json()) as { data: APINotificationListItem[]; meta: APINotificationsMeta };
 }
