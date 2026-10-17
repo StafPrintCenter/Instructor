@@ -42,7 +42,7 @@ export function useUnreadCount() {
   const q = useQuery({
     queryKey: ["notifications", "unread-count"],
     queryFn: async () => {
-      const response = await adminFetch(`/api/notifications/manage/unread-count`);
+      const response = await instructorFetch(`/api/notifications/manage/unread-count`);
       await ensureOk(response, "Erreur lors du chargement du compteur.");
       const json = (await response.json()) as { data: { unreadCount: number } };
       return json.data.unreadCount;
