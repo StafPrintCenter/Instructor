@@ -120,7 +120,7 @@ export function useUpdatePreference() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ category, ...body }: UpdatePreferenceParams) => {
-      const response = await adminFetch(`/api/notifications/preferences/${category}`, {
+      const response = await instructorFetch(`/api/notifications/preferences/${category}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
