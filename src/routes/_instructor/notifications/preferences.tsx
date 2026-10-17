@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PreferenceCard } from "@/components/notifications/PreferenceCard";
 import { useNotificationPreferences } from "@/stores/useInstructorNotificationsStore";
 
-export const Route = createFileRoute("/_admin/notifications/preferences")({
+export const Route = createFileRoute("/_instructor/notifications/preferences")({
   head: () => ({
     meta: [
       { title: "Préférences de notifications - Instructeur" },
