@@ -11,7 +11,7 @@ import {
 } from "@/data/notifications";
 import { useMarkAllAsRead, useNotificationsList } from "@/stores/useInstructorNotificationsStore";
 
-export const Route = createFileRoute("/_admin/notifications/")({
+export const Route = createFileRoute("/_instructor/notifications/")({
   head: () => ({
     meta: [{ title: "Notifications - Instructeur" }, { name: "robots", content: "noindex" }],
   }),
