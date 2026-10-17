@@ -87,7 +87,7 @@ export function useMarkAllAsRead() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async () => {
-      const response = await adminFetch(`/api/notifications/manage/read-all`, { method: "PATCH" });
+      const response = await instructorFetch(`/api/notifications/manage/read-all`, { method: "PATCH" });
       await ensureOk(response, "Impossible de tout marquer comme lu.");
       return ((await response.json()) as { message?: string }).message ?? "Notifications marquées comme lues.";
     },
