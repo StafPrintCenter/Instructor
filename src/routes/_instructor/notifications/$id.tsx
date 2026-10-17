@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CATEGORY_META, formatNotificationDate } from "@/data/notifications";
 import { useNotificationDetail } from "@/stores/useInstructorNotificationsStore";
 
-export const Route = createFileRoute("/_admin/notifications/$id")({
+export const Route = createFileRoute("/_instructor/notifications/$id")({
   head: () => ({
     meta: [{ title: "Notification - Instructeur" }, { name: "robots", content: "noindex" }],
   }),
