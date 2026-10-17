@@ -60,7 +60,7 @@ export function useNotificationDetail(id: string | undefined) {
     queryKey: ["notifications", "detail", id],
     enabled: !!id,
     queryFn: async () => {
-      const response = await adminFetch(`/api/notifications/manage/${id}`);
+      const response = await instructorFetch(`/api/notifications/manage/${id}`);
       if (response.status === 404) return null;
       await ensureOk(response, "Erreur lors du chargement de la notification.");
       const json = (await response.json()) as { data: APINotificationDetail };
