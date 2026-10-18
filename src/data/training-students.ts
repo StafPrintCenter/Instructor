@@ -137,17 +137,41 @@ export function getQuizAttemptBadgeClass(status: string): string {
   return TONE.muted;
 }
 
-const enrollmentStatusLabels: Record<string, string> = {
+export type EnrollmentStatus =
+  | "confirmed"
+  | "in_progress"
+  | "completed"
+  | "waiting_list"
+  | "cancelled"
+  | "expired";
+
+const enrollmentStatusLabels: Record<EnrollmentStatus, string> = {
   confirmed: "Confirmée",
+  in_progress: "En cours",
   completed: "Terminée",
+  waiting_list: "Liste d'attente",
+  cancelled: "Annulée",
+  expired: "Expirée",
 };
 
-export function getEnrollmentStatusLabel(status: string): string {
+export function getEnrollmentStatusLabel(status: EnrollmentStatus): string {
   return enrollmentStatusLabels[status] ?? status;
 }
 
-export function getEnrollmentStatusBadgeClass(status: string): string {
-  if (status === "completed") return TONE.success;
-  if (status === "confirmed") return TONE.info;
-  return TONE.muted;
+export function getEnrollmentStatusBadgeClass(status: EnrollmentStatus): string {
+  switch (status) {
+    case "completed":
+      return TONE.success;
+    case "confirmed":
+      return TONE.info;
+    case "in_progress":
+      return "bg-primary/10 text-primary border-primary/30";
+    case "waiting_list":
+      return "bg-accent/20 text-accent-foreground border-accent/40";
+    case "cancelled":
+      return TONE.danger;
+    case "expired":
+    default:
+      return TONE.muted;
+  }
 }
