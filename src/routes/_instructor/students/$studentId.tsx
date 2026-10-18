@@ -1,336 +1,283 @@
-import { useState } from "react";
+// src/routes/_instructor/students/$studentId.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, BookOpen, CheckCircle2, ClipboardCheck, FileText, Gauge, Mail, MapPin, Phone } from "lucide-react";
-import { toast } from "sonner";
-import { PageHeader } from "@/components/instructor/page-header";
-import { StatCard } from "@/components/instructor/stat-card";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AlertTriangle, ArrowLeft, Briefcase, Eye, GraduationCap, Mail, Phone, RefreshCw } from "lucide-react";
+import { PageHeader, EmptyState } from "@/components/instructor/page-header";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PaymentBadge, SubmissionBadge } from "@/components/instructor/status-badges";
-import { SubmissionAttachment } from "@/components/instructor/submission-attachment";
-import { qk, studentQuery } from "@/lib/queries";
-import { useInstructorAuth } from "@/hooks/useInstructorAuth";
-import { formatDate, formatDateTime, gradingApi, initials, lessonTypeLabels } from "@/lib/api";
+import { getEnrollmentStatusBadgeClass, getEnrollmentStatusLabel } from "@/data/training-students";
+import type { APIInstructorStudentTrainingFollowUp } from "@/data/students";
+import {
+  getPaymentStatusBadgeClass,
+  getPaymentStatusLabel,
+  getTrainingStatusBadgeClass,
+  getTrainingStatusLabel,
+} from "@/data/trainings";
+import { useInstructorStudentGlobal } from "@/stores/useStudentsStore";
+import { resolveStorageUrl } from "@/lib/file-url";
+import { formatDate } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/students/$studentId")({
   head: () => ({
     meta: [
-      {
-        title: `Fiche apprenant | ${SITE.name}`
-      },
-      {
-        name: "description",
-        content: "Parcours détaillé de l'apprenant : progression, leçons terminées, quiz et travaux rendus.",
-      },
-      {
-        property: "og:title", content: `Fiche apprenant | ${SITE.name}`
-      },
-      { property: "og:description", content: "Progression, quiz et travaux rendus par apprenant." },
+      { title: `Profil apprenant | Espace Formateur ${SITE.name}` },
+      { name: "description", content: "Vue globale d'un apprenant : formations, progression, soumissions, quiz et assiduité." },
+      { name: "robots", content: "noindex" },
     ],
   }),
-  component: StudentDetailPage,
+  component: StudentGlobalPage,
 });
 
-function StudentDetailPage() {
+function StudentGlobalPage() {
   const { studentId } = Route.useParams();
-  const { user } = useInstructorAuth();
-  const instructorId = user?.id ?? "";
-  const queryClient = useQueryClient();
+  const { overview, isLoading, isError, error, refetch } = useInstructorStudentGlobal(studentId);
 
-  const { data, isLoading } = useQuery({
-    ...studentQuery(instructorId, studentId),
-    enabled: !!instructorId && !!studentId,
-  });
+  const backButton = (
+    <Button asChild variant="outline" size="sm">
+      <Link to="/students">
+        <ArrowLeft className="size-4" /> Retour aux apprenants
+      </Link>
+    </Button>
+  );
 
-  const [drafts, setDrafts] = useState<Record<string, { grade: string; comment: string }>>({});
-
-  const grade = useMutation({
-    mutationFn: (input: {
-      submissionId: string;
-      grade: number;
-      comment: string;
-      decision: "validated" | "returned";
-    }) => gradingApi.grade({ instructorId, ...input }),
-    onSuccess: (_, vars) => {
-      queryClient.invalidateQueries({ queryKey: qk.student(instructorId, studentId) });
-      queryClient.invalidateQueries({ queryKey: ["grading"] });
-      queryClient.invalidateQueries({ queryKey: qk.stats(instructorId) });
-      toast.success(vars.decision === "validated" ? "Travail validé." : "Travail renvoyé à l'apprenant.");
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
-
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 w-40 animate-pulse rounded bg-muted" />
-        <div className="h-20 animate-pulse rounded-lg bg-muted" />
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="h-28 animate-pulse rounded-lg bg-muted" />
-          <div className="h-28 animate-pulse rounded-lg bg-muted" />
-          <div className="h-28 animate-pulse rounded-lg bg-muted" />
-          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+        <div className="h-28 animate-pulse rounded-lg bg-muted" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="h-24 animate-pulse rounded-lg bg-muted" />
+          <div className="h-24 animate-pulse rounded-lg bg-muted" />
+          <div className="h-24 animate-pulse rounded-lg bg-muted" />
+          <div className="h-24 animate-pulse rounded-lg bg-muted" />
+        </div>
+        <div className="h-64 animate-pulse rounded-lg bg-muted" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="space-y-6">
+        {backButton}
+        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
+          <AlertTriangle className="size-6 text-destructive" />
+          <p className="text-sm text-muted-foreground">{error?.message || "Impossible de charger cet apprenant."}</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
+            <RefreshCw className="size-4" /> Réessayer
+          </Button>
         </div>
       </div>
     );
   }
 
-  const { student, enrollments, completions, attempts, submissions, totalLessons } = data;
+  if (!overview) {
+    return (
+      <div className="space-y-6">
+        {backButton}
+        <p className="text-muted-foreground">Apprenant introuvable.</p>
+      </div>
+    );
+  }
 
-  const averageQuiz = attempts.length
-    ? Math.round(attempts.reduce((sum, a) => sum + a.score, 0) / attempts.length)
-    : 0;
-  const averageProgress = enrollments.length
-    ? Math.round(enrollments.reduce((sum, e) => sum + e.progress, 0) / enrollments.length)
-    : 0;
-  const pendingSubmissions = submissions.filter((s) => s.status === "pending").length;
+  const { data: student, trainings } = overview;
+  const initials = `${student.firstName?.[0] ?? ""}${student.lastName?.[0] ?? ""}`.toUpperCase();
+  const photo = resolveStorageUrl(student.photo);
+
+  // Agrégats calculés à partir des formations
+  const toReview = trainings.reduce((sum, t) => sum + t.submissions.filter((s) => s.status === "submitted").length, 0);
+  const ratios = trainings.map((t) => t.attendance.ratio).filter((r): r is number => r !== null);
+  const averageAttendance = ratios.length > 0 ? Math.round(ratios.reduce((a, b) => a + b, 0) / ratios.length) : null;
 
   return (
     <div className="space-y-8">
-      <Button asChild variant="ghost" size="sm" className="-ml-2 w-fit">
-        <Link to="/students">
-          <ArrowLeft className="size-4" /> Retour aux apprenants
-        </Link>
-      </Button>
-
       <PageHeader
-        eyebrow="Fiche apprenant"
-        title={student.full_name}
-        description={`${student.city} · inscrit à ${enrollments.length} formation${enrollments.length > 1 ? "s" : ""}`}
-        actions={
-          <Avatar className="size-14">
-            <AvatarFallback className="bg-primary text-primary-foreground">
-              {initials(student.full_name)}
-            </AvatarFallback>
-          </Avatar>
-        }
+        eyebrow="Profil apprenant"
+        title={student.name}
+        description="Vue d'ensemble de l'apprenant sur toutes vos formations."
+        actions={backButton}
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard
-          label="Leçons terminées"
-          value={`${completions.length}/${totalLessons}`}
-          hint={totalLessons ? `${Math.round((completions.length / totalLessons) * 100)}% du parcours` : undefined}
-          icon={<BookOpen className="size-5" />}
-        />
-        <StatCard
-          label="Moyenne quiz"
-          value={`${averageQuiz}%`}
-          hint={`${attempts.filter((a) => a.passed).length}/${attempts.length} tentative(s) réussie(s)`}
-          icon={<Gauge className="size-5" />}
-          tone="accent"
-        />
-        <StatCard
-          label="Progression moyenne"
-          value={`${averageProgress}%`}
-          hint="Toutes formations confondues"
-          icon={<CheckCircle2 className="size-5" />}
-          tone="success"
-        />
-        <StatCard
-          label="Travaux à corriger"
-          value={pendingSubmissions}
-          hint={`${submissions.length} rendu(s) au total`}
-          icon={<ClipboardCheck className="size-5" />}
-          tone="warning"
-        />
-      </div>
+      {/* Fiche profil */}
+      <Card className="border-border/70">
+        <CardContent className="flex flex-col gap-5 p-6 sm:flex-row sm:items-start">
+          <Avatar className="size-16 border border-border">
+            {photo ? <AvatarImage src={photo} alt={student.name} /> : null}
+            <AvatarFallback className="bg-primary/10 text-lg font-semibold text-primary">
+              {initials || "AP"}
+            </AvatarFallback>
+          </Avatar>
+          <div className="min-w-0 flex-1 space-y-3">
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5">
+                <Mail className="size-3.5 text-primary" /> {student.email}
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Phone className="size-3.5 text-primary" /> {student.phone || "Téléphone non renseigné"}
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Briefcase className="size-3.5 text-primary" /> {student.occupation || "Profession non renseignée"}
+              </span>
+            </div>
+            {student.bio ? (
+              <p className="whitespace-pre-wrap text-sm leading-relaxed">{student.bio}</p>
+            ) : (
+              <p className="text-sm italic text-muted-foreground">Aucune biographie renseignée.</p>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
-      <div className="grid gap-5 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle className="text-base">Coordonnées</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2.5 text-sm">
-            <p className="flex items-center gap-2 text-muted-foreground">
-              <Mail className="size-4" /> {student.email}
-            </p>
-            <p className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="size-4" /> {student.phone}
-            </p>
-            <p className="flex items-center gap-2 text-muted-foreground">
-              <MapPin className="size-4" /> {student.city}
-            </p>
+      {/* Indicateurs */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="border-border/70">
+          <CardContent className="p-5">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Formations</p>
+            <p className="mt-1 font-display text-2xl font-semibold">{student.trainingsCount}</p>
+            <p className="text-xs text-muted-foreground">suivies avec vous</p>
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-base">Inscriptions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {enrollments.map((e) => (
-              <div key={e.id} className="space-y-2 rounded-lg border border-border/70 p-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm font-medium">{e.training_title}</p>
-                  <PaymentBadge status={e.payment_status} />
-                </div>
-                <div className="flex items-center gap-3">
-                  <Progress value={e.progress} className="h-2" />
-                  <span className="w-10 text-right text-xs tabular-nums">{e.progress}%</span>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Assiduité {e.attendance_rate}% · inscrit le {formatDate(e.enrolled_at)}
-                </p>
-              </div>
+        <Card className="border-border/70">
+          <CardContent className="space-y-2 p-5">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Progression moyenne</p>
+            <p className="font-display text-2xl font-semibold">{student.averageProgress}%</p>
+            <Progress value={student.averageProgress} />
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/70">
+          <CardContent className="space-y-2 p-5">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Assiduité moyenne</p>
+            {averageAttendance !== null ? (
+              <>
+                <p className="font-display text-2xl font-semibold">{averageAttendance}%</p>
+                <Progress value={averageAttendance} />
+              </>
+            ) : (
+              <p className="pt-1 text-sm text-muted-foreground">Aucune séance renseignée</p>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="border-border/70">
+          <CardContent className="p-5">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Travaux à traiter</p>
+            <p className="mt-1 font-display text-2xl font-semibold">{toReview}</p>
+            <p className="text-xs text-muted-foreground">en attente de notation</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Formations */}
+      <section className="space-y-3">
+        <h2 className="font-display text-xl">Formations ({trainings.length})</h2>
+        {trainings.length === 0 ? (
+          <EmptyState
+            icon={<GraduationCap className="size-6" />}
+            title="Aucune formation"
+            description="Cet apprenant n'est inscrit à aucune de vos formations."
+          />
+        ) : (
+          <div className="grid gap-4 lg:grid-cols-2">
+            {trainings.map((t) => (
+              <TrainingFollowUpCard key={t.trainingId} training={t} studentId={student.studentId} />
             ))}
-          </CardContent>
-        </Card>
-      </div>
-
-      <Tabs defaultValue="submissions">
-        <TabsList>
-          <TabsTrigger value="submissions">Travaux rendus ({submissions.length})</TabsTrigger>
-          <TabsTrigger value="completions">Leçons terminées ({completions.length})</TabsTrigger>
-          <TabsTrigger value="quizzes">Quiz ({attempts.length})</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="completions" className="mt-4 space-y-2">
-          {completions.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Aucune leçon terminée pour le moment.</p>
-          ) : (
-            completions.map((c) => (
-              <div
-                key={c.id}
-                className="flex items-center justify-between gap-3 rounded-lg border border-border/70 bg-card px-4 py-3"
-              >
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 className="size-4 text-success" />
-                  <div>
-                    <p className="text-sm font-medium">{c.lesson_title}</p>
-                    <p className="text-xs text-muted-foreground">{lessonTypeLabels[c.lesson_type]}</p>
-                  </div>
-                </div>
-                <span className="text-xs text-muted-foreground">{formatDateTime(c.completed_at)}</span>
-              </div>
-            ))
-          )}
-        </TabsContent>
-
-        <TabsContent value="quizzes" className="mt-4 space-y-2">
-          {attempts.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Aucune tentative enregistrée.</p>
-          ) : (
-            attempts.map((a) => (
-              <div
-                key={a.id}
-                className="flex items-center justify-between gap-3 rounded-lg border border-border/70 bg-card px-4 py-3"
-              >
-                <div>
-                  <p className="text-sm font-medium">{a.lesson_title}</p>
-                  <p className="text-xs text-muted-foreground">
-                    Tentative {a.attempt_number} · {formatDateTime(a.taken_at)}
-                  </p>
-                </div>
-                <Badge
-                  variant="outline"
-                  className={
-                    a.passed
-                      ? "border-success/30 bg-success/15 text-success"
-                      : "border-destructive/30 bg-destructive/12 text-destructive"
-                  }
-                >
-                  {a.score}/100 {a.passed ? "réussi" : "échoué"}
-                </Badge>
-              </div>
-            ))
-          )}
-        </TabsContent>
-
-        <TabsContent value="submissions" className="mt-4 space-y-3">
-          {submissions.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Aucun travail rendu.</p>
-          ) : (
-            submissions.map((s) => {
-              const draft = drafts[s.id] ?? { grade: s.grade?.toString() ?? "", comment: s.feedback ?? "" };
-              return (
-                <Card key={s.id} className="border-border/70">
-                  <CardContent className="space-y-3 p-5">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <FileText className="size-4 text-muted-foreground" />
-                        <p className="text-sm font-medium">{s.lesson_title}</p>
-                        <Badge variant="secondary">{lessonTypeLabels[s.type]}</Badge>
-                      </div>
-                      <SubmissionBadge status={s.status} />
-                    </div>
-                    <p className="rounded-lg bg-secondary/60 px-4 py-3 text-sm">{s.content}</p>
-                    <SubmissionAttachment
-                      fileName={s.attachment_name}
-                      description={s.content}
-                      studentName={student.full_name}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Rendu le {formatDateTime(s.submitted_at)}
-                      {s.grade !== null ? ` · note ${s.grade}/100` : ""}
-                    </p>
-                    {s.feedback ? (
-                      <p className="rounded-md bg-secondary px-3 py-2 text-xs">Retour : {s.feedback}</p>
-                    ) : null}
-
-                    <div className="flex flex-col gap-3 border-t border-border/70 pt-4 sm:flex-row sm:items-end">
-                      <div className="sm:w-28">
-                        <Input
-                          type="number"
-                          min={0}
-                          max={100}
-                          placeholder="Note /100"
-                          value={draft.grade}
-                          onChange={(e) => setDrafts((d) => ({ ...d, [s.id]: { ...draft, grade: e.target.value } }))}
-                        />
-                      </div>
-                      <Textarea
-                        placeholder="Retour pédagogique…"
-                        value={draft.comment}
-                        onChange={(e) => setDrafts((d) => ({ ...d, [s.id]: { ...draft, comment: e.target.value } }))}
-                        className="min-h-10.5 flex-1"
-                      />
-                      <div className="flex gap-2">
-                        <Button
-                          variant="accent"
-                          disabled={grade.isPending || draft.grade === ""}
-                          onClick={() =>
-                            grade.mutate({
-                              submissionId: s.id,
-                              grade: Number(draft.grade),
-                              comment: draft.comment,
-                              decision: "validated",
-                            })
-                          }
-                        >
-                          Valider
-                        </Button>
-                        <Button
-                          variant="outline"
-                          disabled={grade.isPending || draft.grade === ""}
-                          onClick={() =>
-                            grade.mutate({
-                              submissionId: s.id,
-                              grade: Number(draft.grade),
-                              comment: draft.comment,
-                              decision: "returned",
-                            })
-                          }
-                        >
-                          Renvoyer
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })
-          )}
-        </TabsContent>
-      </Tabs>
+          </div>
+        )}
+      </section>
     </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="rounded-lg border border-border/60 bg-muted/20 px-3 py-2">
+      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="mt-0.5 text-sm font-semibold">{value}</p>
+    </div>
+  );
+}
+
+function TrainingFollowUpCard({
+  training: t,
+  studentId,
+}: {
+  training: APIInstructorStudentTrainingFollowUp;
+  studentId: string;
+}) {
+  const e = t.enrollment;
+  const completedLessons = t.lessonProgress.filter((l) => l.status === "completed").length;
+  const inProgressLessons = t.lessonProgress.filter((l) => l.status === "in_progress").length;
+  const toReview = t.submissions.filter((s) => s.status === "submitted").length;
+  const hasActivity = t.lessonProgress.length > 0 || t.quizAttempts.length > 0 || t.submissions.length > 0;
+
+  return (
+    <Card className="border-border/70">
+      <CardHeader className="space-y-3 pb-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <CardTitle className="font-display text-lg leading-snug">{t.trainingTitle}</CardTitle>
+          <Button asChild size="sm" variant="soft">
+            <Link to="/trainings/$trainingId/students/$studentId" params={{ trainingId: t.trainingId, studentId }}>
+              <Eye className="size-4" /> Suivi détaillé
+            </Link>
+          </Button>
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          <Badge variant="outline" className={cn("border font-medium", getTrainingStatusBadgeClass(t.trainingStatus))}>
+            {getTrainingStatusLabel(t.trainingStatus)}
+          </Badge>
+          <Badge variant="outline" className={cn("border font-medium", getEnrollmentStatusBadgeClass(e.status))}>
+            {getEnrollmentStatusLabel(e.status)}
+          </Badge>
+          <Badge variant="outline" className={cn("border font-medium", getPaymentStatusBadgeClass(e.paymentStatus))}>
+            {getPaymentStatusLabel(e.paymentStatus)}
+          </Badge>
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">Progression</span>
+            <span className="font-medium">{e.progress}%</span>
+          </div>
+          <Progress value={e.progress} className="h-1.5" />
+        </div>
+
+        {hasActivity ? (
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <Stat
+              label="Leçons"
+              value={`${completedLessons} terminée${completedLessons > 1 ? "s" : ""}${inProgressLessons > 0 ? ` · ${inProgressLessons} en cours` : ""}`}
+            />
+            <Stat
+              label="Soumissions"
+              value={`${t.submissions.length}${toReview > 0 ? ` (${toReview} à traiter)` : ""}`}
+            />
+            <Stat label="Tentatives de quiz" value={t.quizAttempts.length} />
+            <Stat label="Assiduité" value={t.attendance.ratio !== null ? `${t.attendance.ratio}%` : "—"} />
+            <Stat label="Montant versé" value={`${e.amountPaid.toLocaleString("fr-FR")} FCFA`} />
+            <Stat label="Inscrit le" value={formatDate(e.enrolledAt)} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            <Stat label="Montant versé" value={`${e.amountPaid.toLocaleString("fr-FR")} FCFA`} />
+            <Stat label="Inscrit le" value={formatDate(e.enrolledAt)} />
+          </div>
+        )}
+
+        {!hasActivity ? (
+          <p className="text-xs italic text-muted-foreground">Aucune activité enregistrée pour l'instant.</p>
+        ) : null}
+
+        {e.completedAt ? (
+          <p className="text-xs text-muted-foreground">Formation terminée le {formatDate(e.completedAt)}.</p>
+        ) : null}
+      </CardContent>
+    </Card>
   );
 }
