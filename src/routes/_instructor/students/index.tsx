@@ -1,4 +1,3 @@
-// src/routes/_instructor/students/index.tsx
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, Eye, Mail, Phone, RefreshCw, Users } from "lucide-react";
