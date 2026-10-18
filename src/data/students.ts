@@ -1,4 +1,3 @@
-// src/data/students.ts
 import type { TrainingStatus } from "@/data/trainings";
 import type {
   APIInstructorStudentAttendanceEntry,
