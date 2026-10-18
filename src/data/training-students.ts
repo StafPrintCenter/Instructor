@@ -139,8 +139,15 @@ export function getQuizAttemptBadgeClass(status: string): string {
 
 const enrollmentStatusLabels: Record<string, string> = {
   confirmed: "Confirmée",
+  completed: "Terminée",
 };
 
 export function getEnrollmentStatusLabel(status: string): string {
   return enrollmentStatusLabels[status] ?? status;
+}
+
+export function getEnrollmentStatusBadgeClass(status: string): string {
+  if (status === "completed") return TONE.success;
+  if (status === "confirmed") return TONE.info;
+  return TONE.muted;
 }
