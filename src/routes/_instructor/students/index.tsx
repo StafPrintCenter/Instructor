@@ -3,6 +3,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, Eye, Mail, Phone, RefreshCw, Users } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { getEnrollmentStatusBadgeClass, getEnrollmentStatusLabel } from "@/data/training-students";
+import { getPaymentStatusBadgeClass, getPaymentStatusLabel } from "@/data/trainings";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -101,17 +105,33 @@ function StudentsPage() {
                         </div>
                       </TableCell>
 
-                      <TableCell className="min-w-56">
+                      <TableCell className="min-w-72">
                         <div className="space-y-1.5">
                           {s.trainings.map((t) => (
                             <Link
                               key={t.enrollmentId}
                               to="/trainings/$trainingId/students/$studentId"
                               params={{ trainingId: t.trainingId, studentId: s.studentId }}
-                              className="flex items-center justify-between gap-3 rounded-md border border-border/60 px-2.5 py-1.5 text-xs transition-colors hover:bg-muted/50"
+                              className="block space-y-1.5 rounded-md border border-border/60 px-2.5 py-2 text-xs transition-colors hover:bg-muted/50"
                             >
-                              <span className="truncate">{t.trainingTitle}</span>
-                              <span className="shrink-0 font-medium">{t.progress}%</span>
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="truncate font-medium">{t.trainingTitle}</span>
+                                <span className="shrink-0 font-semibold">{t.progress}%</span>
+                              </div>
+                              <div className="flex flex-wrap gap-1">
+                                <Badge
+                                  variant="outline"
+                                  className={cn("border px-1.5 py-0 text-[10px] font-medium", getEnrollmentStatusBadgeClass(t.status))}
+                                >
+                                  {getEnrollmentStatusLabel(t.status)}
+                                </Badge>
+                                <Badge
+                                  variant="outline"
+                                  className={cn("border px-1.5 py-0 text-[10px] font-medium", getPaymentStatusBadgeClass(t.paymentStatus))}
+                                >
+                                  {getPaymentStatusLabel(t.paymentStatus)}
+                                </Badge>
+                              </div>
                             </Link>
                           ))}
                         </div>
