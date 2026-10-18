@@ -1,208 +1,152 @@
-import { useMemo, useState } from "react";
+// src/routes/_instructor/students/index.tsx
+import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Users } from "lucide-react";
+import { AlertTriangle, Eye, Mail, Phone, RefreshCw, Users } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PaymentBadge } from "@/components/instructor/status-badges";
-import { studentsQuery, trainingsQuery } from "@/lib/queries";
-import { useInstructorAuth } from "@/hooks/useInstructorAuth";
-import { initials, relativeTime } from "@/lib/api";
+import { PaginationBar } from "@/components/site/PaginationBar";
+import { useInstructorStudentsList } from "@/stores/useStudentsStore";
+import { resolveStorageUrl } from "@/lib/file-url";
+import { formatDateTime } from "@/lib/date-time";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/students/")({
   head: () => ({
     meta: [
-      {
-        title: `Suivi des apprenants | ${SITE.name}`
-      },
-      {
-        name: "description",
-        content:
-          "Suivez la progression, l'assiduité et le statut de paiement des apprenants inscrits à vos cohortes.",
-      },
-      {
-        property: "og:title", content: `Suivi des apprenants | ${SITE.name}`
-      },
-      { property: "og:description", content: "Progression, assiduité et paiements par apprenant." },
+      { title: `Mes apprenants | Espace Formateur ${SITE.name}` },
+      { name: "description", content: "Apprenants inscrits à vos formations, avec leur progression et leur dernière activité." },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: StudentsPage,
 });
 
 function StudentsPage() {
-  const { user } = useInstructorAuth();
-  const instructorId = user?.id ?? "";
+  const [page, setPage] = useState(1);
+  const { students, meta, isLoading, isError, refetch } = useInstructorStudentsList({ page });
 
-  const { data: rows = [], isLoading: isLoadingStudents } = useQuery({
-    ...studentsQuery(instructorId),
-    enabled: !!instructorId,
-  });
-
-  const { data: trainings = [], isLoading: isLoadingTrainings } = useQuery({
-    ...trainingsQuery(instructorId),
-    enabled: !!instructorId,
-  });
-
-  const [term, setTerm] = useState("");
-  const [training, setTraining] = useState("all");
-  const [payment, setPayment] = useState("all");
-
-  const filtered = useMemo(
-    () =>
-      rows
-        .filter((r) => (training === "all" ? true : r.training_id === training))
-        .filter((r) => (payment === "all" ? true : r.payment_status === payment))
-        .filter((r) =>
-          term.trim()
-            ? `${r.student.full_name} ${r.student.email} ${r.student.city}`
-              .toLowerCase()
-              .includes(term.trim().toLowerCase())
-            : true,
-        ),
-    [rows, training, payment, term],
-  );
-
-  const average = filtered.length
-    ? Math.round(filtered.reduce((sum, r) => sum + r.progress, 0) / filtered.length)
-    : 0;
-
-  const isLoading = isLoadingStudents || isLoadingTrainings;
+  // Si la page courante n'existe plus (ex. liste réduite), on recule à la dernière page
+  useEffect(() => {
+    if (meta && meta.lastPage >= 1 && page > meta.lastPage) setPage(meta.lastPage);
+  }, [meta, page]);
 
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="Accompagnement"
-        title="Apprenants"
-        description="Tous les apprenants inscrits aux formations qui vous sont assignées."
-        actions={
-          <div className="rounded-lg border border-border bg-card px-4 py-2 text-sm">
-            <span className="text-muted-foreground">Progression moyenne</span>{" "}
-            <span className="font-display text-lg">{average}%</span>
-          </div>
-        }
+        eyebrow="Suivi"
+        title="Mes apprenants"
+        description="Apprenants inscrits à vos formations, avec leur progression et leur dernière activité."
       />
 
-      <Card>
-        <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
-          <Input
-            placeholder="Rechercher un apprenant…"
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            className="sm:max-w-xs"
-          />
-          <Select value={training} onValueChange={setTraining}>
-            <SelectTrigger className="sm:w-56">
-              <SelectValue placeholder="Formation" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Toutes les formations</SelectItem>
-              {trainings.map((t) => (
-                <SelectItem key={t.id} value={t.id}>
-                  {t.title}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <Select value={payment} onValueChange={setPayment}>
-            <SelectTrigger className="sm:w-44">
-              <SelectValue placeholder="Paiement" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous les paiements</SelectItem>
-              <SelectItem value="paid">Soldé</SelectItem>
-              <SelectItem value="partial">Partiel</SelectItem>
-              <SelectItem value="pending">En attente</SelectItem>
-              <SelectItem value="late">En retard</SelectItem>
-            </SelectContent>
-          </Select>
-        </CardContent>
-      </Card>
-
       {isLoading ? (
-        <Card>
-          <CardContent className="p-6">
-            <div className="space-y-3">
-              <div className="h-10 animate-pulse rounded-md bg-muted" />
-              <div className="h-10 animate-pulse rounded-md bg-muted" />
-              <div className="h-10 animate-pulse rounded-md bg-muted" />
-            </div>
-          </CardContent>
-        </Card>
-      ) : filtered.length === 0 ? (
+        <div className="space-y-4">
+          <div className="h-16 animate-pulse rounded-lg bg-muted" />
+          <div className="h-64 animate-pulse rounded-lg bg-muted" />
+        </div>
+      ) : isError ? (
+        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
+          <AlertTriangle className="size-6 text-destructive" />
+          <p className="text-sm text-muted-foreground">Impossible de charger les apprenants.</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
+            <RefreshCw className="size-4" /> Réessayer
+          </Button>
+        </div>
+      ) : students.length === 0 ? (
         <EmptyState
           icon={<Users className="size-6" />}
-          title="Aucun apprenant ne correspond"
-          description="Ajustez vos filtres ou votre recherche."
+          title="Aucun apprenant"
+          description="Les apprenants inscrits à vos formations apparaîtront ici."
         />
       ) : (
-        <Card>
-          <CardContent className="p-0">
+        <div className="space-y-4">
+          <div className="overflow-x-auto rounded-xl border border-border/70 bg-card">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Apprenant</TableHead>
-                  <TableHead className="hidden md:table-cell">Formation</TableHead>
-                  <TableHead className="w-48">Progression</TableHead>
-                  <TableHead className="hidden lg:table-cell">Assiduité</TableHead>
-                  <TableHead>Paiement</TableHead>
-                  <TableHead className="hidden lg:table-cell">Activité</TableHead>
-                  <TableHead className="text-right">Fiche</TableHead>
+                  <TableHead>Formations</TableHead>
+                  <TableHead>Progression moyenne</TableHead>
+                  <TableHead>Dernière activité</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filtered.map((r) => (
-                  <TableRow key={r.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-3">
-                        <Avatar className="size-9">
-                          <AvatarFallback className="bg-secondary text-xs">
-                            {initials(r.student.full_name)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-medium">{r.student.full_name}</p>
-                          <p className="truncate text-xs text-muted-foreground">{r.student.email}</p>
+                {students.map((s) => {
+                  const initials = `${s.firstName?.[0] ?? ""}${s.lastName?.[0] ?? ""}`.toUpperCase();
+                  const photo = resolveStorageUrl(s.photo);
+
+                  return (
+                    <TableRow key={s.studentId}>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <Avatar className="size-10 border border-border">
+                            {photo ? <AvatarImage src={photo} alt={s.name} /> : null}
+                            <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+                              {initials || "AP"}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="min-w-0 space-y-0.5">
+                            <p className="truncate text-sm font-medium leading-none">{s.name}</p>
+                            <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <Mail className="size-3" /> {s.email}
+                            </p>
+                            {s.phone ? (
+                              <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <Phone className="size-3" /> {s.phone}
+                              </p>
+                            ) : null}
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden text-sm text-muted-foreground md:table-cell">
-                      {r.training_title}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Progress value={r.progress} className="h-2" />
-                        <span className="w-9 text-right text-xs tabular-nums">{r.progress}%</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="hidden text-sm tabular-nums lg:table-cell">
-                      {r.attendance_rate}%
-                    </TableCell>
-                    <TableCell>
-                      <PaymentBadge status={r.payment_status} />
-                    </TableCell>
-                    <TableCell className="hidden text-xs text-muted-foreground lg:table-cell">
-                      {relativeTime(r.last_activity_at)}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button asChild variant="soft" size="sm">
-                        <Link to="/students/$studentId" params={{ studentId: r.student_id }}>
-                          Ouvrir
-                        </Link>
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+
+                      <TableCell className="min-w-56">
+                        <div className="space-y-1.5">
+                          {s.trainings.map((t) => (
+                            <Link
+                              key={t.enrollmentId}
+                              to="/trainings/$trainingId/students/$studentId"
+                              params={{ trainingId: t.trainingId, studentId: s.studentId }}
+                              className="flex items-center justify-between gap-3 rounded-md border border-border/60 px-2.5 py-1.5 text-xs transition-colors hover:bg-muted/50"
+                            >
+                              <span className="truncate">{t.trainingTitle}</span>
+                              <span className="shrink-0 font-medium">{t.progress}%</span>
+                            </Link>
+                          ))}
+                        </div>
+                      </TableCell>
+
+                      <TableCell className="min-w-36">
+                        <div className="space-y-1.5">
+                          <span className="text-xs font-medium">{s.averageProgress}%</span>
+                          <Progress value={s.averageProgress} className="h-1.5" />
+                        </div>
+                      </TableCell>
+
+                      <TableCell className="text-xs text-muted-foreground">
+                        {s.lastActivityAt ? formatDateTime(s.lastActivityAt) : "Aucune activité"}
+                      </TableCell>
+
+                      <TableCell className="text-right">
+                        <Button asChild size="sm" variant="soft">
+                          <Link to="/students/$studentId" params={{ studentId: s.studentId }}>
+                            <Eye className="size-4" /> Voir le profil
+                          </Link>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
-          </CardContent>
-        </Card>
+          </div>
+
+          {meta ? (
+            <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={setPage} />
+          ) : null}
+        </div>
       )}
     </div>
   );
