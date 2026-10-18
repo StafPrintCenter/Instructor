@@ -15,8 +15,7 @@ export interface APIInstructorTrainingStudentDetail {
   firstName: string;
   lastName: string;
   email: string;
-  /** Seule la valeur "confirmed" a été observée — enum non communiqué */
-  status: string;
+  status: EnrollmentStatus;
   progress: number;
   paymentStatus: string;
   amountPaid: number;
