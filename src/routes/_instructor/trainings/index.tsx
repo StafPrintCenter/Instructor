@@ -24,7 +24,6 @@ export const Route = createFileRoute("/_instructor/trainings/")({
 
 function TrainingsPage() {
   const { items: trainings, isLoading } = useInstructorTrainingsList();
-  const { trainingId, studentId } = Route.useParams();
 
   return (
     <div className="space-y-8">
@@ -32,13 +31,6 @@ function TrainingsPage() {
         eyebrow="Pédagogie"
         title="Mes formations assignées"
         description="Seul l'administrateur crée les formations ; vous en remplissez le contenu pédagogique."
-        actions={
-          <Button asChild variant="soft" size="sm">
-            <Link to="/trainings/$trainingId/submissions" params={{ trainingId }}>
-              <ClipboardList className="size-4" /> Toutes les soumissions
-            </Link>
-          </Button>
-        }
       />
       {!isLoading && trainings.length === 0 ? (
         <EmptyState icon={<BookOpen className="size-6" />} title="Aucune formation assignée" description="Contactez l'administration pour être assigné·e à une cohorte." />
