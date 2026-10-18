@@ -1,4 +1,5 @@
 import type { TrainingStatus } from "@/data/trainings";
+import type { EnrollmentStatus } from "@/data/training-students";
 import type {
   APIInstructorStudentAttendanceEntry,
   APIInstructorStudentLessonProgress,
@@ -11,8 +12,7 @@ export interface APIInstructorStudentListTraining {
   enrollmentId: string;
   trainingId: string;
   trainingTitle: string;
-  /** Valeurs observées : "confirmed", "completed" — enum non communiqué */
-  status: string;
+  status: EnrollmentStatus;
   progress: number;
   paymentStatus: string;
 }
@@ -49,7 +49,7 @@ export interface APIInstructorStudentProfile {
 
 export interface APIInstructorStudentEnrollment {
   enrollmentId: string;
-  status: string;
+  status: EnrollmentStatus;
   progress: number;
   paymentStatus: string;
   amountPaid: number;
