@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useRouterState, useNavigate, Outlet } from "@tanstack/react-router";
-import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut, UserCircle, Users2, Mail, Bell } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut, UserCircle, Users2, Bell } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
 import logo from "@/assets/logos.json";
@@ -44,7 +44,6 @@ const NAV_GROUPS: NavGroup[] = [
     label: "Échanges",
     items: [
       { to: "/community", label: "Communauté", icon: Users2 },
-      { to: "/messages", label: "Messages privés", icon: Mail },
     ],
   },
 ];
