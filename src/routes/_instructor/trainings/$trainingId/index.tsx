@@ -272,7 +272,13 @@ function TrainingDetail() {
                               </AvatarFallback>
                             </Avatar>
                             <div className="space-y-0.5">
-                              <p className="text-sm font-medium leading-none">{fullName}</p>
+                              <Link
+                                to="/students/$studentId"
+                                params={{ studentId: student.studentId }}
+                                className="text-sm font-medium leading-none hover:underline"
+                              >
+                                {fullName}
+                              </Link>
                               <p className="flex items-center gap-1 text-xs text-muted-foreground">
                                 <Mail className="size-3" />
                                 {student.email}
