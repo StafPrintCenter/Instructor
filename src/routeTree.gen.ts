@@ -20,6 +20,7 @@ import { Route as InstructorDashboardRouteImport } from './routes/_instructor/da
 import { Route as InstructorProfilRouteImport } from './routes/_instructor/profil'
 import { Route as InstructorCommunityIndexRouteImport } from './routes/_instructor/community/index'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
+import { Route as InstructorCorrectionsIdRouteImport } from './routes/_instructor/corrections/$id'
 import { Route as InstructorMessagesIndexRouteImport } from './routes/_instructor/messages/index'
 import { Route as InstructorNotificationsIndexRouteImport } from './routes/_instructor/notifications/index'
 import { Route as InstructorNotificationsIdRouteImport } from './routes/_instructor/notifications/$id'
@@ -89,6 +90,11 @@ const InstructorCorrectionsIndexRoute =
     path: '/corrections/',
     getParentRoute: () => InstructorRoute,
   } as any)
+const InstructorCorrectionsIdRoute = InstructorCorrectionsIdRouteImport.update({
+  id: '/corrections/$id',
+  path: '/corrections/$id',
+  getParentRoute: () => InstructorRoute,
+} as any)
 const InstructorMessagesIndexRoute = InstructorMessagesIndexRouteImport.update({
   id: '/messages/',
   path: '/messages/',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
+  '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/_instructor/notifications/$id': typeof InstructorNotificationsIdRoute
   '/_instructor/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
@@ -250,6 +259,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/profil'
+    | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
     | '/students/$studentId'
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/profil'
+    | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
     | '/students/$studentId'
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
+    | '/_instructor/corrections/$id'
     | '/_instructor/notifications/$id'
     | '/_instructor/notifications/preferences'
     | '/_instructor/students/$studentId'
@@ -401,6 +413,13 @@ declare module '@tanstack/react-router' {
       path: '/corrections'
       fullPath: '/corrections/'
       preLoaderRoute: typeof InstructorCorrectionsIndexRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/corrections/$id': {
+      id: '/_instructor/corrections/$id'
+      path: '/corrections/$id'
+      fullPath: '/corrections/$id'
+      preLoaderRoute: typeof InstructorCorrectionsIdRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/messages/': {
@@ -514,6 +533,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfilRoute: typeof InstructorProfilRoute
+  InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
   InstructorNotificationsIdRoute: typeof InstructorNotificationsIdRoute
   InstructorNotificationsPreferencesRoute: typeof InstructorNotificationsPreferencesRoute
   InstructorStudentsStudentIdRoute: typeof InstructorStudentsStudentIdRoute
@@ -534,6 +554,7 @@ interface InstructorRouteChildren {
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfilRoute: InstructorProfilRoute,
+  InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
   InstructorNotificationsIdRoute: InstructorNotificationsIdRoute,
   InstructorNotificationsPreferencesRoute:
     InstructorNotificationsPreferencesRoute,
