@@ -3,8 +3,8 @@ import { instructorFetch } from "@/lib/api-url";
 import { parseApiError } from "@/lib/api-error";
 import { createResourceStore } from "./createResourceStore";
 import type {
-  APIInstructorCorrectionListItem,
   APIInstructorCorrectionsListResponse,
+  APIInstructorSubmission,
   APIInstructorSubmissionDetail,
   APIInstructorSubmissionGraded,
   InstructorCorrectionsFilters,
@@ -14,43 +14,13 @@ import type {
 const resourceKey = "submissions";
 const basePath = "trainings/students/submissions";
 
-// Les items de liste et le détail n'ont pas de champ `id` (clé = submissionId) alors que la factory
-// l'exige dans son contrat. `id` n'est jamais lu : les hooks exposés renvoient les vrais types.
-const listStore = createResourceStore<APIInstructorCorrectionListItem & { id: string }>({ resourceKey, basePath });
-const detailStore = createResourceStore<APIInstructorSubmissionDetail & { id: string }>({ resourceKey, basePath });
+// fetchList({ status, page }) → /api/instructor/trainings/submissions/list?status=...&page=...
+const store = createResourceStore<APIInstructorSubmission>({ resourceKey, basePath });
 
-/* ---- Liste (stats + items + meta) ---- */
+export const fetchInstructorSubmissions = store.fetchList;
+export const useInstructorSubmissionsList = store.useList;
 
-export function useInstructorCorrectionsList(filters: InstructorCorrectionsFilters = {}) {
-  const query = useQuery({
-    // préfixe "submissions" : invalidé par la notation
-    queryKey: [resourceKey, "corrections", filters],
-    // fetchList renvoie la réponse JSON complète, stats incluses (non typées par la factory)
-    queryFn: async () => (await listStore.fetchList(filters)) as unknown as APIInstructorCorrectionsListResponse,
-    staleTime: 1000 * 30,
-    placeholderData: keepPreviousData, // évite le clignotement lors d'un changement de filtre / de page
-  });
-
-  return {
-    stats: query.data?.stats ?? null,
-    items: query.data?.data ?? [],
-    meta: query.data?.meta ?? null,
-    isLoading: query.isLoading,
-    isFetching: query.isFetching,
-    isError: query.isError,
-    refetch: query.refetch,
-  };
-}
-
-/* ---- Détail : GET /instructor/trainings/submissions/{id} ---- */
-
-export function useInstructorSubmissionDetail(id: string | undefined) {
-  const { item, isLoading, isError, refetch } = detailStore.useDetail(id);
-  const submission: APIInstructorSubmissionDetail | null = item;
-  return { submission, isLoading, isError, refetch };
-}
-
-/* ---- Notation : PUT /instructor/trainings/submissions/{id}/grade ---- */
+/* ---- Action dédiée ---- */
 
 interface GradeResponse {
   message: string;
@@ -77,11 +47,70 @@ export function useGradeInstructorSubmission() {
   return useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: InstructorSubmissionGradePayload }) =>
       gradeSubmission(id, payload),
-    // Rafraîchit liste, stats et détail ("submissions"), ainsi que suivi apprenant et progression ("trainings")
+    // La réponse ne contient ni body ni fileUrl : on refetch.
+    // "trainings" couvre le suivi apprenant et la progression (une validation peut compléter une leçon).
     onSuccess: () =>
       Promise.all([
         qc.invalidateQueries({ queryKey: [resourceKey] }),
         qc.invalidateQueries({ queryKey: ["trainings"] }),
       ]),
   });
+}
+
+/* ---- Corrections : liste globale (stats + items + meta) ---- */
+
+async function fetchCorrections(filters: InstructorCorrectionsFilters): Promise<APIInstructorCorrectionsListResponse> {
+  const qp = new URLSearchParams();
+  for (const [key, value] of Object.entries(filters)) {
+    if (value !== undefined && value !== "") qp.append(key, String(value));
+  }
+
+  const response = await instructorFetch(`/api/instructor/trainings/submissions/list?${qp.toString()}`);
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération des corrections");
+  return response.json();
+}
+
+export function useInstructorCorrectionsList(filters: InstructorCorrectionsFilters = {}) {
+  const query = useQuery({
+    // préfixe "submissions" : invalidé par la notation
+    queryKey: [resourceKey, "corrections", filters],
+    queryFn: () => fetchCorrections(filters),
+    staleTime: 1000 * 30,
+    placeholderData: keepPreviousData, // pas de clignotement lors d'un changement de filtre ou de page
+  });
+
+  return {
+    stats: query.data?.stats ?? null,
+    items: query.data?.data ?? [],
+    meta: query.data?.meta ?? null,
+    isLoading: query.isLoading,
+    isFetching: query.isFetching,
+    isError: query.isError,
+    refetch: query.refetch,
+  };
+}
+
+/* ---- Corrections : détail d'une soumission ---- */
+
+async function fetchCorrectionDetail(id: string): Promise<APIInstructorSubmissionDetail | null> {
+  const response = await instructorFetch(`/api/instructor/trainings/submissions/${id}`);
+  if (response.status === 404) return null;
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération de la soumission");
+  const json: { data: APIInstructorSubmissionDetail } = await response.json();
+  return json.data;
+}
+
+export function useInstructorSubmissionDetail(id: string | undefined) {
+  const query = useQuery({
+    queryKey: [resourceKey, "correction-detail", id ?? ""],
+    queryFn: () => fetchCorrectionDetail(id as string),
+    enabled: !!id,
+  });
+
+  return {
+    submission: query.data ?? null,
+    isLoading: query.isLoading,
+    isError: query.isError,
+    refetch: query.refetch,
+  };
 }
