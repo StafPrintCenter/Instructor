@@ -1,4 +1,3 @@
-// src/routes/_instructor/students/$studentId.tsx
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, Briefcase, Eye, GraduationCap, Mail, Phone, RefreshCw } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
