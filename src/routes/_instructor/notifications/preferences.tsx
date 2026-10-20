@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PreferenceCard } from "@/components/notifications/PreferenceCard";
+import { PreferenceCard } from "@/components/pages/notifications";
 import { useNotificationPreferences } from "@/stores/useInstructorNotificationsStore";
 
 export const Route = createFileRoute("/_instructor/notifications/preferences")({
