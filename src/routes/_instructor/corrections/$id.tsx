@@ -169,7 +169,7 @@ function CorrectionDetailPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setPreview({ url: fileUrl, title: `${d.student.name} — ${d.lesson.title}` })}
+                  onClick={() => setPreview({ url: fileUrl, title: `${d.student.name} - ${d.lesson.title}` })}
                 >
                   <Paperclip className="size-4" /> Voir le fichier
                 </Button>

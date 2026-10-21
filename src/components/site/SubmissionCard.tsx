@@ -62,7 +62,7 @@ export function SubmissionCard({ submission: s, onGrade, onPreview, hideStudent,
             <Button
               variant="outline"
               size="sm"
-              onClick={() => onPreview(fileUrl, `${s.studentName} — ${s.lessonTitle}`)}
+              onClick={() => onPreview(fileUrl, `${s.studentName} - ${s.lessonTitle}`)}
             >
               <Paperclip className="size-4" /> Voir le fichier
             </Button>

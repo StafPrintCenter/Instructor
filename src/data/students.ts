@@ -7,7 +7,7 @@ import type {
   APIInstructorStudentSubmission,
 } from "@/data/training-students";
 
-/** Formation d'un apprenant, version résumée — GET /instructor/trainings/students/list */
+/** Formation d'un apprenant, version résumée - GET /instructor/trainings/students/list */
 export interface APIInstructorStudentListTraining {
   enrollmentId: string;
   trainingId: string;

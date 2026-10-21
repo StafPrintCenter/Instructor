@@ -301,7 +301,7 @@ function TrainingDetail() {
                           {student.attendance !== null ? (
                             <span className="text-xs font-medium">{student.attendance}%</span>
                           ) : (
-                            <span className="text-xs text-muted-foreground">—</span>
+                            <span className="text-xs text-muted-foreground">-</span>
                           )}
                         </TableCell>
                         <TableCell className="text-xs text-muted-foreground">

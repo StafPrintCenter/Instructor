@@ -43,7 +43,7 @@ export interface APIInstructorSubmission {
   feedback: APIInstructorSubmissionFeedback | null;
 }
 
-/** Réponse de PUT .../grade — n'inclut ni body ni fileUrl */
+/** Réponse de PUT .../grade - n'inclut ni body ni fileUrl */
 export interface APIInstructorSubmissionGraded {
   id: string;
   lessonId: string;

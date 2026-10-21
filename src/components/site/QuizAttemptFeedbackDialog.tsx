@@ -46,7 +46,7 @@ export function QuizAttemptFeedbackDialog({ attemptId, studentName, onClose }: Q
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="font-display">
-            Feedback sur la tentative{studentName ? ` — ${studentName}` : ""}
+            Feedback sur la tentative{studentName ? ` - ${studentName}` : ""}
           </DialogTitle>
         </DialogHeader>
 

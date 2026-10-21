@@ -13,7 +13,7 @@ export async function parseApiError(response: Response, fallback: string): Promi
       if (messages) return new Error(messages);
     }
   } catch {
-    // réponse non-JSON (ex: erreur réseau, HTML d'erreur serveur) — on garde le fallback
+    // réponse non-JSON (ex: erreur réseau, HTML d'erreur serveur) - on garde le fallback
   }
   return new Error(fallback);
 }

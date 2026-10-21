@@ -248,7 +248,7 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
         </span>
       </div>
 
-      {/* Réglages du quiz — pré-remplis avec les valeurs actuelles : à consulter, modifier si souhaité */}
+      {/* Réglages du quiz - pré-remplis avec les valeurs actuelles : à consulter, modifier si souhaité */}
       <div className="space-y-4 rounded-lg border p-4">
         <p className="text-sm font-semibold">Réglages</p>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -337,7 +337,7 @@ function QuizEditor({ quizId, moduleId }: { quizId: string; moduleId: string }) 
         </div>
       </div>
 
-      {/* Liste des questions — consultables immédiatement, modifiables/supprimables au besoin */}
+      {/* Liste des questions - consultables immédiatement, modifiables/supprimables au besoin */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold">Questions</p>

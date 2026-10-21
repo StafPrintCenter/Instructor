@@ -129,7 +129,7 @@ function CorrectionsPage() {
               aria-pressed={active}
             >
               <p className="text-xs uppercase tracking-wider text-muted-foreground">{gradedFilterLabels[g]}</p>
-              <p className="mt-1 font-display text-2xl font-semibold">{count ?? "—"}</p>
+              <p className="mt-1 font-display text-2xl font-semibold">{count ?? "-"}</p>
             </button>
           );
         })}

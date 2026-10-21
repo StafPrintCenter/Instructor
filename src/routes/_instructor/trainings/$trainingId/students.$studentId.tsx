@@ -233,7 +233,7 @@ function StudentDetailPage() {
                           {a.isAutoSubmitted ? <Badge variant="secondary" className="text-[10px]">Auto</Badge> : null}
                         </div>
                       </TableCell>
-                      <TableCell className="text-sm">{a.score !== null ? `${a.score}%` : "—"}</TableCell>
+                      <TableCell className="text-sm">{a.score !== null ? `${a.score}%` : "-"}</TableCell>
                       <TableCell className="text-xs text-muted-foreground">{formatDateTime(a.submittedAt)}</TableCell>
                       <TableCell className="max-w-xs">
                         {a.feedback ? (
@@ -304,10 +304,10 @@ function StudentDetailPage() {
                             <Progress value={l.completionRatio} className="h-1.5" />
                           </div>
                         ) : (
-                          <span className="text-xs text-muted-foreground">—</span>
+                          <span className="text-xs text-muted-foreground">-</span>
                         )}
                       </TableCell>
-                      <TableCell className="text-sm">{l.bestScore !== null ? `${l.bestScore}%` : "—"}</TableCell>
+                      <TableCell className="text-sm">{l.bestScore !== null ? `${l.bestScore}%` : "-"}</TableCell>
                       <TableCell className="text-xs text-muted-foreground">{formatDateTime(l.lastActivityAt)}</TableCell>
                     </TableRow>
                   ))}

@@ -34,7 +34,7 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage"
   component: ContentPage,
 });
 
-/** Kinds pour lesquels le chapitrage est proposé — quiz/exercise/assignment/project n'en ont pas besoin. */
+/** Kinds pour lesquels le chapitrage est proposé - quiz/exercise/assignment/project n'en ont pas besoin. */
 const CHAPTERS_ALLOWED_KINDS: LessonKind[] = ["video", "reading"];
 const BRIEF_KINDS: LessonKind[] = ["exercise", "assignment", "project", "quiz"];
 /** Kinds pour lesquels une évaluation (quiz/exercice avec questions) peut être configurée. */
@@ -368,12 +368,12 @@ function ContentPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Gestion de l'évaluation (quiz / exercice) — création ET édition passent par ce même dialog */}
+      {/* Gestion de l'évaluation (quiz / exercice) - création ET édition passent par ce même dialog */}
       <Dialog open={!!quizManagerFor} onOpenChange={(open) => !open && setQuizManagerFor(null)}>
         <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle className="font-display">
-              {quizManagerFor?.lesson.quizId ? "Gérer l'évaluation" : "Créer une évaluation"} — {quizManagerFor?.lesson.title}
+              {quizManagerFor?.lesson.quizId ? "Gérer l'évaluation" : "Créer une évaluation"} - {quizManagerFor?.lesson.title}
             </DialogTitle>
           </DialogHeader>
           {quizManagerFor ? (
@@ -522,7 +522,7 @@ function LessonRow({
               <span>{lessonKindLabels[l.kind]}</span>
               <span>•</span>
               <span className="flex items-center gap-1">
-                <Clock className="size-3" /> {l.durationMinutes ?? "—"} min
+                <Clock className="size-3" /> {l.durationMinutes ?? "-"} min
               </span>
             </div>
           </div>
@@ -530,7 +530,7 @@ function LessonRow({
           <ContentStatusBadge status={l.status} className="shrink-0" />
         </button>
 
-        {/* Bouton évaluation — toujours visible pour quiz/exercice, texte + icône, qu'un quiz existe déjà ou non */}
+        {/* Bouton évaluation - toujours visible pour quiz/exercice, texte + icône, qu'un quiz existe déjà ou non */}
         {onManageQuiz ? (
           <Button
             size="sm"

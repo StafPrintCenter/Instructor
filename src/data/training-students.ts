@@ -8,7 +8,7 @@ import type {
   SubmissionStatus,
 } from "@/data/submissions";
 
-/** GET /instructor/trainings/{trainingId}/students/{studentId} — clé "data" */
+/** GET /instructor/trainings/{trainingId}/students/{studentId} - clé "data" */
 export interface APIInstructorTrainingStudentDetail {
   enrollmentId: string;
   studentId: string;
@@ -27,7 +27,7 @@ export interface APIInstructorStudentLessonProgress {
   lessonId: string;
   lessonTitle: string;
   kind: LessonKind;
-  /** Valeurs observées : "in_progress", "completed" — enum non communiqué */
+  /** Valeurs observées : "in_progress", "completed" - enum non communiqué */
   status: string;
   completionRatio: number;
   bestScore: number | null;
@@ -40,7 +40,7 @@ export interface APIInstructorStudentQuizAttempt {
   quizId: string;
   lessonTitle: string;
   attemptNumber: number;
-  /** Valeurs observées : "graded", "expired" — enum non communiqué */
+  /** Valeurs observées : "graded", "expired" - enum non communiqué */
   status: string;
   score: number | null;
   isAutoSubmitted: boolean;

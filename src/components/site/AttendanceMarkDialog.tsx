@@ -50,7 +50,7 @@ export function AttendanceMarkDialog({ enrollmentId, studentName, onClose }: Att
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="font-display">
-            Assiduité{studentName ? ` — ${studentName}` : ""}
+            Assiduité{studentName ? ` - ${studentName}` : ""}
           </DialogTitle>
         </DialogHeader>
 

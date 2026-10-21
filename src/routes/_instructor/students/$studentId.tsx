@@ -258,7 +258,7 @@ function TrainingFollowUpCard({
               value={`${t.submissions.length}${toReview > 0 ? ` (${toReview} à traiter)` : ""}`}
             />
             <Stat label="Tentatives de quiz" value={t.quizAttempts.length} />
-            <Stat label="Assiduité" value={t.attendance.ratio !== null ? `${t.attendance.ratio}%` : "—"} />
+            <Stat label="Assiduité" value={t.attendance.ratio !== null ? `${t.attendance.ratio}%` : "-"} />
             <Stat label="Montant versé" value={`${e.amountPaid.toLocaleString("fr-FR")} FCFA`} />
             <Stat label="Inscrit le" value={formatDate(e.enrolledAt)} />
           </div>

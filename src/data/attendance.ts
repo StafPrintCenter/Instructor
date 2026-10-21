@@ -10,7 +10,7 @@ export const attendanceStatusLabels: Record<AttendanceStatus, string> = {
 };
 
 export function getAttendanceStatusLabel(status: string | null | undefined): string {
-  if (!status) return "—";
+  if (!status) return "-";
   return attendanceStatusLabels[status as AttendanceStatus] ?? status;
 }
 
