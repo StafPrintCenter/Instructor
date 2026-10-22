@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PreferenceCard } from "@/components/pages/notifications";
+import { PreferenceCard, CleanupSettingsDialog } from "@/components/pages/notifications";
 import { useNotificationPreferences } from "@/stores/useNotificationsStore";
 
 export const Route = createFileRoute("/_instructor/notifications/preferences")({
   head: () => ({
     meta: [
-      { title: "Préférences de notifications - Instructeur" },
+      { title: "Préférences de notifications - Admin" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -26,11 +26,14 @@ function PreferencesPage() {
             Choisissez ce que vous recevez, et à quels moments.
           </p>
         </div>
-        <Button asChild variant="outline" size="sm">
-          <Link to="/notifications">
-            <ArrowLeft className="mr-1 h-4 w-4" /> Notifications
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <CleanupSettingsDialog />
+          <Button asChild variant="outline" size="sm">
+            <Link to="/notifications">
+              <ArrowLeft className="mr-1 h-4 w-4" /> Notifications
+            </Link>
+          </Button>
+        </div>
       </div>
 
       {isLoading ? (
