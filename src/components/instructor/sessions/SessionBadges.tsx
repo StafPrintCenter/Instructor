@@ -1,4 +1,3 @@
-// src/components/instructor/sessions/SessionBadges.tsx
 import { MapPin, Video } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
