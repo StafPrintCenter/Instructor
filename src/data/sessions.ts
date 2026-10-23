@@ -1,5 +1,3 @@
-// src/data/sessions.ts
-
 export type SessionModality = "in_person" | "online";
 export const SESSION_MODALITIES: SessionModality[] = ["in_person", "online"];
 export const sessionModalityLabels: Record<SessionModality, string> = {
