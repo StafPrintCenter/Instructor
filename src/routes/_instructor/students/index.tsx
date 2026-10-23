@@ -112,7 +112,7 @@ function StudentsPage() {
                               key={t.enrollmentId}
                               to="/trainings/$trainingId/students/$studentId"
                               params={{ trainingId: t.trainingId, studentId: s.studentId }}
-                              className="block space-y-1.5 rounded-md border border-border/60 px-2.5 py-2 text-xs transition-colors hover:bg-muted/50"
+                              className="block space-y-1.5 rounded-md border border-border/60 px-2.5 py-2 text-xs transition-colors hover:bg-card/80 hover:border-primary"
                             >
                               <div className="flex items-center justify-between gap-3">
                                 <span className="truncate font-medium">{t.trainingTitle}</span>
