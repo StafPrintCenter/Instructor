@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { InstructorSubmissionBadge } from "@/components/instructor/status-badges";
 import { PaginationBar } from "@/components/site/PaginationBar";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { lessonKindLabels } from "@/data/content";
 import {
   SUBMISSION_KINDS,
@@ -64,6 +65,7 @@ function CorrectionsPage() {
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [page, setPage] = useState(1);
 
+  const debouncedQuery = useDebouncedValue(filters.query.trim());
   const isRangeInvalid = !!filters.from && !!filters.to && filters.to < filters.from;
 
   // L'API refuse un `to` antérieur à `from` (422) : on n'envoie pas `to` dans ce cas
@@ -73,12 +75,12 @@ function CorrectionsPage() {
       status: filters.status === "all" ? undefined : filters.status,
       trainingId: filters.trainingId === "all" ? undefined : filters.trainingId,
       kind: filters.kind === "all" ? undefined : filters.kind,
-      query: filters.query.trim() || undefined,
+      query: debouncedQuery || undefined,
       from: filters.from || undefined,
       to: isRangeInvalid ? undefined : filters.to || undefined,
       page,
     }),
-    [filters.graded, filters.status, filters.trainingId, filters.kind, filters.query, filters.from, filters.to, isRangeInvalid, page]
+    [filters.graded, filters.status, filters.trainingId, filters.kind, debouncedQuery, filters.from, filters.to, isRangeInvalid, page]
   );
 
   const { stats, items, meta, isLoading, isFetching, isError, refetch } = useInstructorCorrectionsList(params);
