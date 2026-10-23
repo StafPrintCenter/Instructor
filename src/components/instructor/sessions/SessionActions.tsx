@@ -1,4 +1,3 @@
-// src/components/instructor/sessions/SessionActions.tsx
 import { useState } from "react";
 import { toast } from "sonner";
 import { LifeBuoy, Pencil, Trash2 } from "lucide-react";
