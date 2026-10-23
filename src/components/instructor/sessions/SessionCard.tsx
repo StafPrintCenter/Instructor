@@ -1,4 +1,3 @@
-// src/components/instructor/sessions/SessionCard.tsx
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, Clock, Hourglass, MapPin, Users, Video } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
