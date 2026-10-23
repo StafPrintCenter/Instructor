@@ -22,7 +22,7 @@ export function StatCard({
     success: "bg-success/15 text-success",
   };
   return (
-    <Card className="border-border/70 shadow-[var(--shadow-soft)] transition-shadow hover:shadow-[var(--shadow-lift)]">
+    <Card className="border-border/70 shadow-(--shadow-soft) transition-shadow hover:shadow-(--shadow-lift)">
       <CardContent className="flex items-start justify-between gap-4 p-5">
         <div className="space-y-1">
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
