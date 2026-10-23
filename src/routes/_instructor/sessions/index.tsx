@@ -1,359 +1,239 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CalendarDays, LayoutList, MapPin, Plus, Video } from "lucide-react";
-import { toast } from "sonner";
+import { AlertTriangle, CalendarDays, Plus, RefreshCw, Search, X } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SessionCalendar } from "@/components/instructor/session-calendar";
-import { rosterQuery, sessionsQuery, trainingsQuery } from "@/lib/queries";
-import { useInstructorAuth } from "@/hooks/useInstructorAuth";
-import { formatDateTime, sessionsApi, type SessionRow } from "@/lib/api";
+import { Switch } from "@/components/ui/switch";
+import { PaginationBar } from "@/components/site/PaginationBar";
+import { SessionCard, SessionFormDialog } from "@/components/instructor/sessions";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
+import {
+  SESSION_MODALITIES,
+  SESSION_STATUSES,
+  getSessionStatusLabel,
+  sessionModalityLabels,
+  type SessionModality,
+  type SessionStatus,
+} from "@/data/sessions";
+import { useInstructorSessionsList } from "@/stores/useSessionsStore";
+import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/sessions/")({
   head: () => ({
     meta: [
-      { title: `Sessions & présences | ${SITE.name}` },
-      {
-        name: "description",
-        content: "Planifiez vos sessions live ou en présentiel à Cotonou et enregistrez les présences des apprenants.",
-      },
-      {
-        property: "og:title",
-        content: `Sessions & présences ${SITE.name}`,
-      },
-      { property: "og:description", content: "Planning des sessions et feuille de présence par cohorte." },
+      { title: `Sessions | Espace Formateur ${SITE.name}` },
+      { name: "description", content: "Planifiez et suivez les sessions de vos formations." },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: SessionsPage,
 });
 
-function AttendanceSheet({ session }: { session: SessionRow }) {
-  const queryClient = useQueryClient();
-  const { data: roster = [] } = useQuery(rosterQuery(session.training_id));
-
-  const mark = useMutation({
-    mutationFn: (input: { studentId: string; present: boolean }) =>
-      sessionsApi.setAttendance(session.id, input.studentId, input.present),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["sessions"] });
-      queryClient.invalidateQueries({ queryKey: ["students"] });
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
-
-  return (
-    <div className="space-y-2">
-      {roster.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Aucun apprenant inscrit à cette cohorte.</p>
-      ) : (
-        roster.map((student) => {
-          const record = session.attendance.find((a) => a.student_id === student.id);
-          return (
-            <div
-              key={student.id}
-              className="flex items-center justify-between gap-3 rounded-lg border border-border/70 px-3 py-2"
-            >
-              <span className="text-sm">{student.full_name}</span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">
-                  {record ? (record.present ? "Présent·e" : "Absent·e") : "Non pointé"}
-                </span>
-                <Switch
-                  checked={!!record?.present}
-                  onCheckedChange={(present) => mark.mutate({ studentId: student.id, present })}
-                  aria-label={`Présence de ${student.full_name}`}
-                />
-              </div>
-            </div>
-          );
-        })
-      )}
-    </div>
-  );
+interface Filters {
+  status: SessionStatus | "all";
+  modality: SessionModality | "all";
+  trainingId: string; // "all" ou id
+  upcoming: boolean;
+  query: string;
+  from: string;
+  to: string;
 }
 
+const DEFAULT_FILTERS: Filters = {
+  status: "all",
+  modality: "all",
+  trainingId: "all",
+  upcoming: true,
+  query: "",
+  from: "",
+  to: "",
+};
+
 function SessionsPage() {
-  const { user } = useInstructorAuth();
-  const instructorId = user?.id ?? "";
-  const queryClient = useQueryClient();
+  const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
+  const [page, setPage] = useState(1);
+  const [createOpen, setCreateOpen] = useState(false);
 
-  const { data: sessions = [], isLoading: isSessionsLoading } = useQuery({
-    ...sessionsQuery(instructorId),
-    enabled: !!instructorId,
-  });
+  const debouncedQuery = useDebouncedValue(filters.query.trim());
+  const isRangeInvalid = !!filters.from && !!filters.to && filters.to < filters.from;
 
-  const { data: trainings = [], isLoading: isTrainingsLoading } = useQuery({
-    ...trainingsQuery(instructorId),
-    enabled: !!instructorId,
-  });
+  const params = useMemo(
+    () => ({
+      status: filters.status === "all" ? undefined : filters.status,
+      modality: filters.modality === "all" ? undefined : filters.modality,
+      trainingId: filters.trainingId === "all" ? undefined : filters.trainingId,
+      upcoming: filters.upcoming,
+      query: debouncedQuery || undefined,
+      from: filters.from || undefined,
+      to: isRangeInvalid ? undefined : filters.to || undefined,
+      page,
+    }),
+    [filters.status, filters.modality, filters.trainingId, filters.upcoming, debouncedQuery, filters.from, filters.to, isRangeInvalid, page]
+  );
 
-  const [open, setOpen] = useState(false);
-  const [openSheet, setOpenSheet] = useState<string | null>(null);
-  const [form, setForm] = useState({
-    training_id: "",
-    title: "",
-    mode: "live" as "live" | "onsite",
-    starts_at: "",
-    duration_minutes: 90,
-    location: "",
-    notes: "",
-  });
+  const { items, meta, isLoading, isError, refetch } = useInstructorSessionsList(params);
+  const { items: trainings } = useInstructorTrainingsList({ perPage: 100 });
 
   useEffect(() => {
-    if (trainings.length > 0 && !form.training_id) {
-      setForm((f) => ({ ...f, training_id: trainings[0].id }));
-    }
-  }, [trainings, form.training_id]);
+    if (meta && meta.lastPage >= 1 && page > meta.lastPage) setPage(meta.lastPage);
+  }, [meta, page]);
 
-  const create = useMutation({
-    mutationFn: () =>
-      sessionsApi.create({
-        training_id: form.training_id,
-        title: form.title,
-        mode: form.mode,
-        starts_at: new Date(form.starts_at).toISOString(),
-        duration_minutes: Number(form.duration_minutes),
-        location: form.location,
-        notes: form.notes,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["sessions"] });
-      setOpen(false);
-      setForm((f) => ({ ...f, title: "", starts_at: "", location: "", notes: "" }));
-      toast.success("Session planifiée.");
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
+  const patch = (next: Partial<Filters>) => {
+    setFilters((f) => ({ ...f, ...next }));
+    setPage(1);
+  };
 
-  if (isSessionsLoading || isTrainingsLoading) {
-    return (
-      <div className="space-y-6">
-        <div className="h-16 animate-pulse rounded-lg bg-muted" />
-        <div className="h-10 w-48 animate-pulse rounded-lg bg-muted" />
-        <div className="space-y-4">
-          <div className="h-32 animate-pulse rounded-lg bg-muted" />
-          <div className="h-32 animate-pulse rounded-lg bg-muted" />
-        </div>
-      </div>
-    );
-  }
-
-  const now = Date.now();
-  const upcoming = sessions.filter((s) => +new Date(s.starts_at) >= now);
-  const past = sessions.filter((s) => +new Date(s.starts_at) < now).reverse();
-
-  const renderSession = (s: SessionRow) => (
-    <Card key={s.id}>
-      <CardContent className="space-y-3 p-5">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h3 className="font-display text-lg leading-snug">{s.title}</h3>
-            <p className="text-sm text-muted-foreground">{s.training_title}</p>
-          </div>
-          <Badge variant={s.mode === "live" ? "secondary" : "outline"} className="gap-1.5">
-            {s.mode === "live" ? <Video className="size-3.5" /> : <MapPin className="size-3.5" />}
-            {s.mode === "live" ? "En ligne" : "Présentiel"}
-          </Badge>
-        </div>
-        <div className="flex flex-wrap gap-x-5 gap-y-1 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1.5">
-            <CalendarDays className="size-3.5" /> {formatDateTime(s.starts_at)}
-          </span>
-          <span>{s.duration_minutes} min</span>
-          <span>{s.location}</span>
-          <span>
-            {s.attendance.filter((a) => a.present).length}/{s.attendance.length || 0} présent·e·s pointé·e·s
-          </span>
-        </div>
-        {s.notes ? <p className="text-sm text-muted-foreground">{s.notes}</p> : null}
-        <Button
-          variant="soft"
-          size="sm"
-          onClick={() => setOpenSheet(openSheet === s.id ? null : s.id)}
-        >
-          {openSheet === s.id ? "Masquer la feuille de présence" : "Feuille de présence"}
-        </Button>
-        {openSheet === s.id ? <AttendanceSheet session={s} /> : null}
-      </CardContent>
-    </Card>
-  );
+  const hasActiveFilters =
+    filters.status !== "all" ||
+    filters.modality !== "all" ||
+    filters.trainingId !== "all" ||
+    filters.query !== "" ||
+    filters.from !== "" ||
+    filters.to !== "";
 
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="Planning"
-        title="Sessions & présences"
-        description="Organisez vos ateliers live et en présentiel, puis pointez les présences."
+        eyebrow="Pédagogie"
+        title="Sessions"
+        description="Planifiez des sessions en présentiel ou en ligne pour vos formations et suivez les réponses des apprenants."
         actions={
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button variant="accent">
-                <Plus className="size-4" /> Planifier une session
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Nouvelle session</DialogTitle>
-                <DialogDescription>
-                  La session apparaîtra dans l'agenda des apprenants de la cohorte choisie.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div className="space-y-1.5">
-                  <Label>Formation</Label>
-                  <Select
-                    value={form.training_id}
-                    onValueChange={(v) => setForm((f) => ({ ...f, training_id: v }))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choisir" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {trainings.map((t) => (
-                        <SelectItem key={t.id} value={t.id}>
-                          {t.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="session-title">Intitulé</Label>
-                  <Input
-                    id="session-title"
-                    value={form.title}
-                    onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                    placeholder="Atelier sérigraphie - préparation des écrans"
-                  />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="session-date">Date et heure</Label>
-                    <Input
-                      id="session-date"
-                      type="datetime-local"
-                      value={form.starts_at}
-                      onChange={(e) => setForm((f) => ({ ...f, starts_at: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="session-duration">Durée (min)</Label>
-                    <Input
-                      id="session-duration"
-                      type="number"
-                      min={15}
-                      value={form.duration_minutes}
-                      onChange={(e) => setForm((f) => ({ ...f, duration_minutes: Number(e.target.value) }))}
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1.5">
-                    <Label>Modalité</Label>
-                    <Select
-                      value={form.mode}
-                      onValueChange={(v) => setForm((f) => ({ ...f, mode: v as "live" | "onsite" }))}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="live">En ligne</SelectItem>
-                        <SelectItem value="onsite">Présentiel</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="session-location">Lieu / lien</Label>
-                    <Input
-                      id="session-location"
-                      value={form.location}
-                      onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                      placeholder="Studio Akpakpa ou lien visio"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="session-notes">Notes</Label>
-                  <Textarea
-                    id="session-notes"
-                    value={form.notes}
-                    onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-                    placeholder="Matériel à prévoir, consignes…"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  variant="accent"
-                  disabled={create.isPending || !form.title || !form.starts_at || !form.training_id}
-                  onClick={() => create.mutate()}
-                >
-                  Planifier
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <Button variant="accent" onClick={() => setCreateOpen(true)}>
+            <Plus className="size-4" /> Nouvelle session
+          </Button>
         }
       />
 
-      <Tabs defaultValue="list" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="list" className="gap-1.5">
-            <LayoutList className="size-4" /> Liste
-          </TabsTrigger>
-          <TabsTrigger value="calendar" className="gap-1.5">
-            <CalendarDays className="size-4" /> Calendrier
-          </TabsTrigger>
-        </TabsList>
+      <Card className="border-border/70">
+        <CardContent className="space-y-4 p-5">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="sq">Recherche</Label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="sq"
+                  className="pl-9"
+                  placeholder="Titre de la session ou de la formation"
+                  value={filters.query}
+                  onChange={(e) => patch({ query: e.target.value })}
+                />
+              </div>
+            </div>
 
-        <TabsContent value="calendar">
-          <SessionCalendar sessions={sessions} renderSession={renderSession} />
-        </TabsContent>
+            <div className="space-y-1.5">
+              <Label>Statut</Label>
+              <Select value={filters.status} onValueChange={(v) => patch({ status: v as SessionStatus | "all" })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tous les statuts</SelectItem>
+                  {SESSION_STATUSES.map((s) => (
+                    <SelectItem key={s} value={s}>{getSessionStatusLabel(s)}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-        <TabsContent value="list" className="space-y-8">
-          <section className="space-y-4">
-            <CardHeaderTitle title="À venir" count={upcoming.length} />
-            {upcoming.length === 0 ? (
-              <EmptyState
-                icon={<CalendarDays className="size-6" />}
-                title="Aucune session à venir"
-                description="Planifiez un atelier pour vos cohortes."
-              />
-            ) : (
-              <div className="space-y-4">{upcoming.map(renderSession)}</div>
-            )}
-          </section>
+            <div className="space-y-1.5">
+              <Label>Modalité</Label>
+              <Select value={filters.modality} onValueChange={(v) => patch({ modality: v as SessionModality | "all" })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Toutes les modalités</SelectItem>
+                  {SESSION_MODALITIES.map((m) => (
+                    <SelectItem key={m} value={m}>{sessionModalityLabels[m]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-          {past.length > 0 ? (
-            <section className="space-y-4">
-              <CardHeaderTitle title="Sessions passées" count={past.length} />
-              <div className="space-y-4">{past.map(renderSession)}</div>
-            </section>
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label>Formation</Label>
+              <Select value={filters.trainingId} onValueChange={(v) => patch({ trainingId: v })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Toutes les formations</SelectItem>
+                  {trainings.map((t) => (
+                    <SelectItem key={t.trainingId} value={t.trainingId}>{t.trainingTitle}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="sfrom">À partir du</Label>
+              <Input id="sfrom" type="date" value={filters.from} onChange={(e) => patch({ from: e.target.value })} />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="sto">Jusqu'au</Label>
+              <Input id="sto" type="date" value={filters.to} onChange={(e) => patch({ to: e.target.value })} />
+            </div>
+          </div>
+
+          {isRangeInvalid ? (
+            <p className="text-xs text-destructive">
+              La date de fin doit être postérieure ou égale à la date de début : elle est ignorée tant qu'elle est incorrecte.
+            </p>
           ) : null}
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-}
 
-function CardHeaderTitle({ title, count }: { title: string; count: number }) {
-  return (
-    <CardHeader className="px-0 py-0">
-      <CardTitle className="font-display text-xl">
-        {title} <span className="text-sm font-normal text-muted-foreground">({count})</span>
-      </CardTitle>
-    </CardHeader>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <Switch id="s-upcoming" checked={filters.upcoming} onCheckedChange={(v) => patch({ upcoming: v })} />
+              <Label htmlFor="s-upcoming" className="cursor-pointer text-sm font-normal">À venir uniquement</Label>
+            </div>
+            {hasActiveFilters ? (
+              <Button variant="ghost" size="sm" onClick={() => patch({ ...DEFAULT_FILTERS, upcoming: filters.upcoming })}>
+                <X className="size-4" /> Réinitialiser les filtres
+              </Button>
+            ) : null}
+          </div>
+        </CardContent>
+      </Card>
+
+      {isLoading ? (
+        <div className="space-y-4">
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+          <div className="h-28 animate-pulse rounded-lg bg-muted" />
+        </div>
+      ) : isError ? (
+        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
+          <AlertTriangle className="size-6 text-destructive" />
+          <p className="text-sm text-muted-foreground">Impossible de charger les sessions.</p>
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
+            <RefreshCw className="size-4" /> Réessayer
+          </Button>
+        </div>
+      ) : items.length === 0 ? (
+        <EmptyState
+          icon={<CalendarDays className="size-6" />}
+          title="Aucune session"
+          description={
+            hasActiveFilters
+              ? "Aucune session ne correspond à ces filtres."
+              : filters.upcoming
+                ? "Aucune session à venir. Désactivez « À venir uniquement » pour voir les sessions passées."
+                : "Vous n'avez pas encore planifié de session."
+          }
+        />
+      ) : (
+        <div className="space-y-4">
+          {items.map((s) => (
+            <SessionCard key={s.id} session={s} variant="global" />
+          ))}
+          {meta ? (
+            <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={setPage} />
+          ) : null}
+        </div>
+      )}
+
+      <SessionFormDialog open={createOpen} onClose={() => setCreateOpen(false)} />
+    </div>
   );
 }
