@@ -146,7 +146,11 @@ export interface InstructorSessionPayload {
 }
 
 /** En PUT, un champ vide ou absent = inchangé : on n'envoie que ce qui change */
-export type InstructorSessionUpdatePayload = Partial<Omit<InstructorSessionPayload, "trainingId">>;
+export type InstructorSessionUpdatePayload = Partial<
+  Omit<InstructorSessionPayload, "trainingId" | "durationMinutes">
+> & {
+  durationMinutes: number;
+};
 
 /** Paramètres de GET .../sessions/list (alias de type pour rester assignable à Record<string, string | number | undefined>) */
 export type InstructorSessionFilters = {
