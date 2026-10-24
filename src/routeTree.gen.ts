@@ -33,8 +33,8 @@ import { Route as InstructorTrainingsIndexRouteImport } from './routes/_instruct
 import { Route as InstructorTrainingsTrainingIdIndexRouteImport } from './routes/_instructor/trainings/$trainingId/index'
 import { Route as InstructorTrainingsTrainingIdManageRouteImport } from './routes/_instructor/trainings/$trainingId/manage'
 import { Route as InstructorTrainingsTrainingIdSubmissionsRouteImport } from './routes/_instructor/trainings/$trainingId/submissions'
-import { Route as InstructorTrainingsTrainingIdSessionsSessionIdRouteImport } from './routes/_instructor/trainings/$trainingId/sessions.$sessionId'
-import { Route as InstructorTrainingsTrainingIdStudentsStudentIdRouteImport } from './routes/_instructor/trainings/$trainingId/students.$studentId'
+import { Route as InstructorTrainingsTrainingIdSessionsSessionIdRouteImport } from './routes/_instructor/trainings/$trainingId/sessions/$sessionId'
+import { Route as InstructorTrainingsTrainingIdStudentsStudentIdRouteImport } from './routes/_instructor/trainings/$trainingId/students/$studentId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
