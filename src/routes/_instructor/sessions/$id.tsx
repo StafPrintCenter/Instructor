@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { PageHeader } from "@/components/instructor/page-header";
 import { Button } from "@/components/ui/button";
-import { SessionActions } from "@/components/instructor/sessions";
+import { SessionActions } from "@/components/pages/sessions";
 import {
   SessionDetailError,
   SessionDetailSkeleton,
@@ -12,7 +12,7 @@ import {
   SessionReviewRequestsCard,
   SessionStatusCard,
   SessionTrainingLinks,
-} from "@/components/instructor/sessions/detail";
+} from "@/components/pages/sessions/detail";
 import { useInstructorSessionDetail } from "@/stores/useSessionsStore";
 import { formatSessionDateTime } from "@/lib/session-time";
 import { SITE } from "@/data/site";

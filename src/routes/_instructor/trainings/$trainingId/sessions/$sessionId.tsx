@@ -5,13 +5,13 @@ import {
   SessionDetailError,
   SessionDetailSkeleton,
   SessionNotFound,
-} from "@/components/instructor/sessions/detail";
+} from "@/components/pages/sessions/detail";
 import {
   TrainingSessionHero,
   TrainingSessionInfoStrip,
   TrainingSessionParticipation,
   TrainingSessionTimeline,
-} from "@/components/instructor/sessions/training-session";
+} from "@/components/pages/sessions/training-session";
 import { useInstructorSessionDetail } from "@/stores/useSessionsStore";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";

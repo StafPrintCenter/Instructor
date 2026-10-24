@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { PageHeader } from "@/components/instructor/page-header";
 import { Button } from "@/components/ui/button";
-import { SessionFormDialog } from "@/components/instructor/sessions";
+import { SessionFormDialog } from "@/components/pages/sessions";
 import {
   SessionCalendarTab,
   SessionFilters,
@@ -12,7 +12,7 @@ import {
   SessionViewTabs,
   useSessionFilters,
   type SessionView,
-} from "@/components/instructor/sessions/list";
+} from "@/components/pages/sessions/list";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/sessions/")({

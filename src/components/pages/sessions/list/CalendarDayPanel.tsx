@@ -1,4 +1,4 @@
-import { SessionCard } from "@/components/instructor/sessions";
+import { SessionCard } from "@/components/pages/sessions";
 import type { APIInstructorSession } from "@/data/sessions";
 import { formatDayKey } from "@/lib/session-calendar";
 

@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { AlertTriangle, Clock, Hourglass, MapPin, Users, Video } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { SessionStatusBadge } from "@/components/instructor/sessions/SessionBadges";
+import { SessionStatusBadge } from "@/components/pages/sessions/SessionBadges";
 import type { APIInstructorSession } from "@/data/sessions";
 import { formatSessionTimeRange, getSessionDayParts } from "@/lib/session-time";
 import { cn } from "@/lib/utils";

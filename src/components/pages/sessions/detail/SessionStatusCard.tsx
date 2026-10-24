@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { SessionStatusBadge } from "@/components/instructor/sessions";
+import { SessionStatusBadge } from "@/components/pages/sessions";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionShortDateTime } from "@/lib/session-time";
 

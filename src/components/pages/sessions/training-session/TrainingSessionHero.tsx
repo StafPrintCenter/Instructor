@@ -1,4 +1,4 @@
-import { SessionActions, SessionModalityBadge, SessionStatusBadge } from "@/components/instructor/sessions";
+import { SessionActions, SessionModalityBadge, SessionStatusBadge } from "@/components/pages/sessions";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionDateTime, getSessionDayParts } from "@/lib/session-time";
 
