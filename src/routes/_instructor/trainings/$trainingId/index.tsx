@@ -6,7 +6,7 @@ import {
   TrainingObjectives,
   TrainingSessionsSection,
   TrainingStudentsTable,
-} from "@/components/instructor/training-detail";
+} from "@/components/pages/training/detail";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
