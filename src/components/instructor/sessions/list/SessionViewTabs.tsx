@@ -24,7 +24,7 @@ export function SessionViewTabs({ value, onChange }: { value: SessionView; onCha
           onClick={() => onChange(id)}
           className={cn(
             "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-            value === id ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+            value === id ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground cursor-pointer"
           )}
         >
           <Icon className="size-4" /> {label}
