@@ -3,6 +3,20 @@ export type TrainingLevel = "Débutant" | "Intermédiaire" | "Avancé";
 export type TrainingStatus = "draft" | "published" | "archived";
 export type PaymentStatus = "unpaid" | "partial" | "paid";
 
+/** Formateur d'une formation, tel que renvoyé par la liste (GET /instructor/trainings/list) */
+export interface APIInstructorTrainingInstructor {
+  instructorId: string;
+  name: string;
+  photo: string | null;
+  role: InstructorTrainingRole;
+  isMe: boolean;
+}
+
+/** Même chose dans le détail (GET /instructor/trainings/{id}), avec la biographie */
+export interface APIInstructorTrainingInstructorDetail extends APIInstructorTrainingInstructor {
+  bio: string | null;
+}
+
 /** Shape renvoyée par /api/v1/instructor/trainings/list */
 export interface APIInstructorTrainingAssignment {
   id: string;
@@ -20,6 +34,7 @@ export interface APIInstructorTrainingAssignment {
   trainingCurrentStudents: number | null;
   role: InstructorTrainingRole;
   assignedAt: string;
+  instructors: APIInstructorTrainingInstructor[];
 }
 
 /** Renvoyée par /api/v1/instructor/trainings/{id}, clé "data" */
@@ -38,6 +53,7 @@ export interface APIInstructorTrainingDetail {
   location: string | null;
   maxSeats: number | null;
   currentStudents: number | null;
+  instructors: APIInstructorTrainingInstructorDetail[];
   objectives: string[];
   prerequisites: string[];
   coverColor: string | null;
