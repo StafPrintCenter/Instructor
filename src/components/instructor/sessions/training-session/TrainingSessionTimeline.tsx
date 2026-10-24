@@ -23,7 +23,7 @@ export function TrainingSessionTimeline({ session }: { session: APIInstructorSes
         <ol className="relative space-y-6 border-l border-border/70 pl-6">
           {events.map((e) => (
             <li key={e.key} className="relative">
-              <span className={cn("absolute -left-[1.9rem] top-1 size-3 rounded-full ring-4 ring-card", DOT_CLASS[e.tone])} />
+              <span className={cn("absolute left-[-1.9rem] top-1 size-3 rounded-full ring-4 ring-card", DOT_CLASS[e.tone])} />
               <p className="text-sm font-medium">{e.title}</p>
               <p className="text-xs text-muted-foreground">{formatSessionShortDateTime(e.at)}</p>
               {e.detail ? <p className="mt-1 whitespace-pre-wrap text-sm text-muted-foreground">{e.detail}</p> : null}
