@@ -7,6 +7,7 @@ import {
   TrainingSessionsSection,
   TrainingStudentsTable,
 } from "@/components/pages/training/detail";
+import { TrainingInstructors } from "@/components/pages/training/instructors";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
@@ -40,6 +41,7 @@ function TrainingDetail() {
         progressTrackingAvailable={progressTrackingAvailable}
       />
       <TrainingObjectives training={training} mainColor={mainColor} />
+      <TrainingInstructors instructors={training.instructors} mainColor={mainColor} />
       <TrainingSessionsSection trainingId={trainingId} mainColor={mainColor} />
       <TrainingStudentsTable trainingId={trainingId} students={students} mainColor={mainColor} />
     </div>

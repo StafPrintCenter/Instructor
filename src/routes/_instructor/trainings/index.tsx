@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, MapPin, Users, Calendar, CalendarPlus } from "lucide-react";
+import { BookOpen, MapPin, Users, Calendar, CalendarPlus, ClipboardList } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { TrainingInstructorsSummary } from "@/components/pages/training/instructors";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
@@ -98,14 +99,26 @@ function TrainingsPage() {
                         </span>
                       )}
                     </div>
+
+                    {/* Ligne 3 : Formateurs */}
+                    <TrainingInstructorsSummary
+                      trainingId={t.trainingId}
+                      trainingTitle={t.trainingTitle}
+                      instructors={t.instructors}
+                    />
                   </div>
 
-                  <div className="flex gap-2 pt-1">
+                  <div className="flex flex-wrap gap-2 pt-1">
                     <Button asChild variant="accent" size="sm">
                       <Link to="/trainings/$trainingId" params={{ trainingId: t.trainingId }}>Ouvrir</Link>
                     </Button>
                     <Button asChild variant="soft" size="sm">
                       <Link to="/trainings/$trainingId/manage" params={{ trainingId: t.trainingId }}>Contenu</Link>
+                    </Button>
+                    <Button asChild variant="outline" size="sm">
+                      <Link to="/trainings/$trainingId/submissions" params={{ trainingId: t.trainingId }}>
+                        <ClipboardList className="size-4" /> Soumissions
+                      </Link>
                     </Button>
                   </div>
                 </CardContent>
