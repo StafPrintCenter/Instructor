@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AttendanceMarkDialog } from "@/components/pages/training/shared";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
-import { QuizAttemptFeedbackDialog } from "@/components/pages/training/studentDetail/QuizAttemptFeedbackDialog";
+import { QuizAttemptFeedbackDialog } from "@/components/pages/training/studentDetail";
 import { SubmissionCard } from "@/components/site/SubmissionCard";
 import { SubmissionGradeDialog } from "@/components/site/SubmissionGradeDialog";
 import { lessonKindLabels } from "@/data/content";
