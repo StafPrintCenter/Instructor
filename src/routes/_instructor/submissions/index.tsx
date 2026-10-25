@@ -1,4 +1,3 @@
-// src/routes/_instructor/submissions/index.tsx
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Inbox, RefreshCw } from "lucide-react";
