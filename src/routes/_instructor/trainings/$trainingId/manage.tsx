@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ContentStatusBadge } from "@/components/instructor/status-badges";
 import { ConfirmDelete, ConfirmAction } from "@/components/site/InstructorBits";
-import { QuizManager } from "@/components/pages/training/detail/manage/QuizManager";
+import { QuizManager } from "@/components/pages/training/detail/manage";
 import { lessonKindLabels, getYoutubeEmbedUrl, type LessonKind, type APIInstructorLesson, type APIInstructorModule } from "@/data/content";
 import { useModulesList, useCreateModule, useUpdateModule, useDeleteModule, useSubmitModuleForReview } from "@/stores/useModulesStore";
 import { useLessonsByModules, useCreateLesson, useUpdateLesson, useDeleteLesson, useSubmitLessonForReview } from "@/stores/useLessonsStore";
