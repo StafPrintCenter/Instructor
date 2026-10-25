@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AttendanceMarkDialog } from "@/components/site/AttendanceMarkDialog";
+import { AttendanceMarkDialog } from "@/components/pages/training/shared";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
 import { QuizAttemptFeedbackDialog } from "@/components/site/QuizAttemptFeedbackDialog";
 import { SubmissionCard } from "@/components/site/SubmissionCard";

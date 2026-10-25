@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AttendanceMarkDialog } from "@/components/site/AttendanceMarkDialog";
+import { AttendanceMarkDialog } from "@/components/pages/training/shared";
 import { formatDate } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import {
