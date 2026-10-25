@@ -1,4 +1,3 @@
-// src/routes/_instructor/corrections/$id.tsx
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, ClipboardCheck, Eye, Paperclip, RefreshCw } from "lucide-react";
@@ -9,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { InstructorSubmissionBadge } from "@/components/instructor/status-badges";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
-import { SubmissionGradeDialog } from "@/components/site/SubmissionGradeDialog";
+import { SubmissionGradeDialog } from "@/components/pages/submissions/shared";
 import { lessonKindLabels } from "@/data/content";
 import {
   getLatestFeedback,

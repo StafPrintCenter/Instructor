@@ -5,8 +5,7 @@ import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Button } from "@/components/ui/button";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
 import { PaginationBar } from "@/components/site";
-import { SubmissionCard } from "@/components/pages/submissions/shared";
-import { SubmissionGradeDialog } from "@/components/site/SubmissionGradeDialog";
+import { SubmissionCard, SubmissionGradeDialog } from "@/components/pages/submissions/shared";
 import {
   SUBMISSION_STATUSES,
   instructorSubmissionStatusLabels,
