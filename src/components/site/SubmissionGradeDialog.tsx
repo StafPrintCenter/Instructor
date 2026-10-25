@@ -17,7 +17,6 @@ import {
 import { useGradeInstructorSubmission } from "@/stores/useSubmissionsStore";
 
 interface SubmissionGradeDialogProps {
-  /** null = dialog fermé */
   submission: APIInstructorSubmission | null;
   onClose: () => void;
 }
