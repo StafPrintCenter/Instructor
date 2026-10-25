@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useRouterState, useNavigate, Outlet } from "@tanstack/react-router";
-import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut, UserCircle, Users2, Bell } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut, UserCircle, Users2, Bell, Send } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
 import logo from "@/assets/logos.json";
@@ -36,6 +36,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { to: "/trainings", label: "Mes formations", icon: BookOpen },
       { to: "/students", label: "Apprenants", icon: Users },
+      { to: "/submissions", label: "Soummissions", icon: Send },
       { to: "/corrections", label: "Corrections", icon: ClipboardCheck },
       { to: "/sessions", label: "Sessions", icon: CalendarDays },
     ],
