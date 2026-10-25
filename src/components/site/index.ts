@@ -4,5 +4,4 @@ export * from "./InstructorBits";
 export { InstructorShell } from "./InstructorShell";
 export { PaginationBar } from "./PaginationBar";
 export { SocialLinks } from "./SocialLinks";
-export { SubmissionCard } from "./SubmissionCard";
 export { SubmissionGradeDialog } from "./SubmissionGradeDialog";
