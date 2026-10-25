@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { ConfirmDelete } from "@/components/site/InstructorBits";
 import { type NotificationCategory } from "@/data/notifications";
 import { useMarkAllAsRead, useNotificationsList, useBulkDeleteNotifications } from "@/stores/useNotificationsStore";
-import { DeleteAllDialog } from "@/components/pages/notifications";
+import { DeleteAllDialog } from "@/components/pages/notifications/shared";
 import { NotificationsHeader, NotificationsFilterBar, NotificationsList } from "@/components/pages/notifications/home";
 
 export const Route = createFileRoute("/_instructor/notifications/")({
