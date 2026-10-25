@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { AlertTriangle, CalendarDays, RefreshCw } from "lucide-react";
 import { EmptyState } from "@/components/instructor/page-header";
 import { Button } from "@/components/ui/button";
-import { PaginationBar } from "@/components/site/PaginationBar";
+import { PaginationBar } from "@/components/site";
 import { SessionCard } from "@/components/pages/sessions";
 import type { InstructorSessionFilters } from "@/data/sessions";
 import { useInstructorSessionsList } from "@/stores/useSessionsStore";
@@ -36,9 +36,17 @@ export function SessionListTab({ params, onPageChange, hasActiveFilters, upcomin
     return (
       <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
         <AlertTriangle className="size-6 text-destructive" />
-        <p className="text-sm text-muted-foreground">Impossible de charger les sessions.</p>
-        <Button variant="outline" size="sm" onClick={() => refetch()}>
-          <RefreshCw className="size-4" /> Réessayer
+        <p className="text-sm text-muted-foreground">
+          Impossible de charger les sessions.
+        </p>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => refetch()}
+        >
+          <RefreshCw className="size-4" />
+          Réessayer
         </Button>
       </div>
     );
@@ -63,10 +71,20 @@ export function SessionListTab({ params, onPageChange, hasActiveFilters, upcomin
   return (
     <div className="space-y-4">
       {items.map((s) => (
-        <SessionCard key={s.id} session={s} variant="global" />
+        <SessionCard
+          key={s.id}
+          session={s}
+          variant="global"
+        />
       ))}
+
       {meta ? (
-        <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={onPageChange} />
+        <PaginationBar
+          page={meta.currentPage}
+          lastPage={meta.lastPage}
+          total={meta.total}
+          onPageChange={onPageChange}
+        />
       ) : null}
     </div>
   );

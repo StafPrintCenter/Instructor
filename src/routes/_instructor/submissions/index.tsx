@@ -4,7 +4,7 @@ import { AlertTriangle, Inbox, RefreshCw } from "lucide-react";
 import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Button } from "@/components/ui/button";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
-import { PaginationBar } from "@/components/site/PaginationBar";
+import { PaginationBar } from "@/components/site";
 import { SubmissionCard } from "@/components/site/SubmissionCard";
 import { SubmissionGradeDialog } from "@/components/site/SubmissionGradeDialog";
 import {

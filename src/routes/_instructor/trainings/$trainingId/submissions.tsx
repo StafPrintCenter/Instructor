@@ -5,7 +5,7 @@ import { PageHeader, EmptyState } from "@/components/instructor/page-header";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
-import { PaginationBar } from "@/components/site/PaginationBar";
+import { PaginationBar } from "@/components/site";
 import { SubmissionCard } from "@/components/site/SubmissionCard";
 import { SubmissionGradeDialog } from "@/components/site/SubmissionGradeDialog";
 import {

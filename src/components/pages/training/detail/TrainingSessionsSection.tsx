@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { PaginationBar } from "@/components/site/PaginationBar";
+import { PaginationBar } from "@/components/site";
 import { SessionCard, SessionFormDialog } from "@/components/pages/sessions";
 import { useInstructorTrainingSessions } from "@/stores/useSessionsStore";
 
@@ -28,8 +28,14 @@ export function TrainingSessionsSection({ trainingId, mainColor }: TrainingSessi
       <Card className="border-border/70">
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
           <CardTitle className="flex items-center gap-2 font-display text-xl">
-            <CalendarDays className="size-5" style={{ color: mainColor }} /> Sessions ({meta?.total ?? items.length})
+            <CalendarDays
+              className="size-5"
+              style={{ color: mainColor }}
+            />
+            Sessions
+            ({meta?.total ?? items.length})
           </CardTitle>
+
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
               <Switch
@@ -40,12 +46,16 @@ export function TrainingSessionsSection({ trainingId, mainColor }: TrainingSessi
                   setPage(1);
                 }}
               />
-              <Label htmlFor="sessions-upcoming" className="cursor-pointer text-xs font-normal">
+              <Label
+                htmlFor="sessions-upcoming"
+                className="cursor-pointer text-xs font-normal"
+              >
                 À venir uniquement
               </Label>
             </div>
             <Button size="sm" variant="accent" onClick={() => setCreateOpen(true)}>
-              <Plus className="size-4" /> Nouvelle session
+              <Plus className="size-4" />
+              Nouvelle session
             </Button>
           </div>
         </CardHeader>
@@ -67,24 +77,43 @@ export function TrainingSessionsSection({ trainingId, mainColor }: TrainingSessi
           ) : items.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-center">
               <CalendarDays className="size-12 text-muted-foreground/40" />
+
               <p className="mt-3 text-sm font-medium text-muted-foreground">
-                {upcomingOnly ? "Aucune session à venir pour cette formation." : "Aucune session planifiée pour cette formation."}
+                {
+                  upcomingOnly
+                    ? "Aucune session à venir pour cette formation."
+                    : "Aucune session planifiée pour cette formation."
+                }
               </p>
             </div>
           ) : (
             <>
               {items.map((s) => (
-                <SessionCard key={s.id} session={s} variant="training" />
+                <SessionCard
+                  key={s.id}
+                  session={s}
+                  variant="training"
+                />
               ))}
+
               {meta ? (
-                <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={setPage} />
+                <PaginationBar
+                  page={meta.currentPage}
+                  lastPage={meta.lastPage}
+                  total={meta.total}
+                  onPageChange={setPage}
+                />
               ) : null}
             </>
           )}
         </CardContent>
       </Card>
 
-      <SessionFormDialog open={createOpen} onClose={() => setCreateOpen(false)} trainingId={trainingId} />
+      <SessionFormDialog
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+        trainingId={trainingId}
+      />
     </section>
   );
 }

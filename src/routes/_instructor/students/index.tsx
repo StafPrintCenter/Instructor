@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PaginationBar } from "@/components/site/PaginationBar";
+import { PaginationBar } from "@/components/site";
 import { useInstructorStudentsList } from "@/stores/useStudentsStore";
 import { resolveStorageUrl } from "@/lib/file-url";
 import { formatDateTime } from "@/lib/date-time";

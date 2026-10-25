@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { InstructorSubmissionBadge } from "@/components/instructor/status-badges";
-import { PaginationBar } from "@/components/site/PaginationBar";
+import { PaginationBar } from "@/components/site";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { lessonKindLabels } from "@/data/content";
 import {
@@ -301,7 +301,9 @@ function CorrectionsPage() {
                         Dernier retour le {formatDateTime(s.feedback.gradedAt)}
                       </>
                     ) : (
-                      <span className="italic">Pas encore corrigé</span>
+                      <span className="italic">
+                        Pas encore corrigé
+                      </span>
                     )}
                   </p>
                   <Button asChild size="sm" variant={s.isGraded ? "soft" : "accent"}>
@@ -315,7 +317,12 @@ function CorrectionsPage() {
           ))}
 
           {meta ? (
-            <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={setPage} />
+            <PaginationBar
+              page={meta.currentPage}
+              lastPage={meta.lastPage}
+              total={meta.total}
+              onPageChange={setPage}
+            />
           ) : null}
         </div>
       )}
