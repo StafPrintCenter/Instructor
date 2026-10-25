@@ -9,7 +9,7 @@ import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, SidebarInset, useSidebar, SidebarMenuBadge } from "@/components/ui/sidebar";
 import { NotificationBell } from "@/components/pages/notifications/shared";
 import { useUnreadCount } from "@/stores/useNotificationsStore";
-import { SocialLinks } from "@/components/site/SocialLinks";
+import { SocialLinks } from "@/components/site";
 
 const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/index`;
 

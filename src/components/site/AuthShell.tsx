@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { SITE, SITE_LINK } from "@/data/site";
 import logo from "@/assets/logos.json";
-import { SocialLinks } from "@/components/site/SocialLinks";
+import { SocialLinks } from "@/components/site";
 import { BookOpen, ExternalLink } from "lucide-react";
 
 interface AuthShellContent {
