@@ -11,9 +11,7 @@ interface SubmissionCardProps {
   submission: APIInstructorSubmission;
   onGrade: (submission: APIInstructorSubmission) => void;
   onPreview: (url: string, title: string) => void;
-  /** Masque le nom de l'apprenant (page de suivi d'un apprenant) */
   hideStudent?: boolean;
-  /** Rendu personnalisé du nom (ex. lien vers le suivi) */
   renderStudent?: (submission: APIInstructorSubmission) => ReactNode;
 }
 
