@@ -64,13 +64,6 @@ function unwrapDetail(json: unknown): APINotificationDetail {
   throw new Error("Format de notification inattendu.");
 }
 
-export async function fetchNotificationById(id: string): Promise<APINotificationDetail | null> {
-  const response = await instructorFetch(`/api/notifications/manage/${id}`);
-  if (response.status === 404) return null;
-  if (!response.ok) throw new Error("Erreur lors du chargement de la notification.");
-  return unwrapDetail(await response.json());
-}
-
 /** Ouvrir le détail marque la notification comme lue côté backend : on rafraîchit liste + badge. */
 export function useNotificationDetail(id: string | undefined) {
   const qc = useQueryClient();
@@ -78,11 +71,12 @@ export function useNotificationDetail(id: string | undefined) {
     queryKey: ["notifications", "detail", id],
     enabled: !!id,
     queryFn: async () => {
-      const notification = await fetchNotificationById(id as string);
-      if (notification) {
-        qc.invalidateQueries({ queryKey: ["notifications", "list"] });
-        qc.invalidateQueries({ queryKey: ["notifications", "unread-count"] });
-      }
+      const response = await instructorFetch(`/api/notifications/manage/${id}`);
+      if (response.status === 404) return null;
+      await ensureOk(response, "Erreur lors du chargement de la notification.");
+      const notification = unwrapDetail(await response.json());
+      qc.invalidateQueries({ queryKey: ["notifications", "list"] });
+      qc.invalidateQueries({ queryKey: ["notifications", "unread-count"] });
       return notification;
     },
   });
