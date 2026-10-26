@@ -11,7 +11,7 @@ import {
   useDashboardUpcomingSessions,
 } from "@/hooks/useDashboardData";
 
-const PLACEHOLDER = "—";
+const PLACEHOLDER = "...";
 
 export function DashboardStats() {
   const { trainings, isLoading: trainingsLoading } = useDashboardTrainings();
