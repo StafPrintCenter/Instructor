@@ -61,7 +61,7 @@ export function DashboardStats() {
           <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Complétion globale</p>
           <Progress value={average ?? 0} />
           <p className="text-xs text-muted-foreground">
-            Moyenne des progressions de vos apprenants inscrits, calculée depuis leurs interactions réelles.
+            Moyenne des progressions de vos apprenants inscrits.
           </p>
         </CardContent>
       </Card>

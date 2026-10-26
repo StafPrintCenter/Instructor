@@ -36,7 +36,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { to: "/trainings", label: "Mes formations", icon: BookOpen },
       { to: "/students", label: "Apprenants", icon: Users },
-      { to: "/submissions", label: "Soummissions", icon: Send },
+      { to: "/submissions", label: "Soumission", icon: Send },
       { to: "/corrections", label: "Corrections", icon: ClipboardCheck },
       { to: "/sessions", label: "Sessions", icon: CalendarDays },
     ],
