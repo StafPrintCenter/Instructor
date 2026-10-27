@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
-import { SessionFormDialog } from "@/components/pages/sessions";
+import { SessionFormDialog } from "@/components/pages/sessions/shared";
 import { SessionCalendarTab, SessionFilters, SessionListTab, SessionViewTabs, useSessionFilters, type SessionView } from "@/components/pages/sessions/home";
 import { SITE } from "@/data/site";
 

@@ -3,7 +3,8 @@ import { toast } from "sonner";
 import { LifeBuoy, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConfirmDelete } from "@/components/site/InstructorBits";
-import { SessionFormDialog, SessionReviewRequestDialog } from "@/components/pages/sessions";
+import { SessionFormDialog } from "@/components/pages/sessions/shared";
+import { SessionReviewRequestDialog } from "@/components/pages/sessions";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { useDeleteInstructorSession } from "@/stores/useSessionsStore";
 
