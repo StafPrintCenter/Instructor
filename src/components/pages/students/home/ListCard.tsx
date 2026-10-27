@@ -3,8 +3,7 @@ import { Users } from "lucide-react";
 import { EmptyState } from "@/components/shared";
 import { PaginationBar } from "@/components/site";
 import { useInstructorStudentsList } from "@/stores/useStudentsStore";
-import { StudentsListError, StudentsListSkeleton } from "./ListStates";
-import { StudentsTable } from "./Table";
+import { StudentsListError, StudentsListSkeleton, StudentsTable } from "./";
 
 interface StudentsListProps {
   page: number;

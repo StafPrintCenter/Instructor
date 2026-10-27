@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site";
-import { StudentsList } from "@/components/pages/students";
+import { StudentsList } from "@/components/pages/students/home";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/students/")({
