@@ -1,5 +1,4 @@
 export { InstructorAvatar } from "./InstructorAvatar";
 export { TrainingInstructors } from "./TrainingInstructors";
-export { TrainingInstructorsDialog } from "./TrainingInstructorsDialog";
-export { TrainingInstructorsSummary } from "../home/InstructorsSummary";
+export { TrainingInstructorsDialog } from "../home/TrainingInstructorsDialog";
 export { getInitials, sortTrainingInstructors } from "./instructorUtils";

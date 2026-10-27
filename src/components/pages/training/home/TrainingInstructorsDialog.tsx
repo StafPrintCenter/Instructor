@@ -10,8 +10,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { getInstructorRoleConfig, type APIInstructorTrainingInstructor } from "@/data/trainings";
-import { InstructorAvatar } from "./InstructorAvatar";
-import { sortTrainingInstructors } from "./instructorUtils";
+import { InstructorAvatar } from "../instructors/InstructorAvatar";
+import { sortTrainingInstructors } from "../instructors/instructorUtils";
 
 interface TrainingInstructorsDialogProps {
   open: boolean;
