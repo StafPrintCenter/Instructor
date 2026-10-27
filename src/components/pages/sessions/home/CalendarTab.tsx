@@ -4,10 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useInstructorSessionsList } from "@/stores/useSessionsStore";
 import { buildMonthGrid, formatMonthLabel, groupSessionsByDay, shiftDateKey, shiftMonth, todayKey } from "@/lib/session-calendar";
 import { cn } from "@/lib/utils";
-import { CalendarDayPanel } from "./CalendarDayPanel";
-import { CalendarMonthGrid } from "./CalendarMonthGrid";
-import { CalendarToolbar } from "./CalendarToolbar";
-import type { SharedSessionParams } from "./useSessionFilters";
+import { CalendarDayPanel, CalendarMonthGrid, CalendarToolbar, SharedSessionParams } from "./";
 
 function cursorFromKey(key: string) {
   const [year, month] = key.split("-").map(Number);
