@@ -8,9 +8,7 @@ import { useSessionForm } from "./form/useSessionForm";
 interface SessionFormDialogProps {
   open: boolean;
   onClose: () => void;
-  /** Session à modifier ; absente = création */
   session?: APIInstructorSession | null;
-  /** Formation imposée (création depuis le détail d'une formation) */
   trainingId?: string;
 }
 
@@ -26,10 +24,17 @@ export function SessionFormDialog({ open, onClose, session, trainingId }: Sessio
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle className="font-display">{isEdit ? "Modifier la session" : "Nouvelle session"}</DialogTitle>
+          <DialogTitle
+            className="font-display">
+            {isEdit
+              ? "Modifier la session"
+              : "Nouvelle session"
+            }
+          </DialogTitle>
+
           <DialogDescription>
             {isEdit
-              ? "Seuls les champs modifiés sont envoyés (la durée l'est toujours)."
+              ? "Les informations de cette sessions seront mises à jour."
               : "La session est publiée immédiatement et les apprenants de la formation sont invités à confirmer leur présence."}
           </DialogDescription>
         </DialogHeader>
