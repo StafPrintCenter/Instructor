@@ -2,6 +2,10 @@ import type { ReactNode } from "react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+export function FieldError({ message }: { message?: string }) {
+  return message ? <p className="text-xs text-destructive">{message}</p> : null;
+}
+
 /** `hero` : variante avec un grand bloc d'en-tête (page de session dans une formation) */
 export function SessionDetailSkeleton({ hero }: { hero?: boolean }) {
   return (

@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { FieldError } from "./FieldError";
+import { FieldError } from "@/components/pages/sessions/detail";
 import { ModalityFields } from "./ModalityFields";
 import { ScheduleFields } from "./ScheduleFields";
 import { TrainingField } from "./TrainingField";

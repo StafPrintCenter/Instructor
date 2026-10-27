@@ -34,15 +34,23 @@ function TrainingsPage() {
         title="Mes formations assignées"
         description="Seul l'administrateur crée les formations ; vous en remplissez le contenu pédagogique."
       />
+
       {!isLoading && trainings.length === 0 ? (
-        <EmptyState icon={<BookOpen className="size-6" />} title="Aucune formation assignée" description="Contactez l'administration pour être assigné·e à une cohorte." />
+        <EmptyState
+          icon={<BookOpen className="size-6" />}
+          title="Aucune formation assignée"
+          description="Contactez l'administration pour être assigné·e à une cohorte."
+        />
       ) : (
         <div className="grid gap-5 md:grid-cols-2">
           {trainings.map((t) => {
             const roleConfig = getInstructorRoleConfig(t.role);
 
             return (
-              <Card key={t.assignmentId} className="overflow-hidden border-border/70 transition-shadow hover:shadow-(--shadow-lift)">
+              <Card
+                key={t.assignmentId}
+                className="overflow-hidden border-border/70 transition-shadow hover:shadow-(--shadow-lift)"
+              >
                 <div
                   className="h-1.5 w-full"
                   style={{ backgroundColor: t.trainingCoverColor || "var(--primary)" }}

@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { minSessionStartInputValue } from "@/lib/session-time";
-import { FieldError } from "./FieldError";
+import { FieldError } from "@/components/pages/sessions/detail";
 import type { SessionFieldsProps } from "./sessionFormSchema";
 
 export function ScheduleFields({ values, errors, setField, isEdit }: SessionFieldsProps & { isEdit: boolean }) {
