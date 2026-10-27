@@ -5,4 +5,3 @@ export { TrainingsListItem } from "./ListItem";
 export { TrainingsListError, TrainingsListSkeleton } from "./ListStates";
 export { TrainingInstructorsDialog } from "./InstructorsDialog";
 export { TrainingInstructorsSummary } from "./InstructorsSummary";
-export { getInitials, sortTrainingInstructors } from "./InstructorUtils";
