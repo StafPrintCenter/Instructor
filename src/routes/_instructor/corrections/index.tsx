@@ -5,7 +5,7 @@ import {
   CorrectionStatsTabs,
   CorrectionsList,
   useCorrectionFilters,
-} from "@/components/pages/corrections";
+} from "@/components/pages/corrections/home";
 import { useInstructorCorrectionsList } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";
 

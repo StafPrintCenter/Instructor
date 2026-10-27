@@ -3,7 +3,6 @@ export { CorrectionDeliverableCard } from "./DeliverableCard";
 export { CorrectionDetailError, CorrectionDetailSkeleton } from "./DetailStates";
 export { CorrectionHistoryCard } from "./HistoryCard";
 export { CorrectionStatementCard } from "./StatementCard";
-export { CorrectionStatsTabs } from "./StatsTabs";
 export { CorrectionStatusCard } from "./StatusCard";
 export { CorrectionStudentCard } from "./StudentCard";
 export { CorrectionTrainingCard } from "./TrainingCard";
