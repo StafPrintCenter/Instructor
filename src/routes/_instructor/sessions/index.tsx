@@ -1,4 +1,3 @@
-// src/routes/_instructor/sessions/index.tsx
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";

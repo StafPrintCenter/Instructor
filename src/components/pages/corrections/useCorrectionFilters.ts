@@ -10,7 +10,7 @@ import type {
 export interface CorrectionFiltersState {
   graded: GradedFilter;
   status: SubmissionStatus | "all";
-  trainingId: string; // "all" ou id
+  trainingId: string;
   kind: SubmissionKind | "all";
   query: string;
   from: string;

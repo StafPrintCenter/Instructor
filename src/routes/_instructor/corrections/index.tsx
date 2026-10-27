@@ -43,10 +43,6 @@ function CorrectionsPage() {
         onReset={f.reset}
       />
 
-      {f.filters.graded === "pending" ? (
-        <p className="-mt-4 text-xs text-muted-foreground">Les plus anciens dépôts sont affichés en premier.</p>
-      ) : null}
-
       <CorrectionsList
         items={items}
         meta={meta}
