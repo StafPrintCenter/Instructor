@@ -5,7 +5,7 @@ import {
   DashboardActivity,
   DashboardOverdue,
   DashboardStats,
-  DashboardTrainings,
+  DashboardTrainingList,
   DashboardUpcomingSessions,
   ProgressByTrainingChart,
   SubmissionsBreakdownChart,
@@ -45,7 +45,7 @@ function DashboardPage() {
       />
 
       <DashboardStats />
-      <DashboardTrainings />
+      <DashboardTrainingList />
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <ProgressByTrainingChart />
