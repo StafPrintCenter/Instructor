@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Users } from "lucide-react";
-import { EmptyState } from "@/components/instructor/page-header";
+import { EmptyState } from "@/components/shared";
 import { PaginationBar } from "@/components/site";
 import { useInstructorStudentsList } from "@/stores/useStudentsStore";
-import { StudentsListError, StudentsListSkeleton } from "./StudentsListStates";
-import { StudentsTable } from "./StudentsTable";
+import { StudentsListError, StudentsListSkeleton } from "./ListStates";
+import { StudentsTable } from "./Table";
 
 interface StudentsListProps {
   page: number;
@@ -35,8 +35,14 @@ export function StudentsListCard({ page, onPageChange }: StudentsListProps) {
   return (
     <div className="space-y-4">
       <StudentsTable students={students} />
+
       {meta ? (
-        <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={onPageChange} />
+        <PaginationBar
+          page={meta.currentPage}
+          lastPage={meta.lastPage}
+          total={meta.total}
+          onPageChange={onPageChange}
+        />
       ) : null}
     </div>
   );

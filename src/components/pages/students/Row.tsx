@@ -5,8 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { APIInstructorStudentListItem } from "@/data/students";
 import { formatDateTime } from "@/lib/date-time";
-import { StudentIdentity } from "./StudentIdentity";
-import { StudentTrainingLinks } from "./StudentTrainingLinks";
+import { StudentIdentity } from "./Identity";
+import { StudentTrainingLinks } from "./TrainingLinks";
 
 export function StudentRow({ student: s }: { student: APIInstructorStudentListItem }) {
   return (
