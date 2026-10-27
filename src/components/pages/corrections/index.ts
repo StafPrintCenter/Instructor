@@ -1,8 +1,8 @@
-export { buildGradeTarget } from "./buildGradeTarget";
-export { CorrectionDeliverableCard } from "./DeliverableCard";
-export { CorrectionDetailError, CorrectionDetailSkeleton } from "./DetailStates";
+export { buildGradeTarget } from "./detail/buildGradeTarget";
+export { CorrectionDeliverableCard } from "./detail/DeliverableCard";
+export { CorrectionDetailError, CorrectionDetailSkeleton } from "./detail/DetailStates";
 export { CorrectionFilters } from "./Filters";
-export { CorrectionHistoryCard } from "./HistoryCard";
+export { CorrectionHistoryCard } from "./detail/HistoryCard";
 export { CorrectionListItem } from "./ListItem";
 export { CorrectionsList } from "./List";
 export { CorrectionStatementCard } from "./StatementCard";
