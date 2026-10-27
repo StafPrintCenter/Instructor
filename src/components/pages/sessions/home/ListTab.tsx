@@ -3,7 +3,7 @@ import { AlertTriangle, CalendarDays, RefreshCw } from "lucide-react";
 import { EmptyState } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { PaginationBar } from "@/components/site";
-import { SessionCard } from "@/components/pages/sessions";
+import { SessionCard } from "@/components/pages/sessions/shared";
 import type { InstructorSessionFilters } from "@/data/sessions";
 import { useInstructorSessionsList } from "@/stores/useSessionsStore";
 

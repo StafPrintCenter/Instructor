@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { PaginationBar } from "@/components/site";
-import { SessionCard, SessionFormDialog } from "@/components/pages/sessions";
+import { SessionCard } from "@/components/pages/sessions/shared";
+import { SessionFormDialog } from "@/components/pages/sessions";
 import { useInstructorTrainingSessions } from "@/stores/useSessionsStore";
 
 interface TrainingSessionsSectionProps {
