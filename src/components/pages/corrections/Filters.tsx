@@ -14,7 +14,7 @@ import {
   type SubmissionStatus,
 } from "@/data/submissions";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
-import type { CorrectionFiltersState } from "./useCorrectionFilters";
+import type { CorrectionFiltersState } from "./home/useCorrectionFilters";
 
 interface CorrectionFiltersProps {
   filters: CorrectionFiltersState;

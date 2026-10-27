@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { sortFeedbacksDesc, type APIInstructorSubmissionFeedbackEntry } from "@/data/submissions";
-import { FeedbackItem } from "../FeedbackItem";
+import { FeedbackItem } from "./FeedbackItem";
 
 export function CorrectionHistoryCard({ feedbacks }: { feedbacks: APIInstructorSubmissionFeedbackEntry[] }) {
   const sorted = sortFeedbacksDesc(feedbacks);
