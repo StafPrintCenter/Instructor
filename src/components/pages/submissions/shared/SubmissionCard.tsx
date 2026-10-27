@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { ClipboardCheck, Paperclip } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { InstructorSubmissionBadge } from "@/components/shared/status-badges";
+import { InstructorSubmissionBadge } from "@/components/shared/StatusBadges";
 import { resolveStorageUrl } from "@/lib/file-url";
 import { formatDateTime } from "@/lib/date-time";
 import type { APIInstructorSubmission } from "@/data/submissions";

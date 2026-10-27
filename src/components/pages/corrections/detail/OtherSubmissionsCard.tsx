@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Eye } from "lucide-react";
-import { InstructorSubmissionBadge } from "@/components/shared/status-badges";
+import { InstructorSubmissionBadge } from "@/components/shared/StatusBadges";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLatestFeedback, type APIInstructorOtherSubmission } from "@/data/submissions";

@@ -1,4 +1,4 @@
-import { InstructorSubmissionBadge } from "@/components/shared/status-badges";
+import { InstructorSubmissionBadge } from "@/components/shared/StatusBadges";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { lessonKindLabels } from "@/data/content";
