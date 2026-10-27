@@ -8,12 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
 import { PaginationBar } from "@/components/site";
 import { SubmissionCard, SubmissionGradeDialog } from "@/components/pages/submissions/shared";
-import {
-  SUBMISSION_STATUSES,
-  instructorSubmissionStatusLabels,
-  type APIInstructorSubmission,
-  type SubmissionStatus,
-} from "@/data/submissions";
+import { SUBMISSION_STATUSES, instructorSubmissionStatusLabels, type APIInstructorSubmission, type SubmissionStatus } from "@/data/submissions";
 import { toInstructorSubmission } from "@/data/training-students";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { useInstructorTrainingStudents } from "@/stores/useTrainingStudentsStore";

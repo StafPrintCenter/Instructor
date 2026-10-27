@@ -23,6 +23,7 @@ function TrainingsPage() {
         title="Mes formations assignées"
         description="Seul l'administrateur crée les formations ; vous en remplissez le contenu pédagogique."
       />
+
       <TrainingsListItem />
     </div>
   );
