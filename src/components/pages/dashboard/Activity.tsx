@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Inbox } from "lucide-react";
 import { EmptyState } from "@/components/shared";
-import { InstructorSubmissionBadge } from "@/components/shared/StatusBadges";
+import { InstructorSubmissionBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardCorrections } from "@/hooks/useDashboardData";
 import { relativeTime } from "@/lib/api";

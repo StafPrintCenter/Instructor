@@ -13,7 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { ContentStatusBadge } from "@/components/shared/StatusBadges";
+import { ContentStatusBadge } from "@/components/shared";
 import { ConfirmDelete, ConfirmAction } from "@/components/site/InstructorBits";
 import { QuizManager } from "@/components/pages/training/detail/manage";
 import { lessonKindLabels, getYoutubeEmbedUrl, type LessonKind, type APIInstructorLesson, type APIInstructorModule } from "@/data/content";

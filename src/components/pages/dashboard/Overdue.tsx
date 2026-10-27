@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle } from "lucide-react";
-import { InstructorSubmissionBadge } from "@/components/shared/StatusBadges";
+import { InstructorSubmissionBadge } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardOverdue } from "@/hooks/useDashboardData";

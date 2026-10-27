@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ClipboardCheck, FileText, Paperclip } from "lucide-react";
-import { InstructorSubmissionBadge } from "@/components/shared/StatusBadges";
+import { InstructorSubmissionBadge } from "@/components/shared";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
