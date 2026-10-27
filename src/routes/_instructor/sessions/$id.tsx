@@ -2,17 +2,8 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
-import { SessionActions } from "@/components/pages/sessions";
-import {
-  SessionDetailError,
-  SessionDetailSkeleton,
-  SessionInfoCard,
-  SessionNotFound,
-  SessionResponsesCard,
-  SessionReviewRequestsCard,
-  SessionStatusCard,
-  SessionTrainingLinks,
-} from "@/components/pages/sessions/detail";
+import { SessionActions } from "@/components/pages/sessions/shared";
+import { SessionDetailError, SessionDetailSkeleton, SessionInfoCard, SessionNotFound, SessionResponsesCard, SessionReviewRequestsCard, SessionStatusCard, SessionTrainingLinks } from "@/components/pages/sessions/detail";
 import { useInstructorSessionDetail } from "@/stores/useSessionsStore";
 import { formatSessionDateTime } from "@/lib/session-time";
 import { SITE } from "@/data/site";
@@ -36,7 +27,8 @@ function SessionDetailPage() {
   const backButton = (
     <Button asChild variant="outline" size="sm">
       <Link to="/sessions">
-        <ArrowLeft className="size-4" /> Retour aux sessions
+        <ArrowLeft className="size-4" />
+        Retour aux sessions
       </Link>
     </Button>
   );

@@ -1,2 +1,2 @@
 export { FieldError, SessionDetailSkeleton, SessionDetailError, SessionNotFound } from "./DetailStates";
-export { SessionActions } from "./SessionActions";
+export { SessionActions } from "./Actions";
