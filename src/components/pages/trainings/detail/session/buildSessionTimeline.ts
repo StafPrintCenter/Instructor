@@ -13,7 +13,12 @@ export interface TimelineEvent {
 /** Création, suspension éventuelle, puis chaque demande de réexamen et sa décision, du plus ancien au plus récent */
 export function buildSessionTimeline(session: APIInstructorSessionDetail): TimelineEvent[] {
   const events: TimelineEvent[] = [
-    { key: "created", at: session.createdAt, title: "Session créée et publiée", tone: "info" },
+    {
+      key: "created",
+      at: session.createdAt,
+      title: "Session créée et publiée",
+      tone: "info"
+    },
   ];
 
   if (session.suspendedAt) {
@@ -23,7 +28,7 @@ export function buildSessionTimeline(session: APIInstructorSessionDetail): Timel
       title: "Session suspendue",
       detail: [session.suspensionReason, session.suspendedBy ? `Par ${session.suspendedBy}` : null]
         .filter(Boolean)
-        .join(" — "),
+        .join(" - "),
       tone: "danger",
     });
   }
@@ -36,6 +41,7 @@ export function buildSessionTimeline(session: APIInstructorSessionDetail): Timel
       detail: r.message,
       tone: "muted",
     });
+
     if (r.reviewedAt) {
       events.push({
         key: `${r.id}-review`,

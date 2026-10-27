@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionShortDateTime } from "@/lib/session-time";
 import { cn } from "@/lib/utils";
-import { buildSessionTimeline, type TimelineTone } from "../../../sessions/training-session/buildSessionTimeline";
+import { buildSessionTimeline, type TimelineTone } from "./buildSessionTimeline";
 
 const DOT_CLASS: Record<TimelineTone, string> = {
   info: "bg-primary",
