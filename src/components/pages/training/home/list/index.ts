@@ -1,11 +1,5 @@
-export { TrainingCard } from "./Card";
 export { TrainingCardActions } from "./CardActions";
-export { TrainingCardBadges } from "./CardBadges";
-export { TrainingCardCover } from "./CardCover";
-export { TrainingCardDates } from "./CardDates";
 export { TrainingCardHeader } from "./CardHeader";
 export { TrainingCardMeta } from "./CardMeta";
-export { TrainingCardStats } from "./CardStats";
-export { TrainingsGrid } from "./Grid";
-export { TrainingsList } from "./List";
+export { TrainingsListItem } from "./ListItem";
 export { TrainingsListError, TrainingsListSkeleton } from "./ListStates";

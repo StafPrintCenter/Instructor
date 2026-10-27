@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site";
-import { TrainingsList } from "@/components/pages/training/home/list";
+import { TrainingsListItem } from "@/components/pages/training/home/list";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/")({
@@ -23,7 +23,7 @@ function TrainingsPage() {
         title="Mes formations assignées"
         description="Seul l'administrateur crée les formations ; vous en remplissez le contenu pédagogique."
       />
-      <TrainingsList />
+      <TrainingsListItem />
     </div>
   );
 }

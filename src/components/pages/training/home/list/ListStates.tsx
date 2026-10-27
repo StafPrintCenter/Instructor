@@ -14,9 +14,13 @@ export function TrainingsListError({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
       <AlertTriangle className="size-6 text-destructive" />
-      <p className="text-sm text-muted-foreground">Impossible de charger vos formations.</p>
+      <p className="text-sm text-muted-foreground">
+        Impossible de charger vos formations.
+      </p>
+
       <Button variant="outline" size="sm" onClick={onRetry}>
-        <RefreshCw className="size-4" /> Réessayer
+        <RefreshCw className="size-4" />
+        Réessayer
       </Button>
     </div>
   );
