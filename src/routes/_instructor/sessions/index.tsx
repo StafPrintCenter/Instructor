@@ -4,14 +4,7 @@ import { Plus } from "lucide-react";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { SessionFormDialog } from "@/components/pages/sessions";
-import {
-  SessionCalendarTab,
-  SessionFilters,
-  SessionListTab,
-  SessionViewTabs,
-  useSessionFilters,
-  type SessionView,
-} from "@/components/pages/sessions/list";
+import { SessionCalendarTab, SessionFilters, SessionListTab, SessionViewTabs, useSessionFilters, type SessionView } from "@/components/pages/sessions/list";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/sessions/")({
@@ -43,7 +36,10 @@ function SessionsPage() {
         }
       />
 
-      <SessionViewTabs value={view} onChange={setView} />
+      <SessionViewTabs
+        value={view}
+        onChange={setView}
+      />
 
       <SessionFilters
         filters={f.filters}
@@ -62,10 +58,15 @@ function SessionsPage() {
           upcoming={f.filters.upcoming}
         />
       ) : (
-        <SessionCalendarTab sharedParams={f.sharedParams} />
+        <SessionCalendarTab
+          sharedParams={f.sharedParams}
+        />
       )}
 
-      <SessionFormDialog open={createOpen} onClose={() => setCreateOpen(false)} />
+      <SessionFormDialog
+        open={createOpen}
+        onClose={() => setCreateOpen(false)}
+      />
     </div>
   );
 }

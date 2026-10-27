@@ -11,7 +11,6 @@ interface SitemapEntry {
   priority?: string;
 }
 
-
 // Fonction utilitaire pour formater une date ISO au format YYYY-MM-DD
 const formatDate = (dateStr?: string | null): string => {
   if (!dateStr) return TODAY;
@@ -33,6 +32,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         // 2. Pages statiques de base
         const entries: SitemapEntry[] = [
           { path: "/", lastmod: TODAY, changefreq: "weekly", priority: "1.0" },
+          { path: "/dashboard", lastmod: TODAY, changefreq: "weekly", priority: "0.8" },
         ];
 
         // 4. Génération XML
