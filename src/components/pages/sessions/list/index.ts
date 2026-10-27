@@ -1,5 +1,5 @@
-export { SessionCalendarTab } from "./SessionCalendarTab";
-export { SessionFilters } from "./SessionFilters";
-export { SessionListTab } from "./SessionListTab";
-export { SessionViewTabs, type SessionView } from "./SessionViewTabs";
-export { useSessionFilters } from "./useSessionFilters";
+export { SessionCalendarTab } from "../home/CalendarTab";
+export { SessionFilters } from "../home/Filters";
+export { SessionListTab } from "../home/ListTab";
+export { SessionViewTabs, type SessionView } from "../home/ViewTabs";
+export { useSessionFilters } from "../home/useSessionFilters";
