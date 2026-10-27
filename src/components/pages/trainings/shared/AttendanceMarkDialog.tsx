@@ -10,7 +10,6 @@ import { ATTENDANCE_STATUSES, attendanceStatusLabels, type AttendanceStatus } fr
 import { useMarkInstructorAttendance } from "@/stores/useAttendanceStore";
 
 interface AttendanceMarkDialogProps {
-  /** null = dialog fermé */
   enrollmentId: string | null;
   studentName?: string;
   onClose: () => void;

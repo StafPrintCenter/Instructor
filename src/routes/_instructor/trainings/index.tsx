@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site";
-import { TrainingsListItem } from "@/components/pages/training/home/list";
+import { TrainingsListItem } from "@/components/pages/trainings/home";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/")({
