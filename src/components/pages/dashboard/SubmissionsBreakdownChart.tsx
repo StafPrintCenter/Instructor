@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardCorrections } from "@/hooks/useDashboardData";
 import { instructorSubmissionStatusLabels, type SubmissionStatus } from "@/data/submissions";
 import { DashboardListError } from "./CardState";
-import { CHART_TOOLTIP_STYLE } from "./chartStyles";
+import { CHART_TOOLTIP_STYLE } from "./CharftStyles";
 
 const SLICES: { key: SubmissionStatus; color: string }[] = [
   { key: "submitted", color: "var(--chart-1)" },

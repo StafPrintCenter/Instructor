@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardStudents, useDashboardTrainings } from "@/hooks/useDashboardData";
 import { truncate } from "@/lib/dashboard";
 import { DashboardListError } from "./CardState";
-import { CHART_TOOLTIP_STYLE } from "./chartStyles";
+import { CHART_TOOLTIP_STYLE } from "./CharftStyles";
 
 export function ProgressByTrainingChart() {
   const { trainings, isLoading, isError, refetch } = useDashboardTrainings();
