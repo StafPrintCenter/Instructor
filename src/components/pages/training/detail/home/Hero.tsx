@@ -16,7 +16,7 @@ interface TrainingHeroProps {
   mainColor: string;
 }
 
-export function TrainingHero({ training, trainingId, mainColor }: TrainingHeroProps) {
+export function TrainingDetailHero({ training, trainingId, mainColor }: TrainingHeroProps) {
   return (
     <div
       className="relative -mx-4 -mt-4 overflow-hidden rounded-2xl border border-border/60 p-6 transition-colors sm:p-8"

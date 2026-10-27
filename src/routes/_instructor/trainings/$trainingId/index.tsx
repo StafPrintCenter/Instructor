@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TrainingDetailSkeleton, TrainingHero, TrainingMetrics, TrainingObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/training/detail/home";
+import { TrainingDetailSkeleton, TrainingDetailHero, TrainingMetrics, TrainingObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/training/detail/home";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
@@ -26,16 +26,38 @@ function TrainingDetail() {
 
   return (
     <div className="space-y-8">
-      <TrainingHero training={training} trainingId={trainingId} mainColor={mainColor} />
+      <TrainingDetailHero
+        training={training}
+        trainingId={trainingId}
+        mainColor={mainColor}
+      />
+
       <TrainingMetrics
         training={training}
         averageProgress={averageProgress}
         progressTrackingAvailable={progressTrackingAvailable}
       />
-      <TrainingObjectives training={training} mainColor={mainColor} />
-      <TrainingInstructorsCard instructors={training.instructors} mainColor={mainColor} />
-      <TrainingSessionsSection trainingId={trainingId} mainColor={mainColor} />
-      <TrainingStudentsTable trainingId={trainingId} students={students} mainColor={mainColor} />
+
+      <TrainingObjectives
+        training={training}
+        mainColor={mainColor}
+      />
+
+      <TrainingInstructorsCard
+        instructors={training.instructors}
+        mainColor={mainColor}
+      />
+
+      <TrainingSessionsSection
+        trainingId={trainingId}
+        mainColor={mainColor}
+      />
+
+      <TrainingStudentsTable
+        trainingId={trainingId}
+        students={students}
+        mainColor={mainColor}
+      />
     </div>
   );
 }

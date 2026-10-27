@@ -3,8 +3,8 @@ import { GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getInstructorRoleConfig, type APIInstructorTrainingInstructorDetail } from "@/data/trainings";
-import { InstructorAvatar } from "../home/InstructorAvatar";
-import { sortTrainingInstructors } from "../home/instructorUtils";
+import { InstructorAvatar } from "../../home/InstructorAvatar";
+import { sortTrainingInstructors } from "../../home/instructorUtils";
 
 interface TrainingInstructorsProps {
   instructors: APIInstructorTrainingInstructorDetail[];

@@ -1,5 +1,5 @@
-export { TrainingDetailSkeleton } from "./TrainingDetailSkeleton";
-export { TrainingHero } from "./TrainingHero";
+export { TrainingDetailSkeleton } from "./Skeleton";
+export { TrainingDetailHero } from "./Hero";
 export { TrainingMetrics } from "../TrainingMetrics";
 export { TrainingObjectives } from "../TrainingObjectives";
 export { TrainingSessionsSection } from "../TrainingSessionsSection";
