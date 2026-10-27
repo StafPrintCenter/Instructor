@@ -3,7 +3,7 @@ import { ChevronRight, UserRound } from "lucide-react";
 import type { APIInstructorTrainingInstructor } from "@/data/trainings";
 import { InstructorAvatar } from "../instructors/InstructorAvatar";
 import { sortTrainingInstructors } from "../instructors/instructorUtils";
-import { TrainingInstructorsDialog } from "./TrainingInstructorsDialog";
+import { TrainingInstructorsDialog } from "./InstructorsDialog";
 
 const MAX_AVATARS = 3;
 
