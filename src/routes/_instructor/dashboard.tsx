@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PageHeader } from "@/components/instructor/page-header";
+import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import {
   DashboardActivity,

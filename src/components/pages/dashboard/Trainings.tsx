@@ -4,7 +4,7 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import { EmptyState } from "@/components/instructor/page-header";
 import { Button } from "@/components/ui/button";
 import { useDashboardStudents, useDashboardTrainings } from "@/hooks/useDashboardData";
-import { DashboardListError, DashboardListSkeleton } from "./CardState";
+import { DashboardListError } from "./CardState";
 import { DashboardTrainingCard } from "./TrainingCard";
 
 const COLLAPSED_COUNT = 3;

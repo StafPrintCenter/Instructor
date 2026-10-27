@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, CalendarCheck, ClipboardList, Inbox, MessageSquare, RefreshCw } from "lucide-react";
-import { PageHeader, EmptyState } from "@/components/instructor/page-header";
+import { EmptyState } from "@/components/instructor/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AttendanceMarkDialog } from "@/components/pages/training/shared";
-import { FilePreviewModal } from "@/components/site/FilePreviewModal";
+import { PageHeader, FilePreviewModal } from "@/components/site";
 import { QuizAttemptFeedbackDialog } from "@/components/pages/training/detail/student";
 import { SubmissionCard, SubmissionGradeDialog } from "@/components/pages/submissions/shared";
 import { lessonKindLabels } from "@/data/content";

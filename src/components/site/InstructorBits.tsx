@@ -1,5 +1,6 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 export function ConfirmDelete({ open, onOpenChange, onConfirm, title = "Supprimer ?" }: { open: boolean; onOpenChange: (v: boolean) => void; onConfirm: () => void; title?: string }) {
   return (
@@ -82,14 +83,23 @@ export function ConfirmDisconnect({ open, onOpenChange, onConfirm, title = "Se d
   );
 }
 
-export function PageHeader({ title, description, actions }: { title: string; description?: string; actions?: React.ReactNode }) {
+export function PageHeader({ eyebrow, title, description, actions, className }: {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  actions?: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="font-display text-3xl font-bold tracking-tight">{title}</h1>
-        {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
+    <div className={cn("flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
+      <div className="space-y-1.5">
+        {eyebrow ? (
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
+        ) : null}
+        <h1 className="font-display text-3xl leading-tight sm:text-4xl">{title}</h1>
+        {description ? <p className="max-w-2xl text-sm text-muted-foreground">{description}</p> : null}
       </div>
-      {actions}
+      {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
     </div>
   );
 }
