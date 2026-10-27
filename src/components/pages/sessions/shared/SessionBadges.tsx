@@ -1,16 +1,7 @@
 import { MapPin, Video } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import {
-  getReviewRequestStatusBadgeClass,
-  getReviewRequestStatusLabel,
-  getSessionResponseBadgeClass,
-  getSessionResponseLabel,
-  getSessionStatusBadgeClass,
-  getSessionStatusLabel,
-  sessionModalityLabels,
-  type SessionModality,
-} from "@/data/sessions";
+import { getReviewRequestStatusBadgeClass, getReviewRequestStatusLabel, getSessionResponseBadgeClass, getSessionResponseLabel, getSessionStatusBadgeClass, getSessionStatusLabel, sessionModalityLabels, type SessionModality } from "@/data/sessions";
 
 export function SessionStatusBadge({ status, className }: { status: string; className?: string }) {
   return (
