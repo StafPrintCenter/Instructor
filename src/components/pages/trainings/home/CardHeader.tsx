@@ -1,8 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import {
-  getTrainingLevelBadgeClass, getInstructorRoleConfig, getTrainingStatusBadgeClass, getTrainingStatusLabel,
-  type APIInstructorTrainingAssignment,
-} from "@/data/trainings";
+import { getTrainingLevelBadgeClass, getInstructorRoleConfig, getTrainingStatusBadgeClass, getTrainingStatusLabel, type APIInstructorTrainingAssignment } from "@/data/trainings";
 import { cn } from "@/lib/utils";
 
 export function TrainingCardHeader({ training: t }: { training: APIInstructorTrainingAssignment }) {

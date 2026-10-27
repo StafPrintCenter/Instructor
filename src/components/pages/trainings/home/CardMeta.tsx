@@ -1,5 +1,5 @@
 import { MapPin, Users, Calendar, CalendarPlus } from "lucide-react";
-import { TrainingInstructorsSummary } from "@/components/pages/training/home";
+import { TrainingInstructorsSummary } from "./InstructorsSummary";
 import type { APIInstructorTrainingAssignment } from "@/data/trainings";
 import { formatDate } from "@/lib/api";
 
