@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionShortDateTime } from "@/lib/session-time";
 import { cn } from "@/lib/utils";
-import { buildSessionTimeline, type TimelineTone } from "./buildSessionTimeline";
+import { BuildSessionTimeline, type TimelineTone } from "./BuildTimeline";
 
 const DOT_CLASS: Record<TimelineTone, string> = {
   info: "bg-primary",
@@ -12,7 +12,7 @@ const DOT_CLASS: Record<TimelineTone, string> = {
 };
 
 export function TrainingSessionTimeline({ session }: { session: APIInstructorSessionDetail }) {
-  const events = buildSessionTimeline(session);
+  const events = BuildSessionTimeline(session);
 
   return (
     <Card className="border-border/70">

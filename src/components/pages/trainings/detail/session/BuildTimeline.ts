@@ -11,7 +11,7 @@ export interface TimelineEvent {
 }
 
 /** Création, suspension éventuelle, puis chaque demande de réexamen et sa décision, du plus ancien au plus récent */
-export function buildSessionTimeline(session: APIInstructorSessionDetail): TimelineEvent[] {
+export function BuildSessionTimeline(session: APIInstructorSessionDetail): TimelineEvent[] {
   const events: TimelineEvent[] = [
     {
       key: "created",
