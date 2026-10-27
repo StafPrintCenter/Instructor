@@ -1,0 +1,1 @@
+export { TrainingInstructorsSummary } from "./InstructorsSummary";
