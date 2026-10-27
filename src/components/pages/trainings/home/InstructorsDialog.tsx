@@ -3,7 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getInstructorRoleConfig, type APIInstructorTrainingInstructor } from "@/data/trainings";
-import { InstructorAvatar, sortTrainingInstructors } from "./";
+import { sortTrainingInstructors } from "./";
+import { InstructorAvatar } from "@/components/pages/trainings/shared";
 
 interface TrainingInstructorsDialogProps {
   open: boolean;
