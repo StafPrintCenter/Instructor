@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, Inbox, RefreshCw } from "lucide-react";
-import { EmptyState } from "@/components/shared/page-header";
+import { EmptyState } from "@/components/shared";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";

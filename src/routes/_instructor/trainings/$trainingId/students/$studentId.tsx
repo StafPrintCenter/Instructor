@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, ArrowLeft, CalendarCheck, ClipboardList, Inbox, MessageSquare, RefreshCw } from "lucide-react";
-import { EmptyState } from "@/components/shared/page-header";
+import { EmptyState } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
