@@ -5,7 +5,7 @@ import { PageHeader } from "@/components/site";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { TrainingInstructorsSummary } from "@/components/pages/training/instructors";
+import { TrainingInstructorsSummary } from "@/components/pages/training/home";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { formatDate } from "@/lib/api";
 import { SITE } from "@/data/site";
