@@ -1,2 +1,0 @@
-
-export { TrainingSessionParticipation } from "./TrainingSessionParticipation";
