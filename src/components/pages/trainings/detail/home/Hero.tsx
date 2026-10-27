@@ -2,12 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { CalendarDays, ClipboardList } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  getTrainingLevelBadgeClass,
-  getTrainingStatusBadgeClass,
-  getTrainingStatusLabel,
-  type APIInstructorTrainingDetail,
-} from "@/data/trainings";
+import { getTrainingLevelBadgeClass, getTrainingStatusBadgeClass, getTrainingStatusLabel, type APIInstructorTrainingDetail } from "@/data/trainings";
 import { cn } from "@/lib/utils";
 
 interface TrainingHeroProps {

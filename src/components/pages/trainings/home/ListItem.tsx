@@ -2,10 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
 import { EmptyState } from "@/components/shared";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
-import { TrainingCardActions } from "./CardActions";
-import { TrainingCardHeader } from "./CardHeader";
-import { TrainingCardMeta } from "./CardMeta";
-import { TrainingsListError, TrainingsListSkeleton } from "./ListStates";
+import { } from "./CardActions";
+import { TrainingCardActions, TrainingCardHeader, TrainingCardMeta, TrainingsListError, TrainingsListSkeleton } from "./";
 
 export function TrainingsListItem() {
   const { items: trainings, isLoading, isError, refetch } = useInstructorTrainingsList();
