@@ -33,7 +33,7 @@ export function CorrectionStatsTabs({ value, stats, onChange }: CorrectionStatsT
             )}
           >
             <p className="text-xs uppercase tracking-wider text-muted-foreground">{gradedFilterLabels[g]}</p>
-            <p className="mt-1 font-display text-2xl font-semibold">{tabCount(stats, g) ?? "—"}</p>
+            <p className="mt-1 font-display text-2xl font-semibold">{tabCount(stats, g) ?? "..."}</p>
           </button>
         );
       })}

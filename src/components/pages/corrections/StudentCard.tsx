@@ -1,4 +1,3 @@
-// src/components/pages/corrections/CorrectionStudentCard.tsx
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

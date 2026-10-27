@@ -1,4 +1,3 @@
-// src/components/pages/corrections/FeedbackItem.tsx
 import { Badge } from "@/components/ui/badge";
 import type { APIInstructorSubmissionFeedbackEntry } from "@/data/submissions";
 import { formatDateTime } from "@/lib/date-time";

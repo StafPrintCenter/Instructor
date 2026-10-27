@@ -1,4 +1,3 @@
-// src/components/pages/corrections/CorrectionTrainingCard.tsx
 import { Link } from "@tanstack/react-router";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";

@@ -1,4 +1,3 @@
-// src/components/pages/corrections/CorrectionStatusCard.tsx
 import { InstructorSubmissionBadge } from "@/components/instructor/status-badges";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
