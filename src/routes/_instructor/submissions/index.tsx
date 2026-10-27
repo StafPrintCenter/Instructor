@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Inbox, RefreshCw } from "lucide-react";
-import { EmptyState } from "@/components/shared/page-header";
+import { EmptyState } from "@/components/shared";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
