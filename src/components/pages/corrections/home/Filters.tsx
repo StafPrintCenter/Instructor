@@ -6,12 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { lessonKindLabels } from "@/data/content";
 import {
-  SUBMISSION_KINDS,
-  getStatusesForGradedFilter,
-  instructorSubmissionStatusLabels,
-  type APIInstructorCorrectionStats,
-  type SubmissionKind,
-  type SubmissionStatus,
+  SUBMISSION_KINDS, getStatusesForGradedFilter, instructorSubmissionStatusLabels,
+  type APIInstructorCorrectionStats, type SubmissionKind, type SubmissionStatus
 } from "@/data/submissions";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import type { CorrectionFiltersState } from "./useCorrectionFilters";
@@ -34,7 +30,6 @@ export function CorrectionFilters({
   onReset,
 }: CorrectionFiltersProps) {
   const { items: trainings } = useInstructorTrainingsList();
-  // Seuls les statuts cohérents avec l'onglet actif sont proposés
   const statuses = getStatusesForGradedFilter(filters.graded);
 
   return (

@@ -4,12 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import {
-  getTrainingLevelBadgeClass,
-  getTrainingStatusBadgeClass,
-  getTrainingStatusLabel,
-  type APIInstructorTrainingAssignment,
-} from "@/data/trainings";
+import { getTrainingLevelBadgeClass, getTrainingStatusBadgeClass, getTrainingStatusLabel, type APIInstructorTrainingAssignment } from "@/data/trainings";
 import { formatDate } from "@/lib/api";
 import { cn } from "@/lib/utils";
 

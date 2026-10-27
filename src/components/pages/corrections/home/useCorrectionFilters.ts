@@ -1,11 +1,6 @@
 import { useMemo, useState } from "react";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
-import type {
-  GradedFilter,
-  InstructorCorrectionsFilters,
-  SubmissionKind,
-  SubmissionStatus,
-} from "@/data/submissions";
+import type { GradedFilter, InstructorCorrectionsFilters, SubmissionKind, SubmissionStatus } from "@/data/submissions";
 
 export interface CorrectionFiltersState {
   graded: GradedFilter;
@@ -34,7 +29,6 @@ export function useCorrectionFilters() {
   const debouncedQuery = useDebouncedValue(filters.query.trim());
   const isRangeInvalid = !!filters.from && !!filters.to && filters.to < filters.from;
 
-  // L'API refuse un `to` antérieur à `from` (422) : on n'envoie pas `to` dans ce cas
   const params = useMemo<InstructorCorrectionsFilters>(
     () => ({
       graded: filters.graded,

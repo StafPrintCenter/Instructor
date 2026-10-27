@@ -1,10 +1,5 @@
-import {
-  getLatestFeedback,
-  type APIInstructorSubmission,
-  type APIInstructorSubmissionDetail,
-} from "@/data/submissions";
+import { getLatestFeedback, type APIInstructorSubmission, type APIInstructorSubmissionDetail } from "@/data/submissions";
 
-/** Adapte le détail d'une soumission à la forme attendue par SubmissionGradeDialog (pré-rempli avec la dernière correction) */
 export function buildGradeTarget(d: APIInstructorSubmissionDetail): APIInstructorSubmission {
   const latest = getLatestFeedback(d.feedbacks);
 

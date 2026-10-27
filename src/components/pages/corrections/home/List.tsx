@@ -33,7 +33,6 @@ export function CorrectionsList({
   graded,
   hasActiveFilters,
 }: CorrectionsListProps) {
-  // Si la page courante n'existe plus (liste réduite après une correction), on recule à la dernière page
   useEffect(() => {
     if (meta && meta.lastPage >= 1 && page > meta.lastPage) onPageChange(meta.lastPage);
   }, [meta, page, onPageChange]);
