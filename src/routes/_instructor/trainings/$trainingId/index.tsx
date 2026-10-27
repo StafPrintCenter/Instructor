@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TrainingDetailSkeleton, TrainingHero, TrainingMetrics, TrainingObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/training/detail";
+import { TrainingDetailSkeleton, TrainingHero, TrainingMetrics, TrainingObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/training/detail/home";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
