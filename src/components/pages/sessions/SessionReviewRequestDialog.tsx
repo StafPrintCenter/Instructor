@@ -8,7 +8,6 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { useRequestInstructorSessionReview } from "@/stores/useSessionsStore";
 
 interface SessionReviewRequestDialogProps {
-  /** null = dialog fermé */
   sessionId: string | null;
   sessionTitle?: string;
   onClose: () => void;
@@ -42,7 +41,11 @@ export function SessionReviewRequestDialog({ sessionId, sessionTitle, onClose }:
         <DialogHeader>
           <DialogTitle className="font-display">Demander un réexamen</DialogTitle>
           <DialogDescription>
-            {sessionTitle ? `« ${sessionTitle} » est suspendue. ` : ""}Expliquez pourquoi elle devrait être rétablie.
+            {sessionTitle
+              ? `« ${sessionTitle} » est suspendue. `
+              : ""
+            }
+            Expliquez pourquoi elle devrait être rétablie.
           </DialogDescription>
         </DialogHeader>
 
