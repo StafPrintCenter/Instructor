@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ChevronRight, UserRound } from "lucide-react";
 import type { APIInstructorTrainingInstructor } from "@/data/trainings";
-import { sortTrainingInstructors, TrainingInstructorsDialog } from "./";
-import { InstructorAvatar } from "@/components/pages/trainings/shared";
+import { TrainingInstructorsDialog } from "./InstructorsDialog";
+import { InstructorAvatar, sortTrainingInstructors } from "@/components/pages/trainings/shared";
 
 const MAX_AVATARS = 3;
 
