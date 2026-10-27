@@ -2,34 +2,21 @@ import type { LessonKind } from "@/data/content";
 import type { InstructorPaginationMeta } from "@/data/pagination";
 
 export type SubmissionStatus = "submitted" | "under_review" | "validated" | "rejected";
-
-/** Décisions documentées (OA) pour PUT .../submissions/{id}/grade */
 export type SubmissionDecision = Exclude<SubmissionStatus, "submitted">;
-
 export const SUBMISSION_STATUSES: SubmissionStatus[] = ["submitted", "under_review", "validated", "rejected"];
 export const SUBMISSION_DECISIONS: SubmissionDecision[] = ["under_review", "validated", "rejected"];
-
 export const GRADED_STATUSES: SubmissionStatus[] = ["validated", "rejected"];
 export const PENDING_STATUSES: SubmissionStatus[] = ["submitted", "under_review"];
+export type SubmissionKind = Extract<LessonKind, "exercise" | "assignment" | "project">;
+export const SUBMISSION_KINDS: SubmissionKind[] = ["exercise", "assignment", "project"];
+export const GRADED_FILTERS = ["all", "pending", "graded"] as const;
+export type GradedFilter = (typeof GRADED_FILTERS)[number];
 
 export const isGradedStatus = (status: SubmissionStatus): boolean => GRADED_STATUSES.includes(status);
 
-export const instructorSubmissionStatusLabels: Record<SubmissionStatus, string> = {
-  submitted: "Soumis",
-  under_review: "En cours de correction",
-  validated: "Validé",
-  rejected: "Rejeté",
-};
-
-export const submissionDecisionLabels: Record<SubmissionDecision, string> = {
-  under_review: "Mettre en cours de correction",
-  validated: "Valider le travail",
-  rejected: "Rejeter le travail",
-};
-
 export interface APIInstructorSubmissionFeedback {
   id: string;
-  note: number | string | null; // number en liste, string ("60") dans la réponse de grade
+  note: number | string | null;
   comment: string | null;
   validated: boolean;
 }
@@ -62,33 +49,8 @@ export interface APIInstructorSubmissionGraded {
 
 export interface InstructorSubmissionGradePayload {
   decision: SubmissionDecision;
-  /** Entier 0-100, optionnel */
   note?: number;
-  /** 3000 caractères max, optionnel */
   comment?: string;
-}
-
-/* ------------------------ Corrections (liste globale) ------------------------ */
-
-/** Types de leçon filtrables côté API (paramètre `kind`) */
-export type SubmissionKind = Extract<LessonKind, "exercise" | "assignment" | "project">;
-export const SUBMISSION_KINDS: SubmissionKind[] = ["exercise", "assignment", "project"];
-
-export const GRADED_FILTERS = ["all", "pending", "graded"] as const;
-
-export type GradedFilter = (typeof GRADED_FILTERS)[number];
-
-export const gradedFilterLabels: Record<GradedFilter, string> = {
-  all: "Tous",
-  pending: "À corriger",
-  graded: "Corrigés",
-};
-
-/** Statuts cohérents avec un onglet donné (évite les combinaisons vides, ex. « À corriger » + « Validé ») */
-export function getStatusesForGradedFilter(graded: GradedFilter): SubmissionStatus[] {
-  if (graded === "pending") return PENDING_STATUSES;
-  if (graded === "graded") return GRADED_STATUSES;
-  return SUBMISSION_STATUSES;
 }
 
 /** Item de GET /instructor/trainings/submissions/list (clé = submissionId, pas de champ `id`) */
@@ -108,7 +70,6 @@ export interface APIInstructorCorrectionListItem {
   trainingId: string;
   trainingTitle: string;
   enrollmentId: string | null;
-  /** Dernier retour uniquement (sans commentaire) ; null si jamais corrigé */
   feedback: {
     note: number | string | null;
     validated: boolean;
@@ -137,21 +98,17 @@ export type InstructorCorrectionsFilters = {
   trainingId?: string;
   studentId?: string;
   kind?: SubmissionKind;
-  /** Nom/email de l'apprenant ou titre de la leçon */
   query?: string;
-  from?: string; // YYYY-MM-DD
-  to?: string; // YYYY-MM-DD, >= from
+  from?: string;
+  to?: string;
   page?: number;
   perPage?: number;
 };
-
-/* ----------------------- Détail d'une soumission ----------------------- */
 
 export interface APIInstructorSubmissionFeedbackEntry {
   id: string;
   note: number | string | null;
   comment: string | null;
-  /** true si la décision enregistrée était "validated" ; false pour under_review / rejected */
   validated: boolean;
   instructorId: string;
   instructorName: string;
@@ -182,14 +139,42 @@ export interface APIInstructorSubmissionDetail {
     isMandatory: boolean;
   };
   training: { id: string; title: string };
-  /** null si la soumission n'est pas rattachée à une inscription */
   enrollment: { id: string; progress: number } | null;
   feedbacks: APIInstructorSubmissionFeedbackEntry[];
   otherSubmissions: APIInstructorOtherSubmission[];
 }
 
+
+export const instructorSubmissionStatusLabels: Record<SubmissionStatus, string> = {
+  submitted: "Soumis",
+  under_review: "En cours de correction",
+  validated: "Validé",
+  rejected: "Rejeté",
+};
+
+export const submissionDecisionLabels: Record<SubmissionDecision, string> = {
+  under_review: "Mettre en cours de correction",
+  validated: "Valider le travail",
+  rejected: "Rejeter le travail",
+};
+
+export const gradedFilterLabels: Record<GradedFilter, string> = {
+  all: "Tous",
+  pending: "À corriger",
+  graded: "Corrigés",
+};
+
+export function getStatusesForGradedFilter(graded: GradedFilter): SubmissionStatus[] {
+  if (graded === "pending") return PENDING_STATUSES;
+  if (graded === "graded") return GRADED_STATUSES;
+  return SUBMISSION_STATUSES;
+}
+
 export function sortFeedbacksDesc<T extends { gradedAt: string }>(feedbacks: T[]): T[] {
-  return [...feedbacks].sort((a, b) => new Date(b.gradedAt).getTime() - new Date(a.gradedAt).getTime());
+  return [...feedbacks]
+    .sort((a, b) => new Date(b.gradedAt)
+      .getTime() - new Date(a.gradedAt)
+        .getTime());
 }
 
 export function getLatestFeedback<T extends { gradedAt: string }>(feedbacks: T[]): T | null {
