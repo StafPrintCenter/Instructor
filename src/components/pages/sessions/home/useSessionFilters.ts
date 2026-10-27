@@ -1,4 +1,3 @@
-// src/components/instructor/sessions/list/useSessionFilters.ts
 import { useMemo, useState } from "react";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import type { InstructorSessionFilters, SessionModality, SessionStatus } from "@/data/sessions";
@@ -6,7 +5,7 @@ import type { InstructorSessionFilters, SessionModality, SessionStatus } from "@
 export interface SessionListFilters {
   status: SessionStatus | "all";
   modality: SessionModality | "all";
-  trainingId: string; // "all" ou id
+  trainingId: string;
   upcoming: boolean;
   query: string;
   from: string;

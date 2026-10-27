@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { useInstructorSessionsList } from "@/stores/useSessionsStore";
 import { buildMonthGrid, formatMonthLabel, groupSessionsByDay, shiftDateKey, shiftMonth, todayKey } from "@/lib/session-calendar";
 import { cn } from "@/lib/utils";
-import { CalendarDayPanel } from "../list/CalendarDayPanel";
-import { CalendarMonthGrid } from "../list/CalendarMonthGrid";
-import { CalendarToolbar } from "../list/CalendarToolbar";
+import { CalendarDayPanel } from "./CalendarDayPanel";
+import { CalendarMonthGrid } from "./CalendarMonthGrid";
+import { CalendarToolbar } from "./CalendarToolbar";
 import type { SharedSessionParams } from "./useSessionFilters";
 
 function cursorFromKey(key: string) {
