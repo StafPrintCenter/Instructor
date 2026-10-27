@@ -10,12 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { AttendanceMarkDialog } from "@/components/pages/trainings/shared";
 import { formatDate } from "@/lib/api";
 import { cn } from "@/lib/utils";
-import {
-  getPaymentStatusBadgeClass,
-  getPaymentStatusLabel,
-  type APIInstructorTrainingOverview,
-  type PaymentStatus,
-} from "@/data/trainings";
+import { getPaymentStatusBadgeClass, getPaymentStatusLabel, type APIInstructorTrainingOverview, type PaymentStatus } from "@/data/trainings";
 
 function PaymentBadge({ status }: { status: PaymentStatus | string | null | undefined }) {
   return (
