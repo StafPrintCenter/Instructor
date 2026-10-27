@@ -1,13 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  TrainingDetailSkeleton,
-  TrainingHero,
-  TrainingMetrics,
-  TrainingObjectives,
-  TrainingSessionsSection,
-  TrainingStudentsTable,
-} from "@/components/pages/training/detail";
-import { TrainingInstructors } from "@/components/pages/training/instructors";
+import { TrainingDetailSkeleton, TrainingHero, TrainingMetrics, TrainingObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/training/detail";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
@@ -41,7 +33,7 @@ function TrainingDetail() {
         progressTrackingAvailable={progressTrackingAvailable}
       />
       <TrainingObjectives training={training} mainColor={mainColor} />
-      <TrainingInstructors instructors={training.instructors} mainColor={mainColor} />
+      <TrainingInstructorsCard instructors={training.instructors} mainColor={mainColor} />
       <TrainingSessionsSection trainingId={trainingId} mainColor={mainColor} />
       <TrainingStudentsTable trainingId={trainingId} students={students} mainColor={mainColor} />
     </div>

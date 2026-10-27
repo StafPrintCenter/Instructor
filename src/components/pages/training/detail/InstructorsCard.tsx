@@ -3,15 +3,15 @@ import { GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getInstructorRoleConfig, type APIInstructorTrainingInstructorDetail } from "@/data/trainings";
-import { InstructorAvatar } from "./InstructorAvatar";
-import { sortTrainingInstructors } from "./instructorUtils";
+import { InstructorAvatar } from "../home/InstructorAvatar";
+import { sortTrainingInstructors } from "../home/instructorUtils";
 
 interface TrainingInstructorsProps {
   instructors: APIInstructorTrainingInstructorDetail[];
   mainColor: string;
 }
 
-export function TrainingInstructors({ instructors, mainColor }: TrainingInstructorsProps) {
+export function TrainingInstructorsCard({ instructors, mainColor }: TrainingInstructorsProps) {
   const sorted = sortTrainingInstructors(instructors);
   const isAlone = sorted.length === 1 && sorted[0].isMe;
 
