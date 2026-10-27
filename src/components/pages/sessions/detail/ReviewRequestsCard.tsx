@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ReviewRequestStatusBadge } from "@/components/pages/sessions";
+import { ReviewRequestStatusBadge } from "@/components/shared";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionShortDateTime } from "@/lib/session-time";
 

@@ -84,3 +84,19 @@ export function SessionModalityBadge({ modality }: { modality: SessionModality }
   );
 }
 
+export function ReviewRequestStatusBadge({ status }: { status: string }) {
+  return (
+    <Badge variant="outline" className={cn("border font-medium", getReviewRequestStatusBadgeClass(status))}>
+      {getReviewRequestStatusLabel(status)}
+    </Badge>
+  );
+}
+
+export function SessionResponseBadge({ response }: { response: string }) {
+  return (
+    <Badge variant="outline" className={cn("border text-[10px] font-medium", getSessionResponseBadgeClass(response))}>
+      {getSessionResponseLabel(response)}
+    </Badge>
+  );
+}
+
