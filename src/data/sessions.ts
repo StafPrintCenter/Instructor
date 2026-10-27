@@ -70,7 +70,7 @@ export function getSessionResponseBadgeClass(response: string): string {
 
 /* ------------------------------------ Types ------------------------------------ */
 
-/** Forme supposée identique à la réponse de POST .../review-request */
+/** POST .../review-request */
 export interface APIInstructorSessionPendingReview {
   id: string;
   status: string;
@@ -103,7 +103,7 @@ export interface APIInstructorSession {
   description: string | null;
   startsAt: string;
   endsAt: string;
-  durationMinutes: number | string; // string dans la réponse de création
+  durationMinutes: number | string;
   modality: SessionModality;
   location: string | null;
   meetingUrl: string | null;
@@ -121,9 +121,7 @@ export interface APIInstructorSession {
 
 /** GET /instructor/trainings/sessions/{id} (aussi renvoyé par PUT) */
 export interface APIInstructorSessionDetail extends APIInstructorSession {
-  /** null dans la réponse de PUT */
   invitedCount: number | null;
-  /** Forme non confirmée (null dans tous les exemples) */
   suspendedBy: string | null;
   responses: APIInstructorSessionResponse[];
   reviewRequests: APIInstructorSessionReviewRequest[];
@@ -134,14 +132,10 @@ export interface InstructorSessionPayload {
   trainingId: string;
   title: string;
   description?: string;
-  /** ISO 8601 avec fuseau, ex. 2026-10-27T10:00:00+01:00 */
   startsAt: string;
-  /** 15 à 720 */
   durationMinutes: number;
   modality: SessionModality;
-  /** Requis si in_person */
   location?: string;
-  /** Requis si online */
   meetingUrl?: string;
 }
 
@@ -157,10 +151,9 @@ export type InstructorSessionFilters = {
   trainingId?: string;
   status?: SessionStatus;
   modality?: SessionModality;
-  /** Envoyé uniquement quand true */
   upcoming?: boolean;
-  from?: string; // YYYY-MM-DD
-  to?: string; // YYYY-MM-DD
+  from?: string;
+  to?: string;
   query?: string;
   page?: number;
   perPage?: number;
