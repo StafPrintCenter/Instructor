@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 
 interface SessionCardProps {
   session: APIInstructorSession;
-  /** "global" : liste /sessions (affiche la formation) — "training" : liste dans le détail d'une formation */
   variant?: "global" | "training";
 }
 
@@ -35,7 +34,7 @@ export function SessionCard({ session: s, variant = "global" }: SessionCardProps
         isSuspended && "border-destructive/30",
       )}
     >
-      {/* Toute la carte devient cliquable */}
+
       <Link
         {...sessionLink}
         aria-label={`Voir les détails de la session ${s.title} `}
