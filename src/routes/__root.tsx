@@ -8,7 +8,7 @@ import { NotFoundComponent, ErrorComponent } from "@/components/errors";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => {
-    const title = `${SITE.name} | ${SITE.name}`;
+    const title = `${SITE.tool} | ${SITE.name}`;
     const description = `Plateforme formateur de ${SITE.name} : contenus, corrections, sessions et suivi des apprenants.`;
 
     return {

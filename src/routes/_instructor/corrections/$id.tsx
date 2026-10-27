@@ -4,18 +4,7 @@ import { ArrowLeft, ClipboardCheck } from "lucide-react";
 import { PageHeader, FilePreviewModal } from "@/components/site";
 import { SubmissionGradeDialog } from "@/components/pages/submissions/shared";
 import { Button } from "@/components/ui/button";
-import {
-  CorrectionDeliverableCard,
-  CorrectionDetailError,
-  CorrectionDetailSkeleton,
-  CorrectionHistoryCard,
-  CorrectionStatementCard,
-  CorrectionStatusCard,
-  CorrectionStudentCard,
-  CorrectionTrainingCard,
-  OtherSubmissionsCard,
-  buildGradeTarget,
-} from "@/components/pages/corrections/detail";
+import { CorrectionDeliverableCard, CorrectionDetailError, CorrectionDetailSkeleton, CorrectionHistoryCard, CorrectionStatementCard, CorrectionStatusCard, CorrectionStudentCard, CorrectionTrainingCard, OtherSubmissionsCard, buildGradeTarget } from "@/components/pages/corrections/detail";
 import { isGradedStatus } from "@/data/submissions";
 import { useInstructorSubmissionDetail } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";

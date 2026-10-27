@@ -9,7 +9,7 @@ import { DashboardTrainingCard } from "./TrainingCard";
 
 const COLLAPSED_COUNT = 3;
 
-export function DashboardTrainings() {
+export function DashboardTrainingList() {
   const { trainings, isLoading, isError, refetch } = useDashboardTrainings();
   const { summary, isLoading: studentsLoading } = useDashboardStudents();
   const [showAll, setShowAll] = useState(false);

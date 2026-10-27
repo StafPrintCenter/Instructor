@@ -1,11 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site";
-import {
-  CorrectionFilters,
-  CorrectionStatsTabs,
-  CorrectionsList,
-  useCorrectionFilters,
-} from "@/components/pages/corrections/home";
+import { CorrectionFilters, CorrectionStatsTabs, CorrectionsList, useCorrectionFilters } from "@/components/pages/corrections/home";
 import { useInstructorCorrectionsList } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";
 

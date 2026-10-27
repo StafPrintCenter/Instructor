@@ -1,15 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
-import {
-  DashboardActivity,
-  DashboardOverdue,
-  DashboardStats,
-  DashboardTrainingList,
-  DashboardUpcomingSessions,
-  ProgressByTrainingChart,
-  SubmissionsBreakdownChart,
-} from "@/components/pages/dashboard";
+import { DashboardActivity, DashboardOverdue, DashboardStats, DashboardTrainingList, DashboardUpcomingSessions, ProgressByTrainingChart, SubmissionsBreakdownChart } from "@/components/pages/dashboard";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SITE } from "@/data/site";
 
@@ -17,10 +9,7 @@ export const Route = createFileRoute("/_instructor/dashboard")({
   head: () => ({
     meta: [
       { title: `Tableau de bord formateur | ${SITE.name}` },
-      {
-        name: "description",
-        content: "Indicateurs pédagogiques : formations assignées, apprenants, corrections en attente et sessions à venir.",
-      },
+      { name: "description", content: "Indicateurs pédagogiques : formations assignées, apprenants, corrections en attente et sessions à venir." },
       { property: "og:title", content: `Tableau de bord formateur | ${SITE.name}` },
       { property: "og:description", content: "Pilotez votre activité pédagogique en un coup d'oeil." },
     ],
