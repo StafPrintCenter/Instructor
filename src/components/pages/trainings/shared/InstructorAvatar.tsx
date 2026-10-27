@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveStorageUrl } from "@/lib/file-url";
 import { cn } from "@/lib/utils";
-import { getInitials } from "./InstructorUtils";
+import { getInitials } from "../home/InstructorUtils";
 
 const SIZES = {
   sm: { avatar: "size-6", fallback: "text-[10px]" },
