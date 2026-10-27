@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils";
 interface DashboardTrainingCardProps {
   training: APIInstructorTrainingAssignment;
   learners: number;
-  /** null tant que la progression n'est pas disponible */
   progress: number | null;
 }
 
