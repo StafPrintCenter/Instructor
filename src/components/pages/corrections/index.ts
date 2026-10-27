@@ -1,15 +1,15 @@
 export { buildGradeTarget } from "./detail/buildGradeTarget";
 export { CorrectionDeliverableCard } from "./detail/DeliverableCard";
 export { CorrectionDetailError, CorrectionDetailSkeleton } from "./detail/DetailStates";
-export { CorrectionFilters } from "./Filters";
+export { CorrectionFilters } from "./home/Filters";
 export { CorrectionHistoryCard } from "./detail/HistoryCard";
 export { CorrectionListItem } from "./home/ListItem";
 export { CorrectionsList } from "./home/List";
-export { CorrectionStatementCard } from "./StatementCard";
+export { CorrectionStatementCard } from "./detail/StatementCard";
 export { CorrectionStatsTabs } from "./StatsTabs";
 export { CorrectionStatusCard } from "./StatusCard";
 export { CorrectionStudentCard } from "./StudentCard";
 export { CorrectionTrainingCard } from "./TrainingCard";
 export { FeedbackItem } from "./detail/FeedbackItem";
-export { OtherSubmissionsCard } from "./OtherSubmissionsCard";
+export { OtherSubmissionsCard } from "./detail/OtherSubmissionsCard";
 export { useCorrectionFilters } from "./home/useCorrectionFilters";

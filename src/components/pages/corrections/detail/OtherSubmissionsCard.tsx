@@ -1,4 +1,3 @@
-// src/components/pages/corrections/OtherSubmissionsCard.tsx
 import { Link } from "@tanstack/react-router";
 import { Eye } from "lucide-react";
 import { InstructorSubmissionBadge } from "@/components/instructor/status-badges";

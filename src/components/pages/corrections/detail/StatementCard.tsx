@@ -1,4 +1,3 @@
-// src/components/pages/corrections/CorrectionStatementCard.tsx
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface CorrectionStatementCardProps {
