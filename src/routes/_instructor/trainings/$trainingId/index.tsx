@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TrainingDetailSkeleton, TrainingDetailHero, TrainingMetrics, TrainingObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/training/detail/home";
+import { TrainingDetailSkeleton, TrainingDetailHero, TrainingDetailMetrics, TrainingDetailObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/training/detail/home";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
@@ -32,13 +32,13 @@ function TrainingDetail() {
         mainColor={mainColor}
       />
 
-      <TrainingMetrics
+      <TrainingDetailMetrics
         training={training}
         averageProgress={averageProgress}
         progressTrackingAvailable={progressTrackingAvailable}
       />
 
-      <TrainingObjectives
+      <TrainingDetailObjectives
         training={training}
         mainColor={mainColor}
       />

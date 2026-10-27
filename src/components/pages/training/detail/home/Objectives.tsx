@@ -7,7 +7,7 @@ interface TrainingObjectivesProps {
   mainColor: string;
 }
 
-export function TrainingObjectives({ training, mainColor }: TrainingObjectivesProps) {
+export function TrainingDetailObjectives({ training, mainColor }: TrainingObjectivesProps) {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <Card className="border-border/70">

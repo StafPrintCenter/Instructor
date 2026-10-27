@@ -10,7 +10,7 @@ interface TrainingMetricsProps {
   progressTrackingAvailable: boolean;
 }
 
-export function TrainingMetrics({ training, averageProgress, progressTrackingAvailable }: TrainingMetricsProps) {
+export function TrainingDetailMetrics({ training, averageProgress, progressTrackingAvailable }: TrainingMetricsProps) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <Card className="border-border/70">
