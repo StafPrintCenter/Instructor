@@ -1,5 +1,6 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import type { ReactNode } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 export function ConfirmDelete({ open, onOpenChange, onConfirm, title = "Supprimer ?" }: { open: boolean; onOpenChange: (v: boolean) => void; onConfirm: () => void; title?: string }) {
@@ -104,17 +105,29 @@ export function PageHeader({ eyebrow, title, description, actions, className }: 
   );
 }
 
-export function StatCard({ label, value, icon, hint, className = "" }: { label: string; value: string | number; icon: ReactNode; hint?: string; className?: string; }) {
+export function StatCard({ label, value, hint, icon, tone = "default" }: {
+  label: string;
+  value: ReactNode;
+  hint?: string;
+  icon: ReactNode;
+  tone?: "default" | "accent" | "warning" | "success";
+}) {
+  const tones: Record<string, string> = {
+    default: "bg-secondary text-secondary-foreground",
+    accent: "bg-accent/25 text-accent-foreground",
+    warning: "bg-warning/20 text-warning-foreground",
+    success: "bg-success/15 text-success",
+  };
   return (
-    <div className={`rounded-2xl border bg-card p-6 shadow-elegant ${className}`}>
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</div>
-          <div className="mt-2 font-display text-3xl font-bold">{value}</div>
-          {hint && <div className="mt-1 text-xs text-muted-foreground">{hint}</div>}
+    <Card className="border-border/70 shadow-(--shadow-soft) transition-shadow hover:shadow-(--shadow-lift)">
+      <CardContent className="flex items-start justify-between gap-4 p-5">
+        <div className="space-y-1">
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
+          <p className="font-display text-3xl leading-none">{value}</p>
+          {hint ? <p className="text-xs text-muted-foreground">{hint}</p> : null}
         </div>
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">{icon}</div>
-      </div>
-    </div>
+        <span className={cn("flex size-10 items-center justify-center rounded-lg", tones[tone])}>{icon}</span>
+      </CardContent>
+    </Card>
   );
 }

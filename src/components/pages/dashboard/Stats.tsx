@@ -1,5 +1,5 @@
 import { BookOpen, CalendarDays, ClipboardCheck, Gauge, Users } from "lucide-react";
-import { StatCard } from "@/components/instructor/stat-card";
+import { StatCard } from "@/components/site";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { DASHBOARD_STUDENTS_PAGE_SIZE, OVERDUE_AFTER_DAYS } from "@/lib/dashboard";
