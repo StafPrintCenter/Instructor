@@ -3,14 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { getReviewRequestStatusBadgeClass, getReviewRequestStatusLabel, getSessionResponseBadgeClass, getSessionResponseLabel, getSessionStatusBadgeClass, getSessionStatusLabel, sessionModalityLabels, type SessionModality } from "@/data/sessions";
 
-export function SessionStatusBadge({ status, className }: { status: string; className?: string }) {
-  return (
-    <Badge variant="outline" className={cn("border font-medium", getSessionStatusBadgeClass(status), className)}>
-      {getSessionStatusLabel(status)}
-    </Badge>
-  );
-}
-
 export function SessionModalityBadge({ modality }: { modality: SessionModality }) {
   const Icon = modality === "online" ? Video : MapPin;
   return (

@@ -1,2 +1,5 @@
 export { EmptyState } from "./EmptyState";
-export { ContentStatusBadge, PaymentBadge, SubmissionBadge, InstructorSubmissionBadge } from "./StatusBadges";
+export {
+  ContentStatusBadge, PaymentBadge, SubmissionBadge, InstructorSubmissionBadge,
+  SessionStatusBadge
+} from "./StatusBadges";

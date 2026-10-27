@@ -1,13 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import {
-  paymentLabels,
-  submissionStatusLabels,
-  type PaymentStatus,
-  type SubmissionStatus,
-} from "@/lib/api";
+import { paymentLabels, submissionStatusLabels, type PaymentStatus, type SubmissionStatus } from "@/lib/api";
 import { contentStatusLabels, type ContentStatus } from "@/data/content";
 import { instructorSubmissionStatusLabels, type SubmissionStatus as InstructorSubmissionStatus } from "@/data/submissions";
+import { getReviewRequestStatusBadgeClass, getReviewRequestStatusLabel, getSessionResponseBadgeClass, getSessionResponseLabel, getSessionStatusBadgeClass, getSessionStatusLabel, sessionModalityLabels, type SessionModality } from "@/data/sessions";
 
 const contentTone: Record<ContentStatus, string> = {
   draft: "bg-muted text-muted-foreground border-transparent",
@@ -65,6 +61,15 @@ export function InstructorSubmissionBadge({ status, className }: { status: Instr
   return (
     <Badge variant="outline" className={cn("font-medium", instructorSubmissionTone[status], className)}>
       {instructorSubmissionStatusLabels[status]}
+    </Badge>
+  );
+}
+
+// Sessions
+export function SessionStatusBadge({ status, className }: { status: string; className?: string }) {
+  return (
+    <Badge variant="outline" className={cn("border font-medium", getSessionStatusBadgeClass(status), className)}>
+      {getSessionStatusLabel(status)}
     </Badge>
   );
 }
