@@ -15,7 +15,7 @@ import {
   CorrectionTrainingCard,
   OtherSubmissionsCard,
   buildGradeTarget,
-} from "@/components/pages/corrections";
+} from "@/components/pages/corrections/detail";
 import { isGradedStatus } from "@/data/submissions";
 import { useInstructorSubmissionDetail } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";
