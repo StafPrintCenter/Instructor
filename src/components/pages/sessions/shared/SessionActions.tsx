@@ -10,7 +10,6 @@ import { useDeleteInstructorSession } from "@/stores/useSessionsStore";
 
 interface SessionActionsProps {
   session: APIInstructorSessionDetail;
-  /** Appelé après une suppression réussie (navigation) */
   onDeleted: () => void;
 }
 

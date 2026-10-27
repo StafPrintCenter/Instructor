@@ -39,5 +39,9 @@ export function SessionDetailError({ onRetry }: { onRetry: () => void }) {
 }
 
 export function SessionNotFound({ children }: { children?: ReactNode }) {
-  return <p className="text-muted-foreground">{children ?? "Session introuvable."}</p>;
+  return (
+    <p className="text-muted-foreground">
+      {children ?? "Session introuvable."}
+    </p>
+  );
 }
