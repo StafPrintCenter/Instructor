@@ -2,8 +2,8 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { APIInstructorSession } from "@/data/sessions";
-import { SessionFormFields } from "./form/SessionFormFields";
-import { useSessionForm } from "./form/useSessionForm";
+import { SessionFormFields } from "../form/SessionFormFields";
+import { useSessionForm } from "../form/useSessionForm";
 
 interface SessionFormDialogProps {
   open: boolean;
