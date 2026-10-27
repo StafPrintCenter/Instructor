@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SessionModalityBadge } from "@/components/pages/sessions";
+import { SessionModalityBadge } from "@/components/shared";
 import { useDashboardUpcomingSessions } from "@/hooks/useDashboardData";
 import { formatSessionShortDateTime } from "@/lib/session-time";
 import { DashboardListError, DashboardListSkeleton } from "./CardState";

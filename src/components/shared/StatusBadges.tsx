@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { MapPin, Video } from "lucide-react";
 import { paymentLabels, submissionStatusLabels, type PaymentStatus, type SubmissionStatus } from "@/lib/api";
 import { contentStatusLabels, type ContentStatus } from "@/data/content";
 import { instructorSubmissionStatusLabels, type SubmissionStatus as InstructorSubmissionStatus } from "@/data/submissions";
@@ -73,3 +74,13 @@ export function SessionStatusBadge({ status, className }: { status: string; clas
     </Badge>
   );
 }
+
+export function SessionModalityBadge({ modality }: { modality: SessionModality }) {
+  const Icon = modality === "online" ? Video : MapPin;
+  return (
+    <Badge variant="secondary" className="gap-1 text-[10px]">
+      <Icon className="size-3" /> {sessionModalityLabels[modality]}
+    </Badge>
+  );
+}
+

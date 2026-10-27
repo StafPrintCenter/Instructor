@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { ExternalLink } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { SessionModalityBadge } from "@/components/pages/sessions";
+import { SessionModalityBadge } from "@/components/shared";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionDateTime, formatSessionShortDateTime, formatSessionTimeRange } from "@/lib/session-time";
 

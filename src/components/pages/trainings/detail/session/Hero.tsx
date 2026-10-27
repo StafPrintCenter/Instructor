@@ -1,5 +1,5 @@
-import { SessionActions, SessionModalityBadge } from "@/components/pages/sessions/shared";
-import { SessionStatusBadge } from "@/components/shared";
+import { SessionActions } from "@/components/pages/sessions/shared";
+import { SessionStatusBadge, SessionModalityBadge } from "@/components/shared";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionDateTime, getSessionDayParts } from "@/lib/session-time";
 
