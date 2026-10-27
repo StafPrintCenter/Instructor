@@ -1,2 +1,2 @@
 export { TrainingInstructors } from "./TrainingInstructors";
-export { getInitials, sortTrainingInstructors } from "./instructorUtils";
+export { getInitials, sortTrainingInstructors } from "../home/instructorUtils";

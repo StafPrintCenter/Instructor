@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getInstructorRoleConfig, type APIInstructorTrainingInstructor } from "@/data/trainings";
 import { InstructorAvatar } from "./InstructorAvatar";
-import { sortTrainingInstructors } from "../instructors/instructorUtils";
+import { sortTrainingInstructors } from "./instructorUtils";
 
 interface TrainingInstructorsDialogProps {
   open: boolean;
