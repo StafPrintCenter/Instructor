@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, BookOpen } from "lucide-react";
-import { EmptyState } from "@/components/shared/page-header";
+import { EmptyState } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { useDashboardStudents, useDashboardTrainings } from "@/hooks/useDashboardData";
 import { DashboardListError } from "./CardState";

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { AlertTriangle, Inbox, RefreshCw } from "lucide-react";
-import { EmptyState } from "@/components/shared/page-header";
+import { EmptyState } from "@/components/shared";
 import { PaginationBar } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import type { APIInstructorCorrectionListItem, GradedFilter } from "@/data/submissions";

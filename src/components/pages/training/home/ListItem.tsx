@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
-import { EmptyState } from "@/components/shared/page-header";
+import { EmptyState } from "@/components/shared";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { TrainingCardActions } from "./CardActions";
 import { TrainingCardHeader } from "./CardHeader";
