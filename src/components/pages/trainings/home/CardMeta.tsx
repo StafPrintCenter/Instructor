@@ -34,7 +34,7 @@ export function TrainingCardMeta({ training: t }: { training: APIInstructorTrain
         {hasPeriod ? (
           <span className="flex items-center gap-1.5">
             <Calendar className="size-3.5 shrink-0" />
-            du {formatDate(t.trainingStartDate!)}
+            du {formatDate(t.trainingStartDate!)} {" "}
             au {formatDate(t.trainingEndDate!)}
           </span>
         ) : null}

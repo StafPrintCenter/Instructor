@@ -23,10 +23,12 @@ export function TrainingInstructorsCard({ instructors, mainColor }: TrainingInst
       </CardHeader>
       <CardContent className="space-y-4">
         {sorted.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Aucun formateur assigné à cette formation.</p>
+          <p className="text-sm text-muted-foreground">
+            Aucun formateur assigné à cette formation.</p>
         ) : null}
         {isAlone ? (
-          <p className="text-sm text-muted-foreground">Vous êtes le seul formateur de cette formation.</p>
+          <p className="text-sm text-muted-foreground">
+            Vous êtes le seul formateur de cette formation.</p>
         ) : null}
 
         <ul className="grid gap-3 sm:grid-cols-2">

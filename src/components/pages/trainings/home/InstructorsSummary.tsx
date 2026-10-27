@@ -31,13 +31,20 @@ export function TrainingInstructorsSummary({ trainingId, trainingTitle, instruct
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group flex w-full items-center gap-2.5 border-t border-border/40 pt-2 text-left text-xs text-muted-foreground transition-colors hover:text-foreground"
+        className="group flex w-full items-center gap-2.5 border-t border-border/40 pt-2 text-left text-xs text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
         aria-label="Voir les formateurs de cette formation"
       >
         <span className="flex -space-x-2">
           {others.slice(0, MAX_AVATARS).map((i) => (
-            <InstructorAvatar key={i.instructorId} name={i.name} photo={i.photo} size="sm" className="border-2 border-card" />
+            <InstructorAvatar
+              key={i.instructorId}
+              name={i.name}
+              photo={i.photo}
+              size="sm"
+              className="border-2 border-card"
+            />
           ))}
+
           {extra > 0 ? (
             <span className="flex size-6 items-center justify-center rounded-full border-2 border-card bg-muted text-[10px] font-medium">
               +{extra}
