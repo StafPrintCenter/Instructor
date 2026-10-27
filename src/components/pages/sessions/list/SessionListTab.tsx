@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { AlertTriangle, CalendarDays, RefreshCw } from "lucide-react";
-import { EmptyState } from "@/components/instructor/page-header";
+import { EmptyState } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
 import { PaginationBar } from "@/components/site";
 import { SessionCard } from "@/components/pages/sessions";

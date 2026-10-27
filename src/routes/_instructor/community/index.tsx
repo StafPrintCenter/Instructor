@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { MessagesSquare, Pin, Send } from "lucide-react";
 import { toast } from "sonner";
 import { PageHeader } from "@/components/site";
-import { EmptyState } from "@/components/instructor/page-header";
+import { EmptyState } from "@/components/shared/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertTriangle, Eye, Mail, Phone, RefreshCw, Users } from "lucide-react";
 import { PageHeader } from "@/components/site";
-import { EmptyState } from "@/components/instructor/page-header";
+import { EmptyState } from "@/components/shared/page-header";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { getEnrollmentStatusBadgeClass, getEnrollmentStatusLabel } from "@/data/training-students";
