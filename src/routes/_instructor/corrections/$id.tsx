@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ClipboardCheck } from "lucide-react";
-import { PageHeader } from "@/components/instructor/page-header";
-import { FilePreviewModal } from "@/components/site/FilePreviewModal";
+import { PageHeader, FilePreviewModal } from "@/components/site";
 import { SubmissionGradeDialog } from "@/components/pages/submissions/shared";
 import { Button } from "@/components/ui/button";
 import {

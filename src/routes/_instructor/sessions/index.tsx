@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import { PageHeader } from "@/components/instructor/page-header";
+import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { SessionFormDialog } from "@/components/pages/sessions";
 import {

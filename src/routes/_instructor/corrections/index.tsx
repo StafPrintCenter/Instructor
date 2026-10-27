@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader } from "@/components/instructor/page-header";
+import { PageHeader } from "@/components/site";
 import {
   CorrectionFilters,
   CorrectionStatsTabs,

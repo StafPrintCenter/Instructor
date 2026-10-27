@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { PageHeader } from "@/components/instructor/page-header";
+import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { SessionActions } from "@/components/pages/sessions";
 import {

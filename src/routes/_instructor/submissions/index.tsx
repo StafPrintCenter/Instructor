@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Inbox, RefreshCw } from "lucide-react";
-import { PageHeader, EmptyState } from "@/components/instructor/page-header";
+import { EmptyState } from "@/components/instructor/page-header";
+import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
 import { PaginationBar } from "@/components/site";
