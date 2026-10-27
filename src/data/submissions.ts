@@ -9,6 +9,11 @@ export type SubmissionDecision = Exclude<SubmissionStatus, "submitted">;
 export const SUBMISSION_STATUSES: SubmissionStatus[] = ["submitted", "under_review", "validated", "rejected"];
 export const SUBMISSION_DECISIONS: SubmissionDecision[] = ["under_review", "validated", "rejected"];
 
+export const GRADED_STATUSES: SubmissionStatus[] = ["validated", "rejected"];
+export const PENDING_STATUSES: SubmissionStatus[] = ["submitted", "under_review"];
+
+export const isGradedStatus = (status: SubmissionStatus): boolean => GRADED_STATUSES.includes(status);
+
 export const instructorSubmissionStatusLabels: Record<SubmissionStatus, string> = {
   submitted: "Soumis",
   under_review: "En cours de correction",
@@ -29,7 +34,7 @@ export interface APIInstructorSubmissionFeedback {
   validated: boolean;
 }
 
-/** GET /instructor/trainings/submissions/list */
+/** GET /instructor/trainings/students/submissions/list */
 export interface APIInstructorSubmission {
   id: string;
   lessonId: string;
@@ -69,14 +74,22 @@ export interface InstructorSubmissionGradePayload {
 export type SubmissionKind = Extract<LessonKind, "exercise" | "assignment" | "project">;
 export const SUBMISSION_KINDS: SubmissionKind[] = ["exercise", "assignment", "project"];
 
-/** Paramètre `graded` : "pending" = soumis / en cours de revue, "graded" = validés ou rejetés */
-export type GradedFilter = "all" | "pending" | "graded";
+export const GRADED_FILTERS = ["all", "pending", "graded"] as const;
+
+export type GradedFilter = (typeof GRADED_FILTERS)[number];
 
 export const gradedFilterLabels: Record<GradedFilter, string> = {
   all: "Tous",
   pending: "À corriger",
   graded: "Corrigés",
 };
+
+/** Statuts cohérents avec un onglet donné (évite les combinaisons vides, ex. « À corriger » + « Validé ») */
+export function getStatusesForGradedFilter(graded: GradedFilter): SubmissionStatus[] {
+  if (graded === "pending") return PENDING_STATUSES;
+  if (graded === "graded") return GRADED_STATUSES;
+  return SUBMISSION_STATUSES;
+}
 
 /** Item de GET /instructor/trainings/submissions/list (clé = submissionId, pas de champ `id`) */
 export interface APIInstructorCorrectionListItem {

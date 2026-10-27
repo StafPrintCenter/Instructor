@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle } from "lucide-react";
+import { InstructorSubmissionBadge } from "@/components/instructor/status-badges";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardOverdue } from "@/hooks/useDashboardData";
@@ -34,9 +35,12 @@ export function DashboardOverdue() {
                   key={s.submissionId}
                   to="/corrections/$id"
                   params={{ id: s.submissionId }}
-                  className="block rounded-lg border border-warning/40 bg-warning/10 p-3 transition-opacity hover:opacity-80"
+                  className="block space-y-1 rounded-lg border border-warning/40 bg-warning/10 p-3 transition-opacity hover:opacity-80"
                 >
-                  <p className="text-sm font-medium">{s.lessonTitle}</p>
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="text-sm font-medium">{s.lessonTitle}</p>
+                    <InstructorSubmissionBadge status={s.status} />
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     {s.studentName} · rendu il y a {days} jour{days > 1 ? "s" : ""}
                   </p>

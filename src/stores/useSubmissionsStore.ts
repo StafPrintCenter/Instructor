@@ -12,15 +12,19 @@ import type {
 } from "@/data/submissions";
 
 const resourceKey = "submissions";
-const basePath = "trainings/students/submissions";
 
-// fetchList({ status, page }) → /api/instructor/trainings/submissions/list?status=...&page=...
-const store = createResourceStore<APIInstructorSubmission>({ resourceKey, basePath });
+/** Liste simple « Travaux rendus » : /instructor/trainings/students/submissions/list */
+const studentsListPath = "trainings/students/submissions";
+/** Corrections (liste + stats), détail et notation : /instructor/trainings/submissions/... */
+const submissionsPath = "trainings/submissions";
+
+// fetchList({ status, page }) → /api/instructor/trainings/students/submissions/list?status=...&page=...
+const store = createResourceStore<APIInstructorSubmission>({ resourceKey, basePath: studentsListPath });
 
 export const fetchInstructorSubmissions = store.fetchList;
 export const useInstructorSubmissionsList = store.useList;
 
-/* ---- Action dédiée ---- */
+/* ---- Notation : PUT /instructor/trainings/submissions/{id}/grade ---- */
 
 interface GradeResponse {
   message: string;
@@ -36,7 +40,7 @@ async function gradeSubmission(
   if (payload.note !== undefined) fd.append("note", String(payload.note));
   if (payload.comment) fd.append("comment", payload.comment);
 
-  const response = await instructorFetch(`/api/instructor/${basePath}/${id}/grade`, { method: "PUT", body: fd });
+  const response = await instructorFetch(`/api/instructor/${submissionsPath}/${id}/grade`, { method: "PUT", body: fd });
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la notation du travail");
   const json: GradeResponse = await response.json();
   return json.data;
@@ -65,7 +69,7 @@ async function fetchCorrections(filters: InstructorCorrectionsFilters): Promise<
     if (value !== undefined && value !== "") qp.append(key, String(value));
   }
 
-  const response = await instructorFetch(`/api/instructor/trainings/submissions/list?${qp.toString()}`);
+  const response = await instructorFetch(`/api/instructor/${submissionsPath}/list?${qp.toString()}`);
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération des corrections");
   return response.json();
 }
@@ -93,7 +97,7 @@ export function useInstructorCorrectionsList(filters: InstructorCorrectionsFilte
 /* ---- Corrections : détail d'une soumission ---- */
 
 async function fetchCorrectionDetail(id: string): Promise<APIInstructorSubmissionDetail | null> {
-  const response = await instructorFetch(`/api/instructor/trainings/submissions/${id}`);
+  const response = await instructorFetch(`/api/instructor/${submissionsPath}/${id}`);
   if (response.status === 404) return null;
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération de la soumission");
   const json: { data: APIInstructorSubmissionDetail } = await response.json();
