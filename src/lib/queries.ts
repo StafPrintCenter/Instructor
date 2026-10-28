@@ -1,10 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import {
   communityApi,
-  contentApi,
   profileApi,
-  sessionsApi,
-  studentsApi,
 } from "@/lib/api";
 
 export const qk = {
@@ -27,30 +24,6 @@ export const qk = {
   notifications: () => ["community", "notifications"] as const,
   profile: (id: string) => ["profile", id] as const,
 };
-
-export const modulesQuery = (id: string, trainingId: string) =>
-  queryOptions({ queryKey: qk.modules(id, trainingId), queryFn: () => contentApi.modules(id, trainingId) });
-
-export const lessonsQuery = (id: string, trainingId: string) =>
-  queryOptions({ queryKey: qk.lessons(id, trainingId), queryFn: () => contentApi.lessons(id, trainingId) });
-
-export const lessonQuery = (id: string, lessonId: string) =>
-  queryOptions({ queryKey: qk.lesson(id, lessonId), queryFn: () => contentApi.lesson(id, lessonId) });
-
-export const reviewsQuery = (id: string) =>
-  queryOptions({ queryKey: qk.reviews(id), queryFn: () => contentApi.reviews(id) });
-
-export const studentsQuery = (id: string, trainingId?: string) =>
-  queryOptions({ queryKey: qk.students(id, trainingId), queryFn: () => studentsApi.list(id, trainingId) });
-
-export const studentQuery = (id: string, studentId: string) =>
-  queryOptions({ queryKey: qk.student(id, studentId), queryFn: () => studentsApi.detail(id, studentId) });
-
-export const sessionsQuery = (id: string) =>
-  queryOptions({ queryKey: qk.sessions(id), queryFn: () => sessionsApi.list(id) });
-
-export const rosterQuery = (trainingId: string) =>
-  queryOptions({ queryKey: qk.roster(trainingId), queryFn: () => sessionsApi.roster(trainingId) });
 
 export const postsQuery = (id: string) =>
   queryOptions({ queryKey: qk.posts(id), queryFn: () => communityApi.posts(id) });
