@@ -7,12 +7,13 @@ import { SessionDetailError, SessionDetailSkeleton, SessionInfoCard, SessionNotF
 import { useInstructorSessionDetail } from "@/stores/useSessionsStore";
 import { formatSessionDateTime } from "@/lib/session-time";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/sessions/$id")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Session ${params.id} | ${SITE.name}` },
-      { name: "description", content: `Consultez les horaires, le lieu, les réponses des apprenants et les demandes liées à la session ${params.id}.` },
+      { title: `${SITE.tool} - Détail d'une session | ${SITE.name}` },
+      { name: "description", content: "Consultez les informations pratiques, les réponses des apprenants et les demandes de réexamen." },
     ],
   }),
   component: SessionDetailPage,
@@ -22,6 +23,10 @@ function SessionDetailPage() {
   const { id } = Route.useParams();
   const navigate = useNavigate();
   const { item: session, isLoading, isError, refetch } = useInstructorSessionDetail(id);
+  useDynamicPageMetadata(
+    session ? `${SITE.tool} - ${session.title} | ${SITE.name}` : undefined,
+    session ? `Session de la formation ${session.trainingTitle}, prévue le ${formatSessionDateTime(session.startsAt)}.` : undefined,
+  );
 
   const backButton = (
     <Button asChild variant="outline" size="sm">
