@@ -21,13 +21,8 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/community/")({
   head: () => ({
     meta: [
-      { title: `Communauté | ${SITE.name}` },
-      {
-        name: "description",
-        content: "Publiez des annonces et échangez avec vos cohortes.",
-      },
-      { property: "og:title", content: `Communauté | ${SITE.name}` },
-      { property: "og:description", content: "Fil d'actualité et annonces de formation." },
+      { title: `${SITE.tool} - Communauté pédagogique | ${SITE.name}` },
+      { name: "description", content: "Partagez des annonces, des informations et des consignes avec les apprenants de vos cohortes." },
     ],
   }),
   component: CommunityPage,
