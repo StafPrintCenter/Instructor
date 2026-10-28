@@ -10,9 +10,8 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/sessions/")({
   head: () => ({
     meta: [
-      { title: `Sessions | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Planifiez et suivez les sessions de vos formations, en liste ou en calendrier." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Sessions de formation | ${SITE.name}` },
+      { name: "description", content: "Planifiez les sessions de vos formations et suivez leur calendrier ainsi que les réponses des apprenants." },
     ],
   }),
   component: SessionsPage,
