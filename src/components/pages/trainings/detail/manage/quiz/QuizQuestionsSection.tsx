@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { APIQuiz, APIQuizQuestion } from "@/data/content";
 import { DeleteQuestionConfirm } from "../eval/question/DeleteConfirm";
-import { QuestionFormDialog } from "./QuestionFormDialog";
+import { QuestionFormDialog } from "../eval/question/FormDialog";
 import { QuestionItem } from "../eval/question/Item";
 
 /** Liste des questions - consultables immédiatement, modifiables / supprimables au besoin */

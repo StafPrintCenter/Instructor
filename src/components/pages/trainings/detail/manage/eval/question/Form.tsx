@@ -9,7 +9,7 @@ import type { APIQuizQuestion, QuizQuestionType } from "@/data/content";
 import { useCreateQuestion, useUpdateQuestion } from "@/stores/useQuizzesStore";
 import { DeleteQuestionConfirm } from "./DeleteConfirm";
 import { QuestionChoicesEditor } from "./ChoicesEditor";
-import { QuestionMainFields } from "../../quiz/QuestionMainFields";
+import { QuestionMainFields } from "./MainFields";
 import { hasCorrectChoice, isQuestionValid, keepFirstCorrect, questionFormFromQuestion, toQuestionPayload, type QuestionFormValues } from "../../quiz/quizQuestionForm";
 
 interface QuestionFormProps {

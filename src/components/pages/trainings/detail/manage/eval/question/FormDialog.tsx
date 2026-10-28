@@ -1,12 +1,11 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { APIQuizQuestion } from "@/data/content";
-import { QuestionForm } from "../eval/question/Form";
+import { QuestionForm } from "./Form";
 
 interface QuestionFormDialogProps {
   open: boolean;
   onClose: () => void;
   quizId: string;
-  /** Question à modifier ; null = création */
   question: APIQuizQuestion | null;
   nextSortOrder: number;
 }
