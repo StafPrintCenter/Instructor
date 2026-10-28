@@ -1,2 +1,2 @@
-export { ManageHeader } from "./ManageHeader";
-export { ManageSkeleton } from "./ManageSkeleton";
+export { ManageHeader } from "./Header";
+export { ManageSkeleton } from "./Skeleton";
