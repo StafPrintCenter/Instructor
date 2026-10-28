@@ -3,7 +3,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { ContentStatusBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { APIInstructorLesson, APIInstructorModule } from "@/data/content";
-import { formatDate } from "@/lib/api";
+import { formatDate } from "@/lib/date-time";
 import { DeleteModuleConfirm, SubmitModuleConfirm } from "./ConfirmDialogs";
 import { EditModuleDialog } from "./EditDialog";
 import { ModuleActions } from "./Actions";

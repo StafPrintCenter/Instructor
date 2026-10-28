@@ -24,8 +24,7 @@ import {
 } from "@/data/training-students";
 import { getPaymentStatusBadgeClass, getPaymentStatusLabel } from "@/data/trainings";
 import { useInstructorTrainingStudent } from "@/stores/useTrainingStudentsStore";
-import { formatDate } from "@/lib/api";
-import { formatDateTime } from "@/lib/date-time";
+import { formatDateTime, formatDate } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/data/site";
 import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";

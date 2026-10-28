@@ -20,15 +20,6 @@ export const nowIso = () => new Date().toISOString();
 
 /* -------------------------------- labels --------------------------------- */
 
-export const lessonTypeLabels: Record<LessonType, string> = {
-  video: "Vidéo",
-  reading: "Lecture",
-  quiz: "Quiz",
-  exercise: "Exercice",
-  assignment: "Devoir",
-  project: "Projet",
-};
-
 export const statusLabels: Record<ContentStatus, string> = {
   draft: "Brouillon",
   submitted: "En validation",
@@ -51,13 +42,7 @@ export const submissionStatusLabels: Record<SubmissionStatus, string> = {
 
 /* ------------------------------- formatting ------------------------------- */
 
-export function formatDate(value: string) {
-  return new Date(value).toLocaleDateString("fr-FR", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
+
 
 export function formatDateTime(value: string) {
   return new Date(value).toLocaleString("fr-FR", {

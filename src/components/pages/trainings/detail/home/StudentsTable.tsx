@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { AttendanceMarkDialog } from "@/components/pages/trainings/shared";
-import { formatDate } from "@/lib/api";
+import { formatDate } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
 import { getPaymentStatusBadgeClass, getPaymentStatusLabel, type APIInstructorTrainingOverview, type PaymentStatus } from "@/data/trainings";
 

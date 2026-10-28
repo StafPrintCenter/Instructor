@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import type { APIInstructorStudentTrainingFollowUp } from "@/data/students";
 import { getEnrollmentStatusBadgeClass, getEnrollmentStatusLabel } from "@/data/training-students";
 import { getPaymentStatusBadgeClass, getPaymentStatusLabel, getTrainingStatusBadgeClass, getTrainingStatusLabel } from "@/data/trainings";
-import { formatDate } from "@/lib/api";
+import { formatDate } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
 
 function StudentStatTile({ label, value }: { label: string; value: string | number }) {

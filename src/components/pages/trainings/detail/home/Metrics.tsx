@@ -1,7 +1,7 @@
 import { Calendar, MapPin } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { formatDate } from "@/lib/api";
+import { formatDate } from "@/lib/date-time";
 import type { APIInstructorTrainingDetail } from "@/data/trainings";
 
 interface TrainingMetricsProps {

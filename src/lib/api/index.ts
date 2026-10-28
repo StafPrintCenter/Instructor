@@ -1,8 +1,4 @@
-/**
- * Mocked, Promise-based API layer for the instructor workspace.
- * Every call mimics a Laravel REST endpoint with simulated latency.
- * Swap the bodies for `fetch()` calls later - signatures stay identical.
- */
+
 
 import * as db from "./mock-data";
 import { clone, computeProgress, delay, fail, nowIso, uid } from "./utils";
