@@ -8,12 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { InstructorSubmissionBadge } from "@/components/shared";
-import {
-  SUBMISSION_DECISIONS,
-  submissionDecisionLabels,
-  type APIInstructorSubmission,
-  type SubmissionDecision,
-} from "@/data/submissions";
+import { SUBMISSION_DECISIONS, submissionDecisionLabels, type APIInstructorSubmission, type SubmissionDecision } from "@/data/submissions";
 import { useGradeInstructorSubmission } from "@/stores/useSubmissionsStore";
 
 interface SubmissionGradeDialogProps {
