@@ -32,7 +32,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         // 2. Pages statiques de base
         const entries: SitemapEntry[] = [
           { path: "/", lastmod: TODAY, changefreq: "weekly", priority: "1.0" },
-          { path: "/dashboard", lastmod: TODAY, changefreq: "weekly", priority: "0.8" },
+          { path: "/login", lastmod: TODAY, changefreq: "weekly", priority: "0.8" },
         ];
 
         // 4. Génération XML
