@@ -7,12 +7,12 @@ import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Contenu de la formation - Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
-      { property: "og:title", content: `Contenu de la formation - Espace Formateur ${SITE.name}` },
-      { property: "og:description", content: "Créez et organisez modules, leçons, quiz et exercices, puis soumettez-les à validation administrateur." },
+      { title: `${SITE.tool} - Contenu de la formation ${params.trainingId} | ${SITE.name}` },
+      { name: "description", content: `Organisez les modules, les leçons, les quiz et les exercices de la formation ${params.trainingId}, puis soumettez-les à validation.` },
+      { property: "og:title", content: `${SITE.tool} - Contenu de la formation ${params.trainingId} | ${SITE.name}` },
+      { property: "og:description", content: `Préparez les ressources pédagogiques de la formation ${params.trainingId}.` },
     ],
   }),
   component: ContentPage,

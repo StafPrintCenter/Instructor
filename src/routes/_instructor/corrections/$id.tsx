@@ -10,11 +10,10 @@ import { useInstructorSubmissionDetail } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/corrections/$id")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Correction | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Détail d'un travail déposé : livrable, consignes, historique des corrections." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Correction ${params.id} | ${SITE.name}` },
+      { name: "description", content: `Consultez le travail ${params.id}, son livrable, les consignes associées et l'historique des corrections.` },
     ],
   }),
   component: CorrectionDetailPage,

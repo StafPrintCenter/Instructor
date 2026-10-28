@@ -7,11 +7,10 @@ import { useInstructorStudentGlobal } from "@/stores/useStudentsStore";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/students/$studentId")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Profil apprenant | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Vue globale d'un apprenant : formations, progression, soumissions, quiz et assiduité." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Profil de l'apprenant ${params.studentId} | ${SITE.name}` },
+      { name: "description", content: `Consultez les formations, la progression, les travaux, les quiz et l'assiduité de l'apprenant ${params.studentId}.` },
     ],
   }),
   component: StudentGlobalPage,

@@ -9,11 +9,10 @@ import { formatSessionDateTime } from "@/lib/session-time";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/sessions/$id")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Session | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Détail d'une session : horaires, lieu, réponses des apprenants et demandes de réexamen." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Session ${params.id} | ${SITE.name}` },
+      { name: "description", content: `Consultez les horaires, le lieu, les réponses des apprenants et les demandes liées à la session ${params.id}.` },
     ],
   }),
   component: SessionDetailPage,

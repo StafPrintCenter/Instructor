@@ -8,11 +8,10 @@ import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/sessions/$sessionId")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Session de formation | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Détail d'une session de la formation : participation et historique." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Session ${params.sessionId} de la formation ${params.trainingId} | ${SITE.name}` },
+      { name: "description", content: `Consultez le déroulement, la participation et l'historique de la session ${params.sessionId} de la formation ${params.trainingId}.` },
     ],
   }),
   component: TrainingSessionPage,

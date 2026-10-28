@@ -4,12 +4,12 @@ import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Détail de la formation - Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Cohorte, dates, sessions, apprenants inscrits et avancement global de la formation." },
-      { property: "og:title", content: "Détail de la formation - Espace Formateur" },
-      { property: "og:description", content: "Suivi complet d'une formation assignée." },
+      { title: `${SITE.tool} - Formation ${params.trainingId} | ${SITE.name}` },
+      { name: "description", content: `Consultez les sessions, les apprenants inscrits et l'avancement de la formation ${params.trainingId}.` },
+      { property: "og:title", content: `${SITE.tool} - Formation ${params.trainingId} | ${SITE.name}` },
+      { property: "og:description", content: `Suivez les sessions et la progression des apprenants de la formation ${params.trainingId}.` },
     ],
   }),
   component: TrainingDetail,

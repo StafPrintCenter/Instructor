@@ -30,11 +30,10 @@ import { cn } from "@/lib/utils";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/students/$studentId")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Suivi apprenant - Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Progression, soumissions, quiz et assiduité d'un apprenant." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Apprenant ${params.studentId}, formation ${params.trainingId} | ${SITE.name}` },
+      { name: "description", content: `Suivez la progression, les travaux, les quiz et l'assiduité de l'apprenant ${params.studentId} dans la formation ${params.trainingId}.` },
     ],
   }),
   component: StudentDetailPage,

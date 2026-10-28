@@ -7,10 +7,14 @@ import { CATEGORY_META } from "@/data/notifications";
 import { useNotificationDetail, useDeleteNotification } from "@/stores/useNotificationsStore";
 import { ConfirmDelete } from "@/components/site/InstructorBits";
 import { NotificationDetailCard, NotificationTechnicalDetails } from "@/components/pages/notifications/detail";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/notifications/$id")({
-  head: () => ({
-    meta: [{ title: "Notification - Instructeur" }, { name: "robots", content: "noindex" }],
+  head: ({ params }) => ({
+    meta: [
+      { title: `${SITE.tool} - Notification ${params.id} | ${SITE.name}` },
+      { name: "description", content: `Consultez le détail de la notification ${params.id} reçue dans votre espace formateur.` },
+    ],
   }),
   component: NotificationDetail,
 });
