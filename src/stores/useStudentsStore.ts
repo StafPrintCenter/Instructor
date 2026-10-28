@@ -1,4 +1,3 @@
-// src/stores/useStudentsStore.ts
 import { useQuery } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
 import { parseApiError } from "@/lib/api-error";
@@ -9,9 +8,6 @@ import { createResourceStore } from "./createResourceStore";
 const resourceKey = "students";
 const basePath = "trainings/students";
 
-// Les items n'ont pas de champ `id` (clé = studentId) alors que la factory l'exige dans son contrat.
-// Seuls fetchList/useList sont utilisés : `id` n'est jamais lu. Le hook exposé ci-dessous
-// renvoie le type réel, sans `id`.
 const store = createResourceStore<APIInstructorStudentListItem & { id: string }>({ resourceKey, basePath });
 
 export const fetchInstructorStudents = store.fetchList;
@@ -36,7 +32,6 @@ async function fetchStudentGlobal(studentId: string): Promise<APIInstructorStude
 
 export function useInstructorStudentGlobal(studentId: string | undefined) {
   const query = useQuery({
-    // préfixe "trainings" : invalidé par les mutations de notation / assiduité / feedback
     queryKey: ["trainings", "students", "detail", studentId ?? ""],
     queryFn: () => fetchStudentGlobal(studentId as string),
     enabled: !!studentId,
