@@ -7,9 +7,8 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/corrections/")({
   head: () => ({
     meta: [
-      { title: `Corrections | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Tous les travaux déposés dans vos formations : filtrez, corrigez et suivez vos corrections." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Travaux à corriger | ${SITE.name}` },
+      { name: "description", content: "Retrouvez les travaux remis par vos apprenants, filtrez-les par statut et consultez vos corrections en attente." },
     ],
   }),
   component: CorrectionsPage,
