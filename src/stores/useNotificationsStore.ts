@@ -1,20 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
+import { parseApiError } from "@/lib/api-error";
 import type {
   APINotificationDetail, APINotificationListItem, APINotificationPreference,
   APINotificationsMeta, DeliveryMode, NotificationCategory, NotificationAction, APICleanupSettings
 } from "@/data/notifications";
-
-async function ensureOk(response: Response, fallback: string): Promise<void> {
-  if (response.ok) return;
-  let message = fallback;
-  try {
-    const json = await response.json();
-    if (typeof json?.message === "string") message = json.message;
-    else if (json?.errors) message = Object.values(json.errors).flat().join(" ") || fallback;
-  } catch { /* corps non-JSON */ }
-  throw new Error(message);
-}
 
 export interface NotificationsListParams { page?: number; perPage?: number }
 
@@ -23,7 +13,7 @@ async function fetchList(params: NotificationsListParams) {
   if (params.page) qp.append("page", String(params.page));
   if (params.perPage) qp.append("perPage", String(params.perPage));
   const response = await instructorFetch(`/api/notifications/manage/list?${qp.toString()}`);
-  await ensureOk(response, "Erreur lors du chargement des notifications.");
+  if (!response.ok) throw await parseApiError(response, "Erreur lors du chargement des notifications.");
   return (await response.json()) as { data: APINotificationListItem[]; meta: APINotificationsMeta };
 }
 
@@ -43,7 +33,7 @@ export function useUnreadCount() {
     queryKey: ["notifications", "unread-count"],
     queryFn: async () => {
       const response = await instructorFetch(`/api/notifications/manage/unread-count`);
-      await ensureOk(response, "Erreur lors du chargement du compteur.");
+      if (!response.ok) throw await parseApiError(response, "Erreur lors du chargement du compteur.");
       const json = (await response.json()) as { data: { unreadCount: number } };
       return json.data.unreadCount;
     },
@@ -73,7 +63,7 @@ export function useNotificationDetail(id: string | undefined) {
     queryFn: async () => {
       const response = await instructorFetch(`/api/notifications/manage/${id}`);
       if (response.status === 404) return null;
-      await ensureOk(response, "Erreur lors du chargement de la notification.");
+      if (!response.ok) throw await parseApiError(response, "Erreur lors du chargement de la notification.");
       const notification = unwrapDetail(await response.json());
       qc.invalidateQueries({ queryKey: ["notifications", "list"] });
       qc.invalidateQueries({ queryKey: ["notifications", "unread-count"] });
@@ -88,7 +78,7 @@ export function useMarkAsRead() {
   return useMutation({
     mutationFn: async (id: string) => {
       const response = await instructorFetch(`/api/notifications/manage/${id}/read`, { method: "PATCH" });
-      await ensureOk(response, "Impossible de marquer la notification comme lue.");
+      if (!response.ok) throw await parseApiError(response, "Impossible de marquer la notification comme lue.");
       return ((await response.json()) as { message?: string }).message ?? "Notification marquée comme lue.";
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notifications"] }),
@@ -100,7 +90,7 @@ export function useMarkAllAsRead() {
   return useMutation({
     mutationFn: async () => {
       const response = await instructorFetch(`/api/notifications/manage/read-all`, { method: "PATCH" });
-      await ensureOk(response, "Impossible de tout marquer comme lu.");
+      if (!response.ok) throw await parseApiError(response, "Impossible de tout marquer comme lu.");
       return ((await response.json()) as { message?: string }).message ?? "Notifications marquées comme lues.";
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notifications"] }),
@@ -112,7 +102,7 @@ export function useNotificationPreferences() {
     queryKey: ["notification-preferences"],
     queryFn: async () => {
       const response = await instructorFetch(`/api/notifications/preferences`);
-      await ensureOk(response, "Erreur lors du chargement des préférences.");
+      if (!response.ok) throw await parseApiError(response, "Erreur lors du chargement des préférences.");
       return ((await response.json()) as { data: APINotificationPreference[] }).data;
     },
   });
@@ -137,7 +127,7 @@ export function useUpdatePreference() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      await ensureOk(response, "Impossible d'enregistrer la préférence.");
+      if (!response.ok) throw await parseApiError(response, "Impossible d'enregistrer la préférence.");
       return ((await response.json()) as { data: APINotificationPreference }).data;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notification-preferences"] }),
@@ -152,7 +142,7 @@ export function useUpdateActionPreference() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ enabled }),
       });
-      await ensureOk(response, "Impossible d'enregistrer la préférence.");
+      if (!response.ok) throw await parseApiError(response, "Impossible d'enregistrer la préférence.");
       return ((await response.json()) as { message?: string }).message ?? "Préférence mise à jour.";
     },
   });
@@ -163,7 +153,7 @@ export function useDeleteNotification() {
   return useMutation({
     mutationFn: async (id: string) => {
       const response = await instructorFetch(`/api/notifications/manage/${id}/delete`, { method: "DELETE" });
-      await ensureOk(response, "Impossible de supprimer la notification.");
+      if (!response.ok) throw await parseApiError(response, "Impossible de supprimer la notification.");
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notifications"] }),
   });
@@ -185,7 +175,7 @@ export function useBulkDeleteNotifications() {
         if (params.readOnly) qp.append("readOnly", "1");
       }
       const response = await instructorFetch(`/api/notifications/manage/delete?${qp.toString()}`, { method: "DELETE" });
-      await ensureOk(response, "Impossible de supprimer les notifications.");
+      if (!response.ok) throw await parseApiError(response, "Impossible de supprimer les notifications.");
       const json = (await response.json()) as { message?: string; data?: { deleted: number } };
       return { message: json.message ?? "Notifications supprimées.", deleted: json.data?.deleted ?? 0 };
     },
@@ -198,7 +188,7 @@ export function useCleanupSettings() {
     queryKey: ["notification-cleanup"],
     queryFn: async () => {
       const response = await instructorFetch(`/api/notifications/settings/cleanup`);
-      await ensureOk(response, "Erreur lors du chargement des réglages de nettoyage.");
+      if (!response.ok) throw await parseApiError(response, "Erreur lors du chargement des réglages de nettoyage.");
       return ((await response.json()) as { data: APICleanupSettings }).data;
     },
   });
@@ -214,7 +204,7 @@ export function useUpdateCleanupSettings() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      await ensureOk(response, "Impossible d'enregistrer les réglages.");
+      if (!response.ok) throw await parseApiError(response, "Impossible d'enregistrer les réglages.");
       return ((await response.json()) as { message?: string }).message ?? "Réglages enregistrés.";
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notification-cleanup"] }),
