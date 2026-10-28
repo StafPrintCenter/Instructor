@@ -8,6 +8,7 @@ import { useNotificationDetail, useDeleteNotification } from "@/stores/useNotifi
 import { ConfirmDelete } from "@/components/site/InstructorBits";
 import { NotificationDetailCard, NotificationTechnicalDetails } from "@/components/pages/notifications/detail";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/notifications/$id")({
   head: ({ params }) => ({
