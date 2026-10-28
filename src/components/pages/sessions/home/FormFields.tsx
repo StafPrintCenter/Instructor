@@ -2,10 +2,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FieldError } from "@/components/pages/sessions/detail";
-import { ModalityFields } from "./ModalityFields";
-import { ScheduleFields } from "./ScheduleFields";
-import { TrainingField } from "./TrainingField";
-import type { SessionFieldsProps } from "./sessionFormSchema";
+import { ModalityFields } from "../form/ModalityFields";
+import { ScheduleFields } from "../form/ScheduleFields";
+import { TrainingField } from "../form/TrainingField";
+import type { SessionFieldsProps } from "../form/sessionFormSchema";
 
 interface SessionFormFieldsProps extends SessionFieldsProps {
   isEdit: boolean;
