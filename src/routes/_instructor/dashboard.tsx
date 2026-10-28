@@ -8,10 +8,10 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/dashboard")({
   head: () => ({
     meta: [
-      { title: `Tableau de bord formateur | ${SITE.name}` },
-      { name: "description", content: "Indicateurs pédagogiques : formations assignées, apprenants, corrections en attente et sessions à venir." },
-      { property: "og:title", content: `Tableau de bord formateur | ${SITE.name}` },
-      { property: "og:description", content: "Pilotez votre activité pédagogique en un coup d'oeil." },
+      { title: `${SITE.tool} - Tableau de bord | ${SITE.name}` },
+      { name: "description", content: "Consultez vos formations, les progrès des apprenants, les travaux à corriger et vos prochaines sessions." },
+      { property: "og:title", content: `${SITE.tool} - Tableau de bord | ${SITE.name}` },
+      { property: "og:description", content: "Retrouvez vos priorités pédagogiques et l'activité de vos formations." },
     ],
   }),
   component: DashboardPage,
