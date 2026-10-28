@@ -4,7 +4,7 @@ import { InstructorSubmissionBadge } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardOverdue } from "@/hooks/useDashboardData";
-import { daysSince } from "@/lib/api";
+import { daysSince } from "@/lib/date-time";
 import { DashboardListError, DashboardListSkeleton } from "./CardState";
 
 export function DashboardOverdue() {

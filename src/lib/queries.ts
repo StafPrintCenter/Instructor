@@ -3,7 +3,6 @@ import {
   communityApi,
   contentApi,
   dashboardApi,
-  gradingApi,
   profileApi,
   sessionsApi,
   studentsApi,
@@ -67,9 +66,6 @@ export const studentsQuery = (id: string, trainingId?: string) =>
 
 export const studentQuery = (id: string, studentId: string) =>
   queryOptions({ queryKey: qk.student(id, studentId), queryFn: () => studentsApi.detail(id, studentId) });
-
-export const queueQuery = (id: string) =>
-  queryOptions({ queryKey: qk.queue(id), queryFn: () => gradingApi.queue(id) });
 
 export const sessionsQuery = (id: string) =>
   queryOptions({ queryKey: qk.sessions(id), queryFn: () => sessionsApi.list(id) });

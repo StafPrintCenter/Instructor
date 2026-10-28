@@ -4,7 +4,7 @@ import { EmptyState } from "@/components/shared";
 import { InstructorSubmissionBadge } from "@/components/shared";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDashboardCorrections } from "@/hooks/useDashboardData";
-import { relativeTime } from "@/lib/api";
+import { relativeTime } from "@/lib/date-time";
 import { DashboardListError, DashboardListSkeleton } from "./CardState";
 
 export function DashboardActivity() {

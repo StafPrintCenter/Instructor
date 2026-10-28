@@ -40,33 +40,6 @@ export const submissionStatusLabels: Record<SubmissionStatus, string> = {
   returned: "Renvoyé",
 };
 
-/* ------------------------------- formatting ------------------------------- */
-
-
-
-export function formatDateTime(value: string) {
-  return new Date(value).toLocaleString("fr-FR", {
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
-export function relativeTime(value: string) {
-  const diff = Date.now() - new Date(value).getTime();
-  const days = Math.floor(diff / 86_400_000);
-  if (days > 0) return `il y a ${days} j`;
-  const hours = Math.floor(diff / 3_600_000);
-  if (hours > 0) return `il y a ${hours} h`;
-  const minutes = Math.max(1, Math.floor(diff / 60_000));
-  return `il y a ${minutes} min`;
-}
-
-export function daysSince(value: string) {
-  return Math.floor((Date.now() - new Date(value).getTime()) / 86_400_000);
-}
-
 export function initials(name: string) {
   return name
     .split(" ")
@@ -75,43 +48,3 @@ export function initials(name: string) {
     .join("");
 }
 
-/* ----------------------------- business rules ----------------------------- */
-
-/** Officiel : la meilleure tentative fait foi. */
-export function bestAttempt(attempts: QuizAttempt[], lessonId: string): QuizAttempt | null {
-  const scoped = attempts.filter((a) => a.lesson_id === lessonId);
-  if (!scoped.length) return null;
-  return scoped.reduce((best, a) => (a.score > best.score ? a : best));
-}
-
-/**
- * Progression recalculée depuis les interactions réelles :
- * vidéo/lecture terminée, exercice soumis, quiz avec meilleure note >= seuil.
- */
-export function computeProgress(args: {
-  publishedLessons: Lesson[];
-  completedLessonIds: string[];
-  submittedLessonIds: string[];
-  attempts: QuizAttempt[];
-}): number {
-  const { publishedLessons, completedLessonIds, submittedLessonIds, attempts } = args;
-  if (!publishedLessons.length) return 0;
-  const done = publishedLessons.filter((lesson) => {
-    if (lesson.type === "quiz") {
-      const best = bestAttempt(attempts, lesson.id);
-      return !!best && best.score >= (lesson.quiz?.pass_threshold ?? 100);
-    }
-    if (lesson.type === "exercise" || lesson.type === "assignment" || lesson.type === "project") {
-      return submittedLessonIds.includes(lesson.id);
-    }
-    return completedLessonIds.includes(lesson.id);
-  });
-  return Math.round((done.length / publishedLessons.length) * 100);
-}
-
-export function reorder<T>(items: T[], from: number, to: number): T[] {
-  const next = [...items];
-  const [moved] = next.splice(from, 1);
-  next.splice(to, 0, moved);
-  return next;
-}

@@ -1,7 +1,7 @@
 
 
 import * as db from "./mock-data";
-import { clone, computeProgress, delay, fail, nowIso, uid } from "./utils";
+import { clone, delay, fail, nowIso, uid } from "./utils";
 import type {
   ActivityItem,
   AppNotification,
@@ -67,18 +67,7 @@ function publishedLessons(trainingId: ID) {
   return store.lessons.filter((l) => l.training_id === trainingId && l.status === "approved" && l.is_active);
 }
 
-function recomputeProgress(studentId: ID, trainingId: ID) {
-  const enrollment = store.enrollments.find((e) => e.student_id === studentId && e.training_id === trainingId);
-  if (!enrollment) return;
-  enrollment.progress = computeProgress({
-    publishedLessons: publishedLessons(trainingId),
-    completedLessonIds: store.completions.filter((c) => c.student_id === studentId).map((c) => c.lesson_id),
-    submittedLessonIds: store.submissions
-      .filter((s) => s.student_id === studentId && s.status !== "returned")
-      .map((s) => s.lesson_id),
-    attempts: store.attempts.filter((a) => a.student_id === studentId),
-  });
-}
+
 
 function pushReview(entity_type: "module" | "lesson", entity_id: ID, entity_title: string) {
   const review: ContentReview = {
@@ -504,65 +493,6 @@ export interface SubmissionRow extends Submission {
   student: Student;
   training_title: string;
 }
-
-export const gradingApi = {
-  async queue(
-    instructorId: ID,
-    filters?: { trainingId?: ID; type?: string; status?: string },
-  ): Promise<SubmissionRow[]> {
-    const mine = assignedTrainings(instructorId);
-    const ids = mine.map((t) => t.id);
-    const rows = store.submissions
-      .filter((s) => ids.includes(s.training_id))
-      .filter((s) => (filters?.trainingId ? s.training_id === filters.trainingId : true))
-      .filter((s) => (filters?.type && filters.type !== "all" ? s.type === filters.type : true))
-      .filter((s) => (filters?.status && filters.status !== "all" ? s.status === filters.status : true))
-      .map((s) => ({
-        ...s,
-        student: store.students.find((x) => x.id === s.student_id)!,
-        training_title: mine.find((t) => t.id === s.training_id)!.title,
-      }))
-      .sort((a, b) => +new Date(a.submitted_at) - +new Date(b.submitted_at));
-    return delay(clone(rows));
-  },
-
-  async grade(input: {
-    instructorId: ID;
-    submissionId: ID;
-    grade: number;
-    comment: string;
-    decision: "validated" | "returned";
-  }): Promise<Submission> {
-    const submission = store.submissions.find((s) => s.id === input.submissionId);
-    if (!submission) return fail("Soumission introuvable.");
-    if (input.grade < 0 || input.grade > 100) return fail("La note doit être comprise entre 0 et 100.");
-    submission.grade = input.grade;
-    submission.feedback = input.comment;
-    submission.graded_at = nowIso();
-    submission.status = input.decision === "validated" ? "graded" : "returned";
-    recomputeProgress(submission.student_id, submission.training_id);
-    return delay(clone(submission));
-  },
-
-  async gradeBulk(input: {
-    instructorId: ID;
-    submissionIds: ID[];
-    grade: number;
-    comment: string;
-    decision: "validated" | "returned";
-  }): Promise<{ updated: number }> {
-    for (const id of input.submissionIds) {
-      const submission = store.submissions.find((s) => s.id === id);
-      if (!submission) continue;
-      submission.grade = input.grade;
-      submission.feedback = input.comment;
-      submission.graded_at = nowIso();
-      submission.status = input.decision === "validated" ? "graded" : "returned";
-      recomputeProgress(submission.student_id, submission.training_id);
-    }
-    return delay({ updated: input.submissionIds.length });
-  },
-};
 
 /* --------------------------------- sessions ------------------------------- */
 
