@@ -7,9 +7,8 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/students/")({
   head: () => ({
     meta: [
-      { title: `Mes apprenants | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Apprenants inscrits à vos formations, avec leur progression et leur dernière activité." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Mes apprenants | ${SITE.name}` },
+      { name: "description", content: "Retrouvez les apprenants inscrits à vos formations et consultez leur progression ainsi que leur activité récente." },
     ],
   }),
   component: StudentsPage,
