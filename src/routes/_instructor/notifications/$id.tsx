@@ -13,8 +13,8 @@ import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 export const Route = createFileRoute("/_instructor/notifications/$id")({
   head: ({ params }) => ({
     meta: [
-      { title: `${SITE.tool} - Notification ${params.id} | ${SITE.name}` },
-      { name: "description", content: `Consultez le détail de la notification ${params.id} reçue dans votre espace formateur.` },
+      { title: `${SITE.tool} - Détail d'une notification | ${SITE.name}` },
+      { name: "description", content: "Consultez le détail et le contenu de cette notification de votre espace formateur." },
     ],
   }),
   component: NotificationDetail,
