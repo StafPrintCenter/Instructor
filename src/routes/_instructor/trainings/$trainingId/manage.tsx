@@ -12,8 +12,6 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage"
     meta: [
       { title: `${SITE.tool} - Contenu de la formation | ${SITE.name}` },
       { name: "description", content: "Organisez les modules, les leçons, les quiz et les exercices de votre formation." },
-      { property: "og:title", content: `${SITE.tool} - Contenu de la formation | ${SITE.name}` },
-      { property: "og:description", content: "Préparez les ressources pédagogiques de votre formation." },
     ],
   }),
   component: ContentPage,
