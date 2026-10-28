@@ -8,12 +8,13 @@ import { SubmissionGradeDialog } from "@/components/pages/submissions";
 import { isGradedStatus } from "@/data/submissions";
 import { useInstructorSubmissionDetail } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/corrections/$id")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Correction ${params.id} | ${SITE.name}` },
-      { name: "description", content: `Consultez le travail ${params.id}, son livrable, les consignes associées et l'historique des corrections.` },
+      { title: `${SITE.tool} - Détail d'une correction | ${SITE.name}` },
+      { name: "description", content: "Consultez le contenu du travail remis, les consignes pédagogiques et l'historique des corrections." },
     ],
   }),
   component: CorrectionDetailPage,
@@ -22,6 +23,10 @@ export const Route = createFileRoute("/_instructor/corrections/$id")({
 function CorrectionDetailPage() {
   const { id } = Route.useParams();
   const { submission: d, isLoading, isError, refetch } = useInstructorSubmissionDetail(id);
+  useDynamicPageMetadata(
+    d ? `${SITE.tool} - ${d.lesson.title} | ${SITE.name}` : undefined,
+    d ? `Correction du travail de ${d.student.name} pour la formation ${d.training.title}.` : undefined,
+  );
 
   const [gradeOpen, setGradeOpen] = useState(false);
   const [preview, setPreview] = useState<{ url: string; title: string } | null>(null);
