@@ -5,6 +5,9 @@ import { InstructorShell } from "@/components/site/InstructorShell";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 
 export const Route = createFileRoute("/_instructor")({
+  head: () => ({
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
   component: InstructorLayout,
 });
 
