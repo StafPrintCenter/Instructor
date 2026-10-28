@@ -15,9 +15,8 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/submissions")({
   head: () => ({
     meta: [
-      { title: `Travaux rendus | Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Consultez, notez et validez les travaux déposés par les apprenants de vos formations." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Travaux rendus | ${SITE.name}` },
+      { name: "description", content: "Consultez les travaux remis par vos apprenants, évaluez-les et envoyez vos retours." },
     ],
   }),
   component: SubmissionsPage,
