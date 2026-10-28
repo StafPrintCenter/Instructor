@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
+import { parseApiError } from "@/lib/api-error";
 import { createResourceStore } from "./createResourceStore";
 import type { APIInstructorTrainingAssignment, APIInstructorTrainingOverview } from "@/data/trainings";
 
@@ -17,7 +18,7 @@ export const useInstructorTrainingsList = store.useList;
 async function fetchInstructorTrainingOverview(id: string): Promise<APIInstructorTrainingOverview | null> {
   const response = await instructorFetch(`/api/instructor/${basePath}/${id}`);
   if (response.status === 404) return null;
-  if (!response.ok) throw new Error(`Erreur lors de la récupération de la formation`);
+  if (!response.ok) throw await parseApiError(response, "Erreur lors de la récupération de la formation");
   return response.json();
 }
 
