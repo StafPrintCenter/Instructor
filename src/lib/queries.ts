@@ -2,12 +2,9 @@ import { queryOptions } from "@tanstack/react-query";
 import {
   communityApi,
   contentApi,
-  dashboardApi,
   profileApi,
   sessionsApi,
   studentsApi,
-  trainingsApi,
-  authApi,
 } from "@/lib/api";
 
 export const qk = {
@@ -30,24 +27,6 @@ export const qk = {
   notifications: () => ["community", "notifications"] as const,
   profile: (id: string) => ["profile", id] as const,
 };
-
-export const statsQuery = (id: string) =>
-  queryOptions({ queryKey: qk.stats(id), queryFn: () => dashboardApi.stats(id) });
-
-export const activityQuery = (id: string) =>
-  queryOptions({ queryKey: qk.activity(id), queryFn: () => dashboardApi.activity(id) });
-
-export const overdueQuery = (id: string) =>
-  queryOptions({ queryKey: qk.overdue(id), queryFn: () => dashboardApi.overdueGradings(id) });
-
-export const trainingsQuery = (id: string) =>
-  queryOptions({ queryKey: qk.trainings(id), queryFn: () => trainingsApi.listAssigned(id) });
-
-export const trainingOverviewQuery = (id: string, trainingId: string) =>
-  queryOptions({
-    queryKey: qk.trainingOverview(id, trainingId),
-    queryFn: () => trainingsApi.overview(id, trainingId),
-  });
 
 export const modulesQuery = (id: string, trainingId: string) =>
   queryOptions({ queryKey: qk.modules(id, trainingId), queryFn: () => contentApi.modules(id, trainingId) });
@@ -81,8 +60,5 @@ export const threadsQuery = (id: string) =>
 
 export const notificationsQuery = () =>
   queryOptions({ queryKey: qk.notifications(), queryFn: () => communityApi.notifications() });
-
-export const profileQuery = (id: string) =>
-  queryOptions({ queryKey: qk.profile(id), queryFn: () => authApi.me(id) });
 
 export const profileApiRef = profileApi;
