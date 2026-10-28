@@ -15,11 +15,10 @@ import { useInstructorTrainingStudents } from "@/stores/useTrainingStudentsStore
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/submissions")({
-  head: () => ({
+  head: ({ params }) => ({
     meta: [
-      { title: `Soumissions de la formation - Espace Formateur ${SITE.name}` },
-      { name: "description", content: "Travaux rendus par l'ensemble des apprenants de la formation." },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Travaux rendus de la formation ${params.trainingId} | ${SITE.name}` },
+      { name: "description", content: `Consultez et évaluez les travaux remis par les apprenants de la formation ${params.trainingId}.` },
     ],
   }),
   component: TrainingSubmissionsPage,
