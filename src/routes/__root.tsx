@@ -8,17 +8,16 @@ import { NotFoundComponent, ErrorComponent } from "@/components/errors";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => {
-    const PAGE_TITLE = `${SITE.tool} - Enseigner et accompagner | ${SITE.name}`;
-    const PAGE_DESC = `Pilotez vos activités pédagogiques avec ${SITE.name}. Gérez vos contenus, corrigez les exercices, donnez des retours et suivez la progression des apprenants.`;
+    const PAGE_TITLE = `${SITE.tool} - Gérez vos formations et accompagnez vos apprenants | ${SITE.name}`;
+    const PAGE_DESC = `Retrouvez vos formations, accompagnez vos apprenants et suivez leurs progrès depuis l'espace formateur de ${SITE.name}.`;
 
     return {
       meta: [
         { charSet: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
         { title: PAGE_TITLE },
         { name: "description", content: PAGE_DESC },
         { name: "author", content: SITE.manager },
-        { name: "robots", content: "noindex, nofollow" },
         { property: "og:type", content: "website" },
         { property: "og:site_name", content: SITE.name },
         { property: "og:title", content: PAGE_TITLE },
