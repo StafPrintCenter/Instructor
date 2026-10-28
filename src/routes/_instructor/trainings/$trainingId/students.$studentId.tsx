@@ -28,12 +28,13 @@ import { formatDate } from "@/lib/api";
 import { formatDateTime } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/students/$studentId")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Apprenant ${params.studentId}, formation ${params.trainingId} | ${SITE.name}` },
-      { name: "description", content: `Suivez la progression, les travaux, les quiz et l'assiduité de l'apprenant ${params.studentId} dans la formation ${params.trainingId}.` },
+      { title: `${SITE.tool} - Suivi d'un apprenant | ${SITE.name}` },
+      { name: "description", content: "Consultez la progression, les travaux remis, les quiz et l'assiduité d'un apprenant." },
     ],
   }),
   component: StudentDetailPage,
@@ -42,6 +43,13 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/student
 function StudentDetailPage() {
   const { trainingId, studentId } = Route.useParams();
   const { detail, isLoading, isError, error, refetch } = useInstructorTrainingStudent(trainingId, studentId);
+  const studentName = detail
+    ? `${detail.data.firstName} ${detail.data.lastName}`.trim() || detail.data.email
+    : undefined;
+  useDynamicPageMetadata(
+    studentName ? `${SITE.tool} - ${studentName} | ${SITE.name}` : undefined,
+    studentName ? `Suivi de ${studentName} dans la formation : progression, travaux, quiz et assiduité.` : undefined,
+  );
 
   const [toGrade, setToGrade] = useState<APIInstructorSubmission | null>(null);
   const [preview, setPreview] = useState<{ url: string; title: string } | null>(null);
