@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { QuizManager } from "@/components/pages/trainings/detail/manage";
+import { QuizManager } from "@/components/pages/trainings/detail/manage/eval/quiz/Manager";
 import type { APIInstructorLesson } from "@/data/content";
 
 interface QuizManagerDialogProps {
