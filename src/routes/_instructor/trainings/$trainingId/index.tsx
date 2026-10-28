@@ -2,14 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { TrainingDetailSkeleton, TrainingDetailHero, TrainingDetailMetrics, TrainingDetailObjectives, TrainingSessionsSection, TrainingStudentsTable, TrainingInstructorsCard } from "@/components/pages/trainings/detail/home";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Formation ${params.trainingId} | ${SITE.name}` },
-      { name: "description", content: `Consultez les sessions, les apprenants inscrits et l'avancement de la formation ${params.trainingId}.` },
-      { property: "og:title", content: `${SITE.tool} - Formation ${params.trainingId} | ${SITE.name}` },
-      { property: "og:description", content: `Suivez les sessions et la progression des apprenants de la formation ${params.trainingId}.` },
+      { title: `${SITE.tool} - Détail d'une formation | ${SITE.name}` },
+      { name: "description", content: "Consultez les sessions, les apprenants inscrits et l'avancement de la formation." },
+      { property: "og:title", content: `${SITE.tool} - Détail d'une formation | ${SITE.name}` },
+      { property: "og:description", content: "Suivez les sessions et la progression des apprenants de votre formation." },
     ],
   }),
   component: TrainingDetail,
@@ -18,6 +19,10 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
 function TrainingDetail() {
   const { trainingId } = Route.useParams();
   const { overview, isLoading } = useInstructorTrainingOverview(trainingId);
+  useDynamicPageMetadata(
+    overview ? `${SITE.tool} - ${overview.data.title} | ${SITE.name}` : undefined,
+    overview ? `Suivez les sessions, les apprenants et l'avancement de la formation ${overview.data.title}.` : undefined,
+  );
 
   if (isLoading || !overview) return <TrainingDetailSkeleton />;
 
