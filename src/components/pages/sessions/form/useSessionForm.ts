@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { APIInstructorSession } from "@/data/sessions";
 import { useCreateInstructorSession, useUpdateInstructorSession } from "@/stores/useSessionsStore";
-import { buildCreatePayload, buildUpdatePayload } from "./sessionFormPayload";
+import { buildCreatePayload, buildUpdatePayload } from "../Formsgrf/sessionFormPayload";
 import {
   buildInitialValues,
   getFormErrors,
