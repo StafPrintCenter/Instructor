@@ -10,8 +10,6 @@ export const Route = createFileRoute("/_instructor/dashboard")({
     meta: [
       { title: `${SITE.tool} - Tableau de bord | ${SITE.name}` },
       { name: "description", content: "Consultez vos formations, les progrès des apprenants, les travaux à corriger et vos prochaines sessions." },
-      { property: "og:title", content: `${SITE.tool} - Tableau de bord | ${SITE.name}` },
-      { property: "og:description", content: "Retrouvez vos priorités pédagogiques et l'activité de vos formations." },
     ],
   }),
   component: DashboardPage,
