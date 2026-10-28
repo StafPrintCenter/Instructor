@@ -52,7 +52,7 @@ export function CalendarMonthGrid({ cells, sessionsByDay, selectedKey, onSelect 
                   onClick={() => onSelect(cell.key)}
                   className={cn(
                     "flex size-6 items-center justify-center rounded-full text-xs font-medium transition-colors",
-                    cell.inMonth ? "text-foreground" : "text-muted-foreground",
+                    cell.inMonth ? "text-foreground cursor-pointer" : "text-muted-foreground",
                     cell.isToday && "bg-primary text-primary-foreground",
                     isSelected && !cell.isToday && "ring-2 ring-primary"
                   )}
