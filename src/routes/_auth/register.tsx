@@ -13,12 +13,11 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_auth/register")({
   head: () => ({
     meta: [
-      { title: `Demander un accès formateur | ${SITE.name}` },
+      { title: `${SITE.tool} - Demande d'accès formateur | ${SITE.name}` },
       {
         name: "description",
-        content: `Créez votre compte formateur sur ${SITE.name} et accédez à l'espace formateur après validation par un administrateur.`,
+        content: `Demandez la création de votre compte formateur ${SITE.name}. Votre accès sera activé après validation par un administrateur.`,
       },
-      { name: "robots", content: "noindex" },
     ],
   }),
   component: RegisterPage,

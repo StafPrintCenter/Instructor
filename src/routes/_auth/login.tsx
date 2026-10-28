@@ -14,13 +14,13 @@ export const Route = createFileRoute("/_auth/login")({
   validateSearch: z.object({ redirectTo: z.string().optional() }),
   head: () => ({
     meta: [
-      { title: `Connexion | ${SITE.name}` },
+      { title: `${SITE.tool} - Connexion | ${SITE.name}` },
       {
         name: "description",
-        content: `Connectez-vous à l'espace formateur de ${SITE.name} pour gérer vos formations, corrections et sessions.`,
+        content: `Connectez-vous à votre espace formateur ${SITE.name} pour retrouver vos formations, suivre vos apprenants et corriger leurs travaux.`,
       },
-      { property: "og:title", content: `Connexion | ${SITE.name}` },
-      { property: "og:description", content: "Accès sécurisé à l'espace formateur du centre de formation." },
+      { property: "og:title", content: `${SITE.tool} - Connexion | ${SITE.name}` },
+      { property: "og:description", content: `Connectez-vous à votre espace formateur ${SITE.name} pour retrouver vos formations et suivre vos apprenants.` },
     ],
   }),
   component: LoginPage,
