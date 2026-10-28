@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useCreateQuiz } from "@/stores/useQuizzesStore";
-import { QuizSettingsFields } from "./SettingsFields";
+import { QuizSettingsFields } from "../../quiz/SettingsFields";
 import { emptyQuizSettings, isQuizTimeLimitMissing, toQuizPayload, type QuizSettingsValues } from "./Settings";
 
 interface QuizCreateFormProps {

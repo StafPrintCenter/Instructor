@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { APIQuiz, APIQuizQuestion } from "@/data/content";
-import { DeleteQuestionConfirm } from "./DeleteQuestionConfirm";
+import { DeleteQuestionConfirm } from "../eval/question/DeleteConfirm";
 import { QuestionFormDialog } from "./QuestionFormDialog";
 import { QuestionItem } from "./QuestionItem";
 

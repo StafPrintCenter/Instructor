@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useInvalidateLessons } from "@/stores/useLessonsStore";
-import { QuizCreateForm } from "./CreateForm";
-import { QuizEditor } from "./Editor";
+import { QuizCreateForm } from "../eval/quiz/CreateForm";
+import { QuizEditor } from "../eval/quiz/Editor";
 
 interface QuizManagerProps {
   lessonId: string;
