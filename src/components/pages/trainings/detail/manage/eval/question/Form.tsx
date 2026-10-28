@@ -10,7 +10,7 @@ import { useCreateQuestion, useUpdateQuestion } from "@/stores/useQuizzesStore";
 import { DeleteQuestionConfirm } from "./DeleteConfirm";
 import { QuestionChoicesEditor } from "./ChoicesEditor";
 import { QuestionMainFields } from "./MainFields";
-import { hasCorrectChoice, isQuestionValid, keepFirstCorrect, questionFormFromQuestion, toQuestionPayload, type QuestionFormValues } from "../../quiz/quizQuestionForm";
+import { hasCorrectChoice, isQuestionValid, keepFirstCorrect, questionFormFromQuestion, toQuestionPayload, type QuestionFormValues } from "./quizQuestionForm";
 
 interface QuestionFormProps {
   quizId: string;
