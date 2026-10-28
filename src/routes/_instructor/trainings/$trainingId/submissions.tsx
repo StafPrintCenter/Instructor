@@ -13,12 +13,13 @@ import { toInstructorSubmission } from "@/data/training-students";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { useInstructorTrainingStudents } from "@/stores/useTrainingStudentsStore";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/submissions")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Travaux rendus de la formation ${params.trainingId} | ${SITE.name}` },
-      { name: "description", content: `Consultez et évaluez les travaux remis par les apprenants de la formation ${params.trainingId}.` },
+      { title: `${SITE.tool} - Travaux rendus d'une formation | ${SITE.name}` },
+      { name: "description", content: "Consultez et évaluez les travaux remis par les apprenants de cette formation." },
     ],
   }),
   component: TrainingSubmissionsPage,
@@ -29,6 +30,10 @@ const PAGE_SIZE = 12;
 function TrainingSubmissionsPage() {
   const { trainingId } = Route.useParams();
   const { overview, isLoading: isOverviewLoading } = useInstructorTrainingOverview(trainingId);
+  useDynamicPageMetadata(
+    overview ? `${SITE.tool} - Travaux rendus : ${overview.data.title} | ${SITE.name}` : undefined,
+    overview ? `Consultez et évaluez les travaux remis par les apprenants de la formation ${overview.data.title}.` : undefined,
+  );
 
   const students = overview?.students.data ?? [];
   const { overviews, isLoading: isDetailsLoading, isError, refetch } = useInstructorTrainingStudents(
