@@ -3,7 +3,7 @@ import { Clock, ExternalLink, MapPin, UserRound, Video } from "lucide-react";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionTimeRange } from "@/lib/session-time";
 
-function Tile({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
+function SessionTile({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-border/70 bg-card p-4">
       <span className="shrink-0">{icon}</span>
@@ -27,13 +27,13 @@ export function TrainingSessionInfoStrip({
 
   return (
     <div className="grid gap-3 sm:grid-cols-3">
-      <Tile icon={<Clock className="size-5" style={iconStyle} />} label="Horaire">
+      <SessionTile icon={<Clock className="size-5" style={iconStyle} />} label="Horaire">
         <p className="text-sm font-medium">
           {formatSessionTimeRange(session.startsAt, session.endsAt)} · {Number(session.durationMinutes)} min
         </p>
-      </Tile>
+      </SessionTile>
 
-      <Tile
+      <SessionTile
         icon={isOnline ? <Video className="size-5" style={iconStyle} /> : <MapPin className="size-5" style={iconStyle} />}
         label={isOnline ? "Réunion en ligne" : "Lieu"}
       >
@@ -49,11 +49,11 @@ export function TrainingSessionInfoStrip({
         ) : (
           <p className="truncate text-sm font-medium">{session.location ?? "À définir"}</p>
         )}
-      </Tile>
+      </SessionTile>
 
-      <Tile icon={<UserRound className="size-5" style={iconStyle} />} label="Animateur">
+      <SessionTile icon={<UserRound className="size-5" style={iconStyle} />} label="Animateur">
         <p className="text-sm font-medium">{session.instructorName}</p>
-      </Tile>
+      </SessionTile>
     </div>
   );
 }
