@@ -3,28 +3,14 @@
 import * as db from "./mock-data";
 import { clone, delay, fail, nowIso, uid } from "./utils";
 import type {
-  ActivityItem,
   AppNotification,
   CommunityPost,
-  ContentReview,
-  ContentStatus,
-  DashboardStats,
-  Enrollment,
   ID,
   Instructor,
-  InstructorAccountStatus,
-  Lesson,
-  LessonCompletion,
-  LessonType,
   MessageThread,
-  Module,
   NotificationPrefs,
-  QuizAttempt,
-  QuizConfig,
   Student,
-  Submission,
   Training,
-  TrainingSession,
   Availability,
 } from "./types";
 
@@ -49,8 +35,6 @@ const store = {
   notifications: clone(db.notifications),
   reviews: clone(db.reviews),
 };
-
-export const CURRENT_INSTRUCTOR_ID = db.CURRENT_INSTRUCTOR_ID;
 
 /** Règle métier : un instructeur ne voit que ses formations assignées. */
 function assignedTrainings(instructorId: ID): Training[] {
@@ -156,53 +140,5 @@ export const profileApi = {
     if (!instructor) return fail("Profil introuvable.");
     instructor.notification_prefs = { ...prefs };
     return delay(clone(instructor));
-  },
-};
-
-/* --------------------------------- search --------------------------------- */
-
-export interface SearchHit {
-  id: string;
-  label: string;
-  group: "Formations" | "Apprenants" | "Leçons" | "Corrections";
-  to: string;
-  params?: Record<string, string>;
-}
-
-export const searchApi = {
-  async global(instructorId: ID, term: string): Promise<SearchHit[]> {
-    const q = term.trim().toLowerCase();
-    const mine = assignedTrainings(instructorId);
-    const ids = mine.map((t) => t.id);
-    const hits: SearchHit[] = [
-      ...mine.map<SearchHit>((t) => ({
-        id: t.id,
-        label: t.title,
-        group: "Formations",
-        to: "/trainings/$trainingId",
-        params: { trainingId: t.id },
-      })),
-      ...store.enrollments
-        .filter((e) => ids.includes(e.training_id))
-        .map((e) => store.students.find((s) => s.id === e.student_id)!)
-        .map<SearchHit>((s) => ({
-          id: s.id,
-          label: s.full_name,
-          group: "Apprenants",
-          to: "/students/$studentId",
-          params: { studentId: s.id },
-        })),
-      ...store.lessons
-        .filter((l) => ids.includes(l.training_id))
-        .map<SearchHit>((l) => ({
-          id: l.id,
-          label: l.title,
-          group: "Leçons",
-          to: "/trainings/$trainingId/manage",
-          params: { trainingId: l.training_id },
-        })),
-    ];
-    const unique = hits.filter((h, i, arr) => arr.findIndex((x) => x.id === h.id && x.group === h.group) === i);
-    return delay(q ? unique.filter((h) => h.label.toLowerCase().includes(q)).slice(0, 12) : unique.slice(0, 8), 120);
   },
 };
