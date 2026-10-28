@@ -1,6 +1,6 @@
 import { Mail, Phone } from "lucide-react";
 import type { APIInstructorStudentListItem } from "@/data/students";
-import { StudentAvatar } from "./Avatar";
+import { StudentAvatar } from "../shared/Avatar";
 
 export function StudentIdentity({ student: s }: { student: APIInstructorStudentListItem }) {
   return (
