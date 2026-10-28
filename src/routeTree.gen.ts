@@ -18,6 +18,7 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
 import { Route as InstructorProfilRouteImport } from './routes/_instructor/profil'
+import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
 import { Route as InstructorCommunityIndexRouteImport } from './routes/_instructor/community/index'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
 import { Route as InstructorCorrectionsIdRouteImport } from './routes/_instructor/corrections/$id'
@@ -28,7 +29,6 @@ import { Route as InstructorSessionsIndexRouteImport } from './routes/_instructo
 import { Route as InstructorSessionsIdRouteImport } from './routes/_instructor/sessions/$id'
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
 import { Route as InstructorStudentsStudentIdRouteImport } from './routes/_instructor/students/$studentId'
-import { Route as InstructorSubmissionsIndexRouteImport } from './routes/_instructor/submissions/index'
 import { Route as InstructorTrainingsIndexRouteImport } from './routes/_instructor/trainings/index'
 import { Route as InstructorTrainingsTrainingIdIndexRouteImport } from './routes/_instructor/trainings/$trainingId/index'
 import { Route as InstructorTrainingsTrainingIdManageRouteImport } from './routes/_instructor/trainings/$trainingId/manage'
@@ -77,6 +77,11 @@ const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
 const InstructorProfilRoute = InstructorProfilRouteImport.update({
   id: '/profil',
   path: '/profil',
+  getParentRoute: () => InstructorRoute,
+} as any)
+const InstructorSubmissionsRoute = InstructorSubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
   getParentRoute: () => InstructorRoute,
 } as any)
 const InstructorCommunityIndexRoute =
@@ -135,12 +140,6 @@ const InstructorStudentsStudentIdRoute =
     path: '/students/$studentId',
     getParentRoute: () => InstructorRoute,
   } as any)
-const InstructorSubmissionsIndexRoute =
-  InstructorSubmissionsIndexRouteImport.update({
-    id: '/submissions/',
-    path: '/submissions/',
-    getParentRoute: () => InstructorRoute,
-  } as any)
 const InstructorTrainingsIndexRoute =
   InstructorTrainingsIndexRouteImport.update({
     id: '/trainings/',
@@ -186,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
@@ -196,7 +196,6 @@ export interface FileRoutesByFullPath {
   '/notifications/': typeof InstructorNotificationsIndexRoute
   '/sessions/': typeof InstructorSessionsIndexRoute
   '/students/': typeof InstructorStudentsIndexRoute
-  '/submissions/': typeof InstructorSubmissionsIndexRoute
   '/trainings/': typeof InstructorTrainingsIndexRoute
   '/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/trainings/$trainingId/submissions': typeof InstructorTrainingsTrainingIdSubmissionsRoute
@@ -212,6 +211,7 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profil': typeof InstructorProfilRoute
+  '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
@@ -222,7 +222,6 @@ export interface FileRoutesByTo {
   '/notifications': typeof InstructorNotificationsIndexRoute
   '/sessions': typeof InstructorSessionsIndexRoute
   '/students': typeof InstructorStudentsIndexRoute
-  '/submissions': typeof InstructorSubmissionsIndexRoute
   '/trainings': typeof InstructorTrainingsIndexRoute
   '/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/trainings/$trainingId/submissions': typeof InstructorTrainingsTrainingIdSubmissionsRoute
@@ -241,6 +240,7 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profil': typeof InstructorProfilRoute
+  '/_instructor/submissions': typeof InstructorSubmissionsRoute
   '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/_instructor/notifications/$id': typeof InstructorNotificationsIdRoute
   '/_instructor/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
@@ -251,7 +251,6 @@ export interface FileRoutesById {
   '/_instructor/notifications/': typeof InstructorNotificationsIndexRoute
   '/_instructor/sessions/': typeof InstructorSessionsIndexRoute
   '/_instructor/students/': typeof InstructorStudentsIndexRoute
-  '/_instructor/submissions/': typeof InstructorSubmissionsIndexRoute
   '/_instructor/trainings/': typeof InstructorTrainingsIndexRoute
   '/_instructor/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/_instructor/trainings/$trainingId/submissions': typeof InstructorTrainingsTrainingIdSubmissionsRoute
@@ -269,6 +268,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/profil'
+    | '/submissions'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
@@ -279,7 +279,6 @@ export interface FileRouteTypes {
     | '/notifications/'
     | '/sessions/'
     | '/students/'
-    | '/submissions/'
     | '/trainings/'
     | '/trainings/$trainingId/manage'
     | '/trainings/$trainingId/submissions'
@@ -295,6 +294,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/dashboard'
     | '/profil'
+    | '/submissions'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
@@ -305,7 +305,6 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/sessions'
     | '/students'
-    | '/submissions'
     | '/trainings'
     | '/trainings/$trainingId/manage'
     | '/trainings/$trainingId/submissions'
@@ -323,6 +322,7 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_instructor/dashboard'
     | '/_instructor/profil'
+    | '/_instructor/submissions'
     | '/_instructor/corrections/$id'
     | '/_instructor/notifications/$id'
     | '/_instructor/notifications/preferences'
@@ -333,7 +333,6 @@ export interface FileRouteTypes {
     | '/_instructor/notifications/'
     | '/_instructor/sessions/'
     | '/_instructor/students/'
-    | '/_instructor/submissions/'
     | '/_instructor/trainings/'
     | '/_instructor/trainings/$trainingId/manage'
     | '/_instructor/trainings/$trainingId/submissions'
@@ -414,6 +413,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorProfilRouteImport
       parentRoute: typeof InstructorRoute
     }
+    '/_instructor/submissions': {
+      id: '/_instructor/submissions'
+      path: '/submissions'
+      fullPath: '/submissions'
+      preLoaderRoute: typeof InstructorSubmissionsRouteImport
+      parentRoute: typeof InstructorRoute
+    }
     '/_instructor/community/': {
       id: '/_instructor/community/'
       path: '/community'
@@ -484,13 +490,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorStudentsStudentIdRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/submissions/': {
-      id: '/_instructor/submissions/'
-      path: '/submissions'
-      fullPath: '/submissions/'
-      preLoaderRoute: typeof InstructorSubmissionsIndexRouteImport
-      parentRoute: typeof InstructorRoute
-    }
     '/_instructor/trainings/': {
       id: '/_instructor/trainings/'
       path: '/trainings'
@@ -553,6 +552,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfilRoute: typeof InstructorProfilRoute
+  InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
   InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
   InstructorNotificationsIdRoute: typeof InstructorNotificationsIdRoute
   InstructorNotificationsPreferencesRoute: typeof InstructorNotificationsPreferencesRoute
@@ -563,7 +563,6 @@ interface InstructorRouteChildren {
   InstructorNotificationsIndexRoute: typeof InstructorNotificationsIndexRoute
   InstructorSessionsIndexRoute: typeof InstructorSessionsIndexRoute
   InstructorStudentsIndexRoute: typeof InstructorStudentsIndexRoute
-  InstructorSubmissionsIndexRoute: typeof InstructorSubmissionsIndexRoute
   InstructorTrainingsIndexRoute: typeof InstructorTrainingsIndexRoute
   InstructorTrainingsTrainingIdManageRoute: typeof InstructorTrainingsTrainingIdManageRoute
   InstructorTrainingsTrainingIdSubmissionsRoute: typeof InstructorTrainingsTrainingIdSubmissionsRoute
@@ -575,6 +574,7 @@ interface InstructorRouteChildren {
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfilRoute: InstructorProfilRoute,
+  InstructorSubmissionsRoute: InstructorSubmissionsRoute,
   InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
   InstructorNotificationsIdRoute: InstructorNotificationsIdRoute,
   InstructorNotificationsPreferencesRoute:
@@ -586,7 +586,6 @@ const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorNotificationsIndexRoute: InstructorNotificationsIndexRoute,
   InstructorSessionsIndexRoute: InstructorSessionsIndexRoute,
   InstructorStudentsIndexRoute: InstructorStudentsIndexRoute,
-  InstructorSubmissionsIndexRoute: InstructorSubmissionsIndexRoute,
   InstructorTrainingsIndexRoute: InstructorTrainingsIndexRoute,
   InstructorTrainingsTrainingIdManageRoute:
     InstructorTrainingsTrainingIdManageRoute,
