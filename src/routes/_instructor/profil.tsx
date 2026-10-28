@@ -37,8 +37,8 @@ const PREF_LABELS: Record<keyof NotificationPrefs, string> = {
 export const Route = createFileRoute("/_instructor/profil")({
   head: () => ({
     meta: [
-      { title: `Profil formateur | ${SITE.name}` },
-      { name: "robots", content: "noindex" },
+      { title: `${SITE.tool} - Mon profil | ${SITE.name}` },
+      { name: "description", content: "Consultez et mettez à jour les informations de votre compte formateur et vos préférences." },
     ],
   }),
   component: ProfilePage,
