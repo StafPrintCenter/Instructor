@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { EmptyState } from "@/components/shared";
-import { ManageHeader, ManageSkeleton } from "@/components/pages/trainings/detail/manage/base";
-import { ModuleCard } from "@/components/pages/trainings/detail/manage/modules";
+import { ManageHeader, ManageSkeleton, ModuleCard } from "@/components/pages/trainings/detail/manage";
 import { useModulesList } from "@/stores/useModulesStore";
 import { useLessonsByModules } from "@/stores/useLessonsStore";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
