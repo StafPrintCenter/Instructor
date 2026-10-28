@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { StudentDetailError, StudentDetailSkeleton, StudentProfileCard, StudentSummaryStats, StudentTrainingsSection, summarizeStudentTrainings } from "@/components/pages/students/detail";
 import { useInstructorStudentGlobal } from "@/stores/useStudentsStore";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/students/$studentId")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Profil de l'apprenant ${params.studentId} | ${SITE.name}` },
-      { name: "description", content: `Consultez les formations, la progression, les travaux, les quiz et l'assiduité de l'apprenant ${params.studentId}.` },
+      { title: `${SITE.tool} - Profil d'un apprenant | ${SITE.name}` },
+      { name: "description", content: "Consultez les formations suivies, la progression, les travaux remis et l'assiduité de l'apprenant." },
     ],
   }),
   component: StudentGlobalPage,
@@ -19,6 +20,10 @@ export const Route = createFileRoute("/_instructor/students/$studentId")({
 function StudentGlobalPage() {
   const { studentId } = Route.useParams();
   const { overview, isLoading, isError, error, refetch } = useInstructorStudentGlobal(studentId);
+  useDynamicPageMetadata(
+    overview ? `${SITE.tool} - ${overview.data.name} | ${SITE.name}` : undefined,
+    overview ? `Suivi de ${overview.data.name} dans ses formations : progression, travaux, quiz et assiduité.` : undefined,
+  );
 
   const backButton = (
     <Button asChild variant="outline" size="sm">
