@@ -5,14 +5,15 @@ import { useModulesList } from "@/stores/useModulesStore";
 import { useLessonsByModules } from "@/stores/useLessonsStore";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/manage")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Contenu de la formation ${params.trainingId} | ${SITE.name}` },
-      { name: "description", content: `Organisez les modules, les leçons, les quiz et les exercices de la formation ${params.trainingId}, puis soumettez-les à validation.` },
-      { property: "og:title", content: `${SITE.tool} - Contenu de la formation ${params.trainingId} | ${SITE.name}` },
-      { property: "og:description", content: `Préparez les ressources pédagogiques de la formation ${params.trainingId}.` },
+      { title: `${SITE.tool} - Contenu de la formation | ${SITE.name}` },
+      { name: "description", content: "Organisez les modules, les leçons, les quiz et les exercices de votre formation." },
+      { property: "og:title", content: `${SITE.tool} - Contenu de la formation | ${SITE.name}` },
+      { property: "og:description", content: "Préparez les ressources pédagogiques de votre formation." },
     ],
   }),
   component: ContentPage,
@@ -22,6 +23,10 @@ function ContentPage() {
   const { trainingId } = Route.useParams();
 
   const { overview, isLoading: isOverviewLoading } = useInstructorTrainingOverview(trainingId);
+  useDynamicPageMetadata(
+    overview ? `${SITE.tool} - Contenu : ${overview.data.title} | ${SITE.name}` : undefined,
+    overview ? `Organisez les modules, les leçons, les quiz et les exercices de la formation ${overview.data.title}.` : undefined,
+  );
   const { modules, isLoading: isModulesLoading } = useModulesList(trainingId);
   const { lessonsByModule, isLoading: isLessonsLoading } = useLessonsByModules(modules.map((m) => m.id));
 
