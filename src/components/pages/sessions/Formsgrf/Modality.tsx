@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SESSION_MODALITIES, sessionModalityLabels, type SessionModality } from "@/data/sessions";
 import { FieldError } from "@/components/pages/sessions/detail";
-import type { SessionFieldsProps } from "../form/sessionFormSchema";
+import type { SessionFieldsProps } from "./Schema";
 
 export function ModalityFields({ values, errors, setField }: SessionFieldsProps) {
   return (

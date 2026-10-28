@@ -1,4 +1,3 @@
-// src/components/instructor/sessions/form/sessionFormSchema.ts
 import { z, type ZodError } from "zod";
 import type { APIInstructorSession } from "@/data/sessions";
 import { toPortoNovoInputValue } from "@/lib/session-time";
@@ -17,6 +16,7 @@ export const sessionFormSchema = z
     location: z.string().trim().max(255, "255 caractères maximum"),
     meetingUrl: z.string().trim().max(500, "500 caractères maximum"),
   })
+
   .superRefine((v, ctx) => {
     if (v.modality === "in_person" && !v.location) {
       ctx.addIssue({ code: "custom", path: ["location"], message: "Indiquez le lieu de la session" });

@@ -1,16 +1,9 @@
-// src/components/instructor/sessions/form/useSessionForm.ts
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { APIInstructorSession } from "@/data/sessions";
 import { useCreateInstructorSession, useUpdateInstructorSession } from "@/stores/useSessionsStore";
-import { buildCreatePayload, buildUpdatePayload } from "../Formsgrf/sessionFormPayload";
-import {
-  buildInitialValues,
-  getFormErrors,
-  sessionFormSchema,
-  type SessionFormValues,
-  type SetField,
-} from "./sessionFormSchema";
+import { buildCreatePayload, buildUpdatePayload } from "./Payload";
+import { buildInitialValues, getFormErrors, sessionFormSchema, type SessionFormValues, type SetField } from "./Schema";
 
 interface UseSessionFormArgs {
   open: boolean;

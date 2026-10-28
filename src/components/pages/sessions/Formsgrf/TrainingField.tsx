@@ -2,7 +2,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { FieldError } from "@/components/pages/sessions/detail";
-import type { SessionFieldsProps } from "./sessionFormSchema";
+import type { SessionFieldsProps } from "./Schema";
 
 export function TrainingField({ values, errors, setField }: SessionFieldsProps) {
   const { items: trainings } = useInstructorTrainingsList({ perPage: 100 });

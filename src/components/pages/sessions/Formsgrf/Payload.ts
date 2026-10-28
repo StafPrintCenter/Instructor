@@ -1,6 +1,6 @@
 import type { APIInstructorSession, InstructorSessionPayload, InstructorSessionUpdatePayload } from "@/data/sessions";
 import { toStartsAtPayload } from "@/lib/session-time";
-import { buildInitialValues, type SessionFormValues } from "../form/sessionFormSchema";
+import { buildInitialValues, type SessionFormValues } from "./Schema";
 
 export function buildCreatePayload(v: SessionFormValues): InstructorSessionPayload {
   return {
