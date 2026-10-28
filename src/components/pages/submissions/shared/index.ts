@@ -1,2 +1,2 @@
-export { SubmissionCard } from "./SubmissionCard";
+export { SubmissionCard } from "../Card";
 export { SubmissionGradeDialog } from "./SubmissionGradeDialog";
