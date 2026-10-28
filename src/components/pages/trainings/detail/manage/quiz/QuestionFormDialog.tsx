@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { APIQuizQuestion } from "@/data/content";
-import { QuestionForm } from "./QuestionForm";
+import { QuestionForm } from "../eval/question/Form";
 
 interface QuestionFormDialogProps {
   open: boolean;

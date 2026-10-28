@@ -7,10 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { APIQuizQuestion, QuizQuestionType } from "@/data/content";
 import { useCreateQuestion, useUpdateQuestion } from "@/stores/useQuizzesStore";
-import { DeleteQuestionConfirm } from "../eval/question/DeleteConfirm";
-import { QuestionChoicesEditor } from "./QuestionChoicesEditor";
-import { QuestionMainFields } from "./QuestionMainFields";
-import { hasCorrectChoice, isQuestionValid, keepFirstCorrect, questionFormFromQuestion, toQuestionPayload, type QuestionFormValues } from "./quizQuestionForm";
+import { DeleteQuestionConfirm } from "./DeleteConfirm";
+import { QuestionChoicesEditor } from "./ChoicesEditor";
+import { QuestionMainFields } from "../../quiz/QuestionMainFields";
+import { hasCorrectChoice, isQuestionValid, keepFirstCorrect, questionFormFromQuestion, toQuestionPayload, type QuestionFormValues } from "../../quiz/quizQuestionForm";
 
 interface QuestionFormProps {
   quizId: string;

@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { quizModeLabels, type QuizMode } from "@/data/content";
-import type { QuizSettingsValues } from "../eval/quiz/Settings";
+import type { QuizSettingsValues } from "./Settings";
 
 interface QuizSettingsFieldsProps {
   /** Préfixe des ids HTML (deux formulaires peuvent coexister) */

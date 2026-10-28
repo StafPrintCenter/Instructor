@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { APIQuiz, APIQuizQuestion } from "@/data/content";
 import { DeleteQuestionConfirm } from "../eval/question/DeleteConfirm";
 import { QuestionFormDialog } from "./QuestionFormDialog";
-import { QuestionItem } from "./QuestionItem";
+import { QuestionItem } from "../eval/question/Item";
 
 /** Liste des questions - consultables immédiatement, modifiables / supprimables au besoin */
 export function QuizQuestionsSection({ quiz }: { quiz: APIQuiz }) {

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { QuizChoiceInput, QuizQuestionType } from "@/data/content";
-import { toggleCorrectChoice } from "./quizQuestionForm";
+import { toggleCorrectChoice } from "../../quiz/quizQuestionForm";
 
 const MIN_CHOICES = 2;
 

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import type { APIQuiz } from "@/data/content";
 import { useUpdateQuiz } from "@/stores/useQuizzesStore";
 import { QuizSettingsFields } from "./SettingsFields";
-import { isQuizTimeLimitMissing, quizSettingsFromQuiz, toQuizPayload, type QuizSettingsValues } from "../eval/quiz/Settings";
+import { isQuizTimeLimitMissing, quizSettingsFromQuiz, toQuizPayload, type QuizSettingsValues } from "./Settings";
 
 /** Réglages pré-remplis avec les valeurs actuelles : à consulter, modifier si souhaité */
 export function QuizSettingsCard({ quiz }: { quiz: APIQuiz }) {

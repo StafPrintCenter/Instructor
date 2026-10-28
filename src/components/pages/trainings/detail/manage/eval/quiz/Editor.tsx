@@ -2,8 +2,8 @@ import { useQuiz } from "@/stores/useQuizzesStore";
 import { QuizActionsBar } from "./ActionsBar";
 import { QuizEditorError, QuizEditorSkeleton } from "./EditorStates";
 import { QuizQuestionsSection } from "../../quiz/QuizQuestionsSection";
-import { QuizSettingsCard } from "../../quiz/SettingsCard";
-import { QuizSummaryBar } from "../../quiz/SummaryBar";
+import { QuizSettingsCard } from "./SettingsCard";
+import { QuizSummaryBar } from "./SummaryBar";
 
 interface QuizEditorProps {
   quizId: string;
