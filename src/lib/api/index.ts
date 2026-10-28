@@ -1,45 +1,17 @@
 
 
-import * as db from "./mock-data";
 import { clone, delay, fail, nowIso, uid } from "./utils";
 import type {
   AppNotification,
   CommunityPost,
   ID,
-  Instructor,
   MessageThread,
-  NotificationPrefs,
   Student,
-  Training,
   Availability,
 } from "./types";
 
 export * from "./types";
 export * from "./utils";
-
-/* --------------------------- mutable in-memory db -------------------------- */
-
-const store = {
-  instructors: clone(db.instructors),
-  trainings: clone(db.trainings),
-  modules: clone(db.modules),
-  lessons: clone(db.lessons),
-  students: clone(db.students),
-  enrollments: clone(db.enrollments),
-  completions: clone(db.completions),
-  attempts: clone(db.quizAttempts),
-  submissions: clone(db.submissions),
-  sessions: clone(db.sessions),
-  posts: clone(db.posts),
-  threads: clone(db.threads),
-  notifications: clone(db.notifications),
-  reviews: clone(db.reviews),
-};
-
-/** Règle métier : un instructeur ne voit que ses formations assignées. */
-function assignedTrainings(instructorId: ID): Training[] {
-  return store.trainings.filter((t) => t.instructor_ids.includes(instructorId));
-}
 
 /* -------------------------------- community ------------------------------- */
 

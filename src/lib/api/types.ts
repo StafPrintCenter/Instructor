@@ -4,39 +4,11 @@
  */
 
 export type ID = string;
-
-/* ---------------------------------- auth --------------------------------- */
-
-export type InstructorAccountStatus = "pending_review" | "approved" | "rejected";
-
-export interface Instructor {
-  id: ID;
-  full_name: string;
-  email: string;
-  title: string;
-  bio: string;
-  specialties: string[];
-  avatar_url: string | null;
-  phone: string;
-  status: InstructorAccountStatus;
-  rejection_reason: string | null;
-  availability: Availability[];
-  notification_prefs: NotificationPrefs;
-  created_at: string;
-}
-
 export interface Availability {
   day: "lun" | "mar" | "mer" | "jeu" | "ven" | "sam" | "dim";
   from: string;
   to: string;
   enabled: boolean;
-}
-
-export interface NotificationPrefs {
-  submissions_email: boolean;
-  session_reminders: boolean;
-  community_mentions: boolean;
-  admin_reviews: boolean;
 }
 
 export interface InstructorSession {
