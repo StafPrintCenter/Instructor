@@ -9,8 +9,6 @@ export const Route = createFileRoute("/_instructor/trainings/$trainingId/")({
     meta: [
       { title: `${SITE.tool} - Détail d'une formation | ${SITE.name}` },
       { name: "description", content: "Consultez les sessions, les apprenants inscrits et l'avancement de la formation." },
-      { property: "og:title", content: `${SITE.tool} - Détail d'une formation | ${SITE.name}` },
-      { property: "og:description", content: "Suivez les sessions et la progression des apprenants de votre formation." },
     ],
   }),
   component: TrainingDetail,
