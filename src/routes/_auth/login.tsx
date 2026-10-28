@@ -17,10 +17,10 @@ export const Route = createFileRoute("/_auth/login")({
       { title: `${SITE.tool} - Connexion | ${SITE.name}` },
       {
         name: "description",
-        content: `Connectez-vous à votre espace formateur ${SITE.name} pour retrouver vos formations, suivre vos apprenants et corriger leurs travaux.`,
+        content: `Connectez-vous à votre ${SITE.tool} ${SITE.name} pour retrouver vos formations, suivre vos apprenants et corriger leurs travaux.`,
       },
       { property: "og:title", content: `${SITE.tool} - Connexion | ${SITE.name}` },
-      { property: "og:description", content: `Connectez-vous à votre espace formateur ${SITE.name} pour retrouver vos formations et suivre vos apprenants.` },
+      { property: "og:description", content: `Connectez-vous à votre ${SITE.tool} ${SITE.name} pour retrouver vos formations et suivre vos apprenants.` },
     ],
   }),
   component: LoginPage,
