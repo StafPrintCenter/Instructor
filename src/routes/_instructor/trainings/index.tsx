@@ -6,10 +6,10 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/trainings/")({
   head: () => ({
     meta: [
-      { title: `Mes formations assignées | ${SITE.name}` },
-      { name: "description", content: "Consultez les formations où vous êtes assigné·e comme formateur et suivez leur avancement." },
-      { property: "og:title", content: `Mes formations assignées | ${SITE.name}` },
-      { property: "og:description", content: "Cohortes, dates, apprenants inscrits et avancement global." },
+      { title: `${SITE.tool} - Mes formations | ${SITE.name}` },
+      { name: "description", content: "Consultez vos formations assignées, leurs dates, leurs cohortes et l'avancement des apprenants." },
+      { property: "og:title", content: `${SITE.tool} - Mes formations | ${SITE.name}` },
+      { property: "og:description", content: "Suivez vos formations et la progression des apprenants inscrits." },
     ],
   }),
   component: TrainingsPage,
