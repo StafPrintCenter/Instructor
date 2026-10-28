@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { AttendanceMarkDialog } from "@/components/pages/trainings/shared";
 import { PageHeader, FilePreviewModal } from "@/components/site";
 import { QuizAttemptFeedbackDialog } from "@/components/pages/trainings/detail/student";
-import { SubmissionCard, SubmissionGradeDialog } from "@/components/pages/submissions/shared";
+import { SubmissionCard, SubmissionGradeDialog } from "@/components/pages/submissions";
 import { lessonKindLabels } from "@/data/content";
 import { getAttendanceStatusBadgeClass, getAttendanceStatusLabel } from "@/data/attendance";
 import type { APIInstructorSubmission } from "@/data/submissions";

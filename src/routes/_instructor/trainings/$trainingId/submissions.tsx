@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
 import { PaginationBar } from "@/components/site";
-import { SubmissionCard, SubmissionGradeDialog } from "@/components/pages/submissions/shared";
+import { SubmissionCard, SubmissionGradeDialog } from "@/components/pages/submissions";
 import { SUBMISSION_STATUSES, instructorSubmissionStatusLabels, type APIInstructorSubmission, type SubmissionStatus } from "@/data/submissions";
 import { toInstructorSubmission } from "@/data/training-students";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ClipboardCheck } from "lucide-react";
 import { PageHeader, FilePreviewModal } from "@/components/site";
-import { SubmissionGradeDialog } from "@/components/pages/submissions/shared";
+import { SubmissionGradeDialog } from "@/components/pages/submissions";
 import { Button } from "@/components/ui/button";
 import { CorrectionDeliverableCard, CorrectionDetailError, CorrectionDetailSkeleton, CorrectionHistoryCard, CorrectionStatementCard, CorrectionStatusCard, CorrectionStudentCard, CorrectionTrainingCard, OtherSubmissionsCard, buildGradeTarget } from "@/components/pages/corrections/detail";
 import { isGradedStatus } from "@/data/submissions";
