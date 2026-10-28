@@ -6,12 +6,13 @@ import { TrainingSessionHero, TrainingSessionTimeline, TrainingSessionInfoStrip,
 import { useInstructorSessionDetail } from "@/stores/useSessionsStore";
 import { useInstructorTrainingOverview } from "@/stores/useTrainingsStore";
 import { SITE } from "@/data/site";
+import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 
 export const Route = createFileRoute("/_instructor/trainings/$trainingId/sessions/$sessionId")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
-      { title: `${SITE.tool} - Session ${params.sessionId} de la formation ${params.trainingId} | ${SITE.name}` },
-      { name: "description", content: `Consultez le déroulement, la participation et l'historique de la session ${params.sessionId} de la formation ${params.trainingId}.` },
+      { title: `${SITE.tool} - Session d'une formation | ${SITE.name}` },
+      { name: "description", content: "Consultez le déroulement, la participation et l'historique d'une session de formation." },
     ],
   }),
   component: TrainingSessionPage,
@@ -22,6 +23,15 @@ function TrainingSessionPage() {
   const navigate = useNavigate();
   const { overview } = useInstructorTrainingOverview(trainingId);
   const { item: session, isLoading, isError, refetch } = useInstructorSessionDetail(sessionId);
+  const isMatchingSession = session?.trainingId === trainingId;
+  useDynamicPageMetadata(
+    isMatchingSession && session
+      ? `${SITE.tool} - ${session.title} | ${SITE.name}`
+      : undefined,
+    isMatchingSession && session
+      ? `Session ${session.title} de la formation ${overview?.data.title ?? session.trainingTitle}.`
+      : undefined,
+  );
 
   const mainColor = overview?.data.coverColor || "var(--primary)";
   const trainingTitle = overview?.data.title ?? session?.trainingTitle ?? "la formation";
