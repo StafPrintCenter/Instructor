@@ -1,14 +1,6 @@
 import { useState } from "react";
 import type { APIInstructorLesson } from "@/data/content";
-import {
-  CreateLessonDialog,
-  DeleteLessonConfirm,
-  EditLessonDialog,
-  LessonRow,
-  QUIZ_ALLOWED_KINDS,
-  QuizManagerDialog,
-  SubmitLessonConfirm,
-} from "../lessons";
+import { CreateLessonDialog, DeleteLessonConfirm, EditLessonDialog, LessonRow, QUIZ_ALLOWED_KINDS, QuizManagerDialog, SubmitLessonConfirm } from "@/components/pages/trainings/detail/manage";
 
 interface ModuleLessonsProps {
   moduleId: string;
