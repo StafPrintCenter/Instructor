@@ -14,7 +14,6 @@ import { hasCorrectChoice, isQuestionValid, keepFirstCorrect, questionFormFromQu
 
 interface QuestionFormProps {
   quizId: string;
-  /** Question à modifier ; null = création */
   question: APIQuizQuestion | null;
   nextSortOrder: number;
   onSaved: () => void;
