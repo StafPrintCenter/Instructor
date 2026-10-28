@@ -6,10 +6,14 @@ import { type NotificationCategory } from "@/data/notifications";
 import { useMarkAllAsRead, useNotificationsList, useBulkDeleteNotifications } from "@/stores/useNotificationsStore";
 import { DeleteAllDialog } from "@/components/pages/notifications/shared";
 import { NotificationsHeader, NotificationsFilterBar, NotificationsList } from "@/components/pages/notifications/home";
+import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/notifications/")({
   head: () => ({
-    meta: [{ title: "Notifications - Instructeur" }, { name: "robots", content: "noindex" }],
+    meta: [
+      { title: `${SITE.tool} - Notifications | ${SITE.name}` },
+      { name: "description", content: "Consultez les notifications liées à vos formations, vos apprenants et vos prochaines sessions." },
+    ],
   }),
   component: NotificationsPage,
 });
