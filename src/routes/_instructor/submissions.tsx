@@ -17,7 +17,7 @@ import type { InstructorPaginationMeta } from "@/data/pagination";
 import { useInstructorSubmissionsList } from "@/stores/useSubmissionsStore";
 import { SITE } from "@/data/site";
 
-export const Route = createFileRoute("/_instructor/submissions/")({
+export const Route = createFileRoute("/_instructor/submissions")({
   head: () => ({
     meta: [
       { title: `Travaux rendus | Espace Formateur ${SITE.name}` },
