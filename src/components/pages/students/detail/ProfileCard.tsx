@@ -1,7 +1,7 @@
 import { Briefcase, Mail, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { APIInstructorStudentProfile } from "@/data/students";
-import { StudentAvatar } from "./Avatar";
+import { StudentAvatar } from "@/components/pages/students/shared";
 
 export function StudentProfileCard({ student }: { student: APIInstructorStudentProfile }) {
   return (

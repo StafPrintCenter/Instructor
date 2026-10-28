@@ -1,4 +1,3 @@
-export { StudentAvatar } from "../shared/Avatar";
 export { StudentIdentity } from "./Identity";
 export { StudentsListCard as StudentsList } from "./ListCard";
 export { StudentsListError, StudentsListSkeleton } from "./ListStates";
