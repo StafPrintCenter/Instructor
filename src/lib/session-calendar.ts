@@ -1,9 +1,8 @@
-// src/lib/session-calendar.ts
 import type { APIInstructorSession } from "@/data/sessions";
 import { toPortoNovoInputValue } from "@/lib/session-time";
 
 export interface CalendarCell {
-  key: string; // YYYY-MM-DD
+  key: string;
   day: number;
   inMonth: boolean;
   isToday: boolean;
@@ -13,10 +12,10 @@ export const WEEKDAY_LABELS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
 const toDateKey = (d: Date) => d.toISOString().slice(0, 10);
 
-/** Jour courant à Porto-Novo */
+/** Jour courant */
 export const todayKey = () => toPortoNovoInputValue(new Date().toISOString()).slice(0, 10);
 
-/** Jour d'une session à Porto-Novo */
+/** Jour d'une session */
 export const sessionDayKey = (iso: string) => toPortoNovoInputValue(iso).slice(0, 10);
 
 export function shiftDateKey(key: string, days: number): string {
