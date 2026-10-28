@@ -4,7 +4,7 @@ const OFFSET = "+01:00";
 const fullFmt = new Intl.DateTimeFormat("fr-FR", { dateStyle: "full", timeStyle: "short", timeZone: TZ });
 const shortFmt = new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short", timeZone: TZ });
 const timeFmt = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: TZ });
-// sv-SE produit "2026-10-27 10:00", pratique pour <input type="datetime-local">
+
 const inputFmt = new Intl.DateTimeFormat("sv-SE", {
   year: "numeric",
   month: "2-digit",
