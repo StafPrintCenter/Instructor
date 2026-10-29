@@ -1,7 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { MapPin, Video } from "lucide-react";
-import { paymentLabels, submissionStatusLabels, type PaymentStatus, type SubmissionStatus } from "@/lib/api";
+import type { PaymentStatus } from "@/data/trainings";
+import type { SubmissionStatus } from "@/data/submissions";
 import { contentStatusLabels, type ContentStatus } from "@/data/content";
 import { instructorSubmissionStatusLabels, type SubmissionStatus as InstructorSubmissionStatus } from "@/data/submissions";
 import { getReviewRequestStatusBadgeClass, getReviewRequestStatusLabel, getSessionResponseBadgeClass, getSessionResponseLabel, getSessionStatusBadgeClass, getSessionStatusLabel, sessionModalityLabels, type SessionModality } from "@/data/sessions";
@@ -16,8 +17,7 @@ const contentTone: Record<ContentStatus, string> = {
 const paymentTone: Record<PaymentStatus, string> = {
   paid: "bg-success/15 text-success border-success/30",
   partial: "bg-accent/20 text-accent-foreground border-accent/40",
-  pending: "bg-muted text-muted-foreground border-transparent",
-  late: "bg-destructive/12 text-destructive border-destructive/30",
+  unpaid: "bg-destructive/12 text-destructive border-destructive/30",
 };
 
 const submissionTone: Record<SubmissionStatus, string> = {
@@ -33,6 +33,18 @@ const instructorSubmissionTone: Record<InstructorSubmissionStatus, string> = {
   rejected: "bg-destructive/12 text-destructive border-destructive/30",
 };
 
+
+export const paymentLabels: Record<PaymentStatus, string> = {
+  paid: "Soldé",
+  partial: "Partiel",
+  unpaid: "Non payé",
+};
+
+export const submissionStatusLabels: Record<SubmissionStatus, string> = {
+  pending: "À corriger",
+  graded: "Corrigé",
+  returned: "Renvoyé",
+};
 
 export function ContentStatusBadge({ status, className }: { status: ContentStatus; className?: string }) {
   return (
