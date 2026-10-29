@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { instructorFetch } from "@/lib/api-url";
+import { instructorFetch } from "@/lib/api/resolve-url";
 import { parseApiError } from "@/lib/api/error";
 import type { APIPublicCategory } from "@/data/categories";
 import type { APIInstructorUser } from "@/data/auth";

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { instructorFetch } from "@/lib/api-url";
+import { instructorFetch } from "@/lib/api/resolve-url";
 import { parseApiError } from "@/lib/api/error";
 import type {
   APINotificationDetail, APINotificationListItem, APINotificationPreference,
