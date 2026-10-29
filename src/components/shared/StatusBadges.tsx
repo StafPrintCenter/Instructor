@@ -33,19 +33,6 @@ const instructorSubmissionTone: Record<InstructorSubmissionStatus, string> = {
   rejected: "bg-destructive/12 text-destructive border-destructive/30",
 };
 
-
-export const paymentLabels: Record<PaymentStatus, string> = {
-  paid: "Soldé",
-  partial: "Partiel",
-  unpaid: "Non payé",
-};
-
-export const submissionStatusLabels: Record<SubmissionStatus, string> = {
-  pending: "À corriger",
-  graded: "Corrigé",
-  returned: "Renvoyé",
-};
-
 export function ContentStatusBadge({ status, className }: { status: ContentStatus; className?: string }) {
   return (
     <Badge variant="outline" className={cn("font-medium", contentTone[status], className)}>
