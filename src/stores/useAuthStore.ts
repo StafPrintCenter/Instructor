@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
+import { parseApiError } from "@/lib/api-error";
 import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVerifyResponse, InstructorRegisterPayload } from "@/data/auth";
 
 export class InstructorAuthApiError extends Error { }
@@ -24,6 +25,7 @@ export async function registerInstructor(
   const body = await response.json().catch(() => null);
 
   if (!response.ok) {
+    const error = await parseApiError(response, "Email ou mot de passe incorrect.");
     throw new InstructorAuthApiError(
       body?.message || "Impossible de créer le compte. Vérifiez vos informations."
     );
@@ -39,7 +41,8 @@ export async function loginInstructor(email: string, password: string): Promise<
 
   const response = await instructorFetch(`/api/instructor/auth/login`, { method: "POST", body: formData });
   if (!response.ok) {
-    throw new InstructorAuthApiError("Email ou mot de passe incorrect.");
+    const error = await parseApiError(response, "Email ou mot de passe incorrect.");
+    throw new InstructorAuthApiError(error.message);
   }
 
   return response.json();
@@ -53,14 +56,18 @@ export async function fetchInstructorMe(): Promise<APIInstructorUser | null> {
   const response = await instructorFetch(`/api/instructor/auth/me`);
   if (response.status === 401) return null;
   if (!response.ok) {
-    throw new InstructorAuthApiError("Erreur lors de la vérification de la session.");
+    const error = await parseApiError(response, "Erreur lors de la vérification de la session.");
+    throw new InstructorAuthApiError(error.message);
   }
   const body = await response.json();
   return body?.data ?? body?.instructor ?? body;
 }
 
 export async function logoutInstructor(): Promise<void> {
-  await instructorFetch(`/api/instructor/auth/logout`, { method: "POST" });
+  const response = await instructorFetch(`/api/instructor/auth/logout`, { method: "POST" });
+  if (!response.ok) {
+    throw await parseApiError(response, "Erreur lors de la déconnexion.");
+  }
 }
 
 function buildInviteQuery(params: { instructor: string; expires: string; signature: string }) {
@@ -79,12 +86,11 @@ export async function verifyInstructorInvite(params: {
   const response = await instructorFetch(
     `/api/instructor/auth/invite-accept?${buildInviteQuery(params)}`
   );
-  const body = await response.json().catch(() => null);
   if (!response.ok) {
-    throw new InstructorAuthApiError(
-      body?.message || "Ce lien d'invitation est invalide ou a expiré."
-    );
+    const error = await parseApiError(response, "Ce lien d'invitation est invalide ou a expiré.");
+    throw new InstructorAuthApiError(error.message);
   }
+  const body = await response.json();
   return body.data as InstructorInviteVerifyResponse;
 }
 
@@ -104,17 +110,16 @@ export async function acceptInstructorInvite(params: {
       body: fd,
     }
   );
-  const body = await response.json().catch(() => null);
   if (!response.ok) {
-    throw new InstructorAuthApiError(
-      body?.message || "Ce lien d'invitation est invalide ou a expiré."
-    );
+    const error = await parseApiError(response, "Ce lien d'invitation est invalide ou a expiré.");
+    throw new InstructorAuthApiError(error.message);
   }
+  const body = await response.json();
   return body as { message: string };
 }
 
 /**
- * Hook pour récupérer le formateur actuellement connecté
+ * Hook pour récupérer l'étudiant actuellement connecté
  */
 export function useCurrentInstructor() {
   const { data: instructor, isLoading, error } = useQuery({
