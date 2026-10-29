@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
-import { parseApiError } from "@/lib/api-error";
+import { parseApiError } from "@/lib/api/error";
 import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVerifyResponse, InstructorRegisterPayload } from "@/data/auth";
 
 export class InstructorAuthApiError extends Error { }

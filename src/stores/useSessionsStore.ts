@@ -1,6 +1,6 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
-import { parseApiError } from "@/lib/api-error";
+import { parseApiError } from "@/lib/api/error";
 import type { InstructorPaginationMeta } from "@/data/pagination";
 import type {
   APIInstructorSession,

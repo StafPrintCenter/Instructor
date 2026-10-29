@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
-import { parseApiError } from "@/lib/api-error";
+import { parseApiError } from "@/lib/api/error";
 import type { APIInstructorQuizAttemptFeedback, InstructorQuizAttemptFeedbackPayload } from "@/data/quiz-attempts";
 
 interface DetailResponse<T> {

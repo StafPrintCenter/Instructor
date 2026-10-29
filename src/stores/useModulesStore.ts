@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api-url";
-import { parseApiError } from "@/lib/api-error";
+import { parseApiError } from "@/lib/api/error";
 import type { APIInstructorModule, APIInstructorModuleListEntry, InstructorModulePayload } from "@/data/content";
 
 const resourceKey = "instructor-modules";
