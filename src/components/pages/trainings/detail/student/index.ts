@@ -1,4 +1,3 @@
-export { AttendanceEntryItem } from "./AttendanceEntryItem";
 export { AttendanceSection } from "./AttendanceSection";
 export { BackToTrainingButton } from "./BackToTrainingButton";
 export { FollowUpCard } from "./FollowUpCard";
