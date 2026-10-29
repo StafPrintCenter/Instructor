@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useRouterState, useNavigate, Outlet } from "@tanstack/react-router";
-import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut, UserCircle, Users2, Bell, Send } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut, UserCircle, Users2, Bell, Send, ChevronDown } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
 import logo from "@/assets/logos.json";
 import { SITE, SITE_LINK } from "@/data/site";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, SidebarInset, useSidebar, SidebarMenuBadge } from "@/components/ui/sidebar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { NotificationBell } from "@/components/pages/notifications/shared";
 import { useUnreadCount } from "@/stores/useNotificationsStore";
 import { SocialLinks } from "@/components/site";
