@@ -1,7 +1,7 @@
 import { Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { resolveStorageUrl } from "@/lib/file-url";
+import { resolveStorageUrl } from "@/lib/api/file";
 
 interface CorrectionDeliverableCardProps {
   body: string | null;
