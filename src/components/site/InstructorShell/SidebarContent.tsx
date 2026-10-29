@@ -1,54 +1,8 @@
-import { Link } from "@tanstack/react-router";
-import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, LogOut, UserCircle, Users2, Bell, Send } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
-import logo from "@/assets/logos.json";
-import { SITE, SITE_LINK } from "@/data/site";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarMenuBadge } from "@/components/ui/sidebar";
-import { useUnreadCount } from "@/stores/useNotificationsStore";
-import { SocialLinks } from "@/components/site";
-
-const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/index`;
-
-type NavItem = {
-  to: string;
-  label: string;
-  icon: typeof LayoutDashboard;
-  exact?: boolean;
-  matchPrefixes?: string[];
-};
-
-type NavGroup = { label: string; items: NavItem[] };
-
-const NAV_GROUPS: NavGroup[] = [
-  {
-    label: "Général",
-    items: [
-      { to: "/dashboard", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
-      { to: "/notifications", label: "Notifications", icon: Bell, matchPrefixes: ["/notifications"] },
-    ],
-  },
-  {
-    label: "Pilotage",
-    items: [
-      { to: "/trainings", label: "Mes formations", icon: BookOpen },
-      { to: "/students", label: "Apprenants", icon: Users },
-      { to: "/submissions", label: "Soumission", icon: Send },
-      { to: "/corrections", label: "Corrections", icon: ClipboardCheck },
-      { to: "/sessions", label: "Sessions", icon: CalendarDays },
-    ],
-  },
-  {
-    label: "Échanges",
-    items: [
-      { to: "/community", label: "Communauté", icon: Users2 },
-    ],
-  },
-];
-
-const navItemClass =
-  "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground " +
-  "data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground " +
-  "data-[active=true]:hover:bg-sidebar-primary data-[active=true]:hover:text-sidebar-primary-foreground";
+import { Sidebar, useSidebar } from "@/components/ui/sidebar";
+import { InstructorHeaderBrand } from "./HeaderBrand";
+import { InstructorSidebarNav } from "./SidebarNav";
+import { InstructorSidebarFooter } from "./SidebarFooter";
 
 export function InstructorSidebarContent({
   user,
@@ -60,135 +14,18 @@ export function InstructorSidebarContent({
   onDisconnectClick: () => void;
 }) {
   const { setOpenMobile } = useSidebar();
-  const { count: unreadCount } = useUnreadCount();
-
-  const handleNavClick = () => {
-    setOpenMobile(false);
-  };
-
-  const isLinkActive = (n: NavItem) =>
-    n.exact
-      ? pathname === n.to
-      : n.matchPrefixes
-        ? n.matchPrefixes.some((prefix) => pathname.startsWith(prefix))
-        : pathname.startsWith(n.to);
-
-  const profileActive = pathname.startsWith("/profil");
+  const handleNavClick = () => setOpenMobile(false);
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
-      <SidebarHeader className="px-3.5 py-4">
-        <Link to="/dashboard" onClick={handleNavClick} className="flex items-center gap-3">
-          <span className="flex size-7 shrink-0 items-center justify-center overflow-hidden">
-            <img src={logo.mw} alt="Logo SPC" className="h-7 w-auto object-contain" />
-          </span>
-          <span className="flex flex-col group-data-[collapsible=icon]:hidden min-w-0">
-            <span className="font-display font-bold text-sm tracking-tight truncate">{SITE.name}</span>
-            <span className="text-[10px] opacity-60 truncate">{SITE.tool}</span>
-          </span>
-        </Link>
-      </SidebarHeader>
-
-      <SidebarContent className="px-1">
-        {NAV_GROUPS.map((g) => (
-          <SidebarGroup key={g.label}>
-            <SidebarGroupLabel className="text-sidebar-foreground/50 uppercase tracking-wider text-[10px] px-2">
-              {g.label}
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {g.items.map((item) => {
-                  const active = isLinkActive(item);
-                  return (
-                    <SidebarMenuItem key={item.to}>
-                      <SidebarMenuButton asChild isActive={active} tooltip={item.label} className={navItemClass}>
-                        <Link to={item.to as "/dashboard"} onClick={handleNavClick}>
-                          <item.icon className="size-4 shrink-0" />
-                          <span>{item.label}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                      {item.to === "/notifications" && unreadCount > 0 && (
-                        <SidebarMenuBadge className="bg-destructive text-white">{unreadCount > 99 ? "99+" : unreadCount}</SidebarMenuBadge>
-                      )}
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
-      </SidebarContent>
-
-      <SidebarFooter className="border-t border-sidebar-border p-2 space-y-1">
-        {/* Réseaux sociaux & Documentation */}
-        <div className="px-2 pt-1 group-data-[collapsible=icon]:hidden flex items-center justify-between gap-2">
-          <a
-            href={docsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-xs text-sidebar-foreground/70 hover:text-sidebar-foreground py-1 px-2 rounded-md hover:bg-sidebar-accent transition-colors"
-          >
-            <BookOpen className="size-3.5 shrink-0" />
-            <span>Doc</span>
-          </a>
-
-          <SocialLinks
-            className="flex-wrap gap-0.5"
-            linkClassName="text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent p-1"
-            iconClassName="size-3.5"
-          />
-        </div>
-
-        <SidebarMenu>
-          {/* Item de doc supplémentaire actif uniquement quand la sidebar est repliée en mode icône */}
-          <SidebarMenuItem className="hidden group-data-[collapsible=icon]:block">
-            <SidebarMenuButton
-              asChild
-              tooltip="Documentation"
-              className={navItemClass}
-            >
-              <a href={docsUrl} target="_blank" rel="noopener noreferrer">
-                <BookOpen className="size-4 shrink-0" />
-                <span>Documentation</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              isActive={profileActive}
-              tooltip="Profil"
-              className={navItemClass}
-            >
-              <Link to="/profil" onClick={handleNavClick}>
-                <UserCircle className="size-4 shrink-0" />
-                <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-                    <p className="text-xs font-medium truncate">
-                      {user?.name && user.name !== "undefined undefined" ? user.name : "Profil"}
-                    </p>
-                    <p className="text-[10px] opacity-60 truncate">{user?.email}</p>
-                  </div>
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              onClick={() => {
-                handleNavClick();
-                onDisconnectClick();
-              }}
-              tooltip="Déconnexion"
-              className="text-sidebar-foreground/80 hover:bg-destructive hover:text-white"
-            >
-              <LogOut className="size-4 shrink-0" />
-              <span className="group-data-[collapsible=icon]:hidden">Déconnexion</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+      <InstructorHeaderBrand onNavClick={handleNavClick} />
+      <InstructorSidebarNav pathname={pathname} onNavClick={handleNavClick} />
+      <InstructorSidebarFooter
+        user={user}
+        pathname={pathname}
+        onNavClick={handleNavClick}
+        onDisconnectClick={onDisconnectClick}
+      />
     </Sidebar>
   );
 }
