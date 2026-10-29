@@ -3,14 +3,7 @@ import { BookOpen, UserCircle, Bell, ChevronDown, LogOut } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SITE_LINK } from "@/data/site";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { NotificationBell } from "@/components/pages/notifications/shared";
 
 const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/index`;
@@ -48,7 +41,7 @@ export function InstructorHeader({
               <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <UserCircle className="size-4" />
               </div>
-              <div className="text-left hidden sm:block max-w-[150px]">
+              <div className="text-left hidden sm:block max-w-37.5">
                 <p className="text-xs font-medium text-foreground truncate">{displayName}</p>
                 <p className="text-[10px] text-muted-foreground truncate">{user?.email}</p>
               </div>
