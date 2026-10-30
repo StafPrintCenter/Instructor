@@ -17,7 +17,7 @@ import { Route as AuthInviteRouteImport } from './routes/_auth/invite'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
-import { Route as InstructorProfilRouteImport } from './routes/_instructor/profil'
+import { Route as InstructorProfileRouteImport } from './routes/_instructor/profile'
 import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
 import { Route as InstructorCommunityIndexRouteImport } from './routes/_instructor/community/index'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
@@ -74,9 +74,9 @@ const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => InstructorRoute,
 } as any)
-const InstructorProfilRoute = InstructorProfilRouteImport.update({
-  id: '/profil',
-  path: '/profil',
+const InstructorProfileRoute = InstructorProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => InstructorRoute,
 } as any)
 const InstructorSubmissionsRoute = InstructorSubmissionsRouteImport.update({
@@ -184,7 +184,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
-  '/profil': typeof InstructorProfilRoute
+  '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
@@ -210,7 +210,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/dashboard': typeof InstructorDashboardRoute
-  '/profil': typeof InstructorProfilRoute
+  '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
@@ -239,7 +239,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
-  '/_instructor/profil': typeof InstructorProfilRoute
+  '/_instructor/profile': typeof InstructorProfileRoute
   '/_instructor/submissions': typeof InstructorSubmissionsRoute
   '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/_instructor/notifications/$id': typeof InstructorNotificationsIdRoute
@@ -267,7 +267,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/dashboard'
-    | '/profil'
+    | '/profile'
     | '/submissions'
     | '/corrections/$id'
     | '/notifications/$id'
@@ -293,7 +293,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/dashboard'
-    | '/profil'
+    | '/profile'
     | '/submissions'
     | '/corrections/$id'
     | '/notifications/$id'
@@ -321,7 +321,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/register'
     | '/_instructor/dashboard'
-    | '/_instructor/profil'
+    | '/_instructor/profile'
     | '/_instructor/submissions'
     | '/_instructor/corrections/$id'
     | '/_instructor/notifications/$id'
@@ -406,11 +406,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorDashboardRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/profil': {
-      id: '/_instructor/profil'
-      path: '/profil'
-      fullPath: '/profil'
-      preLoaderRoute: typeof InstructorProfilRouteImport
+    '/_instructor/profile': {
+      id: '/_instructor/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof InstructorProfileRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/submissions': {
@@ -551,7 +551,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
-  InstructorProfilRoute: typeof InstructorProfilRoute
+  InstructorProfileRoute: typeof InstructorProfileRoute
   InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
   InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
   InstructorNotificationsIdRoute: typeof InstructorNotificationsIdRoute
@@ -573,7 +573,7 @@ interface InstructorRouteChildren {
 
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
-  InstructorProfilRoute: InstructorProfilRoute,
+  InstructorProfileRoute: InstructorProfileRoute,
   InstructorSubmissionsRoute: InstructorSubmissionsRoute,
   InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
   InstructorNotificationsIdRoute: InstructorNotificationsIdRoute,
