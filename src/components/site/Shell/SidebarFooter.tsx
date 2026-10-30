@@ -50,7 +50,7 @@ export function InstructorSidebarFooter({
 
         <SidebarMenuItem>
           <SidebarMenuButton asChild isActive={profileActive} tooltip="Profil" className={navItemClass}>
-            <Link to="/profil" onClick={onNavClick}>
+            <Link to="/profile" onClick={onNavClick}>
               <UserCircle className="size-4 shrink-0" />
               <div className="flex items-center gap-2.5 min-w-0 flex-1">
                 <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">

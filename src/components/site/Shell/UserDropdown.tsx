@@ -34,7 +34,7 @@ export function InstructorUserDropdown({ user, onDisconnectClick, }: {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link to="/profil">
+          <Link to="/profile">
             <UserCircle className="mr-2 size-4" />
             <span>Mon profil</span>
           </Link>

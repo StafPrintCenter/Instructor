@@ -55,7 +55,7 @@ export function TrainingInstructorsCard({ instructors, mainColor }: TrainingInst
                     {i.isMe ? (
                       <>
                         {" "}
-                        <Link to="/profil" className="not-italic text-primary hover:underline">
+                        <Link to="/profile" className="not-italic text-primary hover:underline">
                           Compléter mon profil
                         </Link>
                       </>
