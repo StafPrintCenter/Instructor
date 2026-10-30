@@ -34,7 +34,7 @@ const PREF_LABELS: Record<keyof NotificationPrefs, string> = {
   admin_reviews: "Décisions de validation admin",
 };
 
-export const Route = createFileRoute("/_instructor/profil")({
+export const Route = createFileRoute("/_instructor/profile")({
   head: () => ({
     meta: [
       { title: `${SITE.tool} - Mon profil | ${SITE.name}` },
