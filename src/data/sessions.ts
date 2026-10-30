@@ -5,7 +5,7 @@ export const sessionModalityLabels: Record<SessionModality, string> = {
   online: "En ligne",
 };
 
-/** Valeurs du filtre `status` — d'autres statuts peuvent exister côté back */
+/** Valeurs du filtre `status` - d'autres statuts peuvent exister côté back */
 export type SessionStatus = "published" | "suspended";
 export const SESSION_STATUSES: SessionStatus[] = ["published", "suspended"];
 
@@ -79,7 +79,7 @@ export interface APIInstructorSessionPendingReview {
 
 export interface APIInstructorSessionReviewRequest {
   id: string;
-  /** Valeurs observées : "pending", "validated" — enum non communiqué */
+  /** Valeurs observées : "pending", "validated" - enum non communiqué */
   status: string;
   message: string;
   createdAt: string;
@@ -127,7 +127,7 @@ export interface APIInstructorSessionDetail extends APIInstructorSession {
   reviewRequests: APIInstructorSessionReviewRequest[];
 }
 
-/** Payload de création — l'API attend du camelCase (exception à la convention snake_case) */
+/** Payload de création - l'API attend du camelCase (exception à la convention snake_case) */
 export interface InstructorSessionPayload {
   trainingId: string;
   title: string;

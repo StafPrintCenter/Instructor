@@ -24,10 +24,10 @@ export function SessionResponsesCard({ session }: { session: APIInstructorSessio
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <CountTile label="Invités" value={invited ?? "—"} />
+          <CountTile label="Invités" value={invited ?? "-"} />
           <CountTile label="Confirmés" value={session.confirmedCount} />
           <CountTile label="Absents" value={session.declinedCount} />
-          <CountTile label="Sans réponse" value={waiting ?? "—"} />
+          <CountTile label="Sans réponse" value={waiting ?? "-"} />
         </div>
 
         {session.responses.length === 0 ? (

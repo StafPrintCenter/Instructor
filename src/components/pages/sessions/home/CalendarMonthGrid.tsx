@@ -67,7 +67,7 @@ export function CalendarMonthGrid({ cells, sessionsByDay, selectedKey, onSelect 
                       key={s.id}
                       to="/sessions/$id"
                       params={{ id: s.id }}
-                      title={`${formatSessionTime(s.startsAt)} — ${s.title}`}
+                      title={`${formatSessionTime(s.startsAt)} - ${s.title}`}
                       className={cn("block truncate rounded px-1.5 py-0.5 text-[11px] font-medium hover:opacity-80", chipTone(s))}
                     >
                       {formatSessionTime(s.startsAt)} {s.title}

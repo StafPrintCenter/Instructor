@@ -40,7 +40,7 @@ function toQueryParams(filters: InstructorSessionFilters) {
   return { ...rest, upcoming: upcoming ? 1 : undefined };
 }
 
-/** Sessions de toutes mes formations — GET /instructor/trainings/sessions/list */
+/** Sessions de toutes mes formations - GET /instructor/trainings/sessions/list */
 export function useInstructorSessionsList(filters: InstructorSessionFilters = {}) {
   const { items, meta, isLoading, isError, refetch } = listStore.useList(toQueryParams(filters));
   return { items, meta: meta as InstructorPaginationMeta | null, isLoading, isError, refetch };

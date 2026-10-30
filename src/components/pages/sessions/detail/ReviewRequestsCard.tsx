@@ -24,7 +24,7 @@ export function SessionReviewRequestsCard({ session }: { session: APIInstructorS
                 {r.reviewedAt ? (
                   <p className="text-xs text-muted-foreground">
                     Traitée le {formatSessionShortDateTime(r.reviewedAt)}
-                    {r.rejectionReason ? ` — ${r.rejectionReason}` : ""}
+                    {r.rejectionReason ? ` - ${r.rejectionReason}` : ""}
                   </p>
                 ) : null}
               </li>

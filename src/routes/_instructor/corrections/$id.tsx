@@ -77,7 +77,7 @@ function CorrectionDetailPage() {
           <CorrectionDeliverableCard
             body={d.body}
             fileUrl={d.fileUrl}
-            previewTitle={`${d.student.name} — ${d.lesson.title}`}
+            previewTitle={`${d.student.name} - ${d.lesson.title}`}
             onPreview={(url, title) => setPreview({ url, title })}
           />
           <CorrectionStatementCard brief={d.lesson.brief} instructions={d.lesson.instructions} />
