@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { DeletePostDialog } from "../shared/DeletePostDialog";
 import { PostDetailDialog } from "../detail/PostDetailDialog";
-import { PostFilters } from "./PostFilters";
-import { usePostFilters } from "./usePostFilters";
-import { PostFormDialog } from "./PostFormDialog";
-import { PostsList } from "./PostsList";
+import { PostFilters, usePostFilters, PostFormDialog, PostsList } from "./";
 import type { APICommunityPostListItem } from "@/data/community";
 
 /** Filtres + liste des publications + dialogs de détail, modification et suppression */

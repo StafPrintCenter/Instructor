@@ -3,12 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import type { APICommunityPostListItem } from "@/data/community";
 import { relativeTime } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
-import { PostActionButtons } from "../shared/PostActionButtons";
-import { PostAuthor } from "../shared/PostAuthor";
-import { PostBadges } from "../shared/PostBadges";
-import { PostFlags } from "../shared/PostFlags";
-import { PostStats } from "../shared/PostStats";
-import { PostTags } from "../shared/PostTags";
+import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../shared";
 
 interface PostCardProps {
   post: APICommunityPostListItem;

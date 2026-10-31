@@ -2,11 +2,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import type { APICommunityPostDetail } from "@/data/community";
-import { AttachmentsInput } from "./AttachmentsInput";
-import { PostMainFields } from "./PostMainFields";
-import { PostMetaFields } from "./PostMetaFields";
-import { TagsInput } from "./TagsInput";
-import { usePostForm } from "./usePostForm";
+import { AttachmentsInput, PostMainFields, PostMetaFields, TagsInput, usePostForm } from "./";
 
 interface PostFormProps {
   /** Publication à modifier (détail complet) ; null = création */
