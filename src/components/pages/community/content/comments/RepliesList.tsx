@@ -7,10 +7,14 @@ interface RepliesListProps {
   commentId: string;
   postId: string;
   canComment: boolean;
+  /** Page à afficher à l'ouverture (lien direct vers une réponse) */
+  initialPage?: number;
+  /** Réponse à mettre en évidence (lien direct) */
+  highlightId?: string | null;
 }
 
-export function RepliesList({ commentId, postId, canComment }: RepliesListProps) {
-  const [page, setPage] = useState(1);
+export function RepliesList({ commentId, postId, canComment, initialPage, highlightId }: RepliesListProps) {
+  const [page, setPage] = useState(initialPage ?? 1);
   const { items, meta, isLoading, isError, refetch } = useCommunityReplies(commentId, { page });
 
   // Si la page courante n'existe plus (réponses supprimées), on recule à la dernière page
@@ -24,7 +28,14 @@ export function RepliesList({ commentId, postId, canComment }: RepliesListProps)
   return (
     <div className="space-y-2">
       {items.map((reply) => (
-        <CommentItem key={reply.id} comment={reply} postId={postId} canComment={canComment} variant="reply" />
+        <CommentItem
+          key={reply.id}
+          comment={reply}
+          postId={postId}
+          canComment={canComment}
+          variant="reply"
+          highlighted={reply.id === highlightId}
+        />
       ))}
       {meta && meta.lastPage > 1 ? (
         <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={setPage} />

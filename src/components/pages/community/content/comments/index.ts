@@ -13,4 +13,6 @@ export { ReplyComposer } from "./ReplyComposer";
 export { CommentReplyTo } from "./ReplyTo";
 export { CommentsSection } from "./Section";
 export { CommentThread } from "./Thread";
+export { CommentFocusNotice } from "./FocusNotice";
 export { CommentsToolbar } from "./Toolbar";
+export { useCommentFocus, type CommentFocus } from "./useCommentFocus";

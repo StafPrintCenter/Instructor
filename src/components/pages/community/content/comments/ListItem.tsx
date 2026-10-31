@@ -5,17 +5,19 @@ import { PaginationBar } from "@/components/site";
 import type { CommunityCommentFilters } from "@/data/community-comments";
 import { useCommunityComments } from "@/stores/useCommunityCommentsStore";
 import { cn } from "@/lib/utils";
-import { CommentThread, CommentsListError, CommentsListSkeleton } from "./";
+import { CommentThread, CommentsListError, CommentsListSkeleton, CommentFocus } from "./";
 
 interface CommentsListProps {
   postId: string;
   canComment: boolean;
   params: CommunityCommentFilters;
   hasActiveFilters: boolean;
+  /** Commentaire visé par un lien direct ; null s'il n'y en a pas */
+  focus: CommentFocus | null;
   onPageChange: (page: number) => void;
 }
 
-export function CommentsList({ postId, canComment, params, hasActiveFilters, onPageChange }: CommentsListProps) {
+export function CommentsList({ postId, canComment, params, hasActiveFilters, focus, onPageChange }: CommentsListProps) {
   const { items, meta, isLoading, isFetching, isError, refetch } = useCommunityComments(postId, params);
 
   // Si la page courante n'existe plus (commentaires supprimés), on recule à la dernière page
@@ -41,7 +43,7 @@ export function CommentsList({ postId, canComment, params, hasActiveFilters, onP
   return (
     <div className={cn("space-y-4 transition-opacity", isFetching && "opacity-60")}>
       {items.map((comment) => (
-        <CommentThread key={comment.id} comment={comment} postId={postId} canComment={canComment} />
+        <CommentThread key={comment.id} comment={comment} postId={postId} canComment={canComment} focus={focus} />
       ))}
       {meta ? (
         <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={onPageChange} />

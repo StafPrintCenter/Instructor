@@ -10,7 +10,14 @@ import { DeletePostDialog } from "../shared/DeletePostDialog";
 import { PostFormDialog, CommentsSection } from "../content";
 import { PostDetailContent, BackToCommunityButton, PostPageError, PostPageFallback, PostPageSkeleton, } from ".";
 
-export function PostPage({ postId }: { postId: string }) {
+
+interface PostPageProps {
+  postId: string;
+  /** Commentaire visé par le lien (?comment=) */
+  focusCommentId?: string;
+}
+
+export function PostPage({ postId, focusCommentId }: PostPageProps) {
   const navigate = useNavigate();
   const { post, isLoading, isError, refetch } = useCommunityPostDetail(postId);
   const [editOpen, setEditOpen] = useState(false);
@@ -20,6 +27,10 @@ export function PostPage({ postId }: { postId: string }) {
     post ? `${post.title} - Communauté | ${SITE.name}` : undefined,
     post ? post.excerpt.slice(0, 160) : undefined
   );
+
+  // Retire ?comment= de l'adresse (remplace l'entrée d'historique)
+  const clearFocus = () =>
+    navigate({ to: "/community/$id", params: { id: postId }, search: {}, replace: true });
 
   if (isLoading) return <PostPageSkeleton />;
 
@@ -54,7 +65,7 @@ export function PostPage({ postId }: { postId: string }) {
         </CardContent>
       </Card>
 
-      <CommentsSection post={post} />
+      <CommentsSection post={post} focusCommentId={focusCommentId} onClearFocus={clearFocus} />
 
       <PostFormDialog open={editOpen} postId={editOpen ? post.id : null} onClose={() => setEditOpen(false)} />
       <DeletePostDialog
