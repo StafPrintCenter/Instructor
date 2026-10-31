@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { EditPostLoader, PostForm } from "../../home";
+import { EditPostLoader, PostForm } from ".";
 
 interface PostFormDialogProps {
   open: boolean;

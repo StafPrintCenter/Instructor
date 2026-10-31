@@ -3,7 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
-import { CommunityFeed, PostFormDialog } from "@/components/pages/community/home";
+import { CommunityFeed } from "@/components/pages/community/home";
+import { PostFormDialog } from "@/components/pages/community/content/form";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/community/")({
