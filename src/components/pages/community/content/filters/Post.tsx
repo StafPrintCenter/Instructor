@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useCommunityCategories } from "@/stores/useCommunityStore";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
-import { FilterSelect, authorRoleOptions, buildAudienceOptions, buildCategoryOptions, sortOptions, typeOptions, PostFiltersState } from ".";
+import { FilterSelect, authorRoleOptions, buildAudienceOptions, buildCategoryOptions, sortOptions, typeOptions, PostFiltersState } from "./";
 
 interface PostFiltersProps {
   filters: PostFiltersState;
