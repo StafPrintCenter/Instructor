@@ -10,7 +10,6 @@ interface TagsInputProps {
   tags: string[];
   onChange: (tags: string[]) => void;
   error?: string;
-  /** Note affichée sous le champ (ex. limite en édition) */
   note?: string;
 }
 

@@ -1,8 +1,4 @@
-import type {
-  APICommunityPostDetail,
-  CommunityPostCreatePayload,
-  CommunityPostUpdatePayload,
-} from "@/data/community";
+import type { APICommunityPostDetail, CommunityPostCreatePayload, CommunityPostUpdatePayload } from "@/data/community";
 import { GENERAL_AUDIENCE, buildInitialPostValues, type PostFormValues } from "./postFormSchema";
 
 export function buildCreatePayload(v: PostFormValues, attachments: File[]): CommunityPostCreatePayload {

@@ -2,14 +2,10 @@ import { useState } from "react";
 import { toast } from "sonner";
 import type { APICommunityPostDetail } from "@/data/community";
 import { useCreateCommunityPost, useUpdateCommunityPost } from "@/stores/useCommunityStore";
-import { buildCreatePayload, buildUpdatePayload } from "./postFormPayload";
 import {
-  buildInitialPostValues,
-  getPostFormErrors,
-  postFormSchema,
-  type PostFormValues,
-  type SetPostField,
-} from "./postFormSchema";
+  buildCreatePayload, buildUpdatePayload,
+  buildInitialPostValues, getPostFormErrors, postFormSchema, type PostFormValues, type SetPostField
+} from "./";
 
 interface UsePostFormArgs {
   /** Publication à modifier (détail complet) ; null = création */

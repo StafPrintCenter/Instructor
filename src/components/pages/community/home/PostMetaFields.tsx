@@ -1,15 +1,9 @@
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import {
-  COMMUNITY_POST_TYPES,
-  communityPostTypeLabels,
-  type APICommunityPostDetail,
-  type CommunityPostType,
-} from "@/data/community";
+import { COMMUNITY_POST_TYPES, communityPostTypeLabels, type APICommunityPostDetail, type CommunityPostType } from "@/data/community";
 import { useCommunityCategories } from "@/stores/useCommunityStore";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
-import { FieldError } from "./FieldError";
-import { GENERAL_AUDIENCE, type PostFieldsProps } from "./postFormSchema";
+import { FieldError, GENERAL_AUDIENCE, type PostFieldsProps } from "./";
 
 interface PostMetaFieldsProps extends PostFieldsProps {
   /** Publication en cours de modification ; null = création */

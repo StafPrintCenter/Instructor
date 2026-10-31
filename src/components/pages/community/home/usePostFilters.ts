@@ -1,17 +1,11 @@
 import { useMemo, useState } from "react";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
-import type {
-  CommunityAuthorRole,
-  CommunityPostFilters,
-  CommunityPostSort,
-  CommunityPostType,
-} from "@/data/community";
+import type { CommunityAuthorRole, CommunityPostFilters, CommunityPostSort, CommunityPostType } from "@/data/community";
 
 export interface PostFiltersState {
   query: string;
   sort: CommunityPostSort;
   audience: string;
-  /** "all" ou id */
   categoryId: string;
   type: CommunityPostType | "all";
   authorRole: CommunityAuthorRole | "all";

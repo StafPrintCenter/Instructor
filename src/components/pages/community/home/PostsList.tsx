@@ -5,8 +5,7 @@ import { PaginationBar } from "@/components/site";
 import type { APICommunityPostListItem, CommunityPostFilters } from "@/data/community";
 import { useCommunityPostsList } from "@/stores/useCommunityStore";
 import { cn } from "@/lib/utils";
-import { PostCard } from "./PostCard";
-import { PostsListError, PostsListSkeleton } from "./PostsListStates";
+import { PostCard, PostsListError, PostsListSkeleton } from "./";
 
 interface PostsListProps {
   params: CommunityPostFilters;
