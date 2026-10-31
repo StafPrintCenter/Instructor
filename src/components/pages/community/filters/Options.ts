@@ -1,5 +1,5 @@
 import { COMMUNITY_AUTHOR_ROLES, COMMUNITY_POST_SORTS, COMMUNITY_POST_TYPES, communityAuthorRoleLabels, communityPostSortLabels, communityPostTypeLabels, type APICommunityCategory, type CommunityAuthorRole, type CommunityPostSort, type CommunityPostType } from "@/data/community";
-import type { FilterOption } from "./FilterSelect";
+import type { FilterOption } from "./Select";
 
 export const sortOptions: FilterOption<CommunityPostSort>[] = COMMUNITY_POST_SORTS.map((s) => ({
   value: s,
