@@ -2,7 +2,7 @@ export { AttachmentsInput } from "./AttachmentsInput";
 export { CommunityFeed } from "./CommunityFeed";
 export { EditPostLoader } from "./EditPostLoader";
 export { FieldError } from "./FieldError";
-export { PostCard } from "./PostCard";
+export { PostCard } from "../posts/PostCard";
 export { PostForm } from "./PostForm";
 export { PostFormDialog } from "./PostFormDialog";
 export { PostMainFields } from "./PostMainFields";
