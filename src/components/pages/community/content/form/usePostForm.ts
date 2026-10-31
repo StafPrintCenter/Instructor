@@ -5,7 +5,7 @@ import { useCreateCommunityPost, useUpdateCommunityPost } from "@/stores/useComm
 import {
   buildCreatePayload, buildUpdatePayload,
   buildInitialPostValues, getPostFormErrors, postFormSchema, type PostFormValues, type SetPostField
-} from "./";
+} from "../../home";
 
 interface UsePostFormArgs {
   /** Publication à modifier (détail complet) ; null = création */

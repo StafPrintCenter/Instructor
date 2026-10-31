@@ -1,14 +1,14 @@
-export { AttachmentsInput } from "./AttachmentsInput";
+export { AttachmentsInput } from "../content/form/AttachmentsInput";
 export { CommunityFeed } from "./CommunityFeed";
-export { EditPostLoader } from "./EditPostLoader";
-export { FieldError } from "./FieldError";
-export { PostForm } from "./PostForm";
-export { PostFormDialog } from "./PostFormDialog";
-export { PostMainFields } from "./PostMainFields";
-export { PostMetaFields } from "./PostMetaFields";
-export { TagsInput } from "./TagsInput";
-export { ATTACHMENTS_ACCEPT, validateAttachments } from "./attachments";
-export { buildCreatePayload, buildUpdatePayload } from "./postFormPayload";
+export { EditPostLoader } from "../content/form/EditPostLoader";
+export { FieldError } from "../content/form/FieldError";
+export { PostForm } from "../content/form/PostForm";
+export { PostFormDialog } from "../content/form/PostFormDialog";
+export { PostMainFields } from "../content/form/MainFields";
+export { PostMetaFields } from "../content/form/MetaFields";
+export { TagsInput } from "../content/form/TagsInput";
+export { ATTACHMENTS_ACCEPT, validateAttachments } from "../content/form/Attachments";
+export { buildCreatePayload, buildUpdatePayload } from "../content/form/Payload";
 export {
   buildInitialPostValues,
   GENERAL_AUDIENCE,
@@ -18,4 +18,4 @@ export {
   type PostFormValues,
   type SetPostField,
 } from "../content/form/Schema";
-export { usePostForm } from "./usePostForm";
+export { usePostForm } from "../content/form/usePostForm";

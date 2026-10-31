@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { COMMUNITY_LIMITS } from "@/data/community";
 import { formatFileSize } from "@/lib/file-size";
-import { ATTACHMENTS_ACCEPT, validateAttachments } from "./attachments";
+import { ATTACHMENTS_ACCEPT, validateAttachments } from "./Attachments";
 
 interface AttachmentsInputProps {
   files: File[];

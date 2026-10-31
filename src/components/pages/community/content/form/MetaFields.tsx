@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { COMMUNITY_POST_TYPES, communityPostTypeLabels, type APICommunityPostDetail, type CommunityPostType } from "@/data/community";
 import { useCommunityCategories } from "@/stores/useCommunityStore";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
-import { FieldError, GENERAL_AUDIENCE, type PostFieldsProps } from "./";
+import { FieldError, GENERAL_AUDIENCE, type PostFieldsProps } from "../../home";
 
 interface PostMetaFieldsProps extends PostFieldsProps {
   /** Publication en cours de modification ; null = création */
