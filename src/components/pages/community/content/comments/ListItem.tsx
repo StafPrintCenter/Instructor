@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { MessageCircle } from "lucide-react";
-import { EmptyState } from "@/components/instructor/page-header";
+import { EmptyState } from "@/components/shared";
 import { PaginationBar } from "@/components/site";
 import type { CommunityCommentFilters } from "@/data/community-comments";
 import { useCommunityComments } from "@/stores/useCommunityCommentsStore";
 import { cn } from "@/lib/utils";
-import { CommentThread } from "./CommentThread";
-import { CommentsListError, CommentsListSkeleton } from "./CommentsListStates";
+import { CommentThread } from "./Thread";
+import { CommentsListError, CommentsListSkeleton } from "./ListStates";
 
 interface CommentsListProps {
   postId: string;

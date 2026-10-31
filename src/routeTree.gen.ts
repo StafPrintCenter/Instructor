@@ -20,6 +20,7 @@ import { Route as InstructorDashboardRouteImport } from './routes/_instructor/da
 import { Route as InstructorProfileRouteImport } from './routes/_instructor/profile'
 import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
 import { Route as InstructorCommunityIndexRouteImport } from './routes/_instructor/community/index'
+import { Route as InstructorCommunityIdRouteImport } from './routes/_instructor/community/$id'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
 import { Route as InstructorCorrectionsIdRouteImport } from './routes/_instructor/corrections/$id'
 import { Route as InstructorNotificationsIndexRouteImport } from './routes/_instructor/notifications/index'
@@ -90,6 +91,11 @@ const InstructorCommunityIndexRoute =
     path: '/community/',
     getParentRoute: () => InstructorRoute,
   } as any)
+const InstructorCommunityIdRoute = InstructorCommunityIdRouteImport.update({
+  id: '/community/$id',
+  path: '/community/$id',
+  getParentRoute: () => InstructorRoute,
+} as any)
 const InstructorCorrectionsIndexRoute =
   InstructorCorrectionsIndexRouteImport.update({
     id: '/corrections/',
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof InstructorDashboardRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
+  '/community/$id': typeof InstructorCommunityIdRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
@@ -212,6 +219,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof InstructorDashboardRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
+  '/community/$id': typeof InstructorCommunityIdRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
@@ -241,6 +249,7 @@ export interface FileRoutesById {
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profile': typeof InstructorProfileRoute
   '/_instructor/submissions': typeof InstructorSubmissionsRoute
+  '/_instructor/community/$id': typeof InstructorCommunityIdRoute
   '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/_instructor/notifications/$id': typeof InstructorNotificationsIdRoute
   '/_instructor/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
@@ -269,6 +278,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profile'
     | '/submissions'
+    | '/community/$id'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profile'
     | '/submissions'
+    | '/community/$id'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
@@ -323,6 +334,7 @@ export interface FileRouteTypes {
     | '/_instructor/dashboard'
     | '/_instructor/profile'
     | '/_instructor/submissions'
+    | '/_instructor/community/$id'
     | '/_instructor/corrections/$id'
     | '/_instructor/notifications/$id'
     | '/_instructor/notifications/preferences'
@@ -425,6 +437,13 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/community/'
       preLoaderRoute: typeof InstructorCommunityIndexRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/community/$id': {
+      id: '/_instructor/community/$id'
+      path: '/community/$id'
+      fullPath: '/community/$id'
+      preLoaderRoute: typeof InstructorCommunityIdRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/corrections/': {
@@ -553,6 +572,7 @@ interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfileRoute: typeof InstructorProfileRoute
   InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
+  InstructorCommunityIdRoute: typeof InstructorCommunityIdRoute
   InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
   InstructorNotificationsIdRoute: typeof InstructorNotificationsIdRoute
   InstructorNotificationsPreferencesRoute: typeof InstructorNotificationsPreferencesRoute
@@ -575,6 +595,7 @@ const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfileRoute: InstructorProfileRoute,
   InstructorSubmissionsRoute: InstructorSubmissionsRoute,
+  InstructorCommunityIdRoute: InstructorCommunityIdRoute,
   InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
   InstructorNotificationsIdRoute: InstructorNotificationsIdRoute,
   InstructorNotificationsPreferencesRoute:
