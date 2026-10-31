@@ -11,12 +11,11 @@ interface PostsListProps {
   params: CommunityPostFilters;
   hasActiveFilters: boolean;
   onPageChange: (page: number) => void;
-  onOpen: (post: APICommunityPostListItem) => void;
   onEdit: (post: APICommunityPostListItem) => void;
   onDelete: (post: APICommunityPostListItem) => void;
 }
 
-export function PostsListItem({ params, hasActiveFilters, onPageChange, onOpen, onEdit, onDelete }: PostsListProps) {
+export function PostsListItem({ params, hasActiveFilters, onPageChange, onEdit, onDelete }: PostsListProps) {
   const { items, meta, isLoading, isFetching, isError, refetch } = useCommunityPostsList(params);
 
   // Si la page courante n'existe plus (liste réduite après une suppression), on recule à la dernière page
@@ -44,13 +43,7 @@ export function PostsListItem({ params, hasActiveFilters, onPageChange, onOpen, 
   return (
     <div className={cn("space-y-4 transition-opacity", isFetching && "opacity-60")}>
       {items.map((post) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          onOpen={() => onOpen(post)}
-          onEdit={() => onEdit(post)}
-          onDelete={() => onDelete(post)}
-        />
+        <PostCard key={post.id} post={post} onEdit={() => onEdit(post)} onDelete={() => onDelete(post)} />
       ))}
       {meta ? (
         <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={onPageChange} />

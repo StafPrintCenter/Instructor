@@ -1,3 +1,4 @@
 export { PostAttachments } from "./PostAttachments";
 export { PostDetailContent } from "./PostDetailContent";
-export { PostDetailDialog } from "./PostDetailDialog";
+export { PostPage } from "./PostPage";
+export { BackToCommunityButton, PostPageSkeleton, PostPageError, PostPageFallback } from "./PostPageStates";

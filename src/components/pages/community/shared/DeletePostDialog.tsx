@@ -12,9 +12,11 @@ interface DeletePostDialogProps {
   /** null = dialog fermé */
   post: APICommunityPostListItem | null;
   onClose: () => void;
+  /** Appelé après une suppression réussie (ex. retour à la liste depuis la page de détail) */
+  onDeleted?: () => void;
 }
 
-export function DeletePostDialog({ post, onClose }: DeletePostDialogProps) {
+export function DeletePostDialog({ post, onClose, onDeleted }: DeletePostDialogProps) {
   const deletePost = useDeleteCommunityPost();
   const [reason, setReason] = useState("");
 
@@ -31,6 +33,7 @@ export function DeletePostDialog({ post, onClose }: DeletePostDialogProps) {
       await deletePost.mutateAsync({ id: post.id, reason: asModerator ? reason.trim() || undefined : undefined });
       toast.success("Publication supprimée.");
       onClose();
+      onDeleted?.();
     } catch (e) {
       toast.error((e as Error).message);
     }

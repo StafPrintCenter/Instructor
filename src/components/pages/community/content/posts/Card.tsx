@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { APICommunityPostListItem } from "@/data/community";
@@ -7,12 +8,11 @@ import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTa
 
 interface PostCardProps {
   post: APICommunityPostListItem;
-  onOpen: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }
 
-export function PostCard({ post, onOpen, onEdit, onDelete }: PostCardProps) {
+export function PostCard({ post, onEdit, onDelete }: PostCardProps) {
   return (
     <Card className={cn("border-border/70 transition-shadow hover:shadow-md", post.isPinned && "border-primary/30")}>
       <CardContent className="space-y-3 p-5">
@@ -28,9 +28,9 @@ export function PostCard({ post, onOpen, onEdit, onDelete }: PostCardProps) {
 
         <div className="space-y-1.5">
           <h2 className="font-display text-lg leading-snug">
-            <button type="button" onClick={onOpen} className="text-left hover:underline">
+            <Link to="/community/$id" params={{ id: post.id }} className="hover:underline">
               {post.title}
-            </button>
+            </Link>
           </h2>
           <p className="line-clamp-3 whitespace-pre-wrap text-sm text-muted-foreground">{post.excerpt}</p>
         </div>
@@ -46,7 +46,9 @@ export function PostCard({ post, onOpen, onEdit, onDelete }: PostCardProps) {
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/40 pt-3">
           <PostStats post={post} />
           <div className="flex flex-wrap gap-2">
-            <Button size="sm" variant="soft" onClick={onOpen}>Ouvrir</Button>
+            <Button asChild size="sm" variant="soft">
+              <Link to="/community/$id" params={{ id: post.id }}>Ouvrir</Link>
+            </Button>
             <PostActionButtons post={post} onEdit={onEdit} onDelete={onDelete} />
           </div>
         </div>
