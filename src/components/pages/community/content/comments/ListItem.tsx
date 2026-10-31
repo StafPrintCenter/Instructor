@@ -5,8 +5,7 @@ import { PaginationBar } from "@/components/site";
 import type { CommunityCommentFilters } from "@/data/community-comments";
 import { useCommunityComments } from "@/stores/useCommunityCommentsStore";
 import { cn } from "@/lib/utils";
-import { CommentThread } from "./Thread";
-import { CommentsListError, CommentsListSkeleton } from "./ListStates";
+import { CommentThread, CommentsListError, CommentsListSkeleton } from "./";
 
 interface CommentsListProps {
   postId: string;

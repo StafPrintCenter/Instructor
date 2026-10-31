@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { PaginationBar } from "@/components/site";
 import { useCommunityReplies } from "@/stores/useCommunityCommentsStore";
-import { CommentItem } from "./Item";
-import { CommentsListError, CommentsListSkeleton } from "./ListStates";
+import { CommentItem, CommentsListError, CommentsListSkeleton } from "./";
 
 interface RepliesListProps {
   commentId: string;

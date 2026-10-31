@@ -1,12 +1,7 @@
 import { useState } from "react";
 import type { APICommunityComment } from "@/data/community-comments";
 import { cn } from "@/lib/utils";
-import { CommentActions } from "./Actions";
-import { CommentHeader } from "./Header";
-import { CommentReplyTo } from "./ReplyTo";
-import { DeleteCommentConfirm } from "./DeleteConfirm";
-import { EditCommentForm } from "./EditForm";
-import { ReplyComposer } from "./ReplyComposer";
+import { CommentActions, CommentHeader, CommentReplyTo, DeleteCommentConfirm, EditCommentForm, ReplyComposer } from "./";
 
 interface CommentItemProps {
   comment: APICommunityComment;

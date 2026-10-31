@@ -2,8 +2,7 @@ import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { APICommunityComment } from "@/data/community-comments";
-import { CommentItem } from "./Item";
-import { RepliesList } from "./RepliesList";
+import { CommentItem, RepliesList } from "./";
 
 interface CommentThreadProps {
   comment: APICommunityComment;

@@ -1,11 +1,6 @@
-import {
-  COMMUNITY_COMMENT_SORTS,
-  communityCommentSortLabels,
-  type CommunityCommentSort,
-} from "@/data/community-comments";
+import { COMMUNITY_COMMENT_SORTS, communityCommentSortLabels, type CommunityCommentSort } from "@/data/community-comments";
 import type { CommunityAuthorRole } from "@/data/community";
-import { FilterSelect, type FilterOption } from "../filters/Select";
-import { authorRoleOptions } from "../filters/Options";
+import { FilterSelect, authorRoleOptions, type FilterOption } from "../filters";
 
 const sortOptions: FilterOption<CommunityCommentSort>[] = COMMUNITY_COMMENT_SORTS.map((s) => ({
   value: s,

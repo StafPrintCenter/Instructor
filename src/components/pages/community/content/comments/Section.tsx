@@ -1,10 +1,7 @@
 import { useMemo, useState } from "react";
 import type { APICommunityPostDetail, CommunityAuthorRole } from "@/data/community";
 import type { CommunityCommentFilters, CommunityCommentSort } from "@/data/community-comments";
-import { CommentsClosedNotice } from "./ClosedNotice";
-import { CommentsList } from "./ListItem";
-import { CommentsToolbar } from "./Toolbar";
-import { NewCommentForm } from "./NewForm";
+import { CommentsClosedNotice, CommentsList, CommentsToolbar, NewCommentForm } from "./";
 
 export function CommentsSection({ post }: { post: APICommunityPostDetail }) {
   const [sort, setSort] = useState<CommunityCommentSort>("oldest");
