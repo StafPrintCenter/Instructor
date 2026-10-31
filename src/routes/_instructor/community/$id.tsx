@@ -5,7 +5,7 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/community/$id")({
   head: () => ({
     meta: [
-      { title: `Publication | Communauté | Espace Formateur ${SITE.name}` },
+      { title: `${SITE.tool} - Publication Communauté | ${SITE.name}` },
       { name: "description", content: "Détail d'une publication de la communauté et de ses commentaires." },
       { name: "robots", content: "noindex" },
     ],
