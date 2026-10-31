@@ -6,10 +6,9 @@ import { communityPostTypeLabels } from "@/data/community";
 import { SITE } from "@/data/site";
 import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 import { useCommunityPostDetail } from "@/stores/useCommunityStore";
-import { CommentsSection } from "../content/comments/Section";
 import { DeletePostDialog } from "../shared/DeletePostDialog";
-import { PostFormDialog } from "../content";
-import { PostDetailContent, BackToCommunityButton, PostPageError, PostPageFallback, PostPageSkeleton, } from "./";
+import { PostFormDialog, CommentsSection } from "../content";
+import { PostDetailContent, BackToCommunityButton, PostPageError, PostPageFallback, PostPageSkeleton, } from ".";
 
 export function PostPage({ postId }: { postId: string }) {
   const navigate = useNavigate();
