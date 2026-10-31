@@ -1,10 +1,6 @@
 import { EyeOff, Globe, GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  communityPostTypeLabels,
-  getCommunityPostTypeBadgeClass,
-  type APICommunityPostListItem,
-} from "@/data/community";
+import { communityPostTypeLabels, getCommunityPostTypeBadgeClass, type APICommunityPostListItem } from "@/data/community";
 import { cn } from "@/lib/utils";
 import { CategoryBadge } from "./CategoryBadge";
 
