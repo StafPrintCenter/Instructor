@@ -1,12 +1,7 @@
 import type { APICommunityPostDetail } from "@/data/community";
 import { formatDateTime } from "@/lib/date-time";
-import { PostActionButtons } from "../shared/PostActionButtons";
-import { PostAuthor } from "../shared/PostAuthor";
-import { PostBadges } from "../shared/PostBadges";
-import { PostFlags } from "../shared/PostFlags";
-import { PostStats } from "../shared/PostStats";
-import { PostTags } from "../shared/PostTags";
-import { PostAttachments } from "./PostAttachments";
+import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../shared";
+import { PostAttachments } from "./Attachments";
 
 interface PostDetailContentProps {
   post: APICommunityPostDetail;

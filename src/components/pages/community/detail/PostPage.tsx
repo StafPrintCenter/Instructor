@@ -9,13 +9,7 @@ import { useCommunityPostDetail } from "@/stores/useCommunityStore";
 import { CommentsSection } from "../content/comments/Section";
 import { DeletePostDialog } from "../shared/DeletePostDialog";
 import { PostFormDialog } from "../content";
-import { PostDetailContent } from "./PostDetailContent";
-import {
-  BackToCommunityButton,
-  PostPageError,
-  PostPageFallback,
-  PostPageSkeleton,
-} from "./PostPageStates";
+import { PostDetailContent, BackToCommunityButton, PostPageError, PostPageFallback, PostPageSkeleton, } from "./";
 
 export function PostPage({ postId }: { postId: string }) {
   const navigate = useNavigate();
