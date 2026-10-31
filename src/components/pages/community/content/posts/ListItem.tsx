@@ -5,7 +5,7 @@ import { PaginationBar } from "@/components/site";
 import type { APICommunityPostListItem, CommunityPostFilters } from "@/data/community";
 import { useCommunityPostsList } from "@/stores/useCommunityStore";
 import { cn } from "@/lib/utils";
-import { PostCard, PostsListError, PostsListSkeleton } from "./";
+import { PostCard, PostsListError, PostsListSkeleton } from "../../home";
 
 interface PostsListProps {
   params: CommunityPostFilters;
@@ -16,7 +16,7 @@ interface PostsListProps {
   onDelete: (post: APICommunityPostListItem) => void;
 }
 
-export function PostsList({ params, hasActiveFilters, onPageChange, onOpen, onEdit, onDelete }: PostsListProps) {
+export function PostsListItem({ params, hasActiveFilters, onPageChange, onOpen, onEdit, onDelete }: PostsListProps) {
   const { items, meta, isLoading, isFetching, isError, refetch } = useCommunityPostsList(params);
 
   // Si la page courante n'existe plus (liste réduite après une suppression), on recule à la dernière page

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DeletePostDialog } from "../shared/DeletePostDialog";
 import { PostDetailDialog } from "../detail/PostDetailDialog";
-import { PostFormDialog, PostsList } from "./";
+import { PostFormDialog, PostsListItem } from "./";
 import { PostFilters, usePostFilters } from "../content/filters";
 import type { APICommunityPostListItem } from "@/data/community";
 
@@ -17,7 +17,7 @@ export function CommunityFeed() {
     <>
       <PostFilters filters={f.filters} onChange={f.patch} hasActiveFilters={f.hasActiveFilters} onReset={f.reset} />
 
-      <PostsList
+      <PostsListItem
         params={f.params}
         hasActiveFilters={f.hasActiveFilters}
         onPageChange={f.setPage}
