@@ -3,6 +3,10 @@ import { PostPage } from "@/components/pages/community/detail";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/community/$id")({
+  // /community/{postId}?comment={commentId} : lien direct vers un commentaire
+  validateSearch: (search: Record<string, unknown>): { comment?: string } => ({
+    comment: typeof search.comment === "string" && search.comment.trim() !== "" ? search.comment.trim() : undefined,
+  }),
   head: () => ({
     meta: [
       { title: `${SITE.tool} - Publication Communauté | ${SITE.name}` },
@@ -15,5 +19,12 @@ export const Route = createFileRoute("/_instructor/community/$id")({
 
 function CommunityPostRoute() {
   const { id } = Route.useParams();
-  return <PostPage postId={id} />;
+  const { comment } = Route.useSearch();
+
+  return (
+    <PostPage
+      postId={id}
+      focusCommentId={comment}
+    />
+  );
 }
