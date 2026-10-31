@@ -1,4 +1,4 @@
-import { Eye, Heart, MessageCircle, Paperclip } from "lucide-react";
+import { Eye, SmilePlus, MessageCircle, Paperclip } from "lucide-react";
 import type { APICommunityPostListItem } from "@/data/community";
 
 export function PostStats({ post }: { post: APICommunityPostListItem }) {
@@ -8,7 +8,7 @@ export function PostStats({ post }: { post: APICommunityPostListItem }) {
         <MessageCircle className="size-3.5" /> {post.commentsCount}
       </span>
       <span className="inline-flex items-center gap-1.5" title="Réactions">
-        <Heart className="size-3.5" /> {post.reactionsTotal}
+        <SmilePlus className="size-3.5" /> {post.reactionsTotal}
       </span>
       <span className="inline-flex items-center gap-1.5" title="Vues">
         <Eye className="size-3.5" /> {post.viewsCount}
