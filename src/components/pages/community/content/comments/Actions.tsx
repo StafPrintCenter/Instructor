@@ -1,6 +1,7 @@
 import { Pencil, Reply, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { APICommunityComment } from "@/data/community-comments";
+import { CommentModerationButton, ReportButton } from "../moderation";
 import { ReactionBar } from "../reactions";
 import { MarkBestAnswerButton } from "./MarkBestAnswerButton";
 
@@ -44,6 +45,10 @@ export function CommentActions({ comment, canReply, canMarkBest, onReply, onEdit
           <Button size="sm" variant="ghost" className="h-7 px-2 text-destructive hover:text-destructive" onClick={onDelete}>
             <Trash2 className="size-3.5" /> Supprimer
           </Button>
+        ) : null}
+        {permissions.canHide ? <CommentModerationButton comment={comment} /> : null}
+        {permissions.canReport ? (
+          <ReportButton target={{ kind: "comment", id: comment.id }} subject="ce commentaire" variant="comment" />
         ) : null}
       </div>
     </div>
