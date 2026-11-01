@@ -1,8 +1,11 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Printer } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import logo from "@/assets/logos.json";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { FacebookIcon, InstagramIcon, LinkedinIcon, XIcon, WhatsAppIcon, TiktokIcon } from "@/components/site/icons";
+import { SITE, SITE_LINK } from "@/data/site";
 
 export type LegalClause = { label: string; text: string };
 
@@ -33,6 +36,17 @@ export function LegalDocShell({
   sections: LegalSection[];
   children: ReactNode;
 }) {
+  const landingBase = SITE_LINK.landingUrl.replace(/\/$/, "");
+
+  const socialLinks = [
+    { label: "LinkedIn", href: SITE.socials.linkedin, Icon: LinkedinIcon },
+    { label: "Facebook", href: SITE.socials.facebook, Icon: FacebookIcon },
+    { label: "Instagram", href: SITE.socials.instagram, Icon: InstagramIcon },
+    { label: "X", href: SITE.socials.x, Icon: XIcon },
+    { label: "WhatsApp", href: SITE.whatsappLink, Icon: WhatsAppIcon },
+    { label: "TikTok", href: SITE.socials.tiktok, Icon: TiktokIcon },
+  ];
+
   const [active, setActive] = useState(sections[0]?.id ?? "");
 
   useEffect(() => {
@@ -65,22 +79,15 @@ export function LegalDocShell({
     <div className="flex min-h-screen flex-col bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur print:hidden">
         <div className="mx-auto flex h-16 w-full max-w-5xl items-center gap-3 px-4 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-2.5">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-              <GraduationCap className="size-5" />
-            </span>
-            <span className="flex flex-col leading-tight">
-              <span className="font-display text-sm">STAF PRINT CENTER</span>
-              <span className="text-[11px] text-muted-foreground">Espace Formateur</span>
-            </span>
+          <Link to="/" className="flex items-center">
+            <img src={logo.dc} alt="Logo SPC" className="h-12 w-auto object-contain" />
           </Link>
           <div className="ml-auto flex items-center gap-1">
-            <Button variant="ghost" size="sm" onClick={() => window.print()}>
-              <Printer className="size-4" />
-              <span className="hidden sm:inline">Imprimer / PDF</span>
-            </Button>
             <Button asChild variant="soft" size="sm">
-              <Link to="/">Connexion</Link>
+              <Link to="/">
+                <ArrowLeft className="size-4" />
+                <span>Retour</span>
+              </Link>
             </Button>
           </div>
         </div>
@@ -159,10 +166,71 @@ export function LegalDocShell({
         </div>
       </div>
 
-      <footer className="border-t border-border bg-secondary/40">
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-8 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} STAF PRINT CENTER — Cotonou, Bénin. Tous droits réservés.</p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em]">{meta[0]?.label} {meta[0]?.value}</p>
+
+      {/* Pied de page */}
+      <footer className="border-t border-border/70">
+        <div className="mx-auto flex min-h-16 w-full max-w-6xl flex-col items-center justify-between gap-4 px-6 py-4 sm:flex-row sm:py-3">
+          {/* Copyright */}
+          <p className="text-center text-xs text-muted-foreground sm:text-left">
+            © {new Date().getFullYear()} {SITE.tool} · Tous droits réservés.
+            <span className="mx-1.5 hidden text-muted-foreground/50 sm:inline">|</span>
+
+            <a
+              href={SITE_LINK.landingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 block font-medium underline underline-offset-4 transition-colors hover:text-primary sm:mt-0 sm:inline"
+            >
+              {SITE.name}
+            </a>
+          </p>
+
+          {/* Liens de navigation & Réseaux sociaux */}
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+            {/* Liens légaux */}
+            <nav
+              aria-label="Liens légaux"
+              className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-muted-foreground"
+            >
+              <a
+                href={`${SITE_LINK.docsUrl}/docs/ai/index`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4 transition-colors hover:text-primary"
+              >
+                Lire la Documentation
+              </a>
+
+              <span className="text-muted-foreground/50">·</span>
+
+              <a
+                href={`${landingBase}/legal/privacy`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-4 transition-colors hover:text-primary"
+              >
+                Confidentialité
+              </a>
+            </nav>
+
+            <span className="hidden text-muted-foreground/30 sm:inline">|</span>
+
+            {/* Réseaux sociaux */}
+            <div className="flex items-center gap-2">
+              {socialLinks.map(({ label, href, Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-primary"
+                >
+                  <Icon className="size-4" />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </footer>
     </div>
