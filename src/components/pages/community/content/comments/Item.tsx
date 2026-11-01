@@ -54,7 +54,7 @@ export function CommentItem({
       id={`comment-${comment.id}`}
       className={cn(
         "scroll-mt-24 space-y-3 rounded-xl border p-4 transition-shadow duration-500",
-        variant === "reply" ? "border-border/50 bg-muted/20" : "border-border/70 bg-card",
+        variant === "reply" ? "border-border/50 bg-card/60" : "border-border/70 bg-card",
         comment.isBestAnswer && "border-success/40 bg-success/5",
         flash && "ring-2 ring-primary/60"
       )}
