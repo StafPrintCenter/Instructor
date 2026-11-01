@@ -1,7 +1,7 @@
 export { ReactorsDialog } from "./ReactorsDialog";
-export { ReactorItem } from "./ReactorItem";
+export { ReactorItem } from "./Item";
 export { ReactionBar } from "./Bar";
-export { ReactionSummary } from "./ReactionSummary";
+export { ReactionSummary } from "./Summary";
 export { ReactionTray } from "./ReactionTray";
 export { ReactionTypeFilter } from "./ReactionTypeFilter";
 export { useReactionToggle } from "./useReactionToggle";
