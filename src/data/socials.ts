@@ -8,3 +8,5 @@ export const SOCIAL_LINKS = [
   { label: "WhatsApp", href: "https://wa.me/2290160300607", Icon: WhatsAppIcon },
   { label: "TikTok", href: "https://www.tiktok.com/@stafprintcenter", Icon: TiktokIcon },
 ] as const;
+
+export const socialLinks = SOCIAL_LINKS;

@@ -50,7 +50,7 @@ export interface CommunityReportPayload {
   details?: string;
 }
 
-/** Réponse (201) de POST .../report — objet plat, sans clé `data` */
+/** Réponse (201) de POST .../report - objet plat, sans clé `data` */
 export interface APICommunityReportReceipt {
   id: string;
   level: CommunityReportLevel;

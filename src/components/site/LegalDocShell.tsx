@@ -1,10 +1,10 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { LegalDocFooter } from "./LegalDoc/Footer";
 import { LegalDocHeader } from "./LegalDoc/Header";
-import { LegalArticle } from "./LegalDoc/Section";
 import { LegalDocSommaire } from "./LegalDoc/Sommaire";
 import type { LegalMeta, LegalSection } from "./LegalDoc/types";
 
+export { LegalArticle } from "./LegalDoc/Section";
 export type { LegalClause, LegalMeta, LegalSection } from "./LegalDoc/types";
 
 /** Contractual document page: sticky summary rail + numbered articles. */

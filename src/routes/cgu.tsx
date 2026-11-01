@@ -5,7 +5,7 @@ import {
   LegalDocShell,
   LegalKeyPoints,
   type LegalSection,
-} from "@/components/site/legal-doc";
+} from "@/components/site/LegalDocShell";
 
 const VERSION = "1.0";
 const UPDATED_AT = "31 octobre 2026";
