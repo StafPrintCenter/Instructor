@@ -1,7 +1,7 @@
 import { Pencil, Reply, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { APICommunityComment } from "@/data/community-comments";
-import { ReactionBar } from "../reactions/ReactionBar";
+import { ReactionBar } from "../reactions";
 import { MarkBestAnswerButton } from "./MarkBestAnswerButton";
 
 interface CommentActionsProps {

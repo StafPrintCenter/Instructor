@@ -2,10 +2,7 @@ import { useState } from "react";
 import { Loader2, SmilePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getReactionEmoji, getReactionLabel, type ReactionTarget } from "@/data/community-reactions";
-import { ReactionSummary } from "./ReactionSummary";
-import { ReactionTray } from "./ReactionTray";
-import { ReactorsDialog } from "./ReactorsDialog";
-import { useReactionToggle } from "./useReactionToggle";
+import { ReactionSummary, ReactionTray, ReactorsDialog, useReactionToggle } from "./";
 
 interface ReactionBarProps {
   target: ReactionTarget;

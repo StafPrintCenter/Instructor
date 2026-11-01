@@ -1,6 +1,6 @@
 import type { APICommunityPostDetail } from "@/data/community";
 import { formatDateTime } from "@/lib/date-time";
-import { ReactionBar } from "../content/reactions/ReactionBar";
+import { ReactionBar } from "../content/reactions";
 import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../shared";
 import { PostAttachments } from "./Attachments";
 
