@@ -141,7 +141,7 @@ async function locateComment(qc: QueryClient, postId: string, commentId: string)
   const budget = { left: MAX_REPLY_LOOKUPS };
 
   for (let page = 1; page <= MAX_ROOT_PAGES; page++) {
-    const roots = await qc.fetchQuery(commentsQueryOptions(postId, { sort: "oldest", page }));
+    const roots = await qc.fetchQuery(commentsQueryOptions(postId, { sort: "recent", page }));
 
     if (roots.data.some((c) => c.id === commentId)) {
       return { rootId: commentId, rootPage: page, replyPage: null, isRoot: true };

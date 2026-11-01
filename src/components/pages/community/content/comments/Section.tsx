@@ -12,7 +12,7 @@ interface CommentsSectionProps {
 }
 
 export function CommentsSection({ post, focusCommentId, onClearFocus }: CommentsSectionProps) {
-  const [sort, setSort] = useState<CommunityCommentSort>("oldest");
+  const [sort, setSort] = useState<CommunityCommentSort>("recent");
   const [authorRole, setAuthorRole] = useState<CommunityAuthorRole | "all">("all");
   const [page, setPage] = useState(1);
 
