@@ -55,7 +55,7 @@ export function DashboardTrainingCard({ training: t, learners, progress }: Dashb
         <div className="mt-auto space-y-2 pt-2">
           <div className="flex items-center gap-3">
             <Progress value={progress ?? 0} className="h-2" />
-            <span className="w-10 text-right text-xs tabular-nums">{progress === null ? "—" : `${progress}%`}</span>
+            <span className="w-10 text-right text-xs tabular-nums">{progress === null ? "-" : `${progress}%`}</span>
           </div>
           <div className="flex gap-2">
             <Button asChild size="sm" variant="soft" className="flex-1">
