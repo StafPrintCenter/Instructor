@@ -8,6 +8,8 @@ interface CommentItemProps {
   postId: string;
   /** Faux si la publication est verrouillée ou masquée : plus de réponse possible */
   canComment: boolean;
+  /** Vrai si l'on peut désigner un commentaire racine comme meilleure réponse de la publication */
+  canMarkBest?: boolean;
   variant?: "root" | "reply";
   /** Commentaire visé par un lien (?comment=) : on défile jusqu'à lui et on le met en évidence */
   highlighted?: boolean;
@@ -24,6 +26,7 @@ export function CommentItem({
   comment,
   postId,
   canComment,
+  canMarkBest = false,
   variant = "root",
   highlighted = false,
   onReplied,
@@ -48,13 +51,16 @@ export function CommentItem({
     };
   }, [highlighted]);
 
+  // Seuls les commentaires racines publiés peuvent devenir la meilleure réponse
+  const markableAsBest = canMarkBest && variant === "root" && !comment.isBestAnswer && comment.status === "published";
+
   return (
     <div
       ref={ref}
       id={`comment-${comment.id}`}
       className={cn(
         "scroll-mt-24 space-y-3 rounded-xl border p-4 transition-shadow duration-500",
-        variant === "reply" ? "border-border/50 bg-card/60" : "border-border/70 bg-card",
+        variant === "reply" ? "border-border/50 bg-muted/20" : "border-border/70 bg-card",
         comment.isBestAnswer && "border-success/40 bg-success/5",
         flash && "ring-2 ring-primary/60"
       )}
@@ -78,6 +84,7 @@ export function CommentItem({
         <CommentActions
           comment={comment}
           canReply={canComment}
+          canMarkBest={markableAsBest}
           onReply={() => setMode("reply")}
           onEdit={() => setMode("edit")}
           onDelete={() => setConfirmDelete(true)}

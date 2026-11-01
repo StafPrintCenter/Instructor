@@ -8,11 +8,14 @@ interface CommentThreadProps {
   comment: APICommunityComment;
   postId: string;
   canComment: boolean;
+  /** Vrai si l'on peut désigner un commentaire racine comme meilleure réponse */
+  canMarkBest: boolean;
+  /** Commentaire visé par un lien direct ; null s'il n'y en a pas */
   focus: CommentFocus | null;
 }
 
 /** Un commentaire racine et son fil de réponses (2 niveaux) */
-export function CommentThread({ comment, postId, canComment, focus }: CommentThreadProps) {
+export function CommentThread({ comment, postId, canComment, canMarkBest, focus }: CommentThreadProps) {
   const count = comment.repliesCount;
 
   // Le lien vise une réponse de ce fil : on ouvre les réponses
@@ -29,6 +32,7 @@ export function CommentThread({ comment, postId, canComment, focus }: CommentThr
         comment={comment}
         postId={postId}
         canComment={canComment}
+        canMarkBest={canMarkBest}
         variant="root"
         highlighted={!!focus && focus.isRoot && focus.commentId === comment.id}
         onReplied={() => setShowReplies(true)}
