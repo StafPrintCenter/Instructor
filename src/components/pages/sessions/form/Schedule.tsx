@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { minSessionStartInputValue } from "@/lib/session-time";
 import { FieldError } from "@/components/pages/sessions/detail";
+import { SITE } from "@/data/site";
 import type { SessionFieldsProps } from "./Schema";
 
 export function ScheduleFields({ values, errors, setField, isEdit }: SessionFieldsProps & { isEdit: boolean }) {
@@ -17,7 +18,7 @@ export function ScheduleFields({ values, errors, setField, isEdit }: SessionFiel
           onChange={(e) => setField("startsAt", e.target.value)}
         />
         <p className="text-[11px] text-muted-foreground">
-          Heure de Porto-Novo (UTC+1){isEdit ? "" : " · au moins 3 jours à l'avance"}
+          Heure de {SITE.city.replace(/,.*/, "")} (UTC+1){isEdit ? "" : " · au moins 3 jours à l'avance"}
         </p>
         <FieldError message={errors.startsAt} />
       </div>
