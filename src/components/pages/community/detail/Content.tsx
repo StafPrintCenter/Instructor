@@ -1,5 +1,6 @@
 import type { APICommunityPostDetail } from "@/data/community";
 import { formatDateTime } from "@/lib/date-time";
+import { ReactionBar } from "../content/reactions/ReactionBar";
 import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../shared";
 import { PostAttachments } from "./Attachments";
 
@@ -33,8 +34,16 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
       <PostTags tags={post.tags} />
       <PostAttachments attachments={post.attachments} />
 
+      <ReactionBar
+        target={{ kind: "post", id: post.id }}
+        myReaction={post.myReaction}
+        reactions={post.reactions}
+        total={post.reactionsTotal}
+        canReact={post.permissions.canReact}
+      />
+
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/40 pt-3">
-        <PostStats post={post} />
+        <PostStats post={post} hideReactions />
         <div className="flex flex-wrap gap-2">
           <PostActionButtons post={post} onEdit={onEdit} onDelete={onDelete} />
         </div>

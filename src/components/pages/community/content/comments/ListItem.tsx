@@ -10,6 +10,8 @@ import { CommentThread, CommentsListError, CommentsListSkeleton, CommentFocus } 
 interface CommentsListProps {
   postId: string;
   canComment: boolean;
+  /** Vrai si l'on peut désigner un commentaire racine comme meilleure réponse */
+  canMarkBest: boolean;
   params: CommunityCommentFilters;
   hasActiveFilters: boolean;
   /** Commentaire visé par un lien direct ; null s'il n'y en a pas */
@@ -17,7 +19,15 @@ interface CommentsListProps {
   onPageChange: (page: number) => void;
 }
 
-export function CommentsList({ postId, canComment, params, hasActiveFilters, focus, onPageChange }: CommentsListProps) {
+export function CommentsList({
+  postId,
+  canComment,
+  canMarkBest,
+  params,
+  hasActiveFilters,
+  focus,
+  onPageChange,
+}: CommentsListProps) {
   const { items, meta, isLoading, isFetching, isError, refetch } = useCommunityComments(postId, params);
 
   // Si la page courante n'existe plus (commentaires supprimés), on recule à la dernière page
@@ -43,7 +53,14 @@ export function CommentsList({ postId, canComment, params, hasActiveFilters, foc
   return (
     <div className={cn("space-y-4 transition-opacity", isFetching && "opacity-60")}>
       {items.map((comment) => (
-        <CommentThread key={comment.id} comment={comment} postId={postId} canComment={canComment} focus={focus} />
+        <CommentThread
+          key={comment.id}
+          comment={comment}
+          postId={postId}
+          canComment={canComment}
+          canMarkBest={canMarkBest}
+          focus={focus}
+        />
       ))}
       {meta ? (
         <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={onPageChange} />

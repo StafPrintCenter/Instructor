@@ -12,7 +12,7 @@ interface CommentsSectionProps {
 }
 
 export function CommentsSection({ post, focusCommentId, onClearFocus }: CommentsSectionProps) {
-  const [sort, setSort] = useState<CommunityCommentSort>("recent");
+  const [sort, setSort] = useState<CommunityCommentSort>("oldest");
   const [authorRole, setAuthorRole] = useState<CommunityAuthorRole | "all">("all");
   const [page, setPage] = useState(1);
 
@@ -25,6 +25,10 @@ export function CommentsSection({ post, focusCommentId, onClearFocus }: Comments
   );
 
   const canComment = post.permissions.canComment;
+
+  // Meilleure réponse : questions publiées, par l'auteur de la publication ou un modérateur (l'API tranche)
+  const canMarkBest =
+    post.type === "question" && post.status === "published" && (post.isMine || post.permissions.canModerate);
 
   return (
     <section className="space-y-4">
@@ -59,6 +63,7 @@ export function CommentsSection({ post, focusCommentId, onClearFocus }: Comments
       <CommentsList
         postId={post.id}
         canComment={canComment}
+        canMarkBest={canMarkBest}
         params={params}
         hasActiveFilters={authorRole !== "all"}
         focus={focus}
