@@ -1,5 +1,6 @@
 import type { APICommunityPostDetail } from "@/data/community";
 import { formatDateTime } from "@/lib/date-time";
+import { PostModerationBar, ReportButton } from "../content/moderation";
 import { ReactionBar } from "../content/reactions";
 import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../shared";
 import { PostAttachments } from "./Attachments";
@@ -42,10 +43,15 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
         canReact={post.permissions.canReact}
       />
 
+      <PostModerationBar post={post} />
+
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/40 pt-3">
         <PostStats post={post} hideReactions />
         <div className="flex flex-wrap gap-2">
           <PostActionButtons post={post} onEdit={onEdit} onDelete={onDelete} />
+          {post.permissions.canReport ? (
+            <ReportButton target={{ kind: "post", id: post.id }} subject="cette publication" />
+          ) : null}
         </div>
       </div>
     </div>
