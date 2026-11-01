@@ -1,4 +1,4 @@
-export { ReactorsDialog } from "./ReactorsDialog";
+export { ReactorsDialog } from "./Dialog";
 export { ReactorItem } from "./Item";
 export { ReactionBar } from "./Bar";
 export { ReactionSummary } from "./Summary";

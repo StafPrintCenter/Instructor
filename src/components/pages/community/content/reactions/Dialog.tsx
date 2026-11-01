@@ -7,8 +7,7 @@ import type { CommunityAuthorRole } from "@/data/community";
 import type { CommunityReactionType, ReactionTarget } from "@/data/community-reactions";
 import { useCommunityReactionsList } from "@/stores/useCommunityReactionsStore";
 import { FilterSelect, authorRoleOptions } from "../filters";
-import { ReactionTypeFilter } from "./ReactionTypeFilter";
-import { ReactorItem } from "./";
+import { ReactionTypeFilter, ReactorItem } from "./";
 
 interface ReactorsDialogProps {
   target: ReactionTarget;
