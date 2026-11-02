@@ -34,7 +34,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Échanges",
     items: [
-      { to: "/community", label: "Communauté", icon: Users2 },
+      { to: "/community/posts", label: "Communauté", icon: Users2, matchPrefixes: ["/community"] },
     ],
   },
 ];

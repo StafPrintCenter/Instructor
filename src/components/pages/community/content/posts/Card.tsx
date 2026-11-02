@@ -28,7 +28,7 @@ export function PostCard({ post, onEdit, onDelete }: PostCardProps) {
 
         <div className="space-y-1.5">
           <h2 className="font-display text-lg leading-snug">
-            <Link to="/community/$id" params={{ id: post.id }} className="hover:underline">
+            <Link to="/community/posts/$id" params={{ id: post.id }} className="hover:underline">
               {post.title}
             </Link>
           </h2>
@@ -47,7 +47,7 @@ export function PostCard({ post, onEdit, onDelete }: PostCardProps) {
           <PostStats post={post} />
           <div className="flex flex-wrap gap-2">
             <Button asChild size="sm" variant="soft">
-              <Link to="/community/$id" params={{ id: post.id }}>Ouvrir</Link>
+              <Link to="/community/posts/$id" params={{ id: post.id }}>Ouvrir</Link>
             </Button>
             <PostActionButtons post={post} onEdit={onEdit} onDelete={onDelete} />
           </div>

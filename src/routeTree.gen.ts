@@ -20,8 +20,6 @@ import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
 import { Route as InstructorProfileRouteImport } from './routes/_instructor/profile'
 import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
-import { Route as InstructorCommunityIndexRouteImport } from './routes/_instructor/community/index'
-import { Route as InstructorCommunityIdRouteImport } from './routes/_instructor/community/$id'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
 import { Route as InstructorCorrectionsIdRouteImport } from './routes/_instructor/corrections/$id'
 import { Route as InstructorNotificationsIndexRouteImport } from './routes/_instructor/notifications/index'
@@ -32,6 +30,8 @@ import { Route as InstructorSessionsIdRouteImport } from './routes/_instructor/s
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
 import { Route as InstructorStudentsStudentIdRouteImport } from './routes/_instructor/students/$studentId'
 import { Route as InstructorTrainingsIndexRouteImport } from './routes/_instructor/trainings/index'
+import { Route as InstructorCommunityPostsIndexRouteImport } from './routes/_instructor/community/posts/index'
+import { Route as InstructorCommunityPostsIdRouteImport } from './routes/_instructor/community/posts/$id'
 import { Route as InstructorCommunityReportsIndexRouteImport } from './routes/_instructor/community/reports/index'
 import { Route as InstructorCommunityReportsIdRouteImport } from './routes/_instructor/community/reports/$id'
 import { Route as InstructorTrainingsTrainingIdIndexRouteImport } from './routes/_instructor/trainings/$trainingId/index'
@@ -93,17 +93,6 @@ const InstructorSubmissionsRoute = InstructorSubmissionsRouteImport.update({
   path: '/submissions',
   getParentRoute: () => InstructorRoute,
 } as any)
-const InstructorCommunityIndexRoute =
-  InstructorCommunityIndexRouteImport.update({
-    id: '/community/',
-    path: '/community/',
-    getParentRoute: () => InstructorRoute,
-  } as any)
-const InstructorCommunityIdRoute = InstructorCommunityIdRouteImport.update({
-  id: '/community/$id',
-  path: '/community/$id',
-  getParentRoute: () => InstructorRoute,
-} as any)
 const InstructorCorrectionsIndexRoute =
   InstructorCorrectionsIndexRouteImport.update({
     id: '/corrections/',
@@ -160,6 +149,18 @@ const InstructorTrainingsIndexRoute =
     path: '/trainings/',
     getParentRoute: () => InstructorRoute,
   } as any)
+const InstructorCommunityPostsIndexRoute =
+  InstructorCommunityPostsIndexRouteImport.update({
+    id: '/community/posts/',
+    path: '/community/posts/',
+    getParentRoute: () => InstructorRoute,
+  } as any)
+const InstructorCommunityPostsIdRoute =
+  InstructorCommunityPostsIdRouteImport.update({
+    id: '/community/posts/$id',
+    path: '/community/posts/$id',
+    getParentRoute: () => InstructorRoute,
+  } as any)
 const InstructorCommunityReportsIndexRoute =
   InstructorCommunityReportsIndexRouteImport.update({
     id: '/community/reports/',
@@ -213,21 +214,21 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof InstructorDashboardRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
-  '/community/$id': typeof InstructorCommunityIdRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/sessions/$id': typeof InstructorSessionsIdRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
-  '/community/': typeof InstructorCommunityIndexRoute
   '/corrections/': typeof InstructorCorrectionsIndexRoute
   '/notifications/': typeof InstructorNotificationsIndexRoute
   '/sessions/': typeof InstructorSessionsIndexRoute
   '/students/': typeof InstructorStudentsIndexRoute
   '/trainings/': typeof InstructorTrainingsIndexRoute
+  '/community/posts/$id': typeof InstructorCommunityPostsIdRoute
   '/community/reports/$id': typeof InstructorCommunityReportsIdRoute
   '/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/trainings/$trainingId/submissions': typeof InstructorTrainingsTrainingIdSubmissionsRoute
+  '/community/posts/': typeof InstructorCommunityPostsIndexRoute
   '/community/reports/': typeof InstructorCommunityReportsIndexRoute
   '/trainings/$trainingId/': typeof InstructorTrainingsTrainingIdIndexRoute
   '/trainings/$trainingId/sessions/$sessionId': typeof InstructorTrainingsTrainingIdSessionsSessionIdRoute
@@ -243,21 +244,21 @@ export interface FileRoutesByTo {
   '/dashboard': typeof InstructorDashboardRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
-  '/community/$id': typeof InstructorCommunityIdRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/sessions/$id': typeof InstructorSessionsIdRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
-  '/community': typeof InstructorCommunityIndexRoute
   '/corrections': typeof InstructorCorrectionsIndexRoute
   '/notifications': typeof InstructorNotificationsIndexRoute
   '/sessions': typeof InstructorSessionsIndexRoute
   '/students': typeof InstructorStudentsIndexRoute
   '/trainings': typeof InstructorTrainingsIndexRoute
+  '/community/posts/$id': typeof InstructorCommunityPostsIdRoute
   '/community/reports/$id': typeof InstructorCommunityReportsIdRoute
   '/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/trainings/$trainingId/submissions': typeof InstructorTrainingsTrainingIdSubmissionsRoute
+  '/community/posts': typeof InstructorCommunityPostsIndexRoute
   '/community/reports': typeof InstructorCommunityReportsIndexRoute
   '/trainings/$trainingId': typeof InstructorTrainingsTrainingIdIndexRoute
   '/trainings/$trainingId/sessions/$sessionId': typeof InstructorTrainingsTrainingIdSessionsSessionIdRoute
@@ -276,21 +277,21 @@ export interface FileRoutesById {
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profile': typeof InstructorProfileRoute
   '/_instructor/submissions': typeof InstructorSubmissionsRoute
-  '/_instructor/community/$id': typeof InstructorCommunityIdRoute
   '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/_instructor/notifications/$id': typeof InstructorNotificationsIdRoute
   '/_instructor/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
   '/_instructor/sessions/$id': typeof InstructorSessionsIdRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
-  '/_instructor/community/': typeof InstructorCommunityIndexRoute
   '/_instructor/corrections/': typeof InstructorCorrectionsIndexRoute
   '/_instructor/notifications/': typeof InstructorNotificationsIndexRoute
   '/_instructor/sessions/': typeof InstructorSessionsIndexRoute
   '/_instructor/students/': typeof InstructorStudentsIndexRoute
   '/_instructor/trainings/': typeof InstructorTrainingsIndexRoute
+  '/_instructor/community/posts/$id': typeof InstructorCommunityPostsIdRoute
   '/_instructor/community/reports/$id': typeof InstructorCommunityReportsIdRoute
   '/_instructor/trainings/$trainingId/manage': typeof InstructorTrainingsTrainingIdManageRoute
   '/_instructor/trainings/$trainingId/submissions': typeof InstructorTrainingsTrainingIdSubmissionsRoute
+  '/_instructor/community/posts/': typeof InstructorCommunityPostsIndexRoute
   '/_instructor/community/reports/': typeof InstructorCommunityReportsIndexRoute
   '/_instructor/trainings/$trainingId/': typeof InstructorTrainingsTrainingIdIndexRoute
   '/_instructor/trainings/$trainingId/sessions/$sessionId': typeof InstructorTrainingsTrainingIdSessionsSessionIdRoute
@@ -308,21 +309,21 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profile'
     | '/submissions'
-    | '/community/$id'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
     | '/sessions/$id'
     | '/students/$studentId'
-    | '/community/'
     | '/corrections/'
     | '/notifications/'
     | '/sessions/'
     | '/students/'
     | '/trainings/'
+    | '/community/posts/$id'
     | '/community/reports/$id'
     | '/trainings/$trainingId/manage'
     | '/trainings/$trainingId/submissions'
+    | '/community/posts/'
     | '/community/reports/'
     | '/trainings/$trainingId/'
     | '/trainings/$trainingId/sessions/$sessionId'
@@ -338,21 +339,21 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/profile'
     | '/submissions'
-    | '/community/$id'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
     | '/sessions/$id'
     | '/students/$studentId'
-    | '/community'
     | '/corrections'
     | '/notifications'
     | '/sessions'
     | '/students'
     | '/trainings'
+    | '/community/posts/$id'
     | '/community/reports/$id'
     | '/trainings/$trainingId/manage'
     | '/trainings/$trainingId/submissions'
+    | '/community/posts'
     | '/community/reports'
     | '/trainings/$trainingId'
     | '/trainings/$trainingId/sessions/$sessionId'
@@ -370,21 +371,21 @@ export interface FileRouteTypes {
     | '/_instructor/dashboard'
     | '/_instructor/profile'
     | '/_instructor/submissions'
-    | '/_instructor/community/$id'
     | '/_instructor/corrections/$id'
     | '/_instructor/notifications/$id'
     | '/_instructor/notifications/preferences'
     | '/_instructor/sessions/$id'
     | '/_instructor/students/$studentId'
-    | '/_instructor/community/'
     | '/_instructor/corrections/'
     | '/_instructor/notifications/'
     | '/_instructor/sessions/'
     | '/_instructor/students/'
     | '/_instructor/trainings/'
+    | '/_instructor/community/posts/$id'
     | '/_instructor/community/reports/$id'
     | '/_instructor/trainings/$trainingId/manage'
     | '/_instructor/trainings/$trainingId/submissions'
+    | '/_instructor/community/posts/'
     | '/_instructor/community/reports/'
     | '/_instructor/trainings/$trainingId/'
     | '/_instructor/trainings/$trainingId/sessions/$sessionId'
@@ -478,20 +479,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorSubmissionsRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/community/': {
-      id: '/_instructor/community/'
-      path: '/community'
-      fullPath: '/community/'
-      preLoaderRoute: typeof InstructorCommunityIndexRouteImport
-      parentRoute: typeof InstructorRoute
-    }
-    '/_instructor/community/$id': {
-      id: '/_instructor/community/$id'
-      path: '/community/$id'
-      fullPath: '/community/$id'
-      preLoaderRoute: typeof InstructorCommunityIdRouteImport
-      parentRoute: typeof InstructorRoute
-    }
     '/_instructor/corrections/': {
       id: '/_instructor/corrections/'
       path: '/corrections'
@@ -560,6 +547,20 @@ declare module '@tanstack/react-router' {
       path: '/trainings'
       fullPath: '/trainings/'
       preLoaderRoute: typeof InstructorTrainingsIndexRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/community/posts/': {
+      id: '/_instructor/community/posts/'
+      path: '/community/posts'
+      fullPath: '/community/posts/'
+      preLoaderRoute: typeof InstructorCommunityPostsIndexRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/community/posts/$id': {
+      id: '/_instructor/community/posts/$id'
+      path: '/community/posts/$id'
+      fullPath: '/community/posts/$id'
+      preLoaderRoute: typeof InstructorCommunityPostsIdRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/community/reports/': {
@@ -632,21 +633,21 @@ interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfileRoute: typeof InstructorProfileRoute
   InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
-  InstructorCommunityIdRoute: typeof InstructorCommunityIdRoute
   InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
   InstructorNotificationsIdRoute: typeof InstructorNotificationsIdRoute
   InstructorNotificationsPreferencesRoute: typeof InstructorNotificationsPreferencesRoute
   InstructorSessionsIdRoute: typeof InstructorSessionsIdRoute
   InstructorStudentsStudentIdRoute: typeof InstructorStudentsStudentIdRoute
-  InstructorCommunityIndexRoute: typeof InstructorCommunityIndexRoute
   InstructorCorrectionsIndexRoute: typeof InstructorCorrectionsIndexRoute
   InstructorNotificationsIndexRoute: typeof InstructorNotificationsIndexRoute
   InstructorSessionsIndexRoute: typeof InstructorSessionsIndexRoute
   InstructorStudentsIndexRoute: typeof InstructorStudentsIndexRoute
   InstructorTrainingsIndexRoute: typeof InstructorTrainingsIndexRoute
+  InstructorCommunityPostsIdRoute: typeof InstructorCommunityPostsIdRoute
   InstructorCommunityReportsIdRoute: typeof InstructorCommunityReportsIdRoute
   InstructorTrainingsTrainingIdManageRoute: typeof InstructorTrainingsTrainingIdManageRoute
   InstructorTrainingsTrainingIdSubmissionsRoute: typeof InstructorTrainingsTrainingIdSubmissionsRoute
+  InstructorCommunityPostsIndexRoute: typeof InstructorCommunityPostsIndexRoute
   InstructorCommunityReportsIndexRoute: typeof InstructorCommunityReportsIndexRoute
   InstructorTrainingsTrainingIdIndexRoute: typeof InstructorTrainingsTrainingIdIndexRoute
   InstructorTrainingsTrainingIdSessionsSessionIdRoute: typeof InstructorTrainingsTrainingIdSessionsSessionIdRoute
@@ -657,24 +658,24 @@ const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfileRoute: InstructorProfileRoute,
   InstructorSubmissionsRoute: InstructorSubmissionsRoute,
-  InstructorCommunityIdRoute: InstructorCommunityIdRoute,
   InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
   InstructorNotificationsIdRoute: InstructorNotificationsIdRoute,
   InstructorNotificationsPreferencesRoute:
     InstructorNotificationsPreferencesRoute,
   InstructorSessionsIdRoute: InstructorSessionsIdRoute,
   InstructorStudentsStudentIdRoute: InstructorStudentsStudentIdRoute,
-  InstructorCommunityIndexRoute: InstructorCommunityIndexRoute,
   InstructorCorrectionsIndexRoute: InstructorCorrectionsIndexRoute,
   InstructorNotificationsIndexRoute: InstructorNotificationsIndexRoute,
   InstructorSessionsIndexRoute: InstructorSessionsIndexRoute,
   InstructorStudentsIndexRoute: InstructorStudentsIndexRoute,
   InstructorTrainingsIndexRoute: InstructorTrainingsIndexRoute,
+  InstructorCommunityPostsIdRoute: InstructorCommunityPostsIdRoute,
   InstructorCommunityReportsIdRoute: InstructorCommunityReportsIdRoute,
   InstructorTrainingsTrainingIdManageRoute:
     InstructorTrainingsTrainingIdManageRoute,
   InstructorTrainingsTrainingIdSubmissionsRoute:
     InstructorTrainingsTrainingIdSubmissionsRoute,
+  InstructorCommunityPostsIndexRoute: InstructorCommunityPostsIndexRoute,
   InstructorCommunityReportsIndexRoute: InstructorCommunityReportsIndexRoute,
   InstructorTrainingsTrainingIdIndexRoute:
     InstructorTrainingsTrainingIdIndexRoute,

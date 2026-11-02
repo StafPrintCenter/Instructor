@@ -12,11 +12,11 @@ export function ReportTargetLink({ target }: { target: APICommunityReportTarget 
   return (
     <Button asChild size="sm" variant="outline">
       {target.type === "post" ? (
-        <Link to="/community/$id" params={{ id: target.postId }}>
+        <Link to="/community/posts/$id" params={{ id: target.postId }}>
           <ExternalLink className="size-4" /> Voir la publication
         </Link>
       ) : (
-        <Link to="/community/$id" params={{ id: target.postId }} search={{ comment: target.id }}>
+        <Link to="/community/posts/$id" params={{ id: target.postId }} search={{ comment: target.id }}>
           <ExternalLink className="size-4" /> Voir le commentaire
         </Link>
       )}

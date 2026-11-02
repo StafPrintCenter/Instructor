@@ -30,7 +30,7 @@ export function PostPage({ postId, focusCommentId }: PostPageProps) {
 
   // Retire ?comment= de l'adresse (remplace l'entrée d'historique)
   const clearFocus = () =>
-    navigate({ to: "/community/$id", params: { id: postId }, search: {}, replace: true });
+    navigate({ to: "/community/posts/$id", params: { id: postId }, search: {}, replace: true });
 
   if (isLoading) return <PostPageSkeleton />;
 
@@ -71,7 +71,7 @@ export function PostPage({ postId, focusCommentId }: PostPageProps) {
       <DeletePostDialog
         post={deleteOpen ? post : null}
         onClose={() => setDeleteOpen(false)}
-        onDeleted={() => navigate({ to: "/community" })}
+        onDeleted={() => navigate({ to: "/community/posts" })}
       />
     </div>
   );

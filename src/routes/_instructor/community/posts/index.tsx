@@ -8,7 +8,7 @@ import { PostFormDialog } from "@/components/pages/community/content/form";
 import { PendingReportsLink } from "@/components/pages/community/reports";
 import { SITE } from "@/data/site";
 
-export const Route = createFileRoute("/_instructor/community/")({
+export const Route = createFileRoute("/_instructor/community/posts/")({
   head: () => ({
     meta: [
       { title: `${SITE.tool} - Communauté | ${SITE.name}` },

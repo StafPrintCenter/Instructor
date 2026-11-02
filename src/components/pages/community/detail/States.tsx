@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 export function BackToCommunityButton() {
   return (
     <Button asChild variant="outline" size="sm">
-      <Link to="/community">
+      <Link to="/community/posts">
         <ArrowLeft className="size-4" /> Retour à la communauté
       </Link>
     </Button>

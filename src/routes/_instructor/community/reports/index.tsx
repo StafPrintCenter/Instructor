@@ -25,7 +25,7 @@ function ReportsPage() {
         description="Contenus signalés par les apprenants dans vos formations : masquez, rejetez ou transmettez aux administrateurs."
         actions={
           <Button asChild variant="outline">
-            <Link to="/community">
+            <Link to="/community/posts">
               <ArrowLeft className="size-4" /> Retour à la communauté
             </Link>
           </Button>
