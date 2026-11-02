@@ -6,8 +6,8 @@ import type { InstructorPaginationMeta } from "@/data/pagination";
 import type { CommunityReportStatus } from "@/data/community-moderation";
 import type { APICommunityReport } from "@/data/community-reports";
 import { cn } from "@/lib/utils";
-import { ReportCard } from "./ReportCard";
-import { ReportsListError, ReportsListSkeleton } from "./ReportsListStates";
+import { ReportCard } from "./Card";
+import { ReportsListError, ReportsListSkeleton } from "./ListStates";
 
 interface ReportsListProps {
   items: APICommunityReport[];

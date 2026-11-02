@@ -13,7 +13,7 @@ import {
 } from "@/data/community-reports";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
 import { FilterSelect, type FilterOption } from "../../content/filters/Select";
-import type { ReportFiltersState } from "./useReportFilters";
+import type { ReportFiltersState } from "./useFilters";
 
 const reasonOptions: FilterOption<CommunityReportReason | "all">[] = [
   { value: "all", label: "Tous les motifs" },

@@ -2,8 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { communityReportLevelLabels, type APICommunityReportDetail } from "@/data/community-reports";
 import { formatDateTime } from "@/lib/date-time";
 import { PostAuthor } from "../../shared/PostAuthor";
-import { ReportReasonBadge } from "../shared/ReportReasonBadge";
-import { ReportStatusBadge } from "../shared/ReportStatusBadge";
+import { ReportReasonBadge } from "../shared/ReasonBadge";
+import { ReportStatusBadge } from "../shared/StatusBadge";
 
 export function ReportInfoCard({ report }: { report: APICommunityReportDetail }) {
   return (
