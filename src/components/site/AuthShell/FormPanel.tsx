@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { BookOpen, ExternalLink } from "lucide-react";
 import { SITE } from "@/data/site";
 import logo from "@/assets/logos.json";
@@ -41,16 +42,24 @@ export function AuthShellFormPanel({
       </div>
 
       <div className="mt-auto flex flex-col items-center gap-3 border-t border-border pt-8 lg:hidden">
-        <a
-          href={docsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <BookOpen className="size-3.5" />
-          <span>Consulter le guide enseignant</span>
-          <ExternalLink className="size-3 opacity-60" />
-        </a>
+        <div className="flex items-center gap-4">
+          <a
+            href={docsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <BookOpen className="size-3.5" />
+            <span>Documentation</span>
+            <ExternalLink className="size-3 opacity-60" />
+          </a>
+          <Link
+            to="/cgu"
+            className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            CGU
+          </Link>
+        </div>
         <SocialLinks />
         <p className="text-xs text-muted-foreground">
           © {new Date().getFullYear()} {SITE.name}

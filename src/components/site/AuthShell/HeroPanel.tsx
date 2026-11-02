@@ -1,4 +1,5 @@
 import { BookOpen, ExternalLink } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { SITE } from "@/data/site";
 import logo from "@/assets/logos.json";
 import { SocialLinks } from "@/components/site/SocialLinks";
@@ -19,7 +20,7 @@ export function AuthShellHeroPanel({ docsUrl }: { docsUrl: string }) {
           Vos formations assignées, vos apprenants et vos corrections, réunis au même endroit.
         </p>
 
-        <div className="pt-2">
+        <div className="flex flex-wrap gap-2 pt-2">
           <a
             href={docsUrl}
             target="_blank"
@@ -27,9 +28,15 @@ export function AuthShellHeroPanel({ docsUrl }: { docsUrl: string }) {
             className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/15 bg-primary-foreground/10 px-3.5 py-1.5 text-xs font-medium text-primary-foreground shadow-sm transition-all duration-200 hover:border-primary-foreground/30 hover:bg-primary-foreground/20"
           >
             <BookOpen className="size-3.5" />
-            <span>Guide & Documentation Enseigant</span>
+            <span>Guide & Documentation</span>
             <ExternalLink className="size-3 opacity-60" />
           </a>
+          <Link
+            to="/cgu"
+            className="inline-flex items-center rounded-full border border-primary-foreground/15 bg-primary-foreground/10 px-3.5 py-1.5 text-xs font-medium text-primary-foreground shadow-sm transition-all duration-200 hover:border-primary-foreground/30 hover:bg-primary-foreground/20"
+          >
+            Conditions Générales d'Utilisation
+          </Link>
         </div>
       </div>
 
