@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { CommunityFeed } from "@/components/pages/community/home";
 import { PostFormDialog } from "@/components/pages/community/content/form";
+import { PendingReportsLink } from "@/components/pages/community/reports";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/community/")({
@@ -27,18 +28,18 @@ function CommunityPage() {
         title="Communauté"
         description="Discussions, questions, ressources et annonces de la communauté générale et de vos formations."
         actions={
-          <Button variant="accent" onClick={() => setCreateOpen(true)}>
-            <Plus className="size-4" /> Nouvelle publication
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <PendingReportsLink />
+            <Button variant="accent" onClick={() => setCreateOpen(true)}>
+              <Plus className="size-4" /> Nouvelle publication
+            </Button>
+          </div>
         }
       />
 
       <CommunityFeed />
 
-      <PostFormDialog
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
-      />
+      <PostFormDialog open={createOpen} onClose={() => setCreateOpen(false)} />
     </div>
   );
 }
