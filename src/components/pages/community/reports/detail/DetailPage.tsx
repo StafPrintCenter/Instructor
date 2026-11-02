@@ -3,16 +3,16 @@ import { PageHeader } from "@/components/site";
 import { communityReportReasonLabels } from "@/data/community-moderation";
 import { communityReportTargetTypeLabels } from "@/data/community-reports";
 import { useCommunityReportDetail } from "@/stores/useCommunityReportsStore";
-import { ReportActionsCard } from "./ActionsCard";
 import {
   BackToReportsButton,
   ReportDetailError,
   ReportDetailFallback,
+  ReportActionsCard,
   ReportDetailSkeleton,
-} from "./DetailStates";
-import { ReportInfoCard } from "./InfoCard";
-import { ReportOutcomeCard } from "./OutcomeCard";
-import { ReportTargetCard } from "./TargetCard";
+  ReportInfoCard,
+  ReportOutcomeCard,
+  ReportTargetCard,
+} from "./";
 
 export function ReportDetailPage({ reportId }: { reportId: string }) {
   const navigate = useNavigate();

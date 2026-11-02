@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { communityReportTargetTypeLabels, type APICommunityReportDetail } from "@/data/community-reports";
 import { PostAuthor } from "../../shared/PostAuthor";
-import { ReportTargetLink } from "../shared/TargetLink";
+import { ReportTargetLink } from "../shared";
 
 export function ReportTargetCard({ report }: { report: APICommunityReportDetail }) {
   const { target } = report;

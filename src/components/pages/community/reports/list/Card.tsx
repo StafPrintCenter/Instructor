@@ -9,8 +9,7 @@ import {
   type APICommunityReport,
 } from "@/data/community-reports";
 import { relativeTime } from "@/lib/date-time";
-import { ReportReasonBadge } from "../shared/ReasonBadge";
-import { ReportStatusBadge } from "../shared/StatusBadge";
+import { ReportReasonBadge, ReportStatusBadge } from "../shared";
 
 export function ReportCard({ report }: { report: APICommunityReport }) {
   const { target } = report;

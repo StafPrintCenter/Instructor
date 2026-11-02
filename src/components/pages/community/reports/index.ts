@@ -1,3 +1,3 @@
-export { ReportDetailPage } from "./detail/DetailPage";
-export { ReportsView } from "./list/View";
-export { PendingReportsLink } from "./shared/PendingLink";
+export { ReportDetailPage } from "./detail";
+export { ReportsView } from "./list";
+export { PendingReportsLink } from "./shared";

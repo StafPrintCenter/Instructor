@@ -1,8 +1,5 @@
 import { useCommunityReportsList } from "@/stores/useCommunityReportsStore";
-import { ReportFilters } from "./Filters";
-import { ReportStatsTabs } from "./StatsTabs";
-import { ReportsList } from "./List";
-import { useReportFilters } from "./useFilters";
+import { ReportFilters, ReportsList, ReportStatsTabs, useReportFilters } from "./";
 
 /** Onglets de statut + filtres + liste des signalements */
 export function ReportsView() {
