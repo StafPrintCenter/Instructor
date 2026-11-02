@@ -16,7 +16,7 @@ export function InstructorSidebarFooter({
   onNavClick: () => void;
   onDisconnectClick: () => void;
 }) {
-  const profileActive = pathname.startsWith("/profil");
+  const profileActive = pathname.startsWith("/profile");
 
   return (
     <SidebarFooter className="border-t border-sidebar-border p-2 space-y-1">
