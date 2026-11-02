@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PostPage } from "@/components/pages/community/detail";
+import { PostPage } from "@/components/pages/community/posts/detail";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_instructor/community/posts/$id")({

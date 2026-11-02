@@ -3,8 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
-import { CommunityFeed } from "@/components/pages/community/home";
-import { PostFormDialog } from "@/components/pages/community/content/form";
+import { CommunityFeed } from "@/components/pages/community/posts/home";
+import { PostFormDialog } from "@/components/pages/community/posts/content/form";
 import { PendingReportsLink } from "@/components/pages/community/reports";
 import { SITE } from "@/data/site";
 

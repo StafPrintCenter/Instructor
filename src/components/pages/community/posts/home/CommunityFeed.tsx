@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DeletePostDialog } from "../shared/DeletePostDialog";
+import { DeletePostDialog } from "../../shared/DeletePostDialog";
 import { PostFormDialog, PostsListItem, PostFilters, usePostFilters } from "../content";
 import type { APICommunityPostListItem } from "@/data/community";
 

@@ -12,7 +12,7 @@ import {
   type CommunityReportTargetType,
 } from "@/data/community-reports";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
-import { FilterSelect, type FilterOption } from "../../content/filters/Select";
+import { FilterSelect, type FilterOption } from "../../posts/content/filters/Select";
 import type { ReportFiltersState } from "./";
 
 const reasonOptions: FilterOption<CommunityReportReason | "all">[] = [

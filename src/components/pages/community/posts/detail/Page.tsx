@@ -6,7 +6,7 @@ import { communityPostTypeLabels } from "@/data/community";
 import { SITE } from "@/data/site";
 import { useDynamicPageMetadata } from "@/hooks/useDynamicPageMetadata";
 import { useCommunityPostDetail } from "@/stores/useCommunityStore";
-import { DeletePostDialog } from "../shared/DeletePostDialog";
+import { DeletePostDialog } from "../../shared/DeletePostDialog";
 import { PostFormDialog, CommentsSection } from "../content";
 import { PostDetailContent, BackToCommunityButton, PostPageError, PostPageFallback, PostPageSkeleton, } from ".";
 

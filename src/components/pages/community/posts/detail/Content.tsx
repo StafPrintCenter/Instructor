@@ -2,7 +2,7 @@ import type { APICommunityPostDetail } from "@/data/community";
 import { formatDateTime } from "@/lib/date-time";
 import { PostModerationBar, ReportButton } from "../content/moderation";
 import { ReactionBar } from "../content/reactions";
-import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../shared";
+import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../../shared";
 import { PostAttachments } from "./Attachments";
 
 interface PostDetailContentProps {

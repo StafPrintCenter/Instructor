@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import type { APICommunityPostListItem } from "@/data/community";
 import { relativeTime } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
-import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../../shared";
+import { PostActionButtons, PostAuthor, PostBadges, PostFlags, PostStats, PostTags } from "../../../shared";
 
 interface PostCardProps {
   post: APICommunityPostListItem;
