@@ -3,8 +3,8 @@ import { EyeOff, Send, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { APICommunityReportDetail, CommunityReportResolveAction } from "@/data/community-reports";
-import { EscalateReportDialog } from "./EscalateReportDialog";
-import { ResolveReportDialog } from "./ResolveReportDialog";
+import { EscalateReportDialog } from "./EscalateDialog";
+import { ResolveReportDialog } from "./ResolveDialog";
 
 interface ReportActionsCardProps {
   report: APICommunityReportDetail;

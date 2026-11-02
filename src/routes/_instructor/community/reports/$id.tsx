@@ -5,9 +5,8 @@ import { SITE } from "@/data/site";
 export const Route = createFileRoute("/_instructor/community/reports/$id")({
   head: () => ({
     meta: [
-      { title: `Signalement | Communauté | Espace Formateur ${SITE.name}` },
+      { title: `${SITE.tool} - Signalement de la Communauté | ${SITE.name}` },
       { name: "description", content: "Détail d'un contenu signalé et décision de modération." },
-      { name: "robots", content: "noindex" },
     ],
   }),
   component: ReportRoute,
