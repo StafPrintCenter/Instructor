@@ -1,7 +1,24 @@
 import { useEffect, useRef, useState } from "react";
+import { CornerDownRight } from "lucide-react";
 import type { APICommunityComment } from "@/data/community-comments";
 import { cn } from "@/lib/utils";
-import { CommentActions, CommentHeader, CommentReplyTo, DeleteCommentConfirm, EditCommentForm, ReplyComposer } from "./";
+import { CommentActions } from "./Actions";
+import { DeleteCommentConfirm } from "./DeleteConfirm";
+import { EditCommentForm } from "./EditForm";
+import { CommentHeader } from "./Header";
+import { ReplyComposer } from "./ReplyComposer";
+
+export function CommentReplyTo({ comment }: { comment: APICommunityComment }) {
+  const target = comment.replyTo;
+  if (!target || target.commentId === comment.parentId) return null;
+
+  return (
+    <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+      <CornerDownRight className="size-3.5" /> En réponse à{" "}
+      <span className="font-medium text-foreground">{target.authorName}</span>
+    </p>
+  );
+}
 
 interface CommentItemProps {
   comment: APICommunityComment;

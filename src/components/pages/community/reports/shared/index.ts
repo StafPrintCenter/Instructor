@@ -1,4 +1,3 @@
 export { PendingReportsLink } from "./PendingLink";
-export { ReportReasonBadge } from "./ReasonBadge";
-export { ReportStatusBadge } from "./StatusBadge";
+export { ReportReasonBadge, ReportStatusBadge } from "./Badges";
 export { ReportTargetLink } from "./TargetLink";

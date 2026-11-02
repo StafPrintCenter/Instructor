@@ -1,7 +1,6 @@
 export { ReportCard } from "./Card";
 export { ReportFilters } from "./Filters";
-export { ReportsList } from "./List";
-export { ReportsListError, ReportsListSkeleton } from "./ListStates";
+export { ReportsList, ReportsListError, ReportsListSkeleton } from "./List";
 export { ReportsView } from "./View";
 export { ReportStatsTabs } from "./StatsTabs";
 export {

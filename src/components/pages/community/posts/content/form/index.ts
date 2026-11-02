@@ -6,7 +6,6 @@ export { PostFormDialog } from "./PostFormDialog";
 export { PostMainFields } from "./MainFields";
 export { PostMetaFields } from "./MetaFields";
 export { TagsInput } from "./TagsInput";
-export { ATTACHMENTS_ACCEPT, validateAttachments } from "./Attachments";
 export { buildCreatePayload, buildUpdatePayload } from "./Payload";
 export { buildInitialPostValues, GENERAL_AUDIENCE, getPostFormErrors, postFormSchema, type PostFieldsProps, type PostFormValues, type SetPostField, } from "./Schema";
 export { usePostForm } from "./usePostForm";

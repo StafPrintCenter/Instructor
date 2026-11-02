@@ -2,9 +2,37 @@ import { useRef, useState, type ChangeEvent } from "react";
 import { Paperclip, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { COMMUNITY_LIMITS } from "@/data/community";
+import { COMMUNITY_ATTACHMENT_EXTENSIONS, COMMUNITY_LIMITS } from "@/data/community";
 import { formatFileSize } from "@/lib/file-size";
-import { ATTACHMENTS_ACCEPT, validateAttachments } from "./Attachments";
+
+const ATTACHMENTS_ACCEPT = COMMUNITY_ATTACHMENT_EXTENSIONS.map((ext) => `.${ext}`).join(",");
+
+function validateAttachments(current: File[], incoming: File[]) {
+  const accepted: File[] = [];
+  const errors: string[] = [];
+
+  for (const file of incoming) {
+    const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
+
+    if (!COMMUNITY_ATTACHMENT_EXTENSIONS.includes(extension)) {
+      errors.push(`« ${file.name} » : format non accepté.`);
+      continue;
+    }
+    if (file.size > COMMUNITY_LIMITS.maxAttachmentBytes) {
+      errors.push(`« ${file.name} » dépasse 5 Mo.`);
+      continue;
+    }
+    const all = [...current, ...accepted];
+    if (all.some((f) => f.name === file.name && f.size === file.size)) continue;
+    if (all.length >= COMMUNITY_LIMITS.maxAttachments) {
+      errors.push(`${COMMUNITY_LIMITS.maxAttachments} fichiers maximum : « ${file.name} » ignoré.`);
+      continue;
+    }
+    accepted.push(file);
+  }
+
+  return { accepted, errors };
+}
 
 interface AttachmentsInputProps {
   files: File[];

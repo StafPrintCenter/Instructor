@@ -1,13 +1,34 @@
 import { useEffect } from "react";
-import { ShieldCheck } from "lucide-react";
+import { AlertTriangle, RefreshCw, ShieldCheck } from "lucide-react";
 import { EmptyState } from "@/components/shared";
 import { PaginationBar } from "@/components/site";
+import { Button } from "@/components/ui/button";
 import type { InstructorPaginationMeta } from "@/data/pagination";
 import type { CommunityReportStatus } from "@/data/community-moderation";
 import type { APICommunityReport } from "@/data/community-reports";
 import { cn } from "@/lib/utils";
 import { ReportCard } from "./Card";
-import { ReportsListError, ReportsListSkeleton } from "./ListStates";
+
+export function ReportsListSkeleton() {
+  return (
+    <div className="space-y-4">
+      <div className="h-40 animate-pulse rounded-lg bg-muted" />
+      <div className="h-40 animate-pulse rounded-lg bg-muted" />
+    </div>
+  );
+}
+
+export function ReportsListError({ onRetry }: { onRetry: () => void }) {
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
+      <AlertTriangle className="size-6 text-destructive" />
+      <p className="text-sm text-muted-foreground">Impossible de charger les signalements.</p>
+      <Button variant="outline" size="sm" onClick={onRetry}>
+        <RefreshCw className="size-4" /> Réessayer
+      </Button>
+    </div>
+  );
+}
 
 interface ReportsListProps {
   items: APICommunityReport[];

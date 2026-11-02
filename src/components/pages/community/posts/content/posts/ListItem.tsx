@@ -1,11 +1,34 @@
 import { useEffect } from "react";
-import { MessagesSquare } from "lucide-react";
+import { AlertTriangle, MessagesSquare, RefreshCw } from "lucide-react";
 import { EmptyState } from "@/components/shared";
 import { PaginationBar } from "@/components/site";
+import { Button } from "@/components/ui/button";
 import type { APICommunityPostListItem, CommunityPostFilters } from "@/data/community";
 import { useCommunityPostsList } from "@/stores/useCommunityStore";
 import { cn } from "@/lib/utils";
-import { PostCard, PostsListError, PostsListSkeleton } from "../posts";
+import { PostCard } from "./Card";
+
+export function PostsListSkeleton() {
+  return (
+    <div className="space-y-4">
+      <div className="h-40 animate-pulse rounded-lg bg-muted" />
+      <div className="h-40 animate-pulse rounded-lg bg-muted" />
+      <div className="h-40 animate-pulse rounded-lg bg-muted" />
+    </div>
+  );
+}
+
+export function PostsListError({ onRetry }: { onRetry: () => void }) {
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed p-8 text-center">
+      <AlertTriangle className="size-6 text-destructive" />
+      <p className="text-sm text-muted-foreground">Impossible de charger les publications.</p>
+      <Button variant="outline" size="sm" onClick={onRetry}>
+        <RefreshCw className="size-4" /> Réessayer
+      </Button>
+    </div>
+  );
+}
 
 interface PostsListProps {
   params: CommunityPostFilters;

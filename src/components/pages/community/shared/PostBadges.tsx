@@ -1,8 +1,28 @@
 import { EyeOff, Globe, GraduationCap } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { communityPostTypeLabels, getCommunityPostTypeBadgeClass, type APICommunityPostListItem } from "@/data/community";
+import {
+  communityPostTypeLabels,
+  getCommunityPostTypeBadgeClass,
+  type APICommunityCategoryRef,
+  type APICommunityPostListItem,
+} from "@/data/community";
 import { cn } from "@/lib/utils";
-import { CategoryBadge } from "./CategoryBadge";
+
+export function CategoryBadge({ category }: { category: APICommunityCategoryRef }) {
+  return (
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-medium"
+      style={{
+        color: category.color,
+        borderColor: `color-mix(in srgb, ${category.color} 35%, transparent)`,
+        backgroundColor: `color-mix(in srgb, ${category.color} 10%, transparent)`,
+      }}
+    >
+      <span className="size-1.5 rounded-full" style={{ backgroundColor: category.color }} />
+      {category.name}
+    </span>
+  );
+}
 
 export function PostBadges({ post }: { post: APICommunityPostListItem }) {
   return (
