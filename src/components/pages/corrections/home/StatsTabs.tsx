@@ -29,7 +29,7 @@ export function CorrectionStatsTabs({ value, stats, onChange }: CorrectionStatsT
             aria-pressed={active}
             className={cn(
               "rounded-xl border p-4 text-left transition-colors",
-              active ? "border-primary/40 bg-primary/5" : "border-border/70 bg-card hover:bg-muted/40"
+              active ? "border-primary/40 bg-primary/5" : "border-border/70 bg-card hover:bg-muted/40 cursor-pointer"
             )}
           >
             <p className="text-xs uppercase tracking-wider text-muted-foreground">{gradedFilterLabels[g]}</p>

@@ -35,11 +35,11 @@ export function ReportStatsTabs({ value, stats, onChange }: ReportStatsTabsProps
             onClick={() => onChange(tab)}
             className={cn(
               "rounded-xl border p-4 text-left transition-colors",
-              active ? "border-primary/40 bg-primary/5" : "border-border/70 bg-card hover:bg-muted/40"
+              active ? "border-primary/40 bg-primary/5" : "border-border/70 bg-card hover:bg-muted/40 cursor-pointer"
             )}
           >
             <p className="text-xs uppercase tracking-wider text-muted-foreground">{tabLabel(tab)}</p>
-            <p className="mt-1 font-display text-2xl font-semibold">{tabCount(stats, tab) ?? "—"}</p>
+            <p className="mt-1 font-display text-2xl font-semibold">{tabCount(stats, tab) ?? "-"}</p>
           </button>
         );
       })}
