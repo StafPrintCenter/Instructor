@@ -53,7 +53,7 @@ export async function loginInstructor(email: string, password: string): Promise<
  * Retourne null si aucune session valide n'est active (401).
  */
 export async function fetchInstructorMe(): Promise<APIInstructorUser | null> {
-  const response = await instructorFetch(`/api/instructor/auth/me`);
+  const response = await instructorFetch(`/api/instructor/account/me`);
   if (response.status === 401) return null;
   if (!response.ok) {
     const error = await parseApiError(response, "Erreur lors de la vérification de la session.");
@@ -64,7 +64,7 @@ export async function fetchInstructorMe(): Promise<APIInstructorUser | null> {
 }
 
 export async function logoutInstructor(): Promise<void> {
-  const response = await instructorFetch(`/api/instructor/auth/logout`, { method: "POST" });
+  const response = await instructorFetch(`/api/instructor/account/logout`, { method: "POST" });
   if (!response.ok) {
     throw await parseApiError(response, "Erreur lors de la déconnexion.");
   }
