@@ -1,23 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import {
-  User as UserIcon,
-  Mail,
-  Shield,
-  Calendar,
-  Save,
-  LogOut,
-  CheckCircle2,
-  XCircle,
-  Clock,
-  Pencil,
-  X,
-  Briefcase,
-  Tags,
-  Loader2,
-} from "lucide-react";
+import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, XCircle, Clock, Pencil, X, Briefcase, Tags, Loader2 } from "lucide-react";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
+import { ProfileEditDialog } from "@/components/pages/profile/ProfileEditDialog";
+import { ChangeEmailDialog } from "@/components/pages/profile/ChangeEmailDialog";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { usePublicCategories, useUpdateInstructorCategories } from "@/stores/useCategoriesStore";
 import { Label } from "@/components/ui/label";
@@ -43,7 +30,11 @@ export const Route = createFileRoute("/_instructor/profile")({
 function ProfilePage() {
   const { user, logout, refresh } = useInstructorAuth();
   const navigate = useNavigate();
+
+  // Dialogs
   const [confirmDisconnectOpen, setConfirmDisconnectOpen] = useState(false);
+  const [editProfileOpen, setEditProfileOpen] = useState(false);
+  const [changeEmailOpen, setChangeEmailOpen] = useState(false);
 
   // Catégories préférées
   const {
@@ -64,10 +55,10 @@ function ProfilePage() {
   const formattedDate = (dateStr?: string | null) =>
     dateStr
       ? new Date(dateStr).toLocaleDateString("fr-FR", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
       : "Non renseigné";
 
   const handleCancelCategories = () => {
@@ -160,9 +151,14 @@ function ProfilePage() {
         <div className="space-y-6 lg:col-span-2">
           {/* Bloc Informations Personnelles */}
           <div className="rounded-2xl border bg-card p-6 shadow-sm">
-            <div className="flex items-center gap-2 border-b pb-4 mb-5">
-              <UserIcon className="h-5 w-5 text-primary" />
-              <h3 className="font-display text-lg font-semibold">Informations personnelles</h3>
+            <div className="flex items-center justify-between border-b pb-4 mb-5">
+              <div className="flex items-center gap-2">
+                <UserIcon className="h-5 w-5 text-primary" />
+                <h3 className="font-display text-lg font-semibold">Informations personnelles</h3>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => setEditProfileOpen(true)}>
+                <Pencil className="h-4 w-4 mr-1" /> Modifier
+              </Button>
             </div>
 
             <div className="space-y-6">
@@ -179,11 +175,19 @@ function ProfilePage() {
                     {user?.lastName || "Non renseigné"}
                   </div>
                 </div>
-                <div>
+                <div className="sm:col-span-2">
                   <Label className="text-xs text-muted-foreground">Adresse e-mail</Label>
                   <div className="mt-1 flex items-center gap-2 text-sm font-medium">
-                    <Mail className="h-4 w-4 text-muted-foreground" />
-                    <span>{user?.email || "Non renseigné"}</span>
+                    <Mail className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    <span className="truncate">{user?.email || "Non renseigné"}</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      // className="h-auto p-0 text-xs"
+                      onClick={() => setChangeEmailOpen(true)}
+                    >
+                      <Pencil className="h-4 w-4 mr-1" /> Changer
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -265,11 +269,10 @@ function ProfilePage() {
                       key={cat.id}
                       type="button"
                       onClick={() => toggleCategory(cat.id)}
-                      className={`flex items-center justify-between rounded-xl border px-3 py-2.5 text-left text-sm transition ${
-                        checked
-                          ? "border-primary/40 bg-primary/5"
-                          : "border-border/70 hover:bg-muted/40"
-                      }`}
+                      className={`flex items-center justify-between rounded-xl border px-3 py-2.5 text-left text-sm transition ${checked
+                        ? "border-primary/40 bg-primary/5"
+                        : "border-border/70 hover:bg-muted/40"
+                        }`}
                     >
                       <span className="font-medium">{cat.name}</span>
                       <Switch checked={checked} onCheckedChange={() => toggleCategory(cat.id)} />
@@ -365,6 +368,9 @@ function ProfilePage() {
           </div>
         </div>
       </div>
+
+      <ProfileEditDialog open={editProfileOpen} onOpenChange={setEditProfileOpen} />
+      <ChangeEmailDialog open={changeEmailOpen} onOpenChange={setChangeEmailOpen} />
 
       <ConfirmDisconnect
         open={confirmDisconnectOpen}
