@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { loginInstructor, fetchInstructorMe, logoutInstructor, verifyInstructorInvite, acceptInstructorInvite, registerInstructor, InstructorAuthApiError } from "@/stores/useAuthStore";
+import { loginInstructor, fetchInstructorMe, logoutInstructor, verifyInstructorInvite, acceptInstructorInvite, registerInstructor, forgotInstructorPassword, resetInstructorPassword, InstructorAuthApiError } from "@/stores/useAuthStore";
 import type { APIInstructorCategory, InstructorInviteVerifyResponse, InstructorTrainingAssignment, InstructorRegisterPayload } from "@/data/auth";
 
 export interface InstructorAuthUser {
@@ -152,6 +152,21 @@ export function useInstructorAuth() {
     []
   );
 
+  const forgotPassword = useCallback(
+    async (email: string): Promise<{ message: string }> => forgotInstructorPassword(email),
+    [],
+  );
+
+  const resetPassword = useCallback(
+    async (params: {
+      email: string;
+      token: string;
+      password: string;
+      passwordConfirmation: string;
+    }): Promise<{ message: string }> => resetInstructorPassword(params),
+    [],
+  );
+
   return {
     user: sharedUser,
     isAuthenticated: !!sharedUser,
@@ -162,5 +177,7 @@ export function useInstructorAuth() {
     verifyInvite,
     acceptInvite,
     refresh,
+    forgotPassword,
+    resetPassword,
   };
 }
