@@ -20,6 +20,7 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
+import { Route as InstructorMfaManageRouteImport } from './routes/_instructor/mfa-manage'
 import { Route as InstructorProfileRouteImport } from './routes/_instructor/profile'
 import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
@@ -93,6 +94,11 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
 const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => InstructorRoute,
+} as any)
+const InstructorMfaManageRoute = InstructorMfaManageRouteImport.update({
+  id: '/mfa-manage',
+  path: '/mfa-manage',
   getParentRoute: () => InstructorRoute,
 } as any)
 const InstructorProfileRoute = InstructorProfileRouteImport.update({
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
+  '/mfa-manage': typeof InstructorMfaManageRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
@@ -258,6 +265,7 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
+  '/mfa-manage': typeof InstructorMfaManageRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
@@ -293,6 +301,7 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
+  '/_instructor/mfa-manage': typeof InstructorMfaManageRoute
   '/_instructor/profile': typeof InstructorProfileRoute
   '/_instructor/submissions': typeof InstructorSubmissionsRoute
   '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
@@ -327,6 +336,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/mfa-manage'
     | '/profile'
     | '/submissions'
     | '/corrections/$id'
@@ -359,6 +369,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/mfa-manage'
     | '/profile'
     | '/submissions'
     | '/corrections/$id'
@@ -393,6 +404,7 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_auth/reset-password'
     | '/_instructor/dashboard'
+    | '/_instructor/mfa-manage'
     | '/_instructor/profile'
     | '/_instructor/submissions'
     | '/_instructor/corrections/$id'
@@ -501,6 +513,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof InstructorDashboardRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/mfa-manage': {
+      id: '/_instructor/mfa-manage'
+      path: '/mfa-manage'
+      fullPath: '/mfa-manage'
+      preLoaderRoute: typeof InstructorMfaManageRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/profile': {
@@ -673,6 +692,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
+  InstructorMfaManageRoute: typeof InstructorMfaManageRoute
   InstructorProfileRoute: typeof InstructorProfileRoute
   InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
   InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
@@ -698,6 +718,7 @@ interface InstructorRouteChildren {
 
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
+  InstructorMfaManageRoute: InstructorMfaManageRoute,
   InstructorProfileRoute: InstructorProfileRoute,
   InstructorSubmissionsRoute: InstructorSubmissionsRoute,
   InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
