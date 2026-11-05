@@ -3,9 +3,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SessionCard } from "@/components/pages/securitySession/SessionCard";
-import { SessionsToolbar } from "@/components/pages/securitySession/SessionsToolbar";
-import { SessionConfirmDialog } from "@/components/pages/securitySession/SessionConfirmDialog";
+import { SessionCard } from "@/components/pages/securitySession/Card";
+import { SessionsToolbar } from "@/components/pages/securitySession/Toolbar";
+import { SessionConfirmDialog } from "@/components/pages/securitySession/ConfirmDialog";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import {
   useInstructorSessionsList,
