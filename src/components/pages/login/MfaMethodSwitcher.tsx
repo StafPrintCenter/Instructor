@@ -25,7 +25,7 @@ export function MfaMethodSwitcher({ available, active, disabled, onSelect }: Mfa
           type="button"
           disabled={disabled}
           onClick={() => onSelect(m)}
-          className="block w-full text-xs font-medium text-foreground underline underline-offset-4 disabled:opacity-50"
+          className="block w-full text-xs font-medium text-foreground underline underline-offset-4 disabled:opacity-50 cursor-pointer"
         >
           {LABELS[m]}
         </button>
