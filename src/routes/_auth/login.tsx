@@ -14,10 +14,7 @@ export const Route = createFileRoute("/_auth/login")({
   head: () => ({
     meta: [
       { title: `${SITE.tool} - Connexion | ${SITE.name}` },
-      {
-        name: "description",
-        content: `Connectez-vous à votre ${SITE.tool} ${SITE.name} pour retrouver vos formations, suivre vos apprenants et corriger leurs travaux.`,
-      },
+      { name: "description", content: `Connectez-vous à votre ${SITE.tool} ${SITE.name} pour retrouver vos formations, suivre vos apprenants et corriger leurs travaux.` },
       { property: "og:title", content: `${SITE.tool} - Connexion | ${SITE.name}` },
       { property: "og:description", content: `Connectez-vous à votre ${SITE.tool} ${SITE.name} pour retrouver vos formations et suivre vos apprenants.` },
     ],
@@ -60,7 +57,10 @@ function LoginPage() {
         footer: (
           <span>
             Pas encore de compte ?{" "}
-            <Link to="/register" className="font-medium text-foreground underline underline-offset-4">
+            <Link
+              to="/register"
+              className="font-medium text-foreground underline underline-offset-4"
+            >
               Demander un accès
             </Link>
           </span>
@@ -68,7 +68,7 @@ function LoginPage() {
       },
   );
 
-  // Seule source de redirection : dès que la session est établie (login direct ou après MFA)
+  // Redirection automatique si l'étudiant est déjà connecté
   useEffect(() => {
     if (ready && isAuthenticated) {
       if (destination) router.history.push(destination);
@@ -103,5 +103,11 @@ function LoginPage() {
     );
   }
 
-  return <LoginCredentialsForm defaultEmail={email} loading={loading} onSubmit={handleLogin} />;
+  return (
+    <LoginCredentialsForm
+      defaultEmail={email}
+      loading={loading}
+      onSubmit={handleLogin}
+    />
+  );
 }
