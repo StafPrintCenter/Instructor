@@ -9,6 +9,7 @@ import { MfaRecoveryCodesCard } from "@/components/pages/mfa/RecoveryCodesCard";
 import { MfaPasswordDialog } from "@/components/pages/mfa/PasswordDialog";
 import { RecoveryCodesDialog } from "@/components/pages/mfa/RecoveryCodesDialog";
 import { TotpSetupDialog } from "@/components/pages/mfa/TotpSetupDialog";
+import { ChangePasswordCard } from "@/components/pages/security/ChangePasswordCard";
 import {
   useInstructorMfaStatus,
   useEnableInstructorMfa,
@@ -153,17 +154,23 @@ function MfaManagePage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-24 text-muted-foreground">
-        <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Chargement...
+      <div className="max-w-3xl space-y-6">
+        <div className="flex items-center justify-center py-24 text-muted-foreground">
+          <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Chargement...
+        </div>
+        <ChangePasswordCard />
       </div>
     );
   }
 
   if (isError || !status) {
     return (
-      <div className="rounded-2xl border p-8 text-center text-muted-foreground">
-        Impossible de charger les paramètres de sécurité.
-        <div className="mt-4"><Button variant="outline" size="sm" onClick={() => refetch()}>Réessayer</Button></div>
+      <div className="max-w-3xl space-y-6">
+        <div className="rounded-2xl border p-8 text-center text-muted-foreground">
+          Impossible de charger les paramètres de sécurité.
+          <div className="mt-4"><Button variant="outline" size="sm" onClick={() => refetch()}>Réessayer</Button></div>
+        </div>
+        <ChangePasswordCard />
       </div>
     );
   }
@@ -203,6 +210,8 @@ function MfaManagePage() {
             />
           </>
         )}
+
+        <ChangePasswordCard />
       </div>
 
       {copy && (
