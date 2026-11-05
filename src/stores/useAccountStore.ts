@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api/resolve-url";
 import { parseApiError } from "@/lib/api/error";
-import type { APIInstructorUser } from "@/data/auth";
 import type {
+  APIInstructorProfile,
   InstructorProfilePayload,
   InstructorEmailChangeRequestPayload,
   InstructorEmailChangeConfirmPayload,
@@ -29,7 +29,7 @@ async function accountRequest<T>(
 
 export async function updateInstructorProfile(
   payload: InstructorProfilePayload
-): Promise<APIInstructorUser> {
+): Promise<APIInstructorProfile> {
   const fd = new FormData();
   fd.append("firstName", payload.firstName);
   fd.append("lastName", payload.lastName);
@@ -37,7 +37,7 @@ export async function updateInstructorProfile(
   fd.append("removePhoto", payload.removePhoto ? "1" : "0");
   if (payload.photo) fd.append("photo", payload.photo);
 
-  const json = await accountRequest<{ data: APIInstructorUser }>(
+  const json = await accountRequest<{ data: APIInstructorProfile }>(
     "profile", "PUT", fd, "Impossible de modifier le profil."
   );
   return json.data;
@@ -57,11 +57,11 @@ export async function requestInstructorEmailChange(
 
 export async function confirmInstructorEmailChange(
   payload: InstructorEmailChangeConfirmPayload
-): Promise<APIInstructorUser> {
+): Promise<APIInstructorProfile> {
   const fd = new FormData();
   fd.append("code", payload.code);
 
-  const json = await accountRequest<{ data: APIInstructorUser }>(
+  const json = await accountRequest<{ data: APIInstructorProfile }>(
     "email/confirm", "POST", fd, "Code invalide ou expiré."
   );
   return json.data;
