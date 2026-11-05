@@ -103,8 +103,9 @@ function InstructorInviteAcceptPage() {
     e.preventDefault();
     setError("");
 
-    if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères.");
+    const passwordError = getPasswordPolicyError(password);
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
     if (password !== confirmPassword) {
@@ -181,6 +182,7 @@ function InstructorInviteAcceptPage() {
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
+        <PasswordRequirements value={password} />
       </div>
 
       <div className="space-y-2">
