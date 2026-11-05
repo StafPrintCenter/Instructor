@@ -48,3 +48,8 @@ export interface InstructorMfaDeleteMethodPayload {
   id: string;
   password: string;
 }
+
+export interface InstructorMfaEmailMethodPayload {
+  enabled: boolean;
+  password: string;
+}

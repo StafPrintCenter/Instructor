@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useAuthShellContent } from "@/components/site/AuthShell";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { LoginCredentialsForm } from "@/components/pages/login/LoginCredentialsForm";
+import { MfaChallengeForm } from "@/components/pages/login/MfaChallengeForm";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
+import type { APIInstructorMfaChallenge } from "@/data/auth";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_auth/login")({
@@ -25,7 +24,6 @@ export const Route = createFileRoute("/_auth/login")({
   }),
   component: LoginPage,
 });
-
 
 function getInternalRedirect(redirectTo?: string) {
   if (!redirectTo || !redirectTo.startsWith("/")) return null;
@@ -47,24 +45,30 @@ function LoginPage() {
   const destination = getInternalRedirect(redirectTo);
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [challenge, setChallenge] = useState<APIInstructorMfaChallenge | null>(null);
 
-  useAuthShellContent({
-    title: "Connexion formateur",
-    subtitle: "Accédez à vos formations assignées, corrections et sessions.",
-    footer: (
-      <span>
-        Pas encore de compte ?{" "}
-        <Link to="/register" className="font-medium text-foreground underline underline-offset-4">
-          Demander un accès
-        </Link>
-      </span>
-    ),
-  });
+  useAuthShellContent(
+    challenge
+      ? {
+        title: "Vérification en deux étapes",
+        subtitle: "Confirmez votre identité pour terminer la connexion.",
+      }
+      : {
+        title: "Connexion formateur",
+        subtitle: "Accédez à vos formations assignées, corrections et sessions.",
+        footer: (
+          <span>
+            Pas encore de compte ?{" "}
+            <Link to="/register" className="font-medium text-foreground underline underline-offset-4">
+              Demander un accès
+            </Link>
+          </span>
+        ),
+      },
+  );
 
-  // Redirection automatique si le formateur est déjà connecté
+  // Seule source de redirection : dès que la session est établie (login direct ou après MFA)
   useEffect(() => {
     if (ready && isAuthenticated) {
       if (destination) router.history.push(destination);
@@ -72,14 +76,16 @@ function LoginPage() {
     }
   }, [ready, isAuthenticated, destination, navigate, router]);
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async (nextEmail: string, password: string) => {
+    setEmail(nextEmail);
     setLoading(true);
     try {
-      await login(email, password);
+      const outcome = await login(nextEmail, password);
+      if (outcome.status === "mfa") {
+        setChallenge(outcome.challenge);
+        return;
+      }
       toast.success("Bienvenue dans votre espace formateur.");
-      if (destination) router.history.push(destination);
-      else navigate({ to: "/dashboard" });
     } catch (error) {
       toast.error((error as Error).message);
     } finally {
@@ -87,67 +93,15 @@ function LoginPage() {
     }
   };
 
-  return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="email">Adresse e-mail</Label>
-        <Input
-          id="email"
-          type="email"
-          className="bg-card"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="instructeur@votreadresse.com"
-          autoComplete="email"
-          disabled={loading}
-          required
-        />
-      </div>
+  if (challenge) {
+    return (
+      <MfaChallengeForm
+        challenge={challenge}
+        onBack={() => setChallenge(null)}
+        onVerified={() => toast.success("Bienvenue dans votre espace formateur.")}
+      />
+    );
+  }
 
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="password">Mot de passe</Label>
-          <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
-            Mot de passe oublié ?
-          </Link>
-        </div>
-        <div className="relative">
-          <Input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            className="bg-card pr-10"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            autoComplete="current-password"
-            disabled={loading}
-            required
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-            disabled={loading}
-          >
-            {showPassword ? (
-              <EyeOff className="h-4 w-4 cursor-pointer" />
-            ) : (
-              <Eye className="h-4 w-4 cursor-pointer" />
-            )}
-          </button>
-        </div>
-      </div>
-      <Button type="submit" variant="accent" className="w-full" disabled={loading}>
-        {loading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Connexion...
-          </>
-        ) : (
-          "Se connecter"
-        )}
-      </Button>
-    </form>
-  );
+  return <LoginCredentialsForm defaultEmail={email} loading={loading} onSubmit={handleLogin} />;
 }

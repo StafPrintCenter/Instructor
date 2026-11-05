@@ -97,3 +97,35 @@ export function getInstructorRoleLabel(trainings?: { role: string }[]): string {
   if (!primaryRole) return "Non assigné";
   return roleLabels[primaryRole.toLowerCase()] ?? primaryRole;
 }
+
+export type InstructorMfaLoginMethod = "email" | "totp" | "recovery";
+
+export interface APIInstructorMfaChallengeMethod {
+  type: "email" | "totp";
+  label: string;
+  hint: string | null;
+}
+
+export interface APIInstructorMfaChallenge {
+  mfaRequired: true;
+  challengeToken: string;
+  defaultMethod: "email" | "totp";
+  methods: APIInstructorMfaChallengeMethod[];
+  recoveryCodesAvailable: boolean;
+  emailCodeSent: boolean;
+  expiresAt: string;
+}
+
+export type APIInstructorLoginResult = APIInstructorLoginResponse | APIInstructorMfaChallenge;
+
+export interface InstructorMfaVerifyPayload {
+  challengeToken: string;
+  method: InstructorMfaLoginMethod;
+  code: string;
+}
+
+export interface APIInstructorMfaEmailResend {
+  emailCodeSent: boolean;
+  hint: string;
+  retryAfter: number;
+}

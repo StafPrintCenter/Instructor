@@ -16,6 +16,7 @@ import {
   useSetInstructorMfaDefault,
   useRegenerateInstructorMfaRecoveryCodes,
   useDeleteInstructorMfaMethod,
+  useSetInstructorMfaEmailMethod,
 } from "@/stores/useMfaStore";
 import type { APIInstructorMfaMethod } from "@/data/mfa";
 import { SITE } from "@/data/site";
@@ -35,6 +36,8 @@ type PendingAction =
   | { kind: "enable" }
   | { kind: "disable" }
   | { kind: "regenerate" }
+  | { kind: "removeEmail" }
+  | { kind: "restoreEmail" }
   | { kind: "deleteMethod"; method: APIInstructorMfaMethod };
 
 const ACTION_COPY = {
@@ -62,6 +65,18 @@ const ACTION_COPY = {
     confirmLabel: "Supprimer",
     destructive: true,
   },
+  removeEmail: {
+    title: "Retirer le code par e-mail",
+    description: "Seuls votre application d'authentification et vos codes de secours serviront à vous connecter. Confirmez votre mot de passe.",
+    confirmLabel: "Retirer",
+    destructive: true,
+  },
+  restoreEmail: {
+    title: "Réactiver le code par e-mail",
+    description: "Confirmez votre mot de passe pour autoriser à nouveau le code reçu par e-mail.",
+    confirmLabel: "Réactiver",
+    destructive: false,
+  },
 } as const;
 
 function MfaManagePage() {
@@ -78,6 +93,7 @@ function MfaManagePage() {
   const [totpOpen, setTotpOpen] = useState(false);
   const [recoveryCodes, setRecoveryCodes] = useState<string[]>([]);
   const [codesOpen, setCodesOpen] = useState(false);
+  const setEmailMethod = useSetInstructorMfaEmailMethod();
 
   const openAction = (next: PendingAction) => {
     setActionError(null);
@@ -115,6 +131,12 @@ function MfaManagePage() {
       case "deleteMethod":
         deleteMethod.mutate({ id: action.method.id as string, password }, feedback("Méthode supprimée"));
         break;
+      case "removeEmail":
+        setEmailMethod.mutate({ enabled: false, password }, feedback("Code par e-mail retiré"));
+        break;
+      case "restoreEmail":
+        setEmailMethod.mutate({ enabled: true, password }, feedback("Code par e-mail réactivé"));
+        break;
     }
   };
 
@@ -126,7 +148,7 @@ function MfaManagePage() {
   };
 
   const isActionPending =
-    enableMfa.isPending || disableMfa.isPending || regenerate.isPending || deleteMethod.isPending;
+    enableMfa.isPending || disableMfa.isPending || regenerate.isPending || deleteMethod.isPending || setEmailMethod.isPending;
   const copy = action ? ACTION_COPY[action.kind] : null;
 
   if (isLoading) {
@@ -171,6 +193,8 @@ function MfaManagePage() {
               onSetDefault={handleSetDefault}
               onDelete={(method) => openAction({ kind: "deleteMethod", method })}
               onAddTotp={hasTotp ? undefined : () => setTotpOpen(true)}
+              canRemoveEmail={hasTotp && status.recoveryCodesRemaining > 0}
+              onToggleEmail={(enabled) => openAction({ kind: enabled ? "restoreEmail" : "removeEmail" })}
             />
             <MfaRecoveryCodesCard
               remaining={status.recoveryCodesRemaining}

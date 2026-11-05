@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import { loginInstructor, fetchInstructorMe, logoutInstructor, verifyInstructorInvite, acceptInstructorInvite, registerInstructor, forgotInstructorPassword, resetInstructorPassword, InstructorAuthApiError } from "@/stores/useAuthStore";
-import type { APIInstructorCategory, InstructorInviteVerifyResponse, InstructorTrainingAssignment, InstructorRegisterPayload } from "@/data/auth";
+import { loginInstructor, fetchInstructorMe, logoutInstructor, verifyInstructorInvite, acceptInstructorInvite, registerInstructor, forgotInstructorPassword, resetInstructorPassword, InstructorAuthApiError, isInstructorMfaChallenge, sendInstructorMfaEmailCode, verifyInstructorMfa } from "@/stores/useAuthStore";
+import type { APIInstructorCategory, InstructorInviteVerifyResponse, InstructorTrainingAssignment, InstructorRegisterPayload, InstructorMfaVerifyPayload, APIInstructorMfaEmailResend, APIInstructorMfaChallenge } from "@/data/auth";
 
 export interface InstructorAuthUser {
   id: string;
@@ -82,6 +82,21 @@ async function bootstrap() {
 
 let bootstrapped = false;
 
+export type InstructorLoginOutcome =
+  | { status: "authenticated" }
+  | { status: "mfa"; challenge: APIInstructorMfaChallenge };
+
+/** Récupère l'utilisateur via le cookie de session et notifie les composants */
+async function completeSession() {
+  const instructor = await fetchInstructorMe();
+  if (!instructor) {
+    throw new InstructorAuthApiError("La session n'a pas pu être établie.");
+  }
+  sharedUser = toInstructorAuthUser(instructor);
+  sharedReady = true;
+  notify();
+}
+
 export function useInstructorAuth() {
   const [, forceRender] = useState(0);
 
@@ -108,16 +123,24 @@ export function useInstructorAuth() {
     []
   );
 
-  const login = useCallback(async (email: string, password: string) => {
-    await loginInstructor(email, password);
-    const instructor = await fetchInstructorMe();
-    if (!instructor) {
-      throw new InstructorAuthApiError("La session n'a pas pu être établie.");
+  const login = useCallback(async (email: string, password: string): Promise<InstructorLoginOutcome> => {
+    const result = await loginInstructor(email, password);
+    if (isInstructorMfaChallenge(result)) {
+      return { status: "mfa", challenge: result };
     }
-    sharedUser = toInstructorAuthUser(instructor);
-    sharedReady = true;
-    notify();
+    await completeSession();
+    return { status: "authenticated" };
   }, []);
+
+  const verifyMfa = useCallback(async (payload: InstructorMfaVerifyPayload): Promise<void> => {
+    await verifyInstructorMfa(payload);
+    await completeSession();
+  }, []);
+
+  const sendMfaEmailCode = useCallback(
+    (challengeToken: string): Promise<APIInstructorMfaEmailResend> => sendInstructorMfaEmailCode(challengeToken),
+    []
+  );
 
   const refresh = useCallback(async () => {
     await bootstrap();
@@ -179,5 +202,7 @@ export function useInstructorAuth() {
     refresh,
     forgotPassword,
     resetPassword,
+    verifyMfa,
+    sendMfaEmailCode,
   };
 }

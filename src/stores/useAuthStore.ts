@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api/resolve-url";
 import { parseApiError } from "@/lib/api/error";
-import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVerifyResponse, InstructorRegisterPayload } from "@/data/auth";
+import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVerifyResponse, InstructorRegisterPayload, APIInstructorLoginResult, APIInstructorMfaChallenge, APIInstructorMfaEmailResend, InstructorMfaVerifyPayload } from "@/data/auth";
 
 export class InstructorAuthApiError extends Error { }
 
@@ -34,7 +34,7 @@ export async function registerInstructor(
   return body.data as APIInstructorUser;
 }
 
-export async function loginInstructor(email: string, password: string): Promise<APIInstructorLoginResponse> {
+export async function loginInstructor(email: string, password: string): Promise<APIInstructorLoginResult> {
   const formData = new FormData();
   formData.append("email", email);
   formData.append("password", password);
@@ -167,4 +167,55 @@ export async function resetInstructorPassword(params: {
     throw new InstructorAuthApiError(error.message);
   }
   return (await response.json()) as { message: string };
+}
+
+export class InstructorMfaLoginError extends InstructorAuthApiError {
+  status: number;
+  code?: string;
+  attemptsLeft?: number;
+  retryAfter?: number;
+
+  constructor(message: string, status: number, extra: { code?: string; attemptsLeft?: number; retryAfter?: number } = {}) {
+    super(message);
+    this.status = status;
+    this.code = extra.code;
+    this.attemptsLeft = extra.attemptsLeft;
+    this.retryAfter = extra.retryAfter;
+  }
+}
+
+/** Lit le corps une seule fois : on a besoin de `code`, `attemptsLeft` et `retryAfter` */
+async function buildMfaLoginError(response: Response, fallback: string) {
+  const body = await response.json().catch(() => null);
+  return new InstructorMfaLoginError(body?.message || fallback, response.status, {
+    code: body?.code,
+    attemptsLeft: body?.attemptsLeft,
+    retryAfter: body?.retryAfter,
+  });
+}
+
+export function isInstructorMfaChallenge(
+  result: APIInstructorLoginResult
+): result is APIInstructorMfaChallenge {
+  return "mfaRequired" in result && result.mfaRequired === true;
+}
+
+export async function sendInstructorMfaEmailCode(challengeToken: string): Promise<APIInstructorMfaEmailResend> {
+  const fd = new FormData();
+  fd.append("challengeToken", challengeToken);
+
+  const response = await instructorFetch(`/api/instructor/auth/mfa/send-email`, { method: "POST", body: fd });
+  if (!response.ok) throw await buildMfaLoginError(response, "Impossible d'envoyer le code par e-mail.");
+  return response.json();
+}
+
+export async function verifyInstructorMfa(payload: InstructorMfaVerifyPayload): Promise<void> {
+  const fd = new FormData();
+  fd.append("challengeToken", payload.challengeToken);
+  fd.append("method", payload.method);
+  fd.append("code", payload.code);
+
+  const response = await instructorFetch(`/api/instructor/auth/mfa/verify`, { method: "POST", body: fd });
+  if (!response.ok) throw await buildMfaLoginError(response, "Code invalide ou expiré.");
+  // La session est ouverte via le cookie : on ignore le corps (instructor + token)
 }

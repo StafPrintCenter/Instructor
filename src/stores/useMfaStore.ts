@@ -9,6 +9,7 @@ import type {
   InstructorMfaDefaultPayload,
   InstructorMfaTotpConfirmPayload,
   InstructorMfaDeleteMethodPayload,
+  InstructorMfaEmailMethodPayload,
 } from "@/data/mfa";
 
 export class InstructorMfaApiError extends Error { }
@@ -130,3 +131,14 @@ export function useRegenerateInstructorMfaRecoveryCodes() {
     onSuccess: () => qc.invalidateQueries({ queryKey: MFA_KEY }),
   });
 }
+
+export const setInstructorMfaEmailMethod = (payload: InstructorMfaEmailMethodPayload) =>
+  mfaRequest<APIInstructorMfaStatus>("/email", "Impossible de modifier la méthode e-mail.", {
+    method: "PUT",
+    body: buildForm({
+      enabled: payload.enabled ? "1" : "0",
+      password: payload.password,
+    }),
+  });
+
+export const useSetInstructorMfaEmailMethod = () => useStatusMutation(setInstructorMfaEmailMethod);
