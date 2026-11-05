@@ -1,4 +1,4 @@
-import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, Users2, Bell, Send, UserCircle } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, Users2, Bell, Send, UserCircle, Shield } from "lucide-react";
 import { SITE_LINK } from "@/data/site";
 
 export const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/index`;
@@ -48,4 +48,5 @@ export const navItemClass =
 export const USER_DROPDOWN_ITEMS = [
   { to: "/profile", label: "Mon profil", icon: UserCircle },
   { to: "/notifications", label: "Notifications", icon: Bell },
+  { to: "/security", label: "Sécurité du compte", icon: Shield },
 ] as const;

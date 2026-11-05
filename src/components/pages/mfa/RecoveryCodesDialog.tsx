@@ -31,25 +31,43 @@ export function RecoveryCodesDialog({ open, onOpenChange, codes }: RecoveryCodes
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
+      {/* overflow-hidden et max-h bloquent tout dépassement hors de la modale */}
+      <DialogContent className="sm:max-w-md max-h-[85vh] flex flex-col overflow-hidden">
+
+        {/* En-tête fixe (ne rétrécit pas) */}
+        <DialogHeader className="shrink-0">
           <DialogTitle>Vos codes de secours</DialogTitle>
           <DialogDescription>
             Conservez-les dès maintenant dans un endroit sûr. Ils ne seront plus affichés après la fermeture de cette fenêtre.
           </DialogDescription>
         </DialogHeader>
 
-        <ul className="grid grid-cols-2 gap-2 rounded-xl border bg-muted/20 p-4">
-          {codes.map((code) => (
-            <li key={code} className="font-mono text-sm">{code}</li>
-          ))}
-        </ul>
+        {/* Zone de codes avec défilement automatique si la liste est longue */}
+        <div className="flex-1 overflow-y-auto my-3 pr-1 min-h-0">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 rounded-xl border bg-muted/20 p-4">
+            {codes.map((code, index) => (
+              <li key={`${code}-${index}`} className="font-mono text-sm tracking-wide text-center sm:text-left">
+                {code}
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={copy}><Copy className="mr-1 h-4 w-4" /> Copier</Button>
-          <Button variant="outline" onClick={download}><Download className="mr-1 h-4 w-4" /> Télécharger</Button>
-          <Button onClick={() => onOpenChange(false)}>J'ai sauvegardé mes codes</Button>
+        {/* Pied de page fixe avec disposition adaptative pour éviter les débordements */}
+        <DialogFooter className="shrink-0 flex-col sm:flex-row gap-2 pt-2 border-t">
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Button variant="outline" className="flex-1 sm:flex-initial" onClick={copy}>
+              <Copy className="mr-1 h-4 w-4" /> Copier
+            </Button>
+            <Button variant="outline" className="flex-1 sm:flex-initial" onClick={download}>
+              <Download className="mr-1 h-4 w-4" /> Télécharger
+            </Button>
+          </div>
+          <Button className="w-full sm:w-auto" onClick={() => onOpenChange(false)}>
+            J'ai sauvegardé
+          </Button>
         </DialogFooter>
+
       </DialogContent>
     </Dialog>
   );
