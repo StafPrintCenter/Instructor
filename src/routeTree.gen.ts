@@ -20,6 +20,7 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
+import { Route as InstructorProfilSessionsRouteImport } from './routes/_instructor/profil-sessions'
 import { Route as InstructorProfileRouteImport } from './routes/_instructor/profile'
 import { Route as InstructorSecurityRouteImport } from './routes/_instructor/security'
 import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
@@ -96,6 +97,12 @@ const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => InstructorRoute,
 } as any)
+const InstructorProfilSessionsRoute =
+  InstructorProfilSessionsRouteImport.update({
+    id: '/profil-sessions',
+    path: '/profil-sessions',
+    getParentRoute: () => InstructorRoute,
+  } as any)
 const InstructorProfileRoute = InstructorProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -232,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
+  '/profil-sessions': typeof InstructorProfilSessionsRoute
   '/profile': typeof InstructorProfileRoute
   '/security': typeof InstructorSecurityRoute
   '/submissions': typeof InstructorSubmissionsRoute
@@ -265,6 +273,7 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
+  '/profil-sessions': typeof InstructorProfilSessionsRoute
   '/profile': typeof InstructorProfileRoute
   '/security': typeof InstructorSecurityRoute
   '/submissions': typeof InstructorSubmissionsRoute
@@ -301,6 +310,7 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
+  '/_instructor/profil-sessions': typeof InstructorProfilSessionsRoute
   '/_instructor/profile': typeof InstructorProfileRoute
   '/_instructor/security': typeof InstructorSecurityRoute
   '/_instructor/submissions': typeof InstructorSubmissionsRoute
@@ -336,6 +346,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/profil-sessions'
     | '/profile'
     | '/security'
     | '/submissions'
@@ -369,6 +380,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/profil-sessions'
     | '/profile'
     | '/security'
     | '/submissions'
@@ -404,6 +416,7 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_auth/reset-password'
     | '/_instructor/dashboard'
+    | '/_instructor/profil-sessions'
     | '/_instructor/profile'
     | '/_instructor/security'
     | '/_instructor/submissions'
@@ -513,6 +526,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof InstructorDashboardRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/profil-sessions': {
+      id: '/_instructor/profil-sessions'
+      path: '/profil-sessions'
+      fullPath: '/profil-sessions'
+      preLoaderRoute: typeof InstructorProfilSessionsRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/profile': {
@@ -692,6 +712,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
+  InstructorProfilSessionsRoute: typeof InstructorProfilSessionsRoute
   InstructorProfileRoute: typeof InstructorProfileRoute
   InstructorSecurityRoute: typeof InstructorSecurityRoute
   InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
@@ -718,6 +739,7 @@ interface InstructorRouteChildren {
 
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
+  InstructorProfilSessionsRoute: InstructorProfilSessionsRoute,
   InstructorProfileRoute: InstructorProfileRoute,
   InstructorSecurityRoute: InstructorSecurityRoute,
   InstructorSubmissionsRoute: InstructorSubmissionsRoute,
