@@ -12,12 +12,16 @@ interface LoginCredentialsFormProps {
   onSubmit: (email: string, password: string) => void;
 }
 
-export function LoginCredentialsForm({ defaultEmail, loading, onSubmit }: LoginCredentialsFormProps) {
+export function LoginCredentialsForm({
+  defaultEmail,
+  loading,
+  onSubmit,
+}: LoginCredentialsFormProps) {
   const [email, setEmail] = useState(defaultEmail);
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     onSubmit(email, password);
   };
 
@@ -30,7 +34,7 @@ export function LoginCredentialsForm({ defaultEmail, loading, onSubmit }: LoginC
           type="email"
           className="bg-card"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
           placeholder="instructeur@votreadresse.com"
           autoComplete="email"
           disabled={loading}
@@ -39,14 +43,17 @@ export function LoginCredentialsForm({ defaultEmail, loading, onSubmit }: LoginC
       </div>
 
       <div>
-        <div className="mb-2 flex justify-end">
-          <Link to="/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
-            Mot de passe oublié ?
-          </Link>
-        </div>
         <PasswordField
           id="password"
           label="Mot de passe"
+          labelAction={
+            <Link
+              to="/forgot-password"
+              className="text-xs text-muted-foreground hover:text-foreground"
+            >
+              Mot de passe oublié ?
+            </Link>
+          }
           value={password}
           onChange={setPassword}
           autoComplete="current-password"
@@ -54,7 +61,7 @@ export function LoginCredentialsForm({ defaultEmail, loading, onSubmit }: LoginC
         />
       </div>
 
-      <Button type="submit" variant="accent" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full" disabled={loading}>
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
