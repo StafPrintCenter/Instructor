@@ -6,6 +6,8 @@ import type {
   InstructorProfilePayload,
   InstructorEmailChangeRequestPayload,
   InstructorEmailChangeConfirmPayload,
+  InstructorPasswordChangePayload,
+  APIInstructorPasswordChangeResponse,
   APIInstructorEmailChangeRequestResponse,
 } from "@/data/account";
 
@@ -65,6 +67,23 @@ export async function confirmInstructorEmailChange(
   return json.data;
 }
 
+export async function changeInstructorPassword(
+  payload: InstructorPasswordChangePayload,
+): Promise<APIInstructorPasswordChangeResponse> {
+  const fd = new FormData();
+  fd.append("currentPassword", payload.currentPassword);
+  fd.append("password", payload.password);
+  fd.append("password_confirmation", payload.passwordConfirmation);
+  fd.append("revokeOtherSessions", String(payload.revokeOtherSessions));
+
+  return accountRequest<APIInstructorPasswordChangeResponse>(
+    "password",
+    "PUT",
+    fd,
+    "Impossible de modifier le mot de passe.",
+  );
+}
+
 export function useUpdateInstructorProfile() {
   const qc = useQueryClient();
   return useMutation({
@@ -84,5 +103,17 @@ export function useConfirmInstructorEmailChange() {
   return useMutation({
     mutationFn: (payload: InstructorEmailChangeConfirmPayload) => confirmInstructorEmailChange(payload),
     onSuccess: (user) => qc.setQueryData(["current-instructor"], user),
+  });
+}
+
+export function useChangeInstructorPassword() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: InstructorPasswordChangePayload) => changeInstructorPassword(payload),
+    onSuccess: (_response, payload) => {
+      if (payload.revokeOtherSessions) {
+        return qc.invalidateQueries({ queryKey: ["instructor-sessions"] });
+      }
+    },
   });
 }

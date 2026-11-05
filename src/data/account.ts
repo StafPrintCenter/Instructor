@@ -19,6 +19,18 @@ export interface InstructorEmailChangeConfirmPayload {
   code: string;
 }
 
+export interface InstructorPasswordChangePayload {
+  currentPassword: string;
+  password: string;
+  passwordConfirmation: string;
+  revokeOtherSessions: boolean;
+}
+
+export interface APIInstructorPasswordChangeResponse {
+  message: string;
+  revokedSessions: number;
+}
+
 export interface APIInstructorEmailChangeRequestResponse {
   message: string;
   hint: string;

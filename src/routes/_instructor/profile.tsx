@@ -5,6 +5,7 @@ import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, X
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { ProfileEditDialog } from "@/components/pages/profile/ProfileEditDialog";
 import { ChangeEmailDialog } from "@/components/pages/profile/ChangeEmailDialog";
+import { ChangePasswordCard } from "@/components/pages/security/ChangePasswordCard";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { usePublicCategories, useUpdateInstructorCategories } from "@/stores/useCategoriesStore";
 import { Label } from "@/components/ui/label";
@@ -298,6 +299,8 @@ function ProfilePage() {
 
         {/* Barre Latérale (1/3) */}
         <div className="space-y-6 lg:col-span-1">
+          <ChangePasswordCard />
+
           {/* Statut du Compte */}
           <div className="rounded-2xl border bg-card p-6 shadow-sm">
             <div className="flex items-center gap-2 border-b pb-3 mb-4">
