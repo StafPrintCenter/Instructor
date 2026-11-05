@@ -19,12 +19,11 @@ export function LegalDocHeader({
     <>
       <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur print:hidden">
         <div className="mx-auto flex h-16 w-full max-w-5xl items-center gap-3 px-4 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center">
-            <img src={logo.dc} alt="Logo SPC" className="h-12 w-auto object-contain" />
-          </Link>
+          <img src={logo.dc} alt="Logo SPC" className="h-12 w-auto object-contain" />
+
           <div className="ml-auto flex items-center gap-1">
             <Button asChild variant="soft" size="sm">
-              <Link to="/">
+              <Link to="/dashboard">
                 <ArrowLeft className="size-4" />
                 <span>Retour</span>
               </Link>

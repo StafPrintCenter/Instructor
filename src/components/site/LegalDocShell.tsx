@@ -2,10 +2,10 @@ import { useEffect, useState, type ReactNode } from "react";
 import { LegalDocFooter } from "./LegalDocShell/Footer";
 import { LegalDocHeader } from "./LegalDocShell/Header";
 import { LegalDocSommaire } from "./LegalDocShell/Sommaire";
-import type { LegalMeta, LegalSection } from "./LegalDoc/types";
+import type { LegalMeta, LegalSection } from "./LegalDocShell/types";
 
 export { LegalArticle } from "./LegalDocShell/Section";
-export type { LegalClause, LegalMeta, LegalSection } from "./LegalDoc/types";
+export type { LegalClause, LegalMeta, LegalSection } from "./LegalDocShell/types";
 
 /** Contractual document page: sticky summary rail + numbered articles. */
 export function LegalDocShell({
