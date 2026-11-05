@@ -36,7 +36,7 @@ export const Route = createFileRoute("/_auth/reset-password")({
 
 const schema = z
   .object({
-    password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères."),
+    password: z.string().refine(isPasswordPolicyValid, "Le mot de passe ne respecte pas les critères affichés."),
     passwordConfirmation: z.string(),
   })
   .refine((v) => v.password === v.passwordConfirmation, {
@@ -152,6 +152,7 @@ function ResetPasswordPage() {
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
+        <PasswordRequirements value={password} />
         {errors.password && <p className="mt-1 text-xs text-destructive">{errors.password}</p>}
       </div>
 
