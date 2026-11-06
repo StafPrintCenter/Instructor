@@ -98,10 +98,10 @@ export function getInstructorRoleLabel(trainings?: { role: string }[]): string {
   return roleLabels[primaryRole.toLowerCase()] ?? primaryRole;
 }
 
-export type InstructorMfaLoginMethod = "email" | "totp" | "recovery";
+export type InstructorMfaLoginMethod = "email" | "totp" | "recovery" | "passkey";
 
 export interface APIInstructorMfaChallengeMethod {
-  type: "email" | "totp";
+  type: "email" | "totp" | "passkey";
   label: string;
   hint: string | null;
 }
@@ -109,7 +109,7 @@ export interface APIInstructorMfaChallengeMethod {
 export interface APIInstructorMfaChallenge {
   mfaRequired: true;
   challengeToken: string;
-  defaultMethod: "email" | "totp";
+  defaultMethod: "email" | "totp" | "passkey";
   methods: APIInstructorMfaChallengeMethod[];
   recoveryCodesAvailable: boolean;
   emailCodeSent: boolean;
