@@ -53,3 +53,15 @@ export interface InstructorMfaEmailMethodPayload {
   enabled: boolean;
   password: string;
 }
+
+export interface APIInstructorMfaMethod {
+  id: string | null;
+  type: InstructorMfaMethodType;
+  label: string;
+  hint: string | null;
+  enabled: boolean;
+  confirmedAt: string | null;
+  lastUsedAt: string | null;
+  transports?: string[]; // passkey
+  backedUp?: boolean; // passkey
+}
