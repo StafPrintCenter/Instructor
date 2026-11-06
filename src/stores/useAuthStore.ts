@@ -1,7 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { instructorFetch } from "@/lib/api/resolve-url";
 import { parseApiError } from "@/lib/api/error";
-import type { APIInstructorUser, APIInstructorLoginResponse, InstructorInviteVerifyResponse, InstructorRegisterPayload, APIInstructorLoginResult, APIInstructorMfaChallenge, APIInstructorMfaEmailResend, InstructorMfaVerifyPayload } from "@/data/auth";
+import type {
+  APIInstructorUser,
+  InstructorInviteVerifyResponse,
+  InstructorRegisterPayload,
+  APIInstructorLoginResult,
+  APIInstructorMfaChallenge,
+  APIInstructorMfaEmailResend,
+  InstructorMfaVerifyPayload
+} from "@/data/auth";
+import type { APIInstructorPasskeyRequestOptions } from "@/data/passkeys";
 
 export class InstructorAuthApiError extends Error { }
 
@@ -218,4 +227,17 @@ export async function verifyInstructorMfa(payload: InstructorMfaVerifyPayload): 
   const response = await instructorFetch(`/api/instructor/auth/mfa/verify`, { method: "POST", body: fd });
   if (!response.ok) throw await buildMfaLoginError(response, "Code invalide ou expiré.");
   // La session est ouverte via le cookie : on ignore le corps (instructor + token)
+}
+
+export async function fetchInstructorPasskeyLoginOptions(
+  challengeToken: string
+): Promise<APIInstructorPasskeyRequestOptions> {
+  const fd = new FormData();
+  fd.append("challengeToken", challengeToken);
+
+  const response = await instructorFetch(`/api/instructor/auth/mfa/passkey/options`, { method: "POST", body: fd });
+  if (!response.ok) throw await buildMfaLoginError(response, "Impossible de démarrer la vérification par clé d'accès.");
+
+  const body = await response.json();
+  return (body.publicKey ?? body) as APIInstructorPasskeyRequestOptions;
 }
