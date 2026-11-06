@@ -48,6 +48,6 @@ export const navItemClass =
 export const USER_DROPDOWN_ITEMS = [
   { to: "/profile", label: "Mon profil", icon: UserCircle },
   { to: "/notifications", label: "Notifications", icon: Bell },
-  { to: "/security-mfa", label: "Double Authentification", icon: Shield },
-  { to: "/security-sessions", label: "Sessions actives", icon: MonitorSmartphone },
+  { to: "/security/mfa", label: "Double Authentification", icon: Shield },
+  { to: "/security/sessions", label: "Sessions actives", icon: MonitorSmartphone },
 ] as const;

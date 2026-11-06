@@ -21,14 +21,14 @@ import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
 import { Route as InstructorProfileRouteImport } from './routes/_instructor/profile'
-import { Route as InstructorSecurityMfaRouteImport } from './routes/_instructor/security-mfa'
-import { Route as InstructorSecuritySessionsRouteImport } from './routes/_instructor/security-sessions'
 import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
 import { Route as InstructorCorrectionsIdRouteImport } from './routes/_instructor/corrections/$id'
 import { Route as InstructorNotificationsIndexRouteImport } from './routes/_instructor/notifications/index'
 import { Route as InstructorNotificationsIdRouteImport } from './routes/_instructor/notifications/$id'
 import { Route as InstructorNotificationsPreferencesRouteImport } from './routes/_instructor/notifications/preferences'
+import { Route as InstructorSecurityMfaRouteImport } from './routes/_instructor/security/mfa'
+import { Route as InstructorSecuritySessionsRouteImport } from './routes/_instructor/security/sessions'
 import { Route as InstructorSessionsIndexRouteImport } from './routes/_instructor/sessions/index'
 import { Route as InstructorSessionsIdRouteImport } from './routes/_instructor/sessions/$id'
 import { Route as InstructorStudentsIndexRouteImport } from './routes/_instructor/students/index'
@@ -102,17 +102,6 @@ const InstructorProfileRoute = InstructorProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => InstructorRoute,
 } as any)
-const InstructorSecurityMfaRoute = InstructorSecurityMfaRouteImport.update({
-  id: '/security-mfa',
-  path: '/security-mfa',
-  getParentRoute: () => InstructorRoute,
-} as any)
-const InstructorSecuritySessionsRoute =
-  InstructorSecuritySessionsRouteImport.update({
-    id: '/security-sessions',
-    path: '/security-sessions',
-    getParentRoute: () => InstructorRoute,
-  } as any)
 const InstructorSubmissionsRoute = InstructorSubmissionsRouteImport.update({
   id: '/submissions',
   path: '/submissions',
@@ -145,6 +134,17 @@ const InstructorNotificationsPreferencesRoute =
   InstructorNotificationsPreferencesRouteImport.update({
     id: '/notifications/preferences',
     path: '/notifications/preferences',
+    getParentRoute: () => InstructorRoute,
+  } as any)
+const InstructorSecurityMfaRoute = InstructorSecurityMfaRouteImport.update({
+  id: '/security/mfa',
+  path: '/security/mfa',
+  getParentRoute: () => InstructorRoute,
+} as any)
+const InstructorSecuritySessionsRoute =
+  InstructorSecuritySessionsRouteImport.update({
+    id: '/security/sessions',
+    path: '/security/sessions',
     getParentRoute: () => InstructorRoute,
   } as any)
 const InstructorSessionsIndexRoute = InstructorSessionsIndexRouteImport.update({
@@ -240,12 +240,12 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profile': typeof InstructorProfileRoute
-  '/security-mfa': typeof InstructorSecurityMfaRoute
-  '/security-sessions': typeof InstructorSecuritySessionsRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
+  '/security/mfa': typeof InstructorSecurityMfaRoute
+  '/security/sessions': typeof InstructorSecuritySessionsRoute
   '/sessions/$id': typeof InstructorSessionsIdRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/corrections/': typeof InstructorCorrectionsIndexRoute
@@ -274,12 +274,12 @@ export interface FileRoutesByTo {
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
   '/profile': typeof InstructorProfileRoute
-  '/security-mfa': typeof InstructorSecurityMfaRoute
-  '/security-sessions': typeof InstructorSecuritySessionsRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/notifications/$id': typeof InstructorNotificationsIdRoute
   '/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
+  '/security/mfa': typeof InstructorSecurityMfaRoute
+  '/security/sessions': typeof InstructorSecuritySessionsRoute
   '/sessions/$id': typeof InstructorSessionsIdRoute
   '/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/corrections': typeof InstructorCorrectionsIndexRoute
@@ -311,12 +311,12 @@ export interface FileRoutesById {
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
   '/_instructor/profile': typeof InstructorProfileRoute
-  '/_instructor/security-mfa': typeof InstructorSecurityMfaRoute
-  '/_instructor/security-sessions': typeof InstructorSecuritySessionsRoute
   '/_instructor/submissions': typeof InstructorSubmissionsRoute
   '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
   '/_instructor/notifications/$id': typeof InstructorNotificationsIdRoute
   '/_instructor/notifications/preferences': typeof InstructorNotificationsPreferencesRoute
+  '/_instructor/security/mfa': typeof InstructorSecurityMfaRoute
+  '/_instructor/security/sessions': typeof InstructorSecuritySessionsRoute
   '/_instructor/sessions/$id': typeof InstructorSessionsIdRoute
   '/_instructor/students/$studentId': typeof InstructorStudentsStudentIdRoute
   '/_instructor/corrections/': typeof InstructorCorrectionsIndexRoute
@@ -347,12 +347,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/dashboard'
     | '/profile'
-    | '/security-mfa'
-    | '/security-sessions'
     | '/submissions'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
+    | '/security/mfa'
+    | '/security/sessions'
     | '/sessions/$id'
     | '/students/$studentId'
     | '/corrections/'
@@ -381,12 +381,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/dashboard'
     | '/profile'
-    | '/security-mfa'
-    | '/security-sessions'
     | '/submissions'
     | '/corrections/$id'
     | '/notifications/$id'
     | '/notifications/preferences'
+    | '/security/mfa'
+    | '/security/sessions'
     | '/sessions/$id'
     | '/students/$studentId'
     | '/corrections'
@@ -417,12 +417,12 @@ export interface FileRouteTypes {
     | '/_auth/reset-password'
     | '/_instructor/dashboard'
     | '/_instructor/profile'
-    | '/_instructor/security-mfa'
-    | '/_instructor/security-sessions'
     | '/_instructor/submissions'
     | '/_instructor/corrections/$id'
     | '/_instructor/notifications/$id'
     | '/_instructor/notifications/preferences'
+    | '/_instructor/security/mfa'
+    | '/_instructor/security/sessions'
     | '/_instructor/sessions/$id'
     | '/_instructor/students/$studentId'
     | '/_instructor/corrections/'
@@ -535,20 +535,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstructorProfileRouteImport
       parentRoute: typeof InstructorRoute
     }
-    '/_instructor/security-mfa': {
-      id: '/_instructor/security-mfa'
-      path: '/security-mfa'
-      fullPath: '/security-mfa'
-      preLoaderRoute: typeof InstructorSecurityMfaRouteImport
-      parentRoute: typeof InstructorRoute
-    }
-    '/_instructor/security-sessions': {
-      id: '/_instructor/security-sessions'
-      path: '/security-sessions'
-      fullPath: '/security-sessions'
-      preLoaderRoute: typeof InstructorSecuritySessionsRouteImport
-      parentRoute: typeof InstructorRoute
-    }
     '/_instructor/submissions': {
       id: '/_instructor/submissions'
       path: '/submissions'
@@ -589,6 +575,20 @@ declare module '@tanstack/react-router' {
       path: '/notifications/preferences'
       fullPath: '/notifications/preferences'
       preLoaderRoute: typeof InstructorNotificationsPreferencesRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/security/mfa': {
+      id: '/_instructor/security/mfa'
+      path: '/security/mfa'
+      fullPath: '/security/mfa'
+      preLoaderRoute: typeof InstructorSecurityMfaRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/security/sessions': {
+      id: '/_instructor/security/sessions'
+      path: '/security/sessions'
+      fullPath: '/security/sessions'
+      preLoaderRoute: typeof InstructorSecuritySessionsRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/sessions/': {
@@ -713,12 +713,12 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
   InstructorProfileRoute: typeof InstructorProfileRoute
-  InstructorSecurityMfaRoute: typeof InstructorSecurityMfaRoute
-  InstructorSecuritySessionsRoute: typeof InstructorSecuritySessionsRoute
   InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
   InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
   InstructorNotificationsIdRoute: typeof InstructorNotificationsIdRoute
   InstructorNotificationsPreferencesRoute: typeof InstructorNotificationsPreferencesRoute
+  InstructorSecurityMfaRoute: typeof InstructorSecurityMfaRoute
+  InstructorSecuritySessionsRoute: typeof InstructorSecuritySessionsRoute
   InstructorSessionsIdRoute: typeof InstructorSessionsIdRoute
   InstructorStudentsStudentIdRoute: typeof InstructorStudentsStudentIdRoute
   InstructorCorrectionsIndexRoute: typeof InstructorCorrectionsIndexRoute
@@ -740,13 +740,13 @@ interface InstructorRouteChildren {
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
   InstructorProfileRoute: InstructorProfileRoute,
-  InstructorSecurityMfaRoute: InstructorSecurityMfaRoute,
-  InstructorSecuritySessionsRoute: InstructorSecuritySessionsRoute,
   InstructorSubmissionsRoute: InstructorSubmissionsRoute,
   InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
   InstructorNotificationsIdRoute: InstructorNotificationsIdRoute,
   InstructorNotificationsPreferencesRoute:
     InstructorNotificationsPreferencesRoute,
+  InstructorSecurityMfaRoute: InstructorSecurityMfaRoute,
+  InstructorSecuritySessionsRoute: InstructorSecuritySessionsRoute,
   InstructorSessionsIdRoute: InstructorSessionsIdRoute,
   InstructorStudentsStudentIdRoute: InstructorStudentsStudentIdRoute,
   InstructorCorrectionsIndexRoute: InstructorCorrectionsIndexRoute,
