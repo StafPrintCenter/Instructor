@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { loginInstructor, fetchInstructorMe, logoutInstructor, verifyInstructorInvite, acceptInstructorInvite, registerInstructor, forgotInstructorPassword, resetInstructorPassword, InstructorAuthApiError, isInstructorMfaChallenge, sendInstructorMfaEmailCode, verifyInstructorMfa } from "@/stores/useAuthStore";
+import { loginInstructor, fetchInstructorMe, logoutInstructor, verifyInstructorInvite, acceptInstructorInvite, registerInstructor, forgotInstructorPassword, resetInstructorPassword, InstructorAuthApiError, isInstructorMfaChallenge, sendInstructorMfaEmailCode, verifyInstructorMfa, fetchInstructorPasskeyLoginOptions } from "@/stores/useAuthStore";
 import type { APIInstructorCategory, InstructorInviteVerifyResponse, InstructorTrainingAssignment, InstructorRegisterPayload, InstructorMfaVerifyPayload, APIInstructorMfaEmailResend, APIInstructorMfaChallenge } from "@/data/auth";
 
 export interface InstructorAuthUser {
@@ -137,6 +137,11 @@ export function useInstructorAuth() {
     await completeSession();
   }, []);
 
+  const getPasskeyLoginOptions = useCallback(
+    (challengeToken: string) => fetchInstructorPasskeyLoginOptions(challengeToken),
+    []
+  );
+
   const sendMfaEmailCode = useCallback(
     (challengeToken: string): Promise<APIInstructorMfaEmailResend> => sendInstructorMfaEmailCode(challengeToken),
     []
@@ -203,6 +208,7 @@ export function useInstructorAuth() {
     forgotPassword,
     resetPassword,
     verifyMfa,
+    getPasskeyLoginOptions,
     sendMfaEmailCode,
   };
 }
