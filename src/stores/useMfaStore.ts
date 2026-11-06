@@ -82,7 +82,7 @@ export const confirmInstructorMfaTotp = (payload: InstructorMfaTotpConfirmPayloa
   });
 
 export const deleteInstructorMfaMethod = (payload: InstructorMfaDeleteMethodPayload) =>
-  mfaRequest<APIInstructorMfaStatus>(`/methods/${payload.id}`, "Impossible de supprimer cette méthode.", {
+  mfaRequest<APIInstructorMfaStatus>(`/totp/${payload.id}`, "Impossible de supprimer cette méthode.", {
     method: "DELETE",
     body: buildForm({ password: payload.password }),
   });
