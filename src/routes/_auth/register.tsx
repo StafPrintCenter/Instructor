@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { PasswordRequirements } from "@/components/site/PasswordRequirements";
+import { getPasswordPolicyError } from "@/lib/password-policy";
 import { SITE } from "@/data/site";
 
 export const Route = createFileRoute("/_auth/register")({
@@ -63,8 +65,9 @@ function RegisterPage() {
     e.preventDefault();
     setError("");
 
-    if (password.length < 8) {
-      setError("Le mot de passe doit contenir au moins 8 caractères.");
+    const passwordError = getPasswordPolicyError(password);
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
     if (password !== confirmPassword) {
@@ -177,6 +180,7 @@ function RegisterPage() {
             {showPassword ? <EyeOff className="h-4 w-4 cursor-pointer" /> : <Eye className="h-4 w-4 cursor-pointer" />}
           </button>
         </div>
+        <PasswordRequirements value={password} />
       </div>
 
       <div className="space-y-2">
