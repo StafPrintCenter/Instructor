@@ -20,6 +20,7 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as InstructorDashboardRouteImport } from './routes/_instructor/dashboard'
+import { Route as InstructorHealthRouteImport } from './routes/_instructor/health'
 import { Route as InstructorProfileRouteImport } from './routes/_instructor/profile'
 import { Route as InstructorSubmissionsRouteImport } from './routes/_instructor/submissions'
 import { Route as InstructorCorrectionsIndexRouteImport } from './routes/_instructor/corrections/index'
@@ -95,6 +96,11 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
 const InstructorDashboardRoute = InstructorDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => InstructorRoute,
+} as any)
+const InstructorHealthRoute = InstructorHealthRouteImport.update({
+  id: '/health',
+  path: '/health',
   getParentRoute: () => InstructorRoute,
 } as any)
 const InstructorProfileRoute = InstructorProfileRouteImport.update({
@@ -239,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
+  '/health': typeof InstructorHealthRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByTo {
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/dashboard': typeof InstructorDashboardRoute
+  '/health': typeof InstructorHealthRoute
   '/profile': typeof InstructorProfileRoute
   '/submissions': typeof InstructorSubmissionsRoute
   '/corrections/$id': typeof InstructorCorrectionsIdRoute
@@ -310,6 +318,7 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_instructor/dashboard': typeof InstructorDashboardRoute
+  '/_instructor/health': typeof InstructorHealthRoute
   '/_instructor/profile': typeof InstructorProfileRoute
   '/_instructor/submissions': typeof InstructorSubmissionsRoute
   '/_instructor/corrections/$id': typeof InstructorCorrectionsIdRoute
@@ -346,6 +355,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/health'
     | '/profile'
     | '/submissions'
     | '/corrections/$id'
@@ -380,6 +390,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/dashboard'
+    | '/health'
     | '/profile'
     | '/submissions'
     | '/corrections/$id'
@@ -416,6 +427,7 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_auth/reset-password'
     | '/_instructor/dashboard'
+    | '/_instructor/health'
     | '/_instructor/profile'
     | '/_instructor/submissions'
     | '/_instructor/corrections/$id'
@@ -526,6 +538,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof InstructorDashboardRouteImport
+      parentRoute: typeof InstructorRoute
+    }
+    '/_instructor/health': {
+      id: '/_instructor/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof InstructorHealthRouteImport
       parentRoute: typeof InstructorRoute
     }
     '/_instructor/profile': {
@@ -712,6 +731,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface InstructorRouteChildren {
   InstructorDashboardRoute: typeof InstructorDashboardRoute
+  InstructorHealthRoute: typeof InstructorHealthRoute
   InstructorProfileRoute: typeof InstructorProfileRoute
   InstructorSubmissionsRoute: typeof InstructorSubmissionsRoute
   InstructorCorrectionsIdRoute: typeof InstructorCorrectionsIdRoute
@@ -739,6 +759,7 @@ interface InstructorRouteChildren {
 
 const InstructorRouteChildren: InstructorRouteChildren = {
   InstructorDashboardRoute: InstructorDashboardRoute,
+  InstructorHealthRoute: InstructorHealthRoute,
   InstructorProfileRoute: InstructorProfileRoute,
   InstructorSubmissionsRoute: InstructorSubmissionsRoute,
   InstructorCorrectionsIdRoute: InstructorCorrectionsIdRoute,
