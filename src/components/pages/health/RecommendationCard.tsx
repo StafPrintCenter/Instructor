@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { AlertTriangle, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { resolveHealthTarget } from "./healthTargets";
+import { resolveHealthTarget } from "./Targets";
 import type { APIInstructorHealthRecommendation } from "@/data/profileHealth";
 
 interface HealthRecommendationCardProps {

@@ -1,5 +1,5 @@
 import { ScoreRing } from "./ScoreRing";
-import { HealthBreakdownBar } from "./HealthBreakdownBar";
+import { HealthBreakdownBar } from "./BreakdownBar";
 import type { APIInstructorHealth } from "@/data/profileHealth";
 
 export function HealthSummaryCard({ health }: { health: APIInstructorHealth }) {

@@ -8,6 +8,7 @@ import {
 
 const MAX_TOASTS = 3;
 const TOAST_DURATION_MS = 15000;
+const HEALTH_TOAST_POSITION = "bottom-right" as const;
 const shown = new Set<string>(); // userId:recommendationId
 
 export function useHealthToasts() {
@@ -29,6 +30,8 @@ export function useHealthToasts() {
         id: `health-${rec.id}`,
         description: rec.message,
         duration: TOAST_DURATION_MS,
+        position: HEALTH_TOAST_POSITION,
+        closeButton: false, // le bouton « Fermer » joue ce rôle
         cancel: { label: "Fermer", onClick: () => { } },
         action: {
           label: "Masquer",
@@ -36,8 +39,11 @@ export function useHealthToasts() {
             dismiss(
               { id: rec.id },
               {
-                onSuccess: (res) => toast.success(`Recommandation masquée pour ${res.snoozeDays} jours`),
-                onError: (e) => toast.error(e.message),
+                onSuccess: (res) =>
+                  toast.success(`Recommandation masquée pour ${res.snoozeDays} jours`, {
+                    position: HEALTH_TOAST_POSITION,
+                  }),
+                onError: (e) => toast.error(e.message, { position: HEALTH_TOAST_POSITION }),
               }
             ),
         },
