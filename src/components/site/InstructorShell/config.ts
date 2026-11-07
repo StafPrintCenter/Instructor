@@ -1,4 +1,4 @@
-import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, Users2, Bell, Send, UserCircle, Shield, MonitorSmartphone } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, ClipboardCheck, CalendarDays, Users2, Bell, Send, UserCircle, Shield, MonitorSmartphone, HeartPulse } from "lucide-react";
 import { SITE_LINK } from "@/data/site";
 
 export const docsUrl = `${SITE_LINK.docsUrl}/docs/instructor/index`;
@@ -47,6 +47,7 @@ export const navItemClass =
 // Liens du dropdown utilisateur
 export const USER_DROPDOWN_ITEMS = [
   { to: "/profile", label: "Mon profil", icon: UserCircle },
+  { to: "/health", label: "Santé du compte", icon: HeartPulse },
   { to: "/notifications", label: "Notifications", icon: Bell },
   { to: "/security/mfa", label: "Double Authentification", icon: Shield },
   { to: "/security/sessions", label: "Sessions actives", icon: MonitorSmartphone },
