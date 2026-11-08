@@ -1,5 +1,5 @@
 export { AuthShell } from "./AuthShell";
-export * from "./LegalDocShell";
+export * from "./CguShell";
 export { FilePreviewModal } from "./FilePreviewModal";
 export * from "./InstructorBits";
 export { SocialLinks } from "./SocialLinks";
