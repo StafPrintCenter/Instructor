@@ -1,8 +1,8 @@
-export { InstructorSidebarContent } from "./SidebarContent";
+export { SpaceSidebarContent } from "./SidebarContent";
 export { SpaceHeader } from "./Header";
 export { SpaceHeaderBrand } from "./HeaderBrand";
-export { InstructorSidebarFooter } from "./SidebarFooter";
-export { InstructorSidebarNav } from "./SidebarNav";
+export { SpaceSidebarFooter } from "./SidebarFooter";
+export { SpaceSidebarNav } from "./SidebarNav";
 export { SpaceUserDropdown } from "./UserDropdown";
 export { docsUrl, NAV_GROUPS, navItemClass, USER_DROPDOWN_ITEMS } from "./config";
 export type { NavGroup, NavItem } from "./config";
