@@ -6,3 +6,4 @@ export { SpaceSidebarNav } from "./SidebarNav";
 export { SpaceUserDropdown } from "./UserDropdown";
 export { docsUrl, NAV_GROUPS, navItemClass, USER_DROPDOWN_ITEMS } from "./config";
 export type { NavGroup, NavItem } from "./config";
+export { InstructorShell } from "./Shell";
