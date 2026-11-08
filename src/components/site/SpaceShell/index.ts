@@ -1,6 +1,6 @@
 export { InstructorSidebarContent } from "./SidebarContent";
 export { SpaceHeader } from "./Header";
-export { InstructorHeaderBrand } from "./HeaderBrand";
+export { SpaceHeaderBrand } from "./HeaderBrand";
 export { InstructorSidebarFooter } from "./SidebarFooter";
 export { InstructorSidebarNav } from "./SidebarNav";
 export { SpaceUserDropdown } from "./UserDropdown";
