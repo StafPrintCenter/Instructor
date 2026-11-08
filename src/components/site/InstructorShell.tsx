@@ -4,7 +4,7 @@ import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { InstructorSidebarContent, SpaceHeader } from "./SpaceShell/index";
+import { SpaceSidebarContent, SpaceHeader } from "./SpaceShell/index";
 
 export function InstructorShell({ children }: { children?: React.ReactNode }) {
   const { user, ready, isAuthenticated, logout } = useInstructorAuth();
@@ -28,7 +28,7 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <InstructorSidebarContent
+      <SpaceSidebarContent
         user={user}
         pathname={pathname}
         onDisconnectClick={() => setConfirmDisconnectOpen(true)}
