@@ -3,7 +3,7 @@ import { BookOpen, FileText, UserCircle, LogOut } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SidebarFooter, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { SocialLinks } from "@/components/site/SocialLinks";
-import { docsUrl, navItemClass } from "../InstructorShell/config";
+import { docsUrl, navItemClass } from "./config";
 
 export function InstructorSidebarFooter({
   user,
