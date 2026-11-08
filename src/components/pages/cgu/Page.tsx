@@ -1,7 +1,6 @@
 import { LegalArticleSection, LegalDocShell, LegalKeyPoints } from "@/components/site";
 import { SITE } from "@/data/site";
-import { AcceptanceSection } from "./Acceptance";
-import { ContentSection } from "./Content";
+import { AcceptanceSection, ContentSection } from "./";
 
 const VERSION = "1.0";
 const UPDATED_AT = "31 octobre 2026";
