@@ -2,5 +2,5 @@ export { AuthShell } from "./AuthShell";
 export { FilePreviewModal } from "./FilePreviewModal";
 export * from "./InstructorBits";
 export { SocialLinks } from "./SocialLinks";
-export { InstructorShell } from "./SpaceShell/Shell";
+export { SpaceShell } from "./SpaceShell";
 export { PaginationBar } from "./PaginationBar";
