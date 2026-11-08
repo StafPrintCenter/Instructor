@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { LegalDocFooter, LegalDocHeader, LegalDocSommaire, type LegalMeta, type LegalSection } from "./";
 
 /** Contractual document page: sticky summary rail + numbered articles. */
-export function LegalDocShell({
+export function CguShell({
   eyebrow,
   title,
   description,

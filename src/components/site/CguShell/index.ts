@@ -1,4 +1,4 @@
-export { LegalDocShell, LegalKeyPoints } from "./Shell";
+export { CguShell, LegalKeyPoints } from "./Shell";
 export { LegalArticleSection } from "./Section";
 export { LegalDocHeader } from "./Header";
 export { LegalDocFooter } from "./Footer";

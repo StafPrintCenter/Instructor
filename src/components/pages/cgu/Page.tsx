@@ -1,4 +1,4 @@
-import { LegalArticleSection, LegalDocShell, LegalKeyPoints } from "@/components/site";
+import { LegalArticleSection, CguShell, LegalKeyPoints } from "@/components/site";
 import { SITE } from "@/data/site";
 import { AcceptanceSection, ContentSection } from "./";
 
@@ -7,7 +7,7 @@ const UPDATED_AT = "31 octobre 2026";
 
 export function CharterPage() {
   return (
-    <LegalDocShell
+    <CguShell
       eyebrow={`Document contractuel - ${SITE.tool}`}
       title="Charte d'engagement et Conditions Générales d'Utilisation"
       description={`Ce document fixe les règles d'intervention des formateurs sur ${SITE.tool} de ${SITE.name} : périmètre de chacun, droits sur les contenus, protection des apprenants, exigences de correction, usage de l'assistant IA et suites en cas de manquement. La création ou la poursuite d'un compte formateur vaut acceptation de ces règles.`}
@@ -26,6 +26,6 @@ export function CharterPage() {
       ))}
 
       <AcceptanceSection />
-    </LegalDocShell>
+    </CguShell>
   );
 }
