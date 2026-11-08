@@ -4,7 +4,7 @@ import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { SpaceSidebarContent, SpaceHeader } from "./SpaceShell/index";
+import { SpaceSidebarContent, SpaceHeader } from "./";
 
 export function InstructorShell({ children }: { children?: React.ReactNode }) {
   const { user, ready, isAuthenticated, logout } = useInstructorAuth();
