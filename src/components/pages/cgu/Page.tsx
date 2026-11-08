@@ -1,7 +1,7 @@
 import { LegalArticleSection, LegalDocShell, LegalKeyPoints } from "@/components/site";
 import { SITE } from "@/data/site";
 import { AcceptanceSection } from "./Acceptance";
-import { LEGAL_SECTIONS } from "./Content";
+import { ContentSection } from "./Content";
 
 const VERSION = "1.0";
 const UPDATED_AT = "31 octobre 2026";
@@ -18,11 +18,11 @@ export function CharterPage() {
         { label: "Concerne", value: "Comptes formateurs actifs et demandeurs d'accès" },
         { label: "Lecture", value: "≈ 8 minutes" },
       ]}
-      sections={LEGAL_SECTIONS}
+      sections={ContentSection}
     >
-      <LegalKeyPoints items={LEGAL_SECTIONS.map((section) => ({ title: section.title, text: section.summary }))} />
+      <LegalKeyPoints items={ContentSection.map((section) => ({ title: section.title, text: section.summary }))} />
 
-      {LEGAL_SECTIONS.map((section, index) => (
+      {ContentSection.map((section, index) => (
         <LegalArticleSection key={section.id} section={section} index={index} />
       ))}
 
