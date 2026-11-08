@@ -4,7 +4,7 @@ import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { toast } from "sonner";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { InstructorSidebarContent, InstructorHeader } from "./SpaceShell/index";
+import { InstructorSidebarContent, SpaceHeader } from "./SpaceShell/index";
 
 export function InstructorShell({ children }: { children?: React.ReactNode }) {
   const { user, ready, isAuthenticated, logout } = useInstructorAuth();
@@ -35,7 +35,7 @@ export function InstructorShell({ children }: { children?: React.ReactNode }) {
       />
 
       <SidebarInset className="flex flex-col min-w-0 h-screen overflow-hidden">
-        <InstructorHeader
+        <SpaceHeader
           user={user}
           onDisconnectClick={() => setConfirmDisconnectOpen(true)}
         />

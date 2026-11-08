@@ -1,6 +1,6 @@
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { Sidebar, useSidebar } from "@/components/ui/sidebar";
-import { InstructorHeaderBrand, InstructorSidebarNav, InstructorSidebarFooter } from "./";
+import { SpaceHeaderBrand, InstructorSidebarNav, InstructorSidebarFooter } from "./";
 
 export function InstructorSidebarContent({
   user,
@@ -16,7 +16,7 @@ export function InstructorSidebarContent({
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
-      <InstructorHeaderBrand onNavClick={handleNavClick} />
+      <SpaceHeaderBrand onNavClick={handleNavClick} />
       <InstructorSidebarNav pathname={pathname} onNavClick={handleNavClick} />
       <InstructorSidebarFooter
         user={user}
