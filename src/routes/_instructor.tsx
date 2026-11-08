@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { createFileRoute, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { LogoLoader } from "@/components/site/Logo/Loader";
-import { InstructorShell } from "@/components/site/InstructorShell";
+import { SpaceShell } from "@/components/site";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 
 export const Route = createFileRoute("/_instructor")({
@@ -49,8 +49,8 @@ function InstructorLayout() {
   }
 
   return (
-    <InstructorShell>
+    <SpaceShell>
       <Outlet />
-    </InstructorShell>
+    </SpaceShell>
   );
 }
