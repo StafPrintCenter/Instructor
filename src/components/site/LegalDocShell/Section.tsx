@@ -1,6 +1,6 @@
 import type { LegalSection } from "./types";
 
-export function LegalArticle({ section, index }: { section: LegalSection; index: number }) {
+export function LegalArticleSection({ section, index }: { section: LegalSection; index: number }) {
   return (
     <section id={section.id} className="scroll-mt-24">
       <div className="flex items-start gap-4">

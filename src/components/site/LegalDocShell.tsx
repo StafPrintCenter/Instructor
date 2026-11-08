@@ -4,7 +4,7 @@ import { LegalDocHeader } from "./LegalDocShell/Header";
 import { LegalDocSommaire } from "./LegalDocShell/Sommaire";
 import type { LegalMeta, LegalSection } from "./LegalDocShell/types";
 
-export { LegalArticle } from "./LegalDocShell/Section";
+export { LegalArticleSection } from "./LegalDocShell/Section";
 export type { LegalClause, LegalMeta, LegalSection } from "./LegalDocShell/types";
 
 /** Contractual document page: sticky summary rail + numbered articles. */

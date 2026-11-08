@@ -1,4 +1,4 @@
-import { LegalArticle, LegalDocShell, LegalKeyPoints } from "@/components/site/LegalDocShell";
+import { LegalArticleSection, LegalDocShell, LegalKeyPoints } from "@/components/site/LegalDocShell";
 import { SITE } from "@/data/site";
 import { AcceptanceSection } from "./AcceptanceSection";
 import { LEGAL_SECTIONS } from "./LegalSections";
@@ -23,7 +23,7 @@ export function CharterPage() {
       <LegalKeyPoints items={LEGAL_SECTIONS.map((section) => ({ title: section.title, text: section.summary }))} />
 
       {LEGAL_SECTIONS.map((section, index) => (
-        <LegalArticle key={section.id} section={section} index={index} />
+        <LegalArticleSection key={section.id} section={section} index={index} />
       ))}
 
       <AcceptanceSection />
