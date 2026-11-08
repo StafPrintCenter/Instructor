@@ -2,9 +2,8 @@ import { BookOpen } from "lucide-react";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { NotificationBell } from "@/components/pages/notifications/shared";
-import { docsUrl } from "./config";
 import { useHealthToasts } from "@/components/pages/health/useHealthToasts";
-import { InstructorUserDropdown } from "./UserDropdown";
+import { docsUrl, InstructorUserDropdown } from "./";
 
 export function InstructorHeader({
   user,

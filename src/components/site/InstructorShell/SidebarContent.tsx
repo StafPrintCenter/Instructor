@@ -1,8 +1,6 @@
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { Sidebar, useSidebar } from "@/components/ui/sidebar";
-import { InstructorHeaderBrand } from "./HeaderBrand";
-import { InstructorSidebarNav } from "./SidebarNav";
-import { InstructorSidebarFooter } from "./SidebarFooter";
+import { InstructorHeaderBrand, InstructorSidebarNav, InstructorSidebarFooter } from "./";
 
 export function InstructorSidebarContent({
   user,
