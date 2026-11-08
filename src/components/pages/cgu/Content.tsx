@@ -1,7 +1,7 @@
 import { SITE } from "@/data/site";
 import type { LegalSection } from "@/components/site";
 
-export const LEGAL_SECTIONS: LegalSection[] = [
+export const ContentSection: LegalSection[] = [
   {
     id: "statut",
     title: "Statut et gouvernance",
