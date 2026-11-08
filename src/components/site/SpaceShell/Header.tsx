@@ -3,9 +3,9 @@ import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { NotificationBell } from "@/components/pages/notifications/shared";
 import { useHealthToasts } from "@/components/pages/health/useHealthToasts";
-import { docsUrl, InstructorUserDropdown } from "./";
+import { docsUrl, SpaceUserDropdown } from "./";
 
-export function InstructorHeader({
+export function SpaceHeader({
   user,
   onDisconnectClick,
 }: {
@@ -31,7 +31,7 @@ export function InstructorHeader({
           <span className="hidden sm:inline">Documentation</span>
         </a>
 
-        <InstructorUserDropdown user={user} onDisconnectClick={onDisconnectClick} />
+        <SpaceUserDropdown user={user} onDisconnectClick={onDisconnectClick} />
       </div>
     </header>
   );

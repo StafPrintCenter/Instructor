@@ -5,13 +5,13 @@ import { ScoreRing } from "@/components/pages/health/ScoreRing";
 import { useInstructorProfileHealth } from "@/stores/useProfileHealthStore";
 import { USER_DROPDOWN_ITEMS } from "./config";
 
-type InstructorDropdownProps = {
+type SpaceDropdownProps = {
   user: { name?: string | null; email?: string | null } | null;
   onDisconnectClick: () => void;
   defaultRoleName?: string;
 };
 
-export function InstructorUserDropdown({ user, onDisconnectClick, defaultRoleName = "Instructeur" }: InstructorDropdownProps) {
+export function SpaceUserDropdown({ user, onDisconnectClick, defaultRoleName = "Instructeur" }: SpaceDropdownProps) {
   const displayName = user?.name && user.name !== "undefined undefined" ? user.name : defaultRoleName;
   const { health } = useInstructorProfileHealth();
 
