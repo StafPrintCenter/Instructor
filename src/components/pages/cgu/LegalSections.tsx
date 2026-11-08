@@ -1,5 +1,5 @@
 import { SITE } from "@/data/site";
-import type { LegalSection } from "@/components/site/LegalDocShell";
+import type { LegalSection } from "@/components/site";
 
 export const LEGAL_SECTIONS: LegalSection[] = [
   {

@@ -1,4 +1,4 @@
-import { LegalArticleSection, LegalDocShell, LegalKeyPoints } from "@/components/site/LegalDocShell";
+import { LegalArticleSection, LegalDocShell, LegalKeyPoints } from "@/components/site";
 import { SITE } from "@/data/site";
 import { AcceptanceSection } from "./AcceptanceSection";
 import { LEGAL_SECTIONS } from "./LegalSections";
