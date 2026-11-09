@@ -7,7 +7,7 @@ interface HealthToastBodyProps {
 }
 
 const BUTTON_BASE =
-  "inline-flex h-7 items-center rounded-md px-2.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "inline-flex h-7 cursor-pointer items-center rounded-md px-2.5 text-xs font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 /** Message puis rangée de boutons en dessous : « Masquer » d'abord, l'action ensuite */
 export function HealthToastBody({ message, dismissLabel = "Masquer", onDismiss, actionLabel, onAction }: HealthToastBodyProps) {

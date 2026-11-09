@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { createElement, useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
@@ -7,6 +7,7 @@ import {
   useDismissInstructorHealthRecommendation,
 } from "@/stores/useProfileHealthStore";
 import { resolveHealthTarget } from "./Targets";
+import { HealthToastBody } from "./ToastBody";
 
 const MAX_TOASTS = 2;
 const TOAST_DURATION_MS = 15000;
@@ -32,19 +33,19 @@ export function useHealthToasts() {
       if (shown.has(key)) return;
       shown.add(key);
 
+      const toastId = `health-${rec.id}`;
       const route = resolveHealthTarget(rec.action.target);
       const show = rec.level === "warning" ? toast.warning : toast.info;
 
       show(rec.title, {
-        id: `health-${rec.id}`,
-        description: rec.message,
+        id: toastId,
         duration: TOAST_DURATION_MS,
         position: HEALTH_TOAST_POSITION,
         closeButton: true,
-        // 1er bouton : Masquer
-        cancel: {
-          label: "Masquer",
-          onClick: () =>
+        description: createElement(HealthToastBody, {
+          message: rec.message,
+          onDismiss: () => {
+            toast.dismiss(toastId);
             dismiss(
               { id: rec.id },
               {
@@ -54,13 +55,16 @@ export function useHealthToasts() {
                   }),
                 onError: (e) => toast.error(e.message, { position: HEALTH_TOAST_POSITION }),
               }
-            ),
-        },
-        // 2e bouton : l'action de la recommandation
-        action: route ? {
-          label: rec.action.label,
-          onClick: () => goTo(route)
-        } : undefined,
+            );
+          },
+          actionLabel: route ? rec.action.label : undefined,
+          onAction: route
+            ? () => {
+              toast.dismiss(toastId);
+              goTo(route);
+            }
+            : undefined,
+        }),
       });
     });
 
@@ -73,11 +77,17 @@ export function useHealthToasts() {
       const remaining = recommendations.length - MAX_TOASTS;
       toast.info(`${remaining} autre${remaining > 1 ? "s" : ""} recommandation${remaining > 1 ? "s" : ""}`, {
         id: "health-more",
-        description: "Consultez-les toutes pour améliorer la santé de votre compte.",
         duration: TOAST_DURATION_MS,
         position: HEALTH_TOAST_POSITION,
         closeButton: true,
-        action: { label: "Voir tout", onClick: () => goTo(HEALTH_PAGE) },
+        description: createElement(HealthToastBody, {
+          message: "Consultez-les toutes pour améliorer la santé de votre compte.",
+          actionLabel: "Voir tout",
+          onAction: () => {
+            toast.dismiss("health-more");
+            goTo(HEALTH_PAGE);
+          },
+        }),
       });
     }
   }, [recommendations, userId, dismiss, navigate]);
