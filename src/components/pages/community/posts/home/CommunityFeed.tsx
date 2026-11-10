@@ -4,7 +4,7 @@ import { PostFormDialog, PostsListItem, PostFilters, usePostFilters } from "../c
 import type { APICommunityPostListItem } from "@/data/community";
 
 /** Filtres + liste des publications + dialogs de modification et de suppression */
-export function CommunityFeed() {
+export function CommunityFeed({ onTotalChange }: { onTotalChange?: (total: number | null) => void }) {
   const f = usePostFilters();
 
   const [editId, setEditId] = useState<string | null>(null);
@@ -20,6 +20,7 @@ export function CommunityFeed() {
         onPageChange={f.setPage}
         onEdit={(post) => setEditId(post.id)}
         onDelete={setToDelete}
+        onTotalChange={onTotalChange}
       />
 
       <PostFormDialog open={!!editId} postId={editId} onClose={() => setEditId(null)} />

@@ -36,10 +36,15 @@ interface PostsListProps {
   onPageChange: (page: number) => void;
   onEdit: (post: APICommunityPostListItem) => void;
   onDelete: (post: APICommunityPostListItem) => void;
+  onTotalChange?: (total: number | null) => void;
 }
 
-export function PostsListItem({ params, hasActiveFilters, onPageChange, onEdit, onDelete }: PostsListProps) {
+export function PostsListItem({ params, hasActiveFilters, onPageChange, onEdit, onDelete, onTotalChange }: PostsListProps) {
   const { items, meta, isLoading, isFetching, isError, refetch } = useCommunityPostsList(params);
+
+  useEffect(() => {
+    onTotalChange?.(meta?.total ?? null);
+  }, [meta?.total, onTotalChange]);
 
   // Si la page courante n'existe plus (liste réduite après une suppression), on recule à la dernière page
   useEffect(() => {
