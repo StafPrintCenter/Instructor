@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveStorageUrl } from "@/lib/api/file";
 import { cn } from "@/lib/utils";
-import { getInitials } from "./InstructorUtils";
+import { initials } from "@/components/site/UserAvatar";
 
 const SIZES = {
   sm: { avatar: "size-6", fallback: "text-[10px]" },
@@ -23,7 +23,7 @@ export function InstructorAvatar({ name, photo, size = "md", className }: Instru
     <Avatar className={cn("border border-border", SIZES[size].avatar, className)}>
       {src ? <AvatarImage src={src} alt={name} /> : null}
       <AvatarFallback className={cn("bg-primary/10 font-semibold text-primary", SIZES[size].fallback)}>
-        {getInitials(name)}
+        {initials(name)}
       </AvatarFallback>
     </Avatar>
   );

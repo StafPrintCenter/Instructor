@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SessionResponseBadge } from "@/components/shared";
 import type { APIInstructorSessionDetail } from "@/data/sessions";
 import { formatSessionShortDateTime } from "@/lib/session-time";
+import { initials } from "@/components/site/UserAvatar";
 
 function ParticipationBar({ confirmed, declined, waiting }: { confirmed: number; declined: number; waiting: number }) {
   const invited = confirmed + declined + waiting;
@@ -38,17 +39,10 @@ function ResponseChip({
   trainingId: string;
   response: APIInstructorSessionDetail["responses"][number];
 }) {
-  const initials = response.studentName
-    .split(" ")
-    .map((p) => p[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-
   return (
     <div className="flex items-center gap-3 rounded-xl border border-border/60 p-3">
       <Avatar className="size-9 border border-border">
-        <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">{initials || "AP"}</AvatarFallback>
+        <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">{initials(response.studentName)}</AvatarFallback>
       </Avatar>
       <div className="min-w-0 flex-1">
         <Link

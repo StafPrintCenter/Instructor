@@ -11,6 +11,7 @@ import { AttendanceMarkDialog } from "@/components/pages/trainings/shared";
 import { formatDate } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
 import { getPaymentStatusBadgeClass, getPaymentStatusLabel, type APIInstructorTrainingOverview, type PaymentStatus } from "@/data/trainings";
+import { initials } from "@/components/site/UserAvatar";
 
 function PaymentBadge({ status }: { status: PaymentStatus | string | null | undefined }) {
   return (
@@ -60,7 +61,6 @@ export function TrainingStudentsTable({ trainingId, students, mainColor }: Train
                 </TableHeader>
                 <TableBody>
                   {students.data.map((student) => {
-                    const initials = `${student.firstName?.[0] ?? ""}${student.lastName?.[0] ?? ""}`.toUpperCase();
                     const fullName = `${student.firstName ?? ""} ${student.lastName ?? ""}`.trim() || "Apprenant";
 
                     return (
@@ -69,7 +69,7 @@ export function TrainingStudentsTable({ trainingId, students, mainColor }: Train
                           <div className="flex items-center gap-3">
                             <Avatar className="size-9 border border-border">
                               <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
-                                {initials || "AP"}
+                                {initials(fullName)}
                               </AvatarFallback>
                             </Avatar>
                             <div className="space-y-0.5">

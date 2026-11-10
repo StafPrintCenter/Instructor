@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { useUpdateInstructorProfile } from "@/stores/useAccountStore";
+import { initials } from "@/components/site/UserAvatar";
 import { ProfilePhotoField } from "./ProfilePhotoField";
 
 const MAX_PHOTO_BYTES = 2 * 1024 * 1024; // à aligner sur la règle de validation du backend
@@ -46,7 +47,7 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
     setErrors({});
   }, [open, user]);
 
-  const initials = `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase() || "F";
+  const photoInitials = initials(`${firstName} ${lastName}`.trim() || "Formateur");
 
   const submit = () => {
     const parsed = schema.safeParse({ firstName, lastName, bio });
@@ -82,7 +83,7 @@ export function ProfileEditDialog({ open, onOpenChange }: ProfileEditDialogProps
         <div className="space-y-4">
           <ProfilePhotoField
             currentPhoto={user?.photo ?? null}
-            initials={initials}
+            initials={photoInitials}
             file={photo}
             removed={removePhoto}
             onFileChange={setPhoto}

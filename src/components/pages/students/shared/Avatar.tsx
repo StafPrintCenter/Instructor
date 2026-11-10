@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { resolveStorageUrl } from "@/lib/api/file";
 import { cn } from "@/lib/utils";
+import { initials } from "@/components/site/UserAvatar";
 
 const SIZES = {
   md: { avatar: "size-10", fallback: "text-xs" },
@@ -16,7 +17,6 @@ interface StudentAvatarProps {
 }
 
 export function StudentAvatar({ firstName, lastName, name, photo, size = "md" }: StudentAvatarProps) {
-  const initials = `${firstName?.[0] ?? ""}${lastName?.[0] ?? ""}`.toUpperCase();
   const src = resolveStorageUrl(photo);
 
   return (
@@ -28,7 +28,7 @@ export function StudentAvatar({ firstName, lastName, name, photo, size = "md" }:
       <AvatarFallback
         className={
           cn("bg-primary/10 font-semibold text-primary", SIZES[size].fallback)}>
-        {initials || "AP"}
+        {initials(`${firstName} ${lastName}`.trim() || name)}
       </AvatarFallback>
     </Avatar>
   );
