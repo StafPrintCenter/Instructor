@@ -10,6 +10,10 @@ export const communityPostTypeLabels: Record<CommunityPostType, string> = {
 
 /** App\Enums\CommunityContentStatus */
 export type CommunityContentStatus = "published" | "hidden";
+export const communityContentStatusLabels: Record<CommunityContentStatus, string> = {
+  published: "Publiées",
+  hidden: "Masquées",
+};
 
 export type CommunityAuthorRole = "admin" | "instructor" | "student";
 export const COMMUNITY_AUTHOR_ROLES: CommunityAuthorRole[] = ["admin", "instructor", "student"];
