@@ -22,7 +22,7 @@ export function PostFilters({ filters, onChange, hasActiveFilters, onReset }: Po
   return (
     <Card className="border-border/70">
       <CardContent className="space-y-4 p-5">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-3">
           <div className="space-y-1.5 sm:col-span-2">
             <Label htmlFor="community-query">Recherche</Label>
             <div className="relative">
