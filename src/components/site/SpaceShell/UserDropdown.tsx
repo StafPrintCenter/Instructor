@@ -31,9 +31,12 @@ export function SpaceUserDropdown({ user, onDisconnectClick, defaultRoleName = "
         <button className="flex items-center gap-2 rounded-lg p-1.5 hover:bg-accent/30 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer">
           <div className="relative">
             <ScoreRing percent={health?.score ?? 0} level={health?.level} size={38} strokeWidth={3}>
-              <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                <UserCircle className="size-4" />
-              </div>
+              <Avatar className="size-7 border-2 border-card">
+                {photoUrl && <AvatarImage src={photoUrl} alt={displayName} />}
+                <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
+                  {initials}
+                </AvatarFallback>
+              </Avatar>
             </ScoreRing>
             {health && (
               <span className="absolute -bottom-1 -right-1 rounded-full border bg-card px-1 text-[9px] font-semibold leading-4 text-foreground">
