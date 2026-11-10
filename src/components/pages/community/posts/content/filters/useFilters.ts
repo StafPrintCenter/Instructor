@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
-import type { CommunityAuthorRole, CommunityPostFilters, CommunityPostSort, CommunityPostType } from "@/data/community";
+import type { CommunityAuthorRole, CommunityContentStatus, CommunityPostFilters, CommunityPostSort, CommunityPostType } from "@/data/community";
 
 export interface PostFiltersState {
   query: string;
@@ -9,6 +9,7 @@ export interface PostFiltersState {
   categoryId: string;
   type: CommunityPostType | "all";
   authorRole: CommunityAuthorRole | "all";
+  status: CommunityContentStatus | "all";
   mine: boolean;
   unanswered: boolean;
 }
@@ -20,6 +21,7 @@ export const DEFAULT_POST_FILTERS: PostFiltersState = {
   categoryId: "all",
   type: "all",
   authorRole: "all",
+  status: "all",
   mine: false,
   unanswered: false,
 };
@@ -42,6 +44,7 @@ export function usePostFilters() {
       categoryId: filters.categoryId === "all" ? undefined : filters.categoryId,
       type: filters.type === "all" ? undefined : filters.type,
       authorRole: filters.authorRole === "all" ? undefined : filters.authorRole,
+      status: filters.status === "all" ? undefined : filters.status,
       mine: filters.mine,
       unanswered: filters.unanswered,
       query: debouncedQuery || undefined,
@@ -64,6 +67,7 @@ export function usePostFilters() {
     filters.categoryId !== "all" ||
     filters.type !== "all" ||
     filters.authorRole !== "all" ||
+    filters.status !== "all" ||
     filters.mine ||
     filters.unanswered;
 

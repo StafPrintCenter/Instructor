@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useCommunityCategories } from "@/stores/useCommunityStore";
 import { useInstructorTrainingsList } from "@/stores/useTrainingsStore";
-import { FilterSelect, authorRoleOptions, buildAudienceOptions, buildCategoryOptions, sortOptions, typeOptions, PostFiltersState } from "./";
+import { FilterSelect, authorRoleOptions, buildAudienceOptions, buildCategoryOptions, sortOptions, statusOptions, typeOptions, PostFiltersState } from "./";
 
 interface PostFiltersProps {
   filters: PostFiltersState;
@@ -58,6 +58,12 @@ export function PostFilters({ filters, onChange, hasActiveFilters, onReset }: Po
             value={filters.authorRole}
             options={authorRoleOptions}
             onChange={(authorRole) => onChange({ authorRole })}
+          />
+          <FilterSelect
+            label="Statut"
+            value={filters.status}
+            options={statusOptions}
+            onChange={(status) => onChange({ status })}
           />
         </div>
 

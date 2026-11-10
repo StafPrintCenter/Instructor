@@ -1,4 +1,4 @@
-import { COMMUNITY_AUTHOR_ROLES, COMMUNITY_POST_SORTS, COMMUNITY_POST_TYPES, communityAuthorRoleLabels, communityPostSortLabels, communityPostTypeLabels, type APICommunityCategory, type CommunityAuthorRole, type CommunityPostSort, type CommunityPostType } from "@/data/community";
+import { COMMUNITY_AUTHOR_ROLES, COMMUNITY_POST_SORTS, COMMUNITY_POST_TYPES, communityAuthorRoleLabels, communityContentStatusLabels, communityPostSortLabels, communityPostTypeLabels, type APICommunityCategory, type CommunityAuthorRole, type CommunityContentStatus, type CommunityPostSort, type CommunityPostType } from "@/data/community";
 import type { FilterOption } from "./Select";
 
 export const sortOptions: FilterOption<CommunityPostSort>[] = COMMUNITY_POST_SORTS.map((s) => ({
@@ -14,6 +14,14 @@ export const typeOptions: FilterOption<CommunityPostType | "all">[] = [
 export const authorRoleOptions: FilterOption<CommunityAuthorRole | "all">[] = [
   { value: "all", label: "Tous les auteurs" },
   ...COMMUNITY_AUTHOR_ROLES.map((r) => ({ value: r, label: communityAuthorRoleLabels[r] })),
+];
+
+export const statusOptions: FilterOption<CommunityContentStatus | "all">[] = [
+  { value: "all", label: "Tous les statuts" },
+  ...(["published", "hidden"] as CommunityContentStatus[]).map((status) => ({
+    value: status,
+    label: communityContentStatusLabels[status],
+  })),
 ];
 
 /** « Espace » : toutes les publications, la communauté générale, les formations, ou une formation précise */
