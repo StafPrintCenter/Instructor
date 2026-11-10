@@ -5,3 +5,4 @@ export { FilePreviewModal } from "./FilePreviewModal";
 export * from "./InstructorBits";
 export { PaginationBar } from "./PaginationBar";
 export { SocialLinks } from "./SocialLinks";
+export { UserAvatar } from "./UserAvatar";
