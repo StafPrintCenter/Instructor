@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, XCircle, Clock, Pencil, X, Briefcase, Tags, Loader2 } from "lucide-react";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
+import { UserAvatar } from "@/components/site/UserAvatar";
 import { ProfileEditDialog } from "@/components/pages/profile/ProfileEditDialog";
 import { ChangeEmailDialog } from "@/components/pages/profile/ChangeEmailDialog";
 import { ChangePasswordCard } from "@/components/pages/security/ChangePasswordCard";
@@ -95,13 +96,6 @@ function ProfilePage() {
 
   const userFullName =
     user?.name || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || "Formateur";
-  const userInitials = userFullName
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
   const photoUrl = resolveStorageUrl(user?.photo);
 
   return (
@@ -120,10 +114,20 @@ function ProfilePage() {
                     onClick={() => setPhotoPreviewUrl(photoUrl)}
                     aria-label={`Aperçu de la photo de profil de ${userFullName}`}
                   >
-                    <img src={photoUrl} alt={userFullName} className="h-full w-full object-cover" />
+                    <UserAvatar
+                      name={userFullName}
+                      photo={user?.photo}
+                      className="size-full rounded-2xl border-0 bg-primary"
+                      imageClassName="object-cover"
+                      fallbackClassName="rounded-2xl bg-primary font-display text-3xl font-bold text-primary-foreground"
+                    />
                   </button>
                 ) : (
-                  userInitials
+                  <UserAvatar
+                    name={userFullName}
+                    className="size-full rounded-2xl border-0 bg-primary"
+                    fallbackClassName="rounded-2xl bg-primary font-display text-3xl font-bold text-primary-foreground"
+                  />
                 )}
               </div>
               <div className="min-w-0 pb-1">
