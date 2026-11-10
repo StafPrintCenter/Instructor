@@ -15,6 +15,14 @@ type SpaceDropdownProps = {
 
 export function SpaceUserDropdown({ user, onDisconnectClick, defaultRoleName = "Instructeur" }: SpaceDropdownProps) {
   const displayName = user?.name && user.name !== "undefined undefined" ? user.name : defaultRoleName;
+  const initials = displayName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
+  const photoUrl = resolveStorageUrl(user?.photo);
   const { health } = useInstructorProfileHealth();
 
   return (
