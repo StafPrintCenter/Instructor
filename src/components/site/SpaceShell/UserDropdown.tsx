@@ -1,12 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { UserCircle, ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScoreRing } from "@/components/pages/health/ScoreRing";
 import { useInstructorProfileHealth } from "@/stores/useProfileHealthStore";
+import { resolveStorageUrl } from "@/lib/api/file";
 import { USER_DROPDOWN_ITEMS } from "./config";
 
 type SpaceDropdownProps = {
-  user: { name?: string | null; email?: string | null } | null;
+  user: { name?: string | null; email?: string | null; photo?: string | null } | null;
   onDisconnectClick: () => void;
   defaultRoleName?: string;
 };
