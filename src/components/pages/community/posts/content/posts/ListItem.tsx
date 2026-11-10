@@ -36,15 +36,10 @@ interface PostsListProps {
   onPageChange: (page: number) => void;
   onEdit: (post: APICommunityPostListItem) => void;
   onDelete: (post: APICommunityPostListItem) => void;
-  onTotalChange?: (total: number | null) => void;
 }
 
-export function PostsListItem({ params, hasActiveFilters, onPageChange, onEdit, onDelete, onTotalChange }: PostsListProps) {
+export function PostsListItem({ params, hasActiveFilters, onPageChange, onEdit, onDelete }: PostsListProps) {
   const { items, meta, isLoading, isFetching, isError, refetch } = useCommunityPostsList(params);
-
-  useEffect(() => {
-    onTotalChange?.(meta?.total ?? null);
-  }, [meta?.total, onTotalChange]);
 
   // Si la page courante n'existe plus (liste réduite après une suppression), on recule à la dernière page
   useEffect(() => {
@@ -54,28 +49,33 @@ export function PostsListItem({ params, hasActiveFilters, onPageChange, onEdit, 
   if (isLoading) return <PostsListSkeleton />;
   if (isError) return <PostsListError onRetry={() => refetch()} />;
 
-  if (items.length === 0) {
-    return (
-      <EmptyState
-        icon={<MessagesSquare className="size-6" />}
-        title="Aucune publication"
-        description={
-          hasActiveFilters
-            ? "Aucune publication ne correspond à ces filtres."
-            : "Lancez la première discussion avec le bouton « Nouvelle publication »."
-        }
-      />
-    );
-  }
-
   return (
-    <div className={cn("space-y-4 transition-opacity", isFetching && "opacity-60")}>
-      {items.map((post) => (
-        <PostCard key={post.id} post={post} onEdit={() => onEdit(post)} onDelete={() => onDelete(post)} />
-      ))}
-      {meta ? (
-        <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={onPageChange} />
-      ) : null}
-    </div>
+    <>
+      {meta && (
+        <p className="mb-4 text-xs text-muted-foreground">
+          {meta.total} publication{meta.total > 1 ? "s" : ""}
+        </p>
+      )}
+      {items.length === 0 ? (
+        <EmptyState
+          icon={<MessagesSquare className="size-6" />}
+          title="Aucune publication"
+          description={
+            hasActiveFilters
+              ? "Aucune publication ne correspond à ces filtres."
+              : "Lancez la première discussion avec le bouton « Nouvelle publication »."
+          }
+        />
+      ) : (
+        <div className={cn("space-y-4 transition-opacity", isFetching && "opacity-60")}>
+          {items.map((post) => (
+            <PostCard key={post.id} post={post} onEdit={() => onEdit(post)} onDelete={() => onDelete(post)} />
+          ))}
+          {meta ? (
+            <PaginationBar page={meta.currentPage} lastPage={meta.lastPage} total={meta.total} onPageChange={onPageChange} />
+          ) : null}
+        </div>
+      )}
+    </>
   );
 }
