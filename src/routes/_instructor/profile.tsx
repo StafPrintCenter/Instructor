@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, XCircle, Clock, Pencil, X, Briefcase, Tags, Loader2 } from "lucide-react";
 import { ConfirmDisconnect } from "@/components/site/InstructorBits";
+import { FilePreviewModal } from "@/components/site/FilePreviewModal";
 import { ProfileEditDialog } from "@/components/pages/profile/ProfileEditDialog";
 import { ChangeEmailDialog } from "@/components/pages/profile/ChangeEmailDialog";
 import { ChangePasswordCard } from "@/components/pages/security/ChangePasswordCard";
@@ -13,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { SITE } from "@/data/site";
+import { resolveStorageUrl } from "@/lib/api/file";
 
 export const Route = createFileRoute("/_instructor/profile")({
   head: () => ({
@@ -36,6 +38,7 @@ function ProfilePage() {
   const [confirmDisconnectOpen, setConfirmDisconnectOpen] = useState(false);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [changeEmailOpen, setChangeEmailOpen] = useState(false);
+  const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(null);
 
   // Catégories préférées
   const {
@@ -99,6 +102,7 @@ function ProfilePage() {
     .map((part) => part[0])
     .join("")
     .toUpperCase();
+  const photoUrl = resolveStorageUrl(user?.photo);
 
   return (
     <>
@@ -109,8 +113,15 @@ function ProfilePage() {
           <div className="-mt-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex items-end gap-4">
               <div className="grid h-24 w-24 shrink-0 place-items-center overflow-hidden rounded-2xl border-4 border-card bg-primary font-display text-3xl font-bold text-primary-foreground shadow-sm">
-                {user?.photo ? (
-                  <img src={user.photo} alt={userFullName} className="h-full w-full object-cover" />
+                {photoUrl ? (
+                  <button
+                    type="button"
+                    className="h-full w-full cursor-zoom-in"
+                    onClick={() => setPhotoPreviewUrl(photoUrl)}
+                    aria-label={`Aperçu de la photo de profil de ${userFullName}`}
+                  >
+                    <img src={photoUrl} alt={userFullName} className="h-full w-full object-cover" />
+                  </button>
                 ) : (
                   userInitials
                 )}
@@ -374,6 +385,12 @@ function ProfilePage() {
 
       <ProfileEditDialog open={editProfileOpen} onOpenChange={setEditProfileOpen} />
       <ChangeEmailDialog open={changeEmailOpen} onOpenChange={setChangeEmailOpen} />
+      <FilePreviewModal
+        url={photoPreviewUrl}
+        title={`Photo de profil - ${userFullName}`}
+        mimeType="image/*"
+        onClose={() => setPhotoPreviewUrl(null)}
+      />
 
       <ConfirmDisconnect
         open={confirmDisconnectOpen}

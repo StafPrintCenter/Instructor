@@ -4,9 +4,10 @@ interface FilePreviewModalProps {
   url: string | null;
   title: string;
   onClose: () => void;
+  mimeType?: string;
 }
 
-export function FilePreviewModal({ url, title, onClose }: FilePreviewModalProps) {
+export function FilePreviewModal({ url, title, onClose, mimeType }: FilePreviewModalProps) {
   if (!url) return null;
 
   const absoluteUrl = typeof window !== "undefined" ? window.location.origin + url : url;
@@ -15,10 +16,11 @@ export function FilePreviewModal({ url, title, onClose }: FilePreviewModalProps)
     window.location.hostname === "127.0.0.1"
   );
 
-  const extension = url.split(".").pop()?.toLowerCase() || "";
+  const extension = url.split(/[?#]/, 1)[0].split(".").pop()?.toLowerCase() || "";
 
   const isPdf = extension === "pdf";
-  const isImage = ["jpg", "jpeg", "png", "webp", "gif"].includes(extension);
+  const isImage =
+    mimeType?.startsWith("image/") || ["jpg", "jpeg", "png", "webp", "gif"].includes(extension);
   const isDocx = ["doc", "docx", "xls", "xlsx", "ppt", "pptx"].includes(extension);
 
   // Visionneuse Google pour les fichiers Office
