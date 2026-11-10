@@ -20,7 +20,7 @@ export function ReactionSummary({ reactions, total, onClick }: ReactionSummaryPr
       type="button"
       onClick={onClick}
       aria-label={`${total} réaction${total > 1 ? "s" : ""} : voir qui a réagi`}
-      className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      className="inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground cursor-pointer"
     >
       <span className="flex gap-0.5 text-sm">
         {top.map(([type]) => (
