@@ -56,7 +56,7 @@ export function AttachmentsInput({ files, onChange }: AttachmentsInputProps) {
       <div className="flex items-center justify-between">
         <Label>Pièces jointes (optionnel)</Label>
         <span className="text-[11px] text-muted-foreground">
-          {files.length}/{COMMUNITY_LIMITS.maxAttachments} · 5 Mo maximum chacune
+          {files.length}/{COMMUNITY_LIMITS.maxAttachments} · 1 Mo maximum chacune
         </span>
       </div>
 
