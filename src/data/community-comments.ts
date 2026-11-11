@@ -8,7 +8,7 @@ export const communityCommentSortLabels: Record<CommunityCommentSort, string> = 
   popular: "Plus populaires",
 };
 
-export const COMMUNITY_COMMENT_LIMITS = { bodyMin: 1, bodyMax: 5000 } as const;
+export const COMMUNITY_COMMENT_LIMITS = { bodyMin: 5, bodyMax: 300 } as const;
 
 /** Personne visée par une réponse (le fil reste à 2 niveaux : la réponse est rattachée au commentaire racine) */
 export interface APICommunityCommentReplyTo {
