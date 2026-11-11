@@ -38,12 +38,12 @@ export const communityPostSortLabels: Record<CommunityPostSort, string> = {
 
 export const COMMUNITY_LIMITS = {
   titleMin: 3,
-  titleMax: 200,
-  bodyMin: 3,
-  bodyMax: 10000,
+  titleMax: 80,
+  bodyMin: 20,
+  bodyMax: 1000,
   maxTags: 5,
-  maxAttachments: 4,
-  maxAttachmentBytes: 5 * 1024 * 1024,
+  maxAttachments: 2,
+  maxAttachmentBytes: 1 * 1024 * 1024,
 } as const;
 
 export const COMMUNITY_ATTACHMENT_EXTENSIONS: string[] = [
