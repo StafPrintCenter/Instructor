@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { ConfirmDelete } from "@/components/site/InstructorBits";
+import { ConfirmDelete } from "@/components/site";
 import type { APICommunityComment } from "@/data/community-comments";
 import { useDeleteCommunityComment } from "@/stores/useCommunityCommentsStore";
 
