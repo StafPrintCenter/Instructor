@@ -2,7 +2,7 @@ export { AuthShell } from "./AuthShell";
 export * from "./CguShell";
 export { SpaceShell } from "./SpaceShell";
 export { FilePreviewModal } from "./FilePreviewModal";
-export * from "./InstructorBits";
+export * from "./SpaceBits";
 export { PaginationBar } from "./PaginationBar";
 export { SocialLinks } from "./SocialLinks";
 export { UserAvatar } from "./UserAvatar";
