@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { ConfirmAction, ConfirmDelete } from "@/components/site/InstructorBits";
+import { ConfirmAction, ConfirmDelete } from "@/components/site";
 import type { APIInstructorModule } from "@/data/content";
 import { useDeleteModule, useSubmitModuleForReview } from "@/stores/useModulesStore";
 

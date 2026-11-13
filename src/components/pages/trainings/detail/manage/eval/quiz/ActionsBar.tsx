@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Send, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { ConfirmAction, ConfirmDelete } from "@/components/site/InstructorBits";
+import { ConfirmAction, ConfirmDelete } from "@/components/site";
 import { useInvalidateLessons } from "@/stores/useLessonsStore";
 import { useDeleteQuiz, useSubmitQuizForReview } from "@/stores/useQuizzesStore";
 

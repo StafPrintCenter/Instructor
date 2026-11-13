@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { User as UserIcon, Mail, Shield, Calendar, Save, LogOut, CheckCircle2, XCircle, Clock, Pencil, X, Briefcase, Tags, Loader2 } from "lucide-react";
-import { ConfirmDisconnect } from "@/components/site/InstructorBits";
+import { ConfirmDisconnect } from "@/components/site";
 import { FilePreviewModal } from "@/components/site/FilePreviewModal";
 import { UserAvatar } from "@/components/site/UserAvatar";
 import { ProfileEditDialog } from "@/components/pages/profile/ProfileEditDialog";
