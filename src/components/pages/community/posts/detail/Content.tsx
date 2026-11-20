@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { APICommunityPostDetail } from "@/data/community";
 import { Button } from "@/components/ui/button";
@@ -70,6 +70,13 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
               {poll.totalVotes} vote{poll.totalVotes > 1 ? "s" : ""}
             </p>
           </div>
+
+          {poll.myVote ? (
+            <p className="flex items-center gap-2 rounded-lg border border-success/30 bg-success/10 px-3 py-2 text-sm text-success">
+              <CheckCircle2 className="size-4 shrink-0" />
+              Vous avez déjà voté. Votre vote a été enregistré et ne peut pas être modifié.
+            </p>
+          ) : null}
 
           <div className="space-y-3">
             {(poll.options ?? []).map((option) => {
