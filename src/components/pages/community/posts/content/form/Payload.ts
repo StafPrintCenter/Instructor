@@ -10,6 +10,7 @@ export function buildCreatePayload(v: PostFormValues, attachments: File[]): Comm
     type: v.type,
     tags: v.tags.length > 0 ? v.tags : undefined,
     attachments: attachments.length > 0 ? attachments : undefined,
+    options: v.type === "poll" ? v.options.map((option) => option.trim()) : undefined,
   };
 }
 
@@ -26,6 +27,11 @@ export function buildUpdatePayload(v: PostFormValues, post: APICommunityPostDeta
   if (v.body !== original.body.trim()) payload.body = v.body;
   if (v.categoryId !== original.categoryId) payload.categoryId = v.categoryId;
   if (v.type !== original.type) payload.type = v.type;
+  if (v.type === "poll") {
+    const originalOptions = original.options.map((option) => option.trim());
+    const nextOptions = v.options.map((option) => option.trim());
+    if (nextOptions.join("|") !== originalOptions.join("|")) payload.options = nextOptions;
+  }
   if (v.tags.length > 0 && v.tags.join("|") !== original.tags.join("|")) payload.tags = v.tags;
 
   return Object.keys(payload).length > 0 ? payload : null;

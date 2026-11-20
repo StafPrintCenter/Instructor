@@ -17,8 +17,29 @@ export const postFormSchema = z.object({
     .max(COMMUNITY_LIMITS.bodyMax, `${COMMUNITY_LIMITS.bodyMax.toLocaleString("fr-FR")} caractères maximum`),
   categoryId: z.string().min(1, "Choisissez une catégorie"),
   audience: z.string().min(1),
-  type: z.enum(["discussion", "question", "resource", "announcement"]),
+  type: z.enum(["discussion", "question", "resource", "announcement", "poll"]),
   tags: z.array(z.string()).max(COMMUNITY_LIMITS.maxTags, `${COMMUNITY_LIMITS.maxTags} tags maximum`),
+  options: z.array(z.string()),
+}).superRefine((values, ctx) => {
+  if (values.type !== "poll") return;
+  if (values.options.length < COMMUNITY_LIMITS.pollMinOptions || values.options.length > COMMUNITY_LIMITS.pollMaxOptions) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["options"],
+      message: `Le sondage doit contenir entre ${COMMUNITY_LIMITS.pollMinOptions} et ${COMMUNITY_LIMITS.pollMaxOptions} options`,
+    });
+  }
+  const labels = values.options.map((option) => option.trim().toLocaleLowerCase("fr-FR"));
+  values.options.forEach((option, index) => {
+    const label = option.trim();
+    if (!label) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["options", index], message: "Chaque option est obligatoire" });
+    } else if (label.length > COMMUNITY_LIMITS.pollOptionMax) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["options", index], message: `${COMMUNITY_LIMITS.pollOptionMax} caractères maximum par option` });
+    } else if (labels.filter((item) => item === labels[index]).length > 1) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["options", index], message: "Les options doivent être distinctes" });
+    }
+  });
 });
 
 export type PostFormValues = z.infer<typeof postFormSchema>;
@@ -41,9 +62,10 @@ export function buildInitialPostValues(post: APICommunityPostDetail | null): Pos
       audience: post.training?.id ?? GENERAL_AUDIENCE,
       type: post.type,
       tags: post.tags ?? [],
+      options: post.type === "poll" ? (post.poll?.options ?? []).map((option) => option.label) : ["", ""],
     };
   }
-  return { title: "", body: "", categoryId: "", audience: GENERAL_AUDIENCE, type: "discussion", tags: [] };
+  return { title: "", body: "", categoryId: "", audience: GENERAL_AUDIENCE, type: "discussion", tags: [], options: ["", ""] };
 }
 
 /** Première erreur par champ */

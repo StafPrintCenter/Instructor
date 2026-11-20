@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { APICommunityPostListItem } from "@/data/community";
@@ -36,6 +37,13 @@ export function PostCard({ post, onEdit, onDelete }: PostCardProps) {
         </div>
 
         <PostTags tags={post.tags} />
+
+        {post.type === "poll" && post.poll ? (
+          <div className="inline-flex items-center gap-1.5 rounded-lg border border-primary/20 bg-primary/5 px-2.5 py-1.5 text-xs font-medium text-primary">
+            <BarChart3 className="size-3.5" />
+            {post.poll.optionsCount} options · {post.poll.totalVotes} vote{post.poll.totalVotes > 1 ? "s" : ""}
+          </div>
+        ) : null}
 
         {post.status === "hidden" && post.hiddenReason ? (
           <p className="rounded-lg border border-destructive/30 bg-destructive/5 p-2.5 text-xs text-muted-foreground">

@@ -45,7 +45,11 @@ export function PostMetaFields({ post, values, errors, setField }: PostMetaField
 
         <div className="space-y-2">
           <Label>Type</Label>
-          <Select value={values.type} onValueChange={(v) => setField("type", v as CommunityPostType)}>
+          <Select
+            value={values.type}
+            disabled={!!post?.poll && post.poll.totalVotes > 0}
+            onValueChange={(v) => setField("type", v as CommunityPostType)}
+          >
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {COMMUNITY_POST_TYPES.map((t) => (

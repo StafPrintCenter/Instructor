@@ -1,11 +1,12 @@
 /** App\Enums\CommunityPostType */
-export type CommunityPostType = "discussion" | "question" | "resource" | "announcement";
-export const COMMUNITY_POST_TYPES: CommunityPostType[] = ["discussion", "question", "resource", "announcement"];
+export type CommunityPostType = "discussion" | "question" | "resource" | "announcement" | "poll";
+export const COMMUNITY_POST_TYPES: CommunityPostType[] = ["discussion", "question", "resource", "announcement", "poll"];
 export const communityPostTypeLabels: Record<CommunityPostType, string> = {
   discussion: "Discussion",
   question: "Question",
   resource: "Ressource",
   announcement: "Annonce",
+  poll: "Sondage",
 };
 
 /** App\Enums\CommunityContentStatus */
@@ -44,6 +45,9 @@ export const COMMUNITY_LIMITS = {
   maxTags: 5,
   maxAttachments: 2,
   maxAttachmentBytes: 1 * 1024 * 1024,
+  pollMinOptions: 2,
+  pollMaxOptions: 10,
+  pollOptionMax: 100,
 } as const;
 
 export const COMMUNITY_ATTACHMENT_EXTENSIONS: string[] = [
@@ -63,6 +67,7 @@ export function getCommunityPostTypeBadgeClass(type: CommunityPostType): string 
   if (type === "question") return TONE.primary;
   if (type === "resource") return TONE.success;
   if (type === "announcement") return TONE.warning;
+  if (type === "poll") return TONE.primary;
   return TONE.muted;
 }
 
@@ -116,6 +121,19 @@ export interface APICommunityPermissions {
   canReport: boolean;
 }
 
+export interface APICommunityPollOption {
+  id: string;
+  label: string;
+  votesCount: number;
+}
+
+export interface APICommunityPollSummary {
+  optionsCount: number;
+  totalVotes: number;
+  options?: APICommunityPollOption[];
+  myVote?: string | null;
+}
+
 /** Item de liste (le corps complet et les pièces jointes ne sont que dans le détail) */
 export interface APICommunityPostListItem {
   id: string;
@@ -143,6 +161,7 @@ export interface APICommunityPostListItem {
   permissions: APICommunityPermissions;
   hiddenReason: string | null;
   hiddenAt: string | null;
+  poll: APICommunityPollSummary | null;
 }
 
 export interface APICommunityAttachment {
@@ -169,6 +188,7 @@ export interface CommunityPostCreatePayload {
   type?: CommunityPostType;
   tags?: string[];
   attachments?: File[];
+  options?: string[];
 }
 
 /**
@@ -176,7 +196,7 @@ export interface CommunityPostCreatePayload {
  * La formation et les pièces jointes ne sont pas modifiables.
  */
 export type CommunityPostUpdatePayload = Partial<
-  Pick<CommunityPostCreatePayload, "title" | "body" | "categoryId" | "type" | "tags">
+  Pick<CommunityPostCreatePayload, "title" | "body" | "categoryId" | "type" | "tags" | "options">
 >;
 
 /** Paramètres de GET /community/posts/list */

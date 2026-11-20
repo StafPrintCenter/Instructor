@@ -116,6 +116,7 @@ function buildPostFormData(payload: Partial<CommunityPostCreatePayload>): FormDa
   if (payload.trainingId !== undefined) fd.append("trainingId", payload.trainingId);
   if (payload.type !== undefined) fd.append("type", payload.type);
   if (payload.tags && payload.tags.length > 0) fd.append("tags", payload.tags.join(","));
+  for (const option of payload.options ?? []) fd.append("options[]", option);
   for (const file of payload.attachments ?? []) fd.append("attachments[]", file);
   return fd;
 }
@@ -169,6 +170,23 @@ export function useDeleteCommunityPost() {
   const invalidate = useInvalidatePosts();
   return useMutation({
     mutationFn: ({ id, reason }: { id: string; reason?: string }) => deletePost(id, reason),
+    onSuccess: invalidate,
+  });
+}
+
+async function voteOnPost(id: string, optionId: string): Promise<APICommunityPostDetail> {
+  const fd = new FormData();
+  fd.append("optionId", optionId);
+  const response = await instructorFetch(`${base}/posts/${id}/vote`, { method: "POST", body: fd });
+  if (!response.ok) throw await parseApiError(response, "Erreur lors du vote");
+  const json: { data: APICommunityPostDetail } = await response.json();
+  return json.data;
+}
+
+export function useVoteCommunityPost() {
+  const invalidate = useInvalidatePosts();
+  return useMutation({
+    mutationFn: ({ id, optionId }: { id: string; optionId: string }) => voteOnPost(id, optionId),
     onSuccess: invalidate,
   });
 }
