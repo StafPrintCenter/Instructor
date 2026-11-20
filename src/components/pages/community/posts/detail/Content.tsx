@@ -62,24 +62,24 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
             </p>
           </div>
 
-          {poll.myVote ? (
-            <div className="space-y-3">
-              {(poll.options ?? []).map((option) => {
-                const percentage = poll.totalVotes > 0 ? Math.round((option.votesCount / poll.totalVotes) * 100) : 0;
-                return (
-                  <div key={option.id} className="space-y-1.5">
-                    <div className="flex items-center justify-between gap-3 text-sm">
-                      <span className={option.id === poll.myVote ? "font-medium" : ""}>
-                        {option.label}{option.id === poll.myVote ? " · Votre vote" : ""}
-                      </span>
-                      <span className="text-xs text-muted-foreground">{percentage}% ({option.votesCount})</span>
-                    </div>
-                    <Progress value={percentage} />
+          <div className="space-y-3">
+            {(poll.options ?? []).map((option) => {
+              const percentage = poll.totalVotes > 0 ? Math.round((option.votesCount / poll.totalVotes) * 100) : 0;
+              return (
+                <div key={option.id} className="space-y-1.5">
+                  <div className="flex items-center justify-between gap-3 text-sm">
+                    <span className={option.id === poll.myVote ? "font-medium" : ""}>
+                      {option.label}{option.id === poll.myVote ? " · Votre vote" : ""}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{percentage}% ({option.votesCount})</span>
                   </div>
-                );
-              })}
-            </div>
-          ) : (
+                  <Progress value={percentage} />
+                </div>
+              );
+            })}
+          </div>
+
+          {!poll.myVote ? (
             <>
               <RadioGroup value={selectedOption} onValueChange={setSelectedOption}>
                 {(poll.options ?? []).map((option) => (
@@ -98,7 +98,7 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
                 {voteMutation.isPending ? "Vote..." : "Voter"}
               </Button>
             </>
-          )}
+          ) : null}
         </div>
       ) : null}
 
