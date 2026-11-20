@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { toast } from "sonner";
 import type { APICommunityPostDetail } from "@/data/community";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useVoteCommunityPost } from "@/stores/useCommunityStore";
 import { formatDateTime } from "@/lib/date-time";
 import { PostModerationBar, ReportButton } from "../content/moderation";
@@ -18,14 +15,12 @@ interface PostDetailContentProps {
 }
 
 export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentProps) {
-  const [selectedOption, setSelectedOption] = useState("");
   const voteMutation = useVoteCommunityPost();
   const poll = post.type === "poll" ? post.poll : null;
 
-  const vote = () => {
-    if (!selectedOption) return;
+  const vote = (optionId: string) => {
     voteMutation.mutate(
-      { id: post.id, optionId: selectedOption },
+      { id: post.id, optionId },
       {
         onSuccess: () => toast.success("Votre vote a été enregistré."),
         onError: (error) => toast.error(error.message),
@@ -65,40 +60,27 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
           <div className="space-y-3">
             {(poll.options ?? []).map((option) => {
               const percentage = poll.totalVotes > 0 ? Math.round((option.votesCount / poll.totalVotes) * 100) : 0;
+              const isMyVote = option.id === poll.myVote;
               return (
-                <div key={option.id} className="space-y-1.5">
-                  <div className="flex items-center justify-between gap-3 text-sm">
-                    <span className={option.id === poll.myVote ? "font-medium" : ""}>
-                      {option.label}{option.id === poll.myVote ? " · Votre vote" : ""}
+                <button
+                  key={option.id}
+                  type="button"
+                  disabled={!!poll.myVote || voteMutation.isPending || post.status !== "published"}
+                  onClick={() => vote(option.id)}
+                  className="relative w-full overflow-hidden rounded-lg border border-border/60 px-3 py-2.5 text-left transition-colors hover:border-primary/40 disabled:cursor-default disabled:opacity-100 cursor-pointer"
+                >
+                  <div className="relative z-10 flex items-center gap-3 text-sm">
+                    <span className="min-w-7 text-center font-semibold text-primary">{option.votesCount}</span>
+                    <span className={isMyVote ? "font-medium" : ""}>
+                      {option.label}{isMyVote ? " · Votre vote" : ""}
                     </span>
-                    <span className="text-xs text-muted-foreground">{percentage}% ({option.votesCount})</span>
+                    <span className="ml-auto text-xs text-muted-foreground">{percentage}%</span>
                   </div>
-                  <Progress value={percentage} />
-                </div>
+                  <Progress value={percentage} className="mt-2 h-1.5" />
+                </button>
               );
             })}
           </div>
-
-          {!poll.myVote ? (
-            <>
-              <RadioGroup value={selectedOption} onValueChange={setSelectedOption}>
-                {(poll.options ?? []).map((option) => (
-                  <label key={option.id} className="flex cursor-pointer items-center gap-3 rounded-md border px-3 py-2 text-sm">
-                    <RadioGroupItem value={option.id} id={`poll-option-${option.id}`} />
-                    <span>{option.label}</span>
-                  </label>
-                ))}
-              </RadioGroup>
-              <Button
-                variant="accent"
-                size="sm"
-                disabled={!selectedOption || voteMutation.isPending || post.status !== "published"}
-                onClick={vote}
-              >
-                {voteMutation.isPending ? "Vote..." : "Voter"}
-              </Button>
-            </>
-          ) : null}
         </div>
       ) : null}
 
