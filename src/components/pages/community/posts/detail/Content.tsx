@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { APICommunityPostDetail } from "@/data/community";
+import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useVoteCommunityPost } from "@/stores/useCommunityStore";
 import { formatDateTime } from "@/lib/date-time";
@@ -17,11 +18,14 @@ interface PostDetailContentProps {
 }
 
 export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentProps) {
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [votingOptionId, setVotingOptionId] = useState<string | null>(null);
   const voteMutation = useVoteCommunityPost();
   const poll = post.type === "poll" ? post.poll : null;
 
-  const vote = (optionId: string) => {
+  const vote = () => {
+    if (!selectedOptionId) return;
+    const optionId = selectedOptionId;
     setVotingOptionId(optionId);
     voteMutation.mutate(
       { id: post.id, optionId },
@@ -71,15 +75,18 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
             {(poll.options ?? []).map((option) => {
               const percentage = poll.totalVotes > 0 ? Math.round((option.votesCount / poll.totalVotes) * 100) : 0;
               const isMyVote = option.id === poll.myVote;
+              const isSelected = option.id === selectedOptionId;
               return (
                 <button
                   key={option.id}
                   type="button"
-                  disabled={!!poll.myVote || !!votingOptionId || voteMutation.isPending || post.status !== "published"}
-                  onClick={() => vote(option.id)}
+                  disabled={!!poll.myVote || !!votingOptionId || post.status !== "published"}
+                  onClick={() => setSelectedOptionId(option.id)}
                   className={`relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left transition-colors disabled:cursor-default disabled:opacity-100 ${
                     isMyVote
                       ? "border-primary/60 bg-primary/10 cursor-default"
+                      : isSelected
+                        ? "border-primary/60 bg-primary/10 cursor-pointer"
                       : "border-border/60 hover:border-primary/40 cursor-pointer"
                   }`}
                 >
@@ -101,6 +108,26 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
               );
             })}
           </div>
+
+          {!poll.myVote ? (
+            <div className="flex justify-end">
+              <Button
+                variant="accent"
+                size="sm"
+                disabled={!selectedOptionId || !!votingOptionId || post.status !== "published"}
+                onClick={vote}
+              >
+                {votingOptionId ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
+                    Validation...
+                  </>
+                ) : (
+                  "Voter"
+                )}
+              </Button>
+            </div>
+          ) : null}
         </div>
       ) : null}
 
