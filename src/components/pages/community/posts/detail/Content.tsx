@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { APICommunityPostDetail } from "@/data/community";
 import { Progress } from "@/components/ui/progress";
@@ -15,15 +17,23 @@ interface PostDetailContentProps {
 }
 
 export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentProps) {
+  const [votingOptionId, setVotingOptionId] = useState<string | null>(null);
   const voteMutation = useVoteCommunityPost();
   const poll = post.type === "poll" ? post.poll : null;
 
   const vote = (optionId: string) => {
+    setVotingOptionId(optionId);
     voteMutation.mutate(
       { id: post.id, optionId },
       {
-        onSuccess: () => toast.success("Votre vote a été enregistré."),
-        onError: (error) => toast.error(error.message),
+        onSuccess: () => {
+          setVotingOptionId(null);
+          toast.success("Votre vote a été enregistré.");
+        },
+        onError: (error) => {
+          setVotingOptionId(null);
+          toast.error(error.message);
+        },
       }
     );
   };
@@ -65,12 +75,18 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
                 <button
                   key={option.id}
                   type="button"
-                  disabled={!!poll.myVote || voteMutation.isPending || post.status !== "published"}
+                  disabled={!!poll.myVote || !!votingOptionId || voteMutation.isPending || post.status !== "published"}
                   onClick={() => vote(option.id)}
                   className="relative w-full overflow-hidden rounded-lg border border-border/60 px-3 py-2.5 text-left transition-colors hover:border-primary/40 disabled:cursor-default disabled:opacity-100 cursor-pointer"
                 >
                   <div className="relative z-10 flex items-center gap-3 text-sm">
-                    <span className="min-w-7 text-center font-semibold text-primary">{option.votesCount}</span>
+                    <span className="flex min-w-7 justify-center font-semibold text-primary">
+                      {votingOptionId === option.id ? (
+                        <Loader2 className="size-4 animate-spin" aria-label="Validation du vote" />
+                      ) : (
+                        option.votesCount
+                      )}
+                    </span>
                     <span className={isMyVote ? "font-medium" : ""}>
                       {option.label}{isMyVote ? " · Votre vote" : ""}
                     </span>
