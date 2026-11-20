@@ -77,7 +77,11 @@ export function PostDetailContent({ post, onEdit, onDelete }: PostDetailContentP
                   type="button"
                   disabled={!!poll.myVote || !!votingOptionId || voteMutation.isPending || post.status !== "published"}
                   onClick={() => vote(option.id)}
-                  className="relative w-full overflow-hidden rounded-lg border border-border/60 px-3 py-2.5 text-left transition-colors hover:border-primary/40 disabled:cursor-default disabled:opacity-100 cursor-pointer"
+                  className={`relative w-full overflow-hidden rounded-lg border px-3 py-2.5 text-left transition-colors disabled:cursor-default disabled:opacity-100 ${
+                    isMyVote
+                      ? "border-primary/60 bg-primary/10 cursor-default"
+                      : "border-border/60 hover:border-primary/40 cursor-pointer"
+                  }`}
                 >
                   <div className="relative z-10 flex items-center gap-3 text-sm">
                     <span className="flex min-w-7 justify-center font-semibold text-primary">
