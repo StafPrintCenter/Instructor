@@ -68,6 +68,7 @@ export interface APIInstructorTrainingStudent {
   firstName: string | null;
   lastName: string | null;
   email: string | null;
+  photo: string | null;
   progress: number | null;
   attendance: number | null;
   paymentStatus: PaymentStatus | string | null;
