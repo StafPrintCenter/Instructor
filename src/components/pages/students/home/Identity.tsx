@@ -1,15 +1,15 @@
 import { Mail, Phone } from "lucide-react";
 import type { APIInstructorStudentListItem } from "@/data/students";
-import { StudentAvatar } from "@/components/pages/students/shared";
+import { UserAvatar } from "@/components/site/UserAvatar";
 
 export function StudentIdentity({ student: s }: { student: APIInstructorStudentListItem }) {
   return (
     <div className="flex items-center gap-3">
-      <StudentAvatar
-        firstName={s.firstName}
-        lastName={s.lastName}
+      <UserAvatar
         name={s.name}
         photo={s.photo}
+        className="size-10 border border-border"
+        fallbackClassName="bg-primary/10 text-xs font-semibold text-primary"
       />
 
       <div className="min-w-0 space-y-0.5">
