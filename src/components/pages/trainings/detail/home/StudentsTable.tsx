@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, CalendarCheck, Eye, Mail, RefreshCw, Search, Users } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PaginationBar } from "@/components/site";
 import { AttendanceMarkDialog } from "@/components/pages/trainings/shared";
+import { StudentAvatar } from "@/components/pages/students/shared";
 import { formatDate } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
@@ -23,7 +23,6 @@ import {
   type InstructorTrainingStudentSort,
   type PaymentStatus,
 } from "@/data/trainings";
-import { initials } from "@/components/site/UserAvatar";
 
 function PaymentBadge({ status }: { status: PaymentStatus | string | null | undefined }) {
   return (
@@ -162,11 +161,12 @@ export function TrainingStudentsTable({ trainingId, students, mainColor }: Train
                         <TableRow key={student.enrollmentId}>
                           <TableCell>
                             <div className="flex items-center gap-3">
-                              <Avatar className="size-9 border border-border">
-                                <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
-                                  {initials(fullName)}
-                                </AvatarFallback>
-                              </Avatar>
+                              <StudentAvatar
+                                firstName={student.firstName ?? ""}
+                                lastName={student.lastName ?? ""}
+                                name={fullName}
+                                photo={student.photo}
+                              />
                               <div className="space-y-0.5">
                                 <Link
                                   to="/students/$studentId"
