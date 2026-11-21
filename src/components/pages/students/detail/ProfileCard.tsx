@@ -1,18 +1,17 @@
 import { Briefcase, Mail, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { APIInstructorStudentProfile } from "@/data/students";
-import { StudentAvatar } from "@/components/pages/students/shared";
+import { UserAvatar } from "@/components/site/UserAvatar";
 
 export function StudentProfileCard({ student }: { student: APIInstructorStudentProfile }) {
   return (
     <Card className="border-border/70">
       <CardContent className="flex flex-col gap-5 p-6 sm:flex-row sm:items-start">
-        <StudentAvatar
-          firstName={student.firstName}
-          lastName={student.lastName}
+        <UserAvatar
           name={student.name}
           photo={student.photo}
-          size="lg"
+          className="size-16 border border-border"
+          fallbackClassName="bg-primary/10 text-lg font-semibold text-primary"
         />
 
         <div className="min-w-0 flex-1 space-y-3">
