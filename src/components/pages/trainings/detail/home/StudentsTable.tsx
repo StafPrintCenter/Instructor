@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PaginationBar } from "@/components/site";
 import { AttendanceMarkDialog } from "@/components/pages/trainings/shared";
-import { StudentAvatar } from "@/components/pages/students/shared";
+import { UserAvatar } from "@/components/site/UserAvatar";
 import { formatDate } from "@/lib/date-time";
 import { cn } from "@/lib/utils";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
@@ -161,11 +161,11 @@ export function TrainingStudentsTable({ trainingId, students, mainColor }: Train
                         <TableRow key={student.enrollmentId}>
                           <TableCell>
                             <div className="flex items-center gap-3">
-                              <StudentAvatar
-                                firstName={student.firstName ?? ""}
-                                lastName={student.lastName ?? ""}
+                              <UserAvatar
                                 name={fullName}
                                 photo={student.photo}
+                                className="size-10 border border-border"
+                                fallbackClassName="bg-primary/10 text-xs font-semibold text-primary"
                               />
                               <div className="space-y-0.5">
                                 <Link
