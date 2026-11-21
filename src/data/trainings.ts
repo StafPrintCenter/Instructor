@@ -79,10 +79,26 @@ export interface APIInstructorTrainingOverview {
   data: APIInstructorTrainingDetail;
   students: {
     data: APIInstructorTrainingStudent[];
-    total: number;
+    meta: {
+      currentPage: number;
+      lastPage: number;
+      perPage: number;
+      total: number;
+    };
   };
   averageProgress: number | null;
   progressTrackingAvailable: boolean;
+}
+
+export type InstructorTrainingStudentSort = "default" | "alpha" | "progress" | "date";
+export type InstructorTrainingSortDirection = "asc" | "desc";
+
+export interface InstructorTrainingStudentsQuery {
+  query: string;
+  sortBy: InstructorTrainingStudentSort;
+  sortDir: InstructorTrainingSortDirection;
+  page: number;
+  perPage: number;
 }
 
 /**
