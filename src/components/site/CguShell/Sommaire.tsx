@@ -24,7 +24,7 @@ export function LegalDocSommaire({
               onClick={() => onJump(section.id)}
               aria-current={active === section.id ? "true" : undefined}
               className={cn(
-                "flex w-full items-baseline gap-2 rounded-lg px-2.5 py-1.5 text-left text-[13px] leading-snug transition-colors",
+                "flex w-full items-baseline gap-2 rounded-lg px-2.5 py-1.5 text-left text-[13px] leading-snug transition-colors cursor-pointer",
                 active === section.id
                   ? "bg-accent/15 font-medium text-foreground"
                   : "text-muted-foreground hover:bg-secondary hover:text-foreground",
