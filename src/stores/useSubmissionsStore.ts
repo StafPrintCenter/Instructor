@@ -12,10 +12,7 @@ import type {
 } from "@/data/submissions";
 
 const resourceKey = "submissions";
-
-/** Liste simple « Travaux rendus » : /instructor/trainings/students/submissions/list */
 const studentsListPath = "trainings/students/submissions";
-/** Corrections (liste + stats), détail et notation : /instructor/trainings/submissions/... */
 const submissionsPath = "trainings/submissions";
 
 // fetchList({ status, page }) → /api/instructor/trainings/students/submissions/list?status=...&page=...
@@ -40,7 +37,7 @@ async function gradeSubmission(
   if (payload.note !== undefined) fd.append("note", String(payload.note));
   if (payload.comment) fd.append("comment", payload.comment);
 
-  const response = await instructorFetch(`/api/instructor/${submissionsPath}/${id}/grade`, { method: "PUT", body: fd });
+  const response = await instructorFetch(`/api/instructor/${studentsListPath}/${id}/grade`, { method: "PUT", body: fd });
   if (!response.ok) throw await parseApiError(response, "Erreur lors de la notation du travail");
   const json: GradeResponse = await response.json();
   return json.data;
