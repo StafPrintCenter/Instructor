@@ -22,9 +22,9 @@ export function LessonRow({ lesson: l, isOpen, onToggle, onEdit, onSubmit, onDel
 
   return (
     <div
-      className={`group rounded-xl border transition-all duration-200 ${isOpen
+      className={`group cursor-pointer rounded-xl border transition-all duration-200 ${isOpen
         ? "border-primary/30 bg-muted/20 shadow-sm"
-        : "border-border/60 bg-card hover:border-border hover:bg-muted/10"
+        : "border-border/60 bg-card hover:border-primary/40 hover:bg-muted/10"
         }`}
     >
       <div className="flex flex-wrap items-center justify-between gap-3 px-3.5 py-3">
