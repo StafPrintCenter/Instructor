@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { PageHeader } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { DashboardActivity, DashboardOverdue, DashboardStats, DashboardTrainingList, DashboardUpcomingSessions, ProgressByTrainingChart, SubmissionsBreakdownChart } from "@/components/pages/dashboard";
 import { useInstructorAuth } from "@/hooks/useInstructorAuth";
 import { SITE } from "@/data/site";
+import { getGreeting } from "@/lib/greeting";
 
 export const Route = createFileRoute("/_instructor/dashboard")({
   head: () => ({
