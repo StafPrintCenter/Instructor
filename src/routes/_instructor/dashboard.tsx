@@ -25,7 +25,7 @@ function DashboardPage() {
     <div className="space-y-8">
       <PageHeader
         eyebrow="Espace formateur"
-        title={`Bonjour ${user?.firstName ?? ""}`}
+        title={greeting}
         description="Vue d'ensemble de vos formations assignées et de vos priorités du jour."
         actions={
           <Button asChild variant="accent">
