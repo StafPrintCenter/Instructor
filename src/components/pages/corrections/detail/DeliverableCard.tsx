@@ -20,7 +20,7 @@ export function CorrectionDeliverableCard({ body, fileUrl, previewTitle, onPrevi
       </CardHeader>
       <CardContent className="space-y-4">
         {body ? (
-          <p className="whitespace-pre-wrap rounded-lg border bg-muted/20 p-4 text-sm leading-relaxed">{body}</p>
+          <p className="rich-text-content whitespace-pre-wrap rounded-lg border bg-muted/20 p-4 text-sm leading-relaxed">{body}</p>
         ) : (
           <p className="text-sm italic text-muted-foreground">Aucun texte joint.</p>
         )}

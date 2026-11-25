@@ -38,7 +38,7 @@ export function SubmissionCard({ submission: s, onGrade, onPreview, hideStudent,
         </div>
 
         {s.body ? (
-          <p className="whitespace-pre-wrap rounded-lg border bg-muted/20 p-3 text-sm">{s.body}</p>
+          <p className="rich-text-content whitespace-pre-wrap rounded-lg border bg-muted/20 p-3 text-sm">{s.body}</p>
         ) : (
           <p className="text-xs italic text-muted-foreground">Aucun texte joint.</p>
         )}
