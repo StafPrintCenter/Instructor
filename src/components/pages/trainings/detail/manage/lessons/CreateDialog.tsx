@@ -43,7 +43,7 @@ export function CreateLessonDialog({ moduleId, nextSortOrder }: CreateLessonDial
           <Plus className="mr-1.5 size-4" /> Ajouter une leçon
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle className="font-display">Nouvelle leçon</DialogTitle>
         </DialogHeader>
