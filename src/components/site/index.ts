@@ -1,5 +1,6 @@
 export { AuthShell } from "./AuthShell";
 export * from "./CguShell";
+export { RichTextEditor } from "./RichTextEditor";
 export { SpaceShell } from "./SpaceShell";
 export { FilePreviewModal } from "./FilePreviewModal";
 export { ConfirmDelete, ConfirmAction, ConfirmDisconnect, PageHeader, StatCard } from "./SpaceBits";
