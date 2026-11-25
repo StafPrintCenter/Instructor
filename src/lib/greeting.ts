@@ -4,35 +4,38 @@ export function getGreeting(name: string, date: Date = new Date()): string {
 
   if (hour >= 5 && hour < 12) {
     greetings = [
-      "Bonjour {name} 👋 Que puis-je faire pour vous ?",
-      "Bonjour {name}, matinée démarrée ?",
-      "Belle matinée {name} ! On commence par quoi ?",
-      "Bonjour {name}, prêt(e) à avancer sur vos projets ?",
+      "Bonjour {name} !",
+      "Belle matinée {name} !",
+      "Très belle matinée {name} !",
+      "Excellente matinée {name} !",
     ];
   } else if (hour >= 12 && hour < 14) {
     greetings = [
-      "Bon appétit {name} ! Une question en attendant ?",
-      "Bonjour {name}, pause déjeuner productive ?",
-      "Bon midi {name}. Que puis-je faire pour vous ?",
+      "Bonjour {name} !",
+      "Bon appétit {name} !",
+      "Bon midi {name} !",
+      "Belle pause déjeuner {name} !",
     ];
   } else if (hour >= 14 && hour < 18) {
     greetings = [
-      "Bon après-midi {name} ! Que puis-je faire pour vous ?",
-      "Bon après-midi {name}, on continue sur vos projets ?",
-      "Ravi de vous revoir {name}. Par quoi commençons-nous ?",
+      "Bon après-midi {name} !",
+      "Bel après-midi {name} !",
+      "Très bon après-midi {name} !",
+      "Ravi de vous revoir, {name} !",
     ];
   } else if (hour >= 18 && hour < 23) {
     greetings = [
-      "Bonsoir {name} 👋 Que puis-je faire pour vous ?",
-      "Bonsoir {name}, une dernière tâche avant de clôturer ?",
-      "Bonsoir {name}, on finalise quelque chose ensemble ?",
+      "Bonsoir {name} !",
+      "Belle soirée {name} !",
+      "Excellente soirée {name} !",
+      "Très belle soirée {name} !",
     ];
   } else {
     greetings = [
-      "Il se fait tard, {name}, on continue ?",
-      "Bonne nuit {name}… ou séance créative nocturne ?",
-      "Encore debout {name} ? Je reste à vos côtés.",
-      "La nuit porte conseil, {name}. Que préparons-nous ?",
+      "Bonsoir {name} !",
+      "Bonne nuit {name} !",
+      "Douce nuit {name} !",
+      "Belle nuit {name} !",
     ];
   }
 
