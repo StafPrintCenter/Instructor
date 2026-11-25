@@ -53,6 +53,7 @@ export function LegalDocFooter() {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
+                title={label}
                 aria-label={label}
                 className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-primary"
               >
