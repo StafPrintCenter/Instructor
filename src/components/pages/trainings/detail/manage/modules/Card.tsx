@@ -26,7 +26,7 @@ export function ModuleCard({ trainingId, module: m, index, lessons, isLessonsLoa
 
   return (
     <>
-      <Card className="border-border/70 shadow-sm transition-all hover:border-border">
+      <Card className="cursor-pointer border-border/70 shadow-sm transition-all hover:border-primary/40">
         <CardHeader className="flex flex-row items-start justify-between gap-3 py-4">
           <button
             type="button"
