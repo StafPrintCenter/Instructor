@@ -19,6 +19,7 @@ export const Route = createFileRoute("/_instructor/dashboard")({
 
 function DashboardPage() {
   const { user } = useInstructorAuth();
+  const [greeting] = useState(() => getGreeting(user?.firstName ?? ""));
 
   return (
     <div className="space-y-8">
