@@ -34,7 +34,10 @@ export function LessonDetails({ lesson: l }: { lesson: APIInstructorLesson }) {
           <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
             <BookOpen className="size-3.5" /> Contenu
           </p>
-          <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">{l.content}</p>
+          <div
+            className="rich-text-content text-sm leading-relaxed text-foreground/90"
+            dangerouslySetInnerHTML={{ __html: l.content }}
+          />
         </div>
       ) : null}
 
@@ -43,7 +46,10 @@ export function LessonDetails({ lesson: l }: { lesson: APIInstructorLesson }) {
           <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
             <Sparkles className="size-3.5" /> Résumé
           </p>
-          <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground/90">{l.brief}</p>
+          <div
+            className="rich-text-content text-sm leading-relaxed text-foreground/90"
+            dangerouslySetInnerHTML={{ __html: l.brief }}
+          />
         </div>
       ) : null}
 
