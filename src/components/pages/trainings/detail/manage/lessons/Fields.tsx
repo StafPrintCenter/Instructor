@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/site";
 import { lessonKindLabels, type LessonKind } from "@/data/content";
 import { ChaptersEditor } from "./ChaptersEditor";
 import { BRIEF_KINDS, CHAPTERS_ALLOWED_KINDS, QUIZ_ALLOWED_KINDS, type LessonFormValues } from "./Config";
@@ -73,24 +73,24 @@ export function LessonFields({ mode, idPrefix, values, onChange }: LessonFieldsP
 
       {values.kind === "reading" ? (
         <div className="space-y-2">
-          <Label htmlFor={`${idPrefix}-content`}>Contenu</Label>
-          <Textarea
+          <Label id={`${idPrefix}-content-label`}>Contenu</Label>
+          <RichTextEditor
             id={`${idPrefix}-content`}
-            rows={5}
+            ariaLabelledBy={`${idPrefix}-content-label`}
             value={values.content}
-            onChange={(e) => set("content", e.target.value)}
+            onChange={(html) => set("content", html)}
           />
         </div>
       ) : null}
 
       {BRIEF_KINDS.includes(values.kind) ? (
         <div className="space-y-2">
-          <Label htmlFor={`${idPrefix}-brief`}>Résumé</Label>
-          <Textarea
+          <Label id={`${idPrefix}-brief-label`}>Résumé</Label>
+          <RichTextEditor
             id={`${idPrefix}-brief`}
-            rows={4}
+            ariaLabelledBy={`${idPrefix}-brief-label`}
             value={values.brief}
-            onChange={(e) => set("brief", e.target.value)}
+            onChange={(html) => set("brief", html)}
           />
         </div>
       ) : null}
