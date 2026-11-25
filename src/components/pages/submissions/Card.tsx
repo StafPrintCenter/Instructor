@@ -3,7 +3,6 @@ import { ClipboardCheck, Paperclip } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { InstructorSubmissionBadge } from "@/components/shared";
-import { RichTextContent } from "@/components/site";
 import { resolveStorageUrl } from "@/lib/api/file";
 import { formatDateTime } from "@/lib/date-time";
 import type { APIInstructorSubmission } from "@/data/submissions";
@@ -39,9 +38,9 @@ export function SubmissionCard({ submission: s, onGrade, onPreview, hideStudent,
         </div>
 
         {s.body ? (
-          <RichTextContent
-            html={s.body}
-            className="rich-text-content rounded-lg border bg-muted/20 p-3 text-sm"
+          <div
+            className="rich-text-content whitespace-pre-wrap rounded-lg border bg-muted/20 p-3 text-sm"
+            dangerouslySetInnerHTML={{ __html: s.body }}
           />
         ) : (
           <p className="text-xs italic text-muted-foreground">Aucun texte joint.</p>

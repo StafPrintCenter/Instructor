@@ -68,7 +68,10 @@ export function SubmissionGradeDialog({ submission, onClose }: SubmissionGradeDi
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">Rendu par {submission.studentName}</p>
                 {submission.body ? (
-                  <p className="mt-2 whitespace-pre-wrap text-muted-foreground">{submission.body}</p>
+                  <div
+                    className="rich-text-content mt-2 text-sm text-muted-foreground"
+                    dangerouslySetInnerHTML={{ __html: submission.body }}
+                  />
                 ) : null}
               </div>
 

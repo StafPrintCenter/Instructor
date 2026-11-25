@@ -1,7 +1,6 @@
 import { Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RichTextContent } from "@/components/site";
 import { resolveStorageUrl } from "@/lib/api/file";
 
 interface CorrectionDeliverableCardProps {
@@ -21,9 +20,9 @@ export function CorrectionDeliverableCard({ body, fileUrl, previewTitle, onPrevi
       </CardHeader>
       <CardContent className="space-y-4">
         {body ? (
-          <RichTextContent
-            html={body}
-            className="rich-text-content rounded-lg border bg-muted/20 p-4 text-sm leading-relaxed"
+          <div
+            className="rich-text-content whitespace-pre-wrap rounded-lg border bg-muted/20 p-4 text-sm leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: body }}
           />
         ) : (
           <p className="text-sm italic text-muted-foreground">Aucun texte joint.</p>
