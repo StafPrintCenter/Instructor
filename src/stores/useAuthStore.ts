@@ -25,6 +25,7 @@ export async function registerInstructor(
   if (payload.bio) {
     fd.append("bio", payload.bio);
   }
+  fd.append("cf-turnstile-response", payload.turnstileToken);
 
   const response = await instructorFetch(`/api/instructor/auth/register`, {
     method: "POST",
@@ -43,10 +44,11 @@ export async function registerInstructor(
   return body.data as APIInstructorUser;
 }
 
-export async function loginInstructor(email: string, password: string): Promise<APIInstructorLoginResult> {
+export async function loginInstructor(email: string, password: string, turnstileToken: string): Promise<APIInstructorLoginResult> {
   const formData = new FormData();
   formData.append("email", email);
   formData.append("password", password);
+  formData.append("cf-turnstile-response", turnstileToken);
 
   const response = await instructorFetch(`/api/instructor/auth/login`, { method: "POST", body: formData });
   if (!response.ok) {
