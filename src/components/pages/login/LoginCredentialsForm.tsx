@@ -5,7 +5,7 @@ import { PasswordField } from "@/components/site/PasswordField";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TurnstileField } from "@/components/site/TurnstileField";
+import { TurnstileField } from "@/components/site";
 
 interface LoginCredentialsFormProps {
   defaultEmail: string;
