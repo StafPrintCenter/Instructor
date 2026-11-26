@@ -123,8 +123,8 @@ export function useInstructorAuth() {
     []
   );
 
-  const login = useCallback(async (email: string, password: string): Promise<InstructorLoginOutcome> => {
-    const result = await loginInstructor(email, password);
+  const login = useCallback(async (email: string, password: string, turnstileToken: string): Promise<InstructorLoginOutcome> => {
+    const result = await loginInstructor(email, password, turnstileToken);
     if (isInstructorMfaChallenge(result)) {
       return { status: "mfa", challenge: result };
     }
