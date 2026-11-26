@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { PasswordRequirements } from "@/components/site/PasswordRequirements";
 import { getPasswordPolicyError } from "@/lib/password-policy";
 import { SITE } from "@/data/site";
+import { TurnstileField } from "@/components/site";
 
 export const Route = createFileRoute("/_auth/register")({
   head: () => ({
@@ -39,6 +40,8 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
 
   // Contenu shell calculé AVANT tout return conditionnel (règles des Hooks).
   const shellContent = done
@@ -74,16 +77,22 @@ function RegisterPage() {
       setError("Les mots de passe ne correspondent pas.");
       return;
     }
+    if (!turnstileToken) {
+      setError("Veuillez valider la vérification anti-robot.");
+      return;
+    }
 
     setLoading(true);
     try {
-      await register({ firstName, lastName, email, password, bio: bio || undefined });
+      await register({ firstName, lastName, email, password, bio: bio || undefined, turnstileToken });
       toast.success("Votre demande d'accès a bien été envoyée.");
       setDone(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur lors de la création du compte.");
     } finally {
       setLoading(false);
+      setTurnstileToken(null);
+      setTurnstileResetSignal((current) => current + 1);
     }
   };
 
@@ -197,9 +206,15 @@ function RegisterPage() {
         />
       </div>
 
+      <TurnstileField
+        action="signup_instructor"
+        onTokenChange={setTurnstileToken}
+        resetSignal={turnstileResetSignal}
+      />
+
       {error && <p className="text-xs text-destructive">{error}</p>}
 
-      <Button type="submit" variant="accent" className="w-full" disabled={loading}>
+      <Button type="submit" variant="accent" className="w-full" disabled={loading || !turnstileToken}>
         {loading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
