@@ -21,6 +21,7 @@ export interface InstructorRegisterPayload {
   email: string;
   password: string;
   bio?: string;
+  turnstileToken: string;
 }
 export interface InstructorAuthUser {
   id: string;
