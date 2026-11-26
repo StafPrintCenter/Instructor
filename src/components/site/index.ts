@@ -6,4 +6,5 @@ export { FilePreviewModal } from "./FilePreviewModal";
 export { ConfirmDelete, ConfirmAction, ConfirmDisconnect, PageHeader, StatCard } from "./SpaceBits";
 export { PaginationBar } from "./PaginationBar";
 export { SocialLinks } from "./SocialLinks";
+export { TurnstileField } from "./TurnstileField";
 export { UserAvatar } from "./UserAvatar";
