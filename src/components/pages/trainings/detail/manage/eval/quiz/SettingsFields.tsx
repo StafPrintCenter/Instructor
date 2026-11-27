@@ -19,23 +19,25 @@ export function QuizSettingsFields({ idPrefix, values, onChange }: QuizSettingsF
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className={`grid gap-4 ${isTimed ? "sm:grid-cols-2" : ""}`}>
         <div className="space-y-2">
           <Label>Mode</Label>
           <p className="text-sm text-muted-foreground">{quizModeLabels[values.mode]}</p>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor={`${idPrefix}-time`}>
-            Limite de temps (sec) {isTimed ? <span className="text-destructive">*</span> : "(optionnel)"}
-          </Label>
-          <Input
-            id={`${idPrefix}-time`}
-            type="number"
-            min={0}
-            value={values.time_limit_sec}
-            onChange={(e) => set("time_limit_sec", Number(e.target.value))}
-          />
-        </div>
+        {isTimed && (
+          <div className="space-y-2">
+            <Label htmlFor={`${idPrefix}-time`}>
+              Limite de temps (sec) <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id={`${idPrefix}-time`}
+              type="number"
+              min={10}
+              value={values.time_limit_sec}
+              onChange={(e) => set("time_limit_sec", Number(e.target.value))}
+            />
+          </div>
+        )}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -64,13 +66,14 @@ export function QuizSettingsFields({ idPrefix, values, onChange }: QuizSettingsF
 
       <div className="flex items-center justify-between rounded-lg border p-3">
         <div>
-          <Label className="cursor-pointer">Soumission automatique à expiration du temps</Label>
-          <p className="text-xs text-muted-foreground">Pertinent seulement en mode "Quiz chronométré".</p>
+          <Label className="cursor-pointer">
+            {isTimed ? "Soumission automatique à expiration du temps" : "Soumission automatique"}
+          </Label>
+          {!isTimed && <p className="text-xs text-muted-foreground">Aucun compte à rebours en mode exercice.</p>}
         </div>
         <Switch
           checked={values.auto_submit_on_timeout}
           onCheckedChange={(v) => set("auto_submit_on_timeout", v)}
-          disabled={!isTimed}
         />
       </div>
     </div>

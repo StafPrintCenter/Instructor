@@ -6,7 +6,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useCreateQuiz } from "@/stores/useQuizzesStore";
 import { QuizSettingsFields } from "./SettingsFields";
 import type { QuizMode } from "@/data/content";
-import { emptyQuizSettings, isQuizTimeLimitMissing, toQuizPayload, type QuizSettingsValues } from "./Settings";
+import { isQuizTimeLimitMissing, quizSettingsForMode, toQuizPayload, type QuizSettingsValues } from "./Settings";
 
 interface QuizCreateFormProps {
   lessonId: string;
@@ -15,7 +15,7 @@ interface QuizCreateFormProps {
 }
 
 export function QuizCreateForm({ lessonId, mode, onCreated }: QuizCreateFormProps) {
-  const [values, setValues] = useState<QuizSettingsValues>(() => ({ ...emptyQuizSettings, mode }));
+  const [values, setValues] = useState<QuizSettingsValues>(() => quizSettingsForMode(mode));
   const createQuiz = useCreateQuiz();
 
   const submit = () =>

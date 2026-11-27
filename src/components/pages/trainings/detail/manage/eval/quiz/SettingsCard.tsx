@@ -5,16 +5,26 @@ import { Button } from "@/components/ui/button";
 import type { APIQuiz, QuizMode } from "@/data/content";
 import { useUpdateQuiz } from "@/stores/useQuizzesStore";
 import { QuizSettingsFields } from "./SettingsFields";
-import { isQuizTimeLimitMissing, quizSettingsFromQuiz, toQuizPayload, type QuizSettingsValues } from "./Settings";
+import { isQuizTimeLimitMissing, quizSettingsForMode, quizSettingsFromQuiz, toQuizPayload, type QuizSettingsValues } from "./Settings";
 
 /** Réglages pré-remplis avec les valeurs actuelles : à consulter, modifier si souhaité */
 export function QuizSettingsCard({ quiz, mode }: { quiz: APIQuiz; mode: QuizMode }) {
   const updateQuiz = useUpdateQuiz();
-  const [values, setValues] = useState<QuizSettingsValues>(() => ({ ...quizSettingsFromQuiz(quiz), mode }));
+  const [values, setValues] = useState<QuizSettingsValues>(() => ({
+    ...quizSettingsForMode(mode),
+    ...quizSettingsFromQuiz(quiz),
+    mode,
+    time_limit_sec: mode === "quiz" ? Number(quiz.timeLimitSec ?? 600) : 0,
+  }));
 
   // Dépendances sur les valeurs des réglages : ajouter une question (qui recharge le quiz) n'écrase pas une saisie en cours
   useEffect(() => {
-    setValues({ ...quizSettingsFromQuiz(quiz), mode });
+    setValues({
+      ...quizSettingsForMode(mode),
+      ...quizSettingsFromQuiz(quiz),
+      mode,
+      time_limit_sec: mode === "quiz" ? Number(quiz.timeLimitSec ?? 600) : 0,
+    });
   }, [quiz.id, mode, quiz.mode, quiz.timeLimitSec, quiz.passScore, quiz.maxAttempts, quiz.autoSubmitOnTimeout]);
 
   const save = () =>

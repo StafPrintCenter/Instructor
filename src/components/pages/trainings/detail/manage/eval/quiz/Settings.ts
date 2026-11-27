@@ -16,6 +16,15 @@ export const emptyQuizSettings: QuizSettingsValues = {
   auto_submit_on_timeout: true,
 };
 
+export const quizSettingsForMode = (mode: QuizMode): QuizSettingsValues => ({
+  ...emptyQuizSettings,
+  mode,
+  time_limit_sec: mode === "quiz" ? 600 : 0,
+  pass_score: mode === "exercise" ? 70 : 80,
+  max_attempts: mode === "exercise" ? 5 : 3,
+  auto_submit_on_timeout: mode === "quiz",
+});
+
 export const quizSettingsFromQuiz = (quiz: APIQuiz): QuizSettingsValues => ({
   mode: quiz.mode,
   time_limit_sec: Number(quiz.timeLimitSec ?? 0),

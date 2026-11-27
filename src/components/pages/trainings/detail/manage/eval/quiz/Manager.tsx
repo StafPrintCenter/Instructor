@@ -29,7 +29,7 @@ export function QuizManager({ lessonId, moduleId, quizId, mode }: QuizManagerPro
   if (!activeQuizId) {
     return (
       <QuizCreateForm
-        key={lessonId}
+        key={`${lessonId}-${mode}`}
         lessonId={lessonId}
         mode={mode}
         onCreated={(id) => {
