@@ -18,7 +18,14 @@ export function QuizManagerDialog({ moduleId, lesson, onClose }: QuizManagerDial
             {lesson?.quizId ? "Gérer l'évaluation" : "Créer une évaluation"} - {lesson?.title}
           </DialogTitle>
         </DialogHeader>
-        {lesson ? <QuizManager lessonId={lesson.id} moduleId={moduleId} quizId={lesson.quizId} /> : null}
+        {lesson ? (
+          <QuizManager
+            lessonId={lesson.id}
+            moduleId={moduleId}
+            quizId={lesson.quizId}
+            mode={lesson.kind === "exercise" ? "exercise" : "quiz"}
+          />
+        ) : null}
       </DialogContent>
     </Dialog>
   );
