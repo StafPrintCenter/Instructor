@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { QuizMode } from "@/data/content";
 import { useInvalidateLessons } from "@/stores/useLessonsStore";
 import { QuizCreateForm } from "./CreateForm";
 import { QuizEditor } from "./Editor";
@@ -7,6 +8,7 @@ interface QuizManagerProps {
   lessonId: string;
   moduleId: string;
   quizId: string | null;
+  mode: QuizMode;
 }
 
 /**
@@ -15,19 +17,21 @@ interface QuizManagerProps {
  * dans cette session (ou déjà existant via la prop quizId), on reste sur
  * QuizEditor pour permettre d'ajouter des questions immédiatement.
  */
-export function QuizManager({ lessonId, moduleId, quizId }: QuizManagerProps) {
+export function QuizManager({ lessonId, moduleId, quizId, mode }: QuizManagerProps) {
   const [activeQuizId, setActiveQuizId] = useState<string | null>(quizId);
   const invalidateLessons = useInvalidateLessons();
 
   // Resynchronise si le dialog est réutilisé pour une autre leçon.
   useEffect(() => {
     setActiveQuizId(quizId);
-  }, [quizId]);
+  }, [lessonId, quizId]);
 
   if (!activeQuizId) {
     return (
       <QuizCreateForm
+        key={lessonId}
         lessonId={lessonId}
+        mode={mode}
         onCreated={(id) => {
           invalidateLessons(moduleId);
           setActiveQuizId(id);
@@ -37,5 +41,5 @@ export function QuizManager({ lessonId, moduleId, quizId }: QuizManagerProps) {
   }
 
   // Après suppression de l'évaluation, on revient au formulaire de création
-  return <QuizEditor quizId={activeQuizId} moduleId={moduleId} onDeleted={() => setActiveQuizId(null)} />;
+  return <QuizEditor quizId={activeQuizId} moduleId={moduleId} mode={mode} onDeleted={() => setActiveQuizId(null)} />;
 }
