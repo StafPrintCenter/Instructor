@@ -1,8 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { quizModeLabels, type QuizMode } from "@/data/content";
+import { quizModeLabels } from "@/data/content";
 import type { QuizSettingsValues } from "./Settings";
 
 interface QuizSettingsFieldsProps {
@@ -23,14 +22,7 @@ export function QuizSettingsFields({ idPrefix, values, onChange }: QuizSettingsF
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label>Mode</Label>
-          <Select value={values.mode} onValueChange={(v) => set("mode", v as QuizMode)}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>
-              {(Object.keys(quizModeLabels) as QuizMode[]).map((m) => (
-                <SelectItem key={m} value={m}>{quizModeLabels[m]}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <p className="text-sm text-muted-foreground">{quizModeLabels[values.mode]}</p>
         </div>
         <div className="space-y-2">
           <Label htmlFor={`${idPrefix}-time`}>
