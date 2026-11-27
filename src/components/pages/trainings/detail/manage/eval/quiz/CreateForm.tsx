@@ -5,20 +5,22 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useCreateQuiz } from "@/stores/useQuizzesStore";
 import { QuizSettingsFields } from "./SettingsFields";
+import type { QuizMode } from "@/data/content";
 import { emptyQuizSettings, isQuizTimeLimitMissing, toQuizPayload, type QuizSettingsValues } from "./Settings";
 
 interface QuizCreateFormProps {
   lessonId: string;
+  mode: QuizMode;
   onCreated: (quizId: string) => void;
 }
 
-export function QuizCreateForm({ lessonId, onCreated }: QuizCreateFormProps) {
-  const [values, setValues] = useState<QuizSettingsValues>(emptyQuizSettings);
+export function QuizCreateForm({ lessonId, mode, onCreated }: QuizCreateFormProps) {
+  const [values, setValues] = useState<QuizSettingsValues>(() => ({ ...emptyQuizSettings, mode }));
   const createQuiz = useCreateQuiz();
 
   const submit = () =>
     createQuiz.mutate(
-      { lessonId, payload: toQuizPayload(values) },
+      { lessonId, payload: toQuizPayload({ ...values, mode }) },
       {
         onSuccess: (quiz) => {
           toast.success("Évaluation créée en brouillon. Vous pouvez maintenant ajouter des questions.");
@@ -37,7 +39,7 @@ export function QuizCreateForm({ lessonId, onCreated }: QuizCreateFormProps) {
       <QuizSettingsFields idPrefix="qc" values={values} onChange={setValues} />
 
       <DialogFooter>
-        <Button variant="accent" disabled={isQuizTimeLimitMissing(values) || createQuiz.isPending} onClick={submit}>
+        <Button variant="accent" disabled={isQuizTimeLimitMissing({ ...values, mode }) || createQuiz.isPending} onClick={submit}>
           {createQuiz.isPending ? <Loader2 className="size-4 animate-spin" /> : null}
           Créer l'évaluation
         </Button>
